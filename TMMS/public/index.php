@@ -17,7 +17,7 @@
 | loading any of our classes later on. It feels nice to relax.
 |
 */
-echo "HELLO WORLD: BYTEME";
+
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*
