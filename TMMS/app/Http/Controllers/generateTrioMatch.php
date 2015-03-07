@@ -36,10 +36,26 @@ class GenerateTrioMatch extends Controller {
 
 		// do must
 		foreach ($mustList as $m){
-			if ($m == "KickOffAvailibility" && !(dataAvalibility($personA[$m],$personB[$m])))
-				return 0;
-			else if($personA[$m] != $personB[$m])
-					return 0;
+			switch ($m){
+				case "KickOffAvailibility":
+					if (!dataAvalibility($personA["KickOffAvailibility"],$personB["KickOffAvailibility"])){
+						echo "here 0 ";
+						return 0;
+					}
+					break;
+				default :
+					if (is_array($personA[$m])){
+						$length = $personA[$m];
+						if ((count(array_intersect($personA[$m], $personB[$m]))/$length) != 1){
+							return 0;
+						}
+					}else{
+						if($personA[$m] != $personB[$m]){
+							return 0;
+						}
+					}
+					break;
+			}
 		}
 
 		// do priority List
@@ -49,8 +65,8 @@ class GenerateTrioMatch extends Controller {
 		$priorityResult = 0;
 		
 		for($counter = 0 ; $counter < $length; $counter++){
-			$similiraity = array_similarity($personA[$priority[$counter],$personB[$priority[$counter]]);
-			priorityResult += $similiraity*$weighting;
+			$similiraity = array_similarity($personA[$priority[$counter]],$personB[$priority[$counter]]);
+			$priorityResult += $similiraity*$weighting;
 			$weighting++;
 		}
 
