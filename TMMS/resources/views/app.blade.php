@@ -44,14 +44,35 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-							</ul>
+								<li><a data-toggle="modal" data-target="#myModal">Make New Admin</a></li>
+                                <li><a data-toggle="modal" data-target="#myModal">Change Password</a></li>
+                                <li><a data-toggle="modal" data-target="#myModal"">View Logs</a></li>
+                                <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                            </ul>
 						</li>
 					@endif
 				</ul>
 			</div>
 		</div>
 	</nav>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	@yield('content')
 
