@@ -54,10 +54,18 @@ return [
 
 		'mysql' => [
 			'driver'    => 'mysql',
-			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'forge'),
-			'username'  => env('DB_USERNAME', 'forge'),
-			'password'  => env('DB_PASSWORD', ''),
+			//'host'      => env('DB_HOST', 'localhost'),
+			//'database'  => env('DB_DATABASE', 'forge'),
+			//'username'  => env('DB_USERNAME', 'forge'),
+			//'password'  => env('DB_PASSWORD', ''),
+            'host'     => 'byteme.c1hwkftnnf4i.us-west-2.rds.amazonaws.com',
+            'database' => 'innodb',
+            'username' => 'byteme',
+            'password' => 'ByteMe12345',
+//            'host'     => '127.0.0.1',
+//            'database' => 'test',
+//            'username' => 'root',
+//            'password' => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -115,9 +123,11 @@ return [
 		'cluster' => false,
 
 		'default' => [
-			'host'     => '127.0.0.1',
-			'port'     => 6379,
-			'database' => 0,
+            // EDITED BY ACCIDENT, I HOPE WE NEVER USE REDIS ON THIS
+//			'host'     => 'byteme.c1hwkftnnf4i.us-west-2.rds.amazonaws.com',
+//			//'port'     => 6379,
+//            'port'     => 3306,
+//			'database' => 0,
 		],
 
 	],
