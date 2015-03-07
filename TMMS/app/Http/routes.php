@@ -17,6 +17,12 @@ Route::get('hello_world', 'WelcomeController@hello');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('studentapp', 'StudentAppController@index');
+
+Route::get('mentorapp', 'MentorAppController@index');
+
+Route::get('admin', 'AdminController@index');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

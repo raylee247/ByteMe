@@ -41,15 +41,9 @@
 		<div class="container">
 			<div class="content">
 				<div class="title">TMMS</div>
-				<a href="{{ url('home') }}">
-    				<button>Apply as Mentor</button>
-				</a>
-				<a href="{{ url('home') }}">
-    				<button>Apply as Student</button>
-				</a>
-				<a href="{{ url('home') }}">
-    				<button>Admin Login</button>
-				</a>
+				<a href="{{ url('/mentorapp') }}"><button type="button">Apply As Mentor</button></a>
+				<a href="{{ url('/studentapp') }}"><button type="button">Apply As Student</button></a>
+				<a href="{{ url('home') }}"><button type="button">Admin Login</button></a>
 				<div class="quote">{{ Inspiring::quote() }}</div>
 			</div>
 		</div>
