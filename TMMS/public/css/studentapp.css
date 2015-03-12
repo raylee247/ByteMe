@@ -5,3 +5,8 @@ table, th, td {
 th, td {
     padding: 5px;
 }
+
+.form-inline .form-group input {
+    width:400px;
+}
+
