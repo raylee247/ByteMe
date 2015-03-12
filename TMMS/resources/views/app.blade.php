@@ -45,7 +45,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a data-toggle="modal" data-target="#createAdmin">Make New Admin</a></li>
-                                <li><a data-toggle="modal" data-target="#myModal">Change Password</a></li>
+                                <li><a href={{url('/password/email')}}>Change Password</a></li>
                                 <li><a data-toggle="modal" data-target="#myModal">View Logs</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
@@ -61,7 +61,7 @@
 	@section('contents')
 	@stop
 
-	@yield('content')
+    @yield('content')
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

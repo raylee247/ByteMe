@@ -54,7 +54,8 @@ return [
 	|
 	*/
 
-	'from' => ['address' => null, 'name' => null],
+	//'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'hi@edwin.ko', 'name' => 'hehehe'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +81,7 @@ return [
 	|
 	*/
 
-	'username' => env('MAIL_USERNAME'),
+	'username' => 'postmaster@sandboxbc99ad91e89b48ba9a18417981b891c5.mailgun.org',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +94,7 @@ return [
 	|
 	*/
 
-	'password' => env('MAIL_PASSWORD'),
+	'password' => 'f056c9c37987bddcbfcdd9d11a962428',
 
 	/*
 	|--------------------------------------------------------------------------
