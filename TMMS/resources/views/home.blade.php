@@ -7,9 +7,16 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Home</div>
 
-				<div class="panel-body">
-					You are logged in!
-				</div>
+				<!--Upload CSV file button for test-->
+				<body>
+					<form action="uploadCSV" method="post" enctype="multipart/form-data" >
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+    					Select file to upload:
+    					<input type="file" name="fileToUpload" id="fileToUpload">
+    					<input type="submit" value="Upload CSV File" name="submit">
+					</form>
+				</body>
+
 			</div>
 		</div>
 	</div>
