@@ -23,6 +23,8 @@ Route::get('mentorapp', 'MentorAppController@index');
 
 Route::get('admin', 'AdminController@index');
 
+Route::get('downloadcsv', 'AdminController@downloadcsv');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
