@@ -25,7 +25,18 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+
+				<body>
+					<form action="uploadCSV" method="post" enctype="multipart/form-data" >
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+    					Select file to upload:
+    					<input type="file" name="fileToUpload" id="fileToUpload">
+    					<input type="submit" value="Upload CSV File" name="submit">
+					</form>
+				</body>
+
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
