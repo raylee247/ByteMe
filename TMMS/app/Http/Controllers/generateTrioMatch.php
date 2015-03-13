@@ -1,6 +1,12 @@
 <?php namespace App\Http\Middleware;
 
 
+start_session();
+//to get the priority array from weighted parameters page
+//$weight = $_SESSION['weight'];
+//to get the must array from weghted parameters page
+//$must = $_SESSION['must'];
+
 class GenerateTrioMatch extends Controller {
 
 	/*

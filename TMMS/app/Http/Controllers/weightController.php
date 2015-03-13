@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+session_start();
+
 class weightController extends Controller {
 
     public function __construct()
@@ -33,8 +35,13 @@ class weightController extends Controller {
 
     public function submitWeights()
     {
-        $weights = $_POST('weights');
-        $weights[] = explode(',' , $weights);
+        $weight = $_POST('weights');
+        $must = $_POST('musts');
+        $weights[] = explode(',' , $weight);
+        $musts[] = explode(',' , $must);
+
+        $_SESSION['weight'] = $weights;
+        $_SESSION['must'] = $musts;
 
     }
 
