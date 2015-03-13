@@ -23,6 +23,12 @@ Route::get('mentorapp', 'MentorAppController@index');
 
 Route::get('admin', 'AdminController@index');
 
+Route::post('uploadCSV', 'uploadCSVController@index');
+
+Route::get('submit', ['as' => 'register', 'uses' => 'StudentAppController@create']);
+
+Route::post('submit', ['as' => 'register_store', 'uses' => 'StudentAppController@store']);
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
