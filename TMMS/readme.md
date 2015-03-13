@@ -1,4 +1,4 @@
-UBC CPSC319 team 1 ByteMe 
+UBC CPSC319 Team 1 ByteMe 
 Tri-Mentoring Matching System 
 
 ## Laravel PHP Framework
