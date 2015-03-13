@@ -35,16 +35,11 @@ class weightController extends Controller {
 
     public function submitWeights()
     {
-        //$_POST comes in as "para_a, para_b, para_c"
         $weight = $_POST('weights');
         $must = $_POST('musts');
-
-        //turn it from string to array
-        // weights[para_a, para_b, para_c]
         $weights[] = explode(',' , $weight);
         $musts[] = explode(',' , $must);
 
-        //add to session
         $_SESSION['weight'] = $weights;
         $_SESSION['must'] = $musts;
 
