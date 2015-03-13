@@ -18,6 +18,8 @@
 |
 */
 
+define ('SITE_ROOT', realpath(dirname('TMMS')));
+
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*
