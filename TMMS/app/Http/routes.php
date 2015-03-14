@@ -27,9 +27,9 @@ Route::get('downloadcsv', 'AdminController@downloadcsv');
 
 Route::post('uploadCSV', 'uploadCSVController@index');
 
-Route::get('submit', ['as' => 'register', 'uses' => 'StudentAppController@create']);
+Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@create']);
 
-Route::post('submit', ['as' => 'register_store', 'uses' => 'StudentAppController@store']);
+Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
