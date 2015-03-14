@@ -33,6 +33,22 @@
     					<input type="file" name="fileToUpload" id="fileToUpload">
     					<input type="submit" value="Upload CSV File" name="submit">
 					</form>
+                    @if (count($preview_header))
+                        <table id = "preview">
+                            <tr>
+                            @foreach ($preview_header as $header)
+                                <th> {{$header}} </th>
+                            @endforeach
+                            </tr>
+                            @foreach($preview_data as $participant)
+                            <tr>
+                                @foreach($participant as $data)
+                                    <td> {{$data}} </td>
+                                @endforeach
+                            </tr>  
+                            @endforeach 
+                        </table>
+                    @endif
 				</body>
 
 			</div>
@@ -40,3 +56,5 @@
 	</div>
 </div>
 @endsection
+
+

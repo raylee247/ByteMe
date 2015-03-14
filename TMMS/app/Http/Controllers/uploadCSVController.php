@@ -38,7 +38,16 @@ class uploadCSVController extends Controller {
 		// parses the uploaded CSV at where is putted in to array
 		// result[0] are the headers 
 		// result[1...n] are the participants 
+		$preview_data = array();
+		foreach ($result as $key => $value) {
+			if($key == 0){
+				$preview_header = $value;
+			}else{
+				$preview_data[] = $value;
+			}
+		}
 		
+		return view('home',compact('preview_header','preview_data'));
 	}
 
 	/**
