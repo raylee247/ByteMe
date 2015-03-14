@@ -1,13 +1,6 @@
-<?php namespace App\Http\Middleware;
+<?php namespace App\Services;
 
-
-start_session();
-//to get the priority array from weighted parameters page
-//$weight = $_SESSION['weight'];
-//to get the must array from weghted parameters page
-//$must = $_SESSION['must'];
-
-class GenerateTrioMatch extends Controller {
+class MatchGenerator{
 
 	/*
 	|--------------------------------------------------------------------------
@@ -17,15 +10,20 @@ class GenerateTrioMatch extends Controller {
 	| 
 	|
 	*/
+	protected $participants;
 
+	public function test(){
+		return "i made it to match-gen";
+	}
 	/**
 	 * Create a new controller instance.
-	 *
+	 * @param list of all the participants 
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($participants)
 	{
-		// i dont think i even need one 
+		$this->participants =$participants;
+
 	}
 
 	/**
@@ -135,5 +133,5 @@ class GenerateTrioMatch extends Controller {
 		}else{
 			return false;
 		}
-}
+	}
 }

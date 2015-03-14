@@ -33,6 +33,11 @@ Route::get('submit', ['as' => 'register', 'uses' => 'StudentAppController@create
 
 Route::post('submit', ['as' => 'register_store', 'uses' => 'StudentAppController@store']);
 
+//==== for unit testing purpose 
+Route::get("test", "MakeMatching@generateMatch");
+//====
+
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
