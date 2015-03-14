@@ -1,51 +1,37 @@
 <!doctype html>
-    <html lang="en">
-
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <title>jQuery UI Sortable - Default functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+        #sortable li span { position: absolute; margin-left: -1.3em; }
+    </style>
     <script>
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-        }
-        function dragStart(ev) {
-            ev.dataTransfer.effectAllowed='move';
-            ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));   ev.dataTransfer.setDragImage(ev.target,100,100);
-            return true;
-        }
-        function dragEnter(ev) {
-            ev.preventDefault();
-            return true;
-        }
-        function dragOver(ev) {
-            ev.preventDefault();
-        }
-        function dragDrop(ev) {
-            var data = ev.dataTransfer.getData("Text");
-            ev.target.appendChild(document.getElementById(data));
-            ev.stopPropagation();
-            return false;
-        }
+        $(function() {
+            $( "#sortable" ).sortable();
+            $( "#sortable" ).disableSelection();
+        });
     </script>
 </head>
-
 <body>
-    <p1>
-        Drag UI will make later
-        <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
-        <img id="drag1" src="img_logo.gif" draggable="true"
-             ondragstart="drag(event)" width="336" height="69">
-    </p1>
+<ul id="sortable">
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+</ul>
+
+
 
 </body>
-
 </html>

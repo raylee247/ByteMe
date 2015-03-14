@@ -23,6 +23,8 @@ Route::get('mentorapp', 'MentorAppController@index');
 
 Route::get('admin', 'AdminController@index');
 
+Route::get('weight', 'weightController@index');
+
 Route::get('downloadcsv', 'AdminController@downloadcsv');
 
 Route::post('uploadCSV', 'uploadCSVController@index');
