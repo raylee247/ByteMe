@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-class WelcomeController extends Controller {
+use Illuminate\Http\Response;
+
+class AdminController extends Controller {
 
     /*
     |--------------------------------------------------------------------------
@@ -31,6 +33,20 @@ class WelcomeController extends Controller {
     public function index()
     {
         return view('admin');
+    }
+
+    public function downloadcsv()
+    {
+
+        // TODO: Update this function to be able to specify the CSV that we want.
+        //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
+        //      For now just downloads TestingCSV.csv from public/
+
+        $file= public_path(). "/TestingCSV.csv";
+        $headers = array(
+            'Content-Type: text/csv',
+        );
+        return response()->download($file, 'filename.csv', $headers);
     }
 
 }

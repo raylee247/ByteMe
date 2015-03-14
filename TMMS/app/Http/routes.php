@@ -25,6 +25,14 @@ Route::get('admin', 'AdminController@index');
 
 Route::get('weight', 'weightController@index');
 
+Route::get('downloadcsv', 'AdminController@downloadcsv');
+
+Route::post('uploadCSV', 'uploadCSVController@index');
+
+Route::get('submit', ['as' => 'register', 'uses' => 'StudentAppController@create']);
+
+Route::post('submit', ['as' => 'register_store', 'uses' => 'StudentAppController@store']);
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
