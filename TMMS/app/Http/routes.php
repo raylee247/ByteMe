@@ -23,6 +23,8 @@ Route::get('mentorapp', 'MentorAppController@index');
 
 Route::get('admin', 'AdminController@index');
 
+Route::get('weight', 'weightController@index');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
