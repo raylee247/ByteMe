@@ -41,11 +41,6 @@ Route::post('uploadcsv', 'uploadCSVController@index');
 Route::get("test", "MakeMatching@generateMatch");
 //====
 
-//==== for unit testing purpose 
-Route::get("test", "MakeMatching@generateMatch");
-//====
-
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
