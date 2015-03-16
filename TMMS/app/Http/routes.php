@@ -17,9 +17,17 @@ Route::get('hello_world', 'WelcomeController@hello');
 
 Route::get('home', 'HomeController@index');
 
+//application forms
+
 Route::get('studentapp', 'StudentAppController@index');
 
 Route::get('mentorapp', 'MentorAppController@index');
+
+Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@create']);
+
+Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
+
+// 
 
 Route::get('admin', 'AdminController@index');
 
@@ -27,11 +35,11 @@ Route::get('weight', 'weightController@index');
 
 Route::get('downloadcsv', 'AdminController@downloadcsv');
 
-Route::post('uploadCSV', 'uploadCSVController@index');
+Route::post('uploadcsv', 'uploadCSVController@index');
 
-Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@create']);
-
-Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
+//==== for unit testing purpose 
+Route::get("test", "MakeMatching@generateMatch");
+//====
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
