@@ -35,6 +35,23 @@ class AdminController extends Controller {
         return view('admin');
     }
 
+    public function studentsview()
+    {
+        return view('students');
+    }
+   
+    public function mentorsview()
+    {
+        return view('mentors');
+    }
+
+     public function waitlist()
+    {
+        return view('waitlist');
+    }
+
+
+
     public function downloadcsv()
     {
 

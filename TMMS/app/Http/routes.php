@@ -27,16 +27,27 @@ Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@crea
 
 Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
 
-// 
+// admin home
 
 Route::get('admin', 'AdminController@index');
 
-Route::get('weight', 'weightController@index');
+// participant management
+
+Route::get('students', 'AdminController@studentsview');
+Route::get('mentors', 'AdminController@mentorsview');
+Route::get('waitlist', 'AdminController@waitlist');
 
 Route::get('downloadcsv', 'AdminController@downloadcsv');
 
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadCSV', 'uploadCSVController@upload');
+
+// match making
+
+// TODO current match + saved matches needs to be put in a controller
+//Route::get('currentmatch', '')
+//Route::get('savedmatches', '')
+Route::get('weight', 'weightController@index');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatch");
