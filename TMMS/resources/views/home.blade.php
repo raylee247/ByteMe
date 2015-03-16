@@ -94,10 +94,6 @@
 				</body>
 
 			</div>
-		</div>
-	</div>
->>>>>>> 16efc172ea747d09406b2d7332cfa8ddaf512ea5
-</div>
 
 
 @endsection
