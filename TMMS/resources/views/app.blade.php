@@ -5,11 +5,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- 	<title>Application Form</title> -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
 
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/adminhome.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
 
   <!-- Fonts -->
   <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -21,8 +23,12 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		// <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<![endif]-->
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script type="text/javascript" src="{{ asset('/js/jquery-1.9.1.js') }}"</script>
 		<script src="{{ asset('/js/adminhome.js') }}"></script>
+    <script src="{{ asset('/js/searchfilter.js') }}"></script>  
+    <script src="{{ asset('/js/app.js') }}"></script>
+
    <!-- Latest compiled and minified JavaScript -->
  </head>
  <body>
@@ -72,26 +78,23 @@
   </div>
 </nav>
 
-
-@yield('content')
-
-
-<!-- <div class="container">
+@if (Auth::check())
+<div class="container">
   <div id="sidebar">
     <ul>
       <li><a href="#">Participant Management</a>
         <ul>
-          <li><a href="#">Students</a></li>
-          <li><a href="#">Mentors</a></li>
-          <li><a href=""{{ url('/uploadcsv') }}"">Add Participant(s)</a></li>
-          <li><a href=""{{ url('/downloadcsv') }}"">Export Participant(s)</a></li>
-          <li><a href="#">Waitlist</a></li>
+          <li><a href="{{ url('/students') }}">Students</a></li>
+          <li><a href="{{ url('/mentors') }}">Mentors</a></li>
+          <li><a href="{{ url('/uploadcsv') }}">Add Participant(s)</a></li>
+          <li><a href="{{ url('/downloadcsv') }}">Export Participant(s)</a></li>
+          <li><a href="{{ url('/waitlist') }}">Waitlist</a></li>
         </ul></li>
         <li><a href="#">Match Making</a>
           <ul>
-            <li><a href="#">Current Selection</a></li>
-            <li><a href="#">Adjust Weighting</a></li>
-            <li><a href="#">Saved Matches</a></li>
+            <li><a href="{{ url('/currentmatch') }}">Current Selection</a></li>
+            <li><a href="{{ url('/weight') }}">Adjust Weighting</a></li>
+            <li><a href="{{ url('/savedmatches') }}">Saved Matches</a></li>
           </ul></li>
           <li><a href="#">Application Form</a>
             <ul>
@@ -111,7 +114,9 @@
           </a>
           @yield('content')
         </div>
-      </div> -->
+      </div> 
+
+      @endif
    
       <!-- Scripts -->
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
