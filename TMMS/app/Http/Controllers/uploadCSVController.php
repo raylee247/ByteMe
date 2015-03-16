@@ -9,12 +9,18 @@ use Goodby\CSV\Import\Standard\LexerConfig;
 
 class uploadCSVController extends Controller {
 
+	public function index()
+	{	
+		$preview_header = array();
+		$preview_data = array();
+		return view('uploadcsv',compact('preview_header','preview_data'));
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function upload()
 	{
 		$target_dir = "Uploads/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -47,7 +53,7 @@ class uploadCSVController extends Controller {
 			}
 		}
 		
-		return view('home',compact('preview_header','preview_data'));
+		return view('uploadcsv',compact('preview_header','preview_data'));
 	}
 
 	/**

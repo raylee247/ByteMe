@@ -35,7 +35,8 @@ Route::get('weight', 'weightController@index');
 
 Route::get('downloadcsv', 'AdminController@downloadcsv');
 
-Route::post('uploadcsv', 'uploadCSVController@index');
+Route::get('uploadcsv', 'uploadCSVController@index');
+Route::post('uploadCSV', 'uploadCSVController@upload');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatch");
