@@ -67,14 +67,14 @@
 
 
 
+				<body>
+					<form action="uploadCSV" method="post" enctype="multipart/form-data" >
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+    					Select file to upload:
+    					<input type="file" name="fileToUpload" id="fileToUpload">
+    					<input type="submit" value="Upload CSV File" name="submit">
+					</form>
 
-
-          <form action="uploadCSV" method="post" enctype="multipart/form-data" >
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-              Select file to upload:
-              <input type="file" name="fileToUpload" id="fileToUpload">
-              <input type="submit" value="Upload CSV File" name="submit">
-          </form>
                     @if (count($preview_header))
                         <table id = "preview">
                             <tr>
@@ -91,12 +91,15 @@
                             @endforeach 
                         </table>
                     @endif
-        </body>
+				</body>
 
-      </div>
-    </div>
-  </div>
+			</div>
+		</div>
+	</div>
+>>>>>>> 16efc172ea747d09406b2d7332cfa8ddaf512ea5
 </div>
 
 
 @endsection
+
+

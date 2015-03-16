@@ -3,6 +3,9 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\LexerConfig;
 
 class uploadCSVController extends Controller {
 
@@ -22,6 +25,29 @@ class uploadCSVController extends Controller {
 		}else{
 			echo "Sorry, an error occur while uploading, please try again.";
 		}
+
+		$config = new LexerConfig();
+		$lexer = new Lexer($config);
+		$interpreter = new Interpreter();
+		$result = array();
+		$linecount = 1;
+		$interpreter->addObserver(function(array $columns) use (&$result) {
+			$result[] = $columns;
+		});
+		$lexer->parse(SITE_ROOT.'/../storage/app/1.csv', $interpreter);
+		// parses the uploaded CSV at where is putted in to array
+		// result[0] are the headers 
+		// result[1...n] are the participants 
+		$preview_data = array();
+		foreach ($result as $key => $value) {
+			if($key == 0){
+				$preview_header = $value;
+			}else{
+				$preview_data[] = $value;
+			}
+		}
+		
+		return view('home',compact('preview_header','preview_data'));
 	}
 
 	/**

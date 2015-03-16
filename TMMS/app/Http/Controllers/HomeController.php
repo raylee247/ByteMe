@@ -29,8 +29,10 @@ class HomeController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{
-		return view('home');
+	{	
+		$preview_header = array();
+		$preview_data = array();
+		return view('home',compact('preview_header','preview_data'));
 	}
 
 }
