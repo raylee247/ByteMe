@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- 	<title>Application Form</title> -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
 
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/adminhome.css') }}" rel="stylesheet">
@@ -23,8 +22,8 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		// <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<![endif]-->
+        <script type="text/javascript" src="{{ asset('/js/jquery-1.9.1.js') }}"</script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		<script type="text/javascript" src="{{ asset('/js/jquery-1.9.1.js') }}"</script>
 		<script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
