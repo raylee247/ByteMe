@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- 	<title>Application Form</title> -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--  <title>Application Form</title> -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
@@ -17,14 +17,14 @@
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		// <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<![endif]-->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <![endif]-->
         <script type="text/javascript" src="{{ asset('/js/jquery-1.9.1.js') }}"</script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		<script src="{{ asset('/js/adminhome.js') }}"></script>
+    <script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
 
@@ -49,7 +49,7 @@
       <ul class="nav navbar-nav">
         <li><a href="#">About</a></li>      
         <li><a href="#">Contact Us</a></li>
-      </ul>  	
+      </ul>   
       <ul class="nav navbar-nav navbar-right">
 
         @if(Session::has('message'))
@@ -77,7 +77,8 @@
   </div>
 </nav>
 
-@if (Auth::check())
+
+<!-- FIX USER AUTH TO YIELD CONTENT ONLY WHEN LOGGED IN -->
 <div class="container">
   <div id="sidebar">
     <ul>
@@ -100,10 +101,8 @@
               <li><a href="#">Student Form</a></li>
               <li><a href="#">Mentor Form</a></li>
             </ul></li>
-
           </ul>
         </div>
-
         <div class="main-content">
           <div class="swipe-area"></div>
           <a href="#" data-toggle=".container" id="sidebar-toggle">
@@ -115,7 +114,7 @@
         </div>
       </div> 
 
-      @endif
+
    
       <!-- Scripts -->
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
