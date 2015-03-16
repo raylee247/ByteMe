@@ -8,12 +8,10 @@
         <ul>
           <li><a href="#">Students</a></li>
           <li><a href="#">Mentors</a></li>
-          <li><a href=""{{ url('/uploadcsv') }}"">Add Participant(s)</a></li>
-          <li><a href=""{{ url('/downloadcsv') }}"">Export Participant(s)</a></li>
+          <li><a href="{{url('uploadcsv') }}">Add Participant(s)</a></li>
+          <li><a href="{{url('downloadcsv') }}">Export Participant(s)</a></li>
           <li><a href="#">Waitlist</a></li>
         </ul></li>
-
-
         <li><a href="#">Match Making</a>
           <ul>
             <li><a href="#">Current Selection</a></li>
