@@ -50,20 +50,23 @@ class AdminController extends Controller {
         return view('waitlist');
     }
 
-
-
     public function downloadcsv()
+    {
+        return view('downloadcsv');
+    }
+
+    public function downloadCSVfile()
     {
 
         // TODO: Update this function to be able to specify the CSV that we want.
         //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
         //      For now just downloads TestingCSV.csv from public/
 
-        $file= public_path(). "/TestingCSV.csv";
+        $file= public_path(). "/TestingCSV.txt";
         $headers = array(
-            'Content-Type: text/csv',
+            'Content-Type: text/plain',
         );
-        return response()->download($file, 'filename.csv', $headers);
+        return response()->download($file, 'TestingCSV.txt', $headers);
     }
 
 }

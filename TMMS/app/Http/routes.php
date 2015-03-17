@@ -11,11 +11,14 @@
 |
 */
 
+Route::get('testDBselect', 'testDBController@DBSelect');
+
 Route::get('/', 'WelcomeController@index');
 
 Route::get('hello_world', 'WelcomeController@hello');
 
 Route::get('home', 'HomeController@index');
+
 
 //application forms
 
@@ -38,6 +41,7 @@ Route::get('mentors', 'AdminController@mentorsview');
 Route::get('waitlist', 'AdminController@waitlist');
 
 Route::get('downloadcsv', 'AdminController@downloadcsv');
+Route::get('downloadCSV', 'AdminController@downloadCSVfile');
 
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadCSV', 'uploadCSVController@upload');
