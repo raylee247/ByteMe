@@ -50,6 +50,35 @@ class AdminController extends Controller {
         return view('waitlist');
     }
 
+    public function studentSearch(){
+        $dropdown = $_POST['search_param'];
+        $text = $_POST['text'];
+        $pattern = '/([1-9][0-9]{7})|([a-z][0-9][a-z][0-9])|([a-zA-Z]+\ ?[a-zA-Z]*)/';
+
+        preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+
+        $matches = $matches[0][0];
+        echo $matches;
+        echo "<br>";
+        echo $text;
+        echo "<br>";
+        if(strcmp($text, $matches) != 0){
+            echo "input error, please make sure the input value is a name, student number or cs-id";
+        }else{
+            if(strcmp($dropdown, "junior students") == 0){
+                echo "search junior student";
+            }
+
+            if(strcmp($dropdown, "senior students") == 0){
+                echo "search senior student";
+            }
+
+            if(strcmp($dropdown, "all") == 0){
+                echo "search all";
+            }
+        }
+    }
+
     public function downloadcsv()
     {
         return view('downloadcsv');
