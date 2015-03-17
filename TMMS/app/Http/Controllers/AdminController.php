@@ -59,11 +59,11 @@ class AdminController extends Controller {
         //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
         //      For now just downloads TestingCSV.csv from public/
 
-        $file= public_path(). "/TestingCSV.csv";
+        $file= public_path(). "/TestingCSV.txt";
         $headers = array(
-            'Content-Type: text/csv',
+            'Content-Type: text/plain',
         );
-        return response()->download($file, 'filename.csv', $headers);
+        return response()->download($file, 'TestingCSV', $headers);
     }
 
 }
