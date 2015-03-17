@@ -27,9 +27,9 @@ class uploadCSVController extends Controller {
 		$uploadOK = 1;
 
 		if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], SITE_ROOT.'/../storage/app/1.csv')){
-			echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+			$test = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 		}else{
-			echo "Sorry, an error occur while uploading, please try again.";
+			$test = "Sorry, an error occur while uploading, please try again.";
 		}
 
 		$config = new LexerConfig();
@@ -53,7 +53,7 @@ class uploadCSVController extends Controller {
 			}
 		}
 		
-		return view('uploadcsv',compact('preview_header','preview_data'));
+		return view('uploadcsv',compact('preview_header','preview_data', 'test'));
 	}
 
 	/**
