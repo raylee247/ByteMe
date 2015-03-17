@@ -87,26 +87,96 @@ class MatchGenerator{
 		$target = $mentors[0];
 		// base case 	
 		if (count($mentors) == 1){
-			// return the key of max array
-			$match = array_keys($this->MentorSatTable[$target], max($this->MentorSatTable[$target]));
-			// problem : max combination might not be available since other match might have take it
-			return $match[0];
+			// return the key with the maxx vlaue 
+			//should sotre the key somewhere for backtracking
+			$key = maxAvailiable($MentorSatTable[$target]); 
+
+			$value = $MentorSatTable[$target][$key]; 
+			return $value;
 		}else{
 			// find max of all combination for this mentor at this level 
 			// max( not using this mentor, using this mentor)
 			// in the using this mentor case, we want the max(all possible combination)
-			
-			// not using this mentor
-			// call doTheMatch without this mentor, senior and junior remains 
-
-
+			$result = array();
 			// using this mentor 
 			// for all the match possible for this mentor, for example, <mentorA, seniorA, junior A>
 			// call doTheMatch($mentors - mentorA ,$seniors - SeniorA ,$juniors - JuniorA )
 			// return the maximum value of the cases 
+			$mod_mentors = array_without($mentors,$target);
+			foreach ($seniors as $senior) {
+				foreach ($juniors as $junior) {
+					// call dotheMatch 
+					$mod_seniors = array_without($seniors,$senior);
+					$mod_juniors = array_without($juniors,$junior);
+					$temp = doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
+					$result[] = $temp; 
+				}
+			}
+			// not using this mentor
+			// call doTheMatch without this mentor, senior and junior remains 
+			$without = doTheMatch($mod_mentors,$seniors,$juniors);
+			$with = max($result);
+			if($with > $without){
+				return $with; 
+			}else{
+
+			}
+			return ;
+
+
+			
+		}
+			
+
+
+			
 
 		}
 	}
+	/**
+	 * return an copy of the given array with out the given key
+	 *
+	 * @param list of available senior student
+	 * @param list of available junior student
+	 *
+	 * @return the key that holds the maximum value in $targetArray
+	 */
+	public function array_without($array,$key){
+		$result = $array; 
+		// something about unset
+		unset($result[$key]);
+		return $result;
+	}
+
+	/**
+	 * return the the key that holds the maximum value 
+	 *
+	 * @param list of available senior student
+	 * @param list of available junior student
+	 *
+	 * @return the key that holds the maximum value in $targetArray
+	 */
+	public function maxAvailiable($seniors,juniors,$targetArray){
+		$temp = $targetArray;
+		// sort it low to high
+		arsort($temp);
+		$result="";
+		$maximum = -1;
+		foreach ($temp as $key => $value) {
+			$senior = explode(",", $key)[1];
+			$junior = explode(",", $key)[2];
+			if (($value > $result) && (in_array($senior, $seniors)) && (in_array($junior, $juniors))){
+				$maximum = $value;
+				$result = $key;
+			}
+		}
+		return $result;
+	}
+
+
+
+
+
 
 
 	/**

@@ -2,7 +2,6 @@
 
 @section('content')
 
-<div class="container">
     <div class="row">    
         <div class="col-xs-8 col-xs-offset-2">
 
@@ -152,7 +151,7 @@
     </table>
 
 
-</div>
+
 
 
 @endsection

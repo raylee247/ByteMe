@@ -81,6 +81,11 @@ class AdminController extends Controller {
 
     public function downloadcsv()
     {
+        return view('downloadcsv');
+    }
+
+    public function downloadCSVfile()
+    {
 
         // TODO: Update this function to be able to specify the CSV that we want.
         //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
@@ -90,7 +95,7 @@ class AdminController extends Controller {
         $headers = array(
             'Content-Type: text/plain',
         );
-        return response()->download($file, 'TestingCSV', $headers);
+        return response()->download($file, 'TestingCSV.txt', $headers);
     }
 
 }

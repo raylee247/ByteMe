@@ -13,4 +13,5 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.less('app.less');
+    mix.scripts(['jquery-ui.js','jquery-1.10.2.js','sortable.js'],null, 'public/js');
 });
