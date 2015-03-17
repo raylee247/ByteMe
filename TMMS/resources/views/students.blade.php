@@ -5,27 +5,29 @@
 <div class="container">
     <div class="row">    
         <div class="col-xs-8 col-xs-offset-2">
+
+<form action="studentSearch" method="post">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 		    <div class="input-group">
                 <div class="input-group-btn search-panel">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     	<span id="search_concept">Filter by</span> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Junior students</a></li>
-                      <li><a href="#">Senior students</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">CS ID</a></li>
-                      <li><a href="#">Student Number</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">Anything</a></li>
+                      <li><a href="junior students">Junior students</a></li>
+                      <li><a href="senior students">Senior students</a></li>
+                      <li><a href="all">All</a></li>
                     </ul>
                 </div>
                 <input type="hidden" name="search_param" value="all" id="search_param">         
-                <input type="text" class="form-control" name="x" placeholder="Search...">
+                <input type="text" class="form-control" name="text" placeholder="Search with name, student number or cs-id">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
             </div>
+</form>
+
+
         </div>
 	</div>
 <br>

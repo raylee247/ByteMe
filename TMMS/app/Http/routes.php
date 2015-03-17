@@ -45,6 +45,8 @@ Route::get('downloadcsv', 'AdminController@downloadcsv');
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadCSV', 'uploadCSVController@upload');
 
+Route::post('studentSearch', 'AdminController@studentSearch');
+
 // match making
 
 // TODO current match + saved matches needs to be put in a controller
