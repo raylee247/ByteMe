@@ -5,13 +5,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--  <title>Application Form</title> -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/adminhome.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/bootstrap.css') }}">
+<!--   <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}"> -->
   <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
-
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <!-- Fonts -->
   <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
@@ -22,8 +22,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <![endif]-->
-        <script type="text/javascript" src="{{ asset('/js/jquery-1.9.1.js') }}"</script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="{{ asset('/js/jquery-1.9.1.js') }}"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
@@ -104,17 +104,9 @@
           </ul>
         </div>
         <div class="main-content">
-          <div class="swipe-area"></div>
-          <a href="#" data-toggle=".container" id="sidebar-toggle">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </a>
           @yield('content')
         </div>
       </div> 
-
-
    
       <!-- Scripts -->
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
