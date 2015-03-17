@@ -63,7 +63,7 @@ class AdminController extends Controller {
         $headers = array(
             'Content-Type: text/plain',
         );
-        return response()->download($file, 'TestingCSV', $headers);
+        return response()->download($file, 'TestingCSV.txt', $headers);
     }
 
 }
