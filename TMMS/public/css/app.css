@@ -10,6 +10,20 @@ body {
   margin: 0;
   width:100%;
 }
+#sortable {
+  width: 25%;
+  padding: 0 !important;
+  margin: 0 !important;
+  margin-top:0;
+padding-top: 0;
+}
+.ui-state-default {
+ cursor: move; 
+}
+
+/*.mouseDown{
+ cursor: progress;
+}*/
 
 .main-content {
   overflow: auto;

@@ -24,27 +24,16 @@
     <![endif]-->
 
     <script src="{{ asset('/js/jquery-1.9.1.js') }}"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
 
-
-
-
-
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    {{--<script src="//code.jquery.com/jquery-1.10.2.js"></script>--}}
     <script src="{{ asset('/js/jquery-1.10.2.js') }}"></script>
     <script src="{{ asset('/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('/js/sortable.js') }}"></script>
-    {{--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>--}}
-    <style>
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%;}
-        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-        #sortable li span { position: absolute; margin-left: -1.3em; }
-    </style>
+
+
 
 
 
@@ -130,8 +119,5 @@
         </div>
       </div> 
    
-      <!-- Scripts -->
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </body>
     </html>
