@@ -98,8 +98,8 @@
           </ul></li>
           <li><a href="#">Application Form</a>
             <ul>
-              <li><a href="#">Student Form</a></li>
-              <li><a href="#">Mentor Form</a></li>
+              <li><a href="{{ url('/studentform') }}">Student Form</a></li>
+              <li><a href="{{ url('/mentorform') }}">Mentor Form</a></li>
             </ul></li>
           </ul>
         </div>
