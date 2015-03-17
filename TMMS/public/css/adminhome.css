@@ -8,9 +8,11 @@ body, html {
     font-weight: 100;
 }
 .container {
+    margin:0px;
     position: relative;
     height: 100%;
     width: 100%;
+    padding:0px;
     left: 0;
     -webkit-transition:  left 0.4s ease-in-out;
     -moz-transition:  left 0.4s ease-in-out;
@@ -26,7 +28,7 @@ body, html {
     position: absolute;
     width: 50px;
     left: 0;
-top: 0;
+    top: 0;
     height: 100%;
     background: #f3f3f3;
     z-index: 0;
@@ -34,10 +36,10 @@ top: 0;
 #sidebar {
     float: left;
     background: #DF314D;
-    position: absolute;
+    position: relative;
     width: 240px;
     height: 100%;
-    left: -240px;
+    left: 0px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
@@ -67,18 +69,23 @@ top: 0;
     background: #C9223D;
 }
 .main-content {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
+    height:100%;
+    margin-left: 260px;
+    text-align: left;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: auto;
+/*    width: 100%;*/
+/*    height: 100%;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    position: left;
+    position: left;*/
 }
 .main-content .content{
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-padding-left: 60px;
-width: 100%;
+    padding-left: 0px;
+    width: 100%;
 }
 .main-content .content h1{
     font-weight: 100;
@@ -86,15 +93,15 @@ width: 100%;
 .main-content .content p{
     width: 100%;
     line-height: 160%;
-
 }
 .main-content #sidebar-toggle {
     background: #DF314D;
     border-radius: 3px;
-    display: block;
-    position: absolute;
+   
+    position: fixed;
     padding: 10px 7px;
-    float: left;
+  /*  float: left;*/
+    z-index: 1;
 }
 .main-content #sidebar-toggle .bar{
     display: block;
@@ -134,7 +141,7 @@ div.bhoechie-tab-container{
   background-clip: padding-box;
   opacity: 0.97;
   filter: alpha(opacity=97);
-  width:85%
+  width:75%
 
 }
 div.bhoechie-tab-menu{
