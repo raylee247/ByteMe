@@ -1,13 +1,3 @@
-
-
-$(window).load(function(){
-        $("[data-toggle]").click(function() {
-          var toggle_el = $(this).data("toggle");
-          $(toggle_el).toggleClass("open-sidebar");
-        });
- 
-      });
-
 $(document).ready(function() {
     $("div.bhoechie-tab-menu>div.list-group>a").hover(function() {
         $(this).siblings('a.active').removeClass("active");
