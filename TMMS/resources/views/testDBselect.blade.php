@@ -17,12 +17,14 @@
             </div>
         </div>
         <?php
-        $results = DB::table('users')->select('name as user_name')->addSelect('email as user_email')->get();
-            
-        foreach($results as $single_result) {
-            print($single_result["user_name"]);
-            echo "\r\n";
+
+
+        foreach($results['result'] as $single_result) {
+            print_r($single_result);
+            echo "<br>";
         }
+
+        var_dump($results['name'])
 
         ?>
     </div>
