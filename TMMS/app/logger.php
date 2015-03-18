@@ -18,20 +18,18 @@ use Monolog\Handler\StreamHandler;
             if (\Auth::check()) {
                 $name = \Auth::user()->name;
                 $email = \Auth::user()->email;
-                $id = \Auth::user()->id;
+                $monolog->info('Account Name: ' . $name);
+                $monolog->info('Account E-Mail: ' . $email);
+                $monolog->info($sql,  compact('bindings', 'time'));
+                $timestamp = date('Y-m-d H:i:s');
+                DB::table('log')->insert([
+                    ['email' => $email, 'Action' => $sql, 'name' => $name, 'created_at' => $timestamp]
+                ]);
             } else {
-                $name = 'guest';
-                $email = 'guest';
-                $id = -1;
+                //Guest, do not log. Guest should not have access to any db functions.
+                //Might be useful for testing/debugging later or for monitoring security?
             }
-            $monolog->info('Account Name: ' . $name);
-            $monolog->info('Account E-Mail: ' . $email);
-            $monolog->info('Account ID: ' . $id);
-            $monolog->info($sql,  compact('bindings', 'time'));
-            $timestamp = date('Y-m-d H:i:s');
-            DB::table('log')->insert([
-                ['email' => $email, 'Action' => $sql, 'name' => $name, 'created_at' => $timestamp]
-            ]);
+
         }
 
 
