@@ -1,37 +1,65 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>jQuery UI Sortable - Default functionality</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <style>
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-        #sortable li span { position: absolute; margin-left: -1.3em; }
-    </style>
-    <script>
-        $(function() {
-            $( "#sortable" ).sortable();
-            $( "#sortable" ).disableSelection();
-        });
-    </script>
-</head>
-<body>
+@extends('app')
 
-<ul id="sortable">
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+@section('content')
+
+MUSTHAVES
+<ul id="sortable1" class="droptrue">
+  <li class="ui-state-default" id="element_gender">Gender Preference</li>
+  <li class="ui-state-default" id="element_date">Date Availability</li>
+  <li class="ui-state-default" id="element_3">Item 3</li>
+  <li class="ui-state-default" id="element_4">Item 4</li>
+  <li class="ui-state-default" id="element_5">Item 5</li>
+  <li class="ui-state-default" id="element_6">Item 6</li>
 </ul>
 
+<ul id="sortable2" class="droptrue">
+</ul>
+
+<br style="clear:both">
+
+<!-- div to display array or parameter order to pass to controller - can remove after-->
+<div id= 'test'></div>
+
+<div id="sortable3">
+    <b>PRIORITY</b>
+    <li class="ui-state-default" id="element_1"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+    <li class="ui-state-default" id="element_2"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+    <li class="ui-state-default" id="element_3"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+    <li class="ui-state-default" id="element_4"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+    <li class="ui-state-default" id="element_5"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+    <li class="ui-state-default" id="element_6"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+</div>
+
+<!-- move to app.js after data passing is successful // only here for convenience -->
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sortable2").sortable({
+        opacity: 0.6,
+        update: function(event, ui) {
+            var info1 = $(this).sortable("serialize");
+            var list1 = [];
+            list1.push(info1);
+            console.log(list1); //testing only
+            document.getElementById("test").innerHTML = info1;
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sortable3").sortable({
+        opacity: 0.6,
+        update: function(event, ui) {
+            var info2 = $(this).sortable("serialize");
+            var list2 = [];
+            list2.push(info2);
+            console.log(list2); //testing only
+            document.getElementById("test").innerHTML = info2;
+        }
+    });
+});
 
 
-</body>
-</html>
+</script>
+
+@endsection

@@ -33,6 +33,10 @@ Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@crea
 
 Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
 
+// make admin
+Route::get('makeadmin', 'MakeAdminController@index');
+Route::post('makeadmin', 'MakeAdminController@store');
+
 // admin home
 
 Route::get('admin', 'AdminController@index');
@@ -44,9 +48,12 @@ Route::get('mentors', 'AdminController@mentorsview');
 Route::get('waitlist', 'AdminController@waitlist');
 
 Route::get('downloadcsv', 'AdminController@downloadcsv');
+Route::get('downloadCSV', 'AdminController@downloadCSVfile');
 
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadCSV', 'uploadCSVController@upload');
+
+Route::post('studentSearch', 'AdminController@studentSearch');
 
 // match making
 
