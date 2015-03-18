@@ -41,6 +41,9 @@ Route::post('makeadmin', 'MakeAdminController@store');
 
 Route::get('admin', 'AdminController@index');
 
+// view audit log
+Route::get('log', 'AdminController@viewLog');
+
 // participant management
 
 Route::get('students', 'AdminController@studentsview');

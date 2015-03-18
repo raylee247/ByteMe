@@ -78,7 +78,7 @@
          <ul class="dropdown-menu" role="menu">
           <li><a data-toggle="modal" data-target="#createAdmin">Make New Admin</a></li>
           <li><a href={{url('/password/email')}}>Change Password</a></li>
-          <li><a data-toggle="modal" data-target="#myModal">View Logs</a></li>
+          <li><a href={{url('/log')}}>View Logs</a></li>
           <li role="presentation" class="divider"></li>
           <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
         </ul>
