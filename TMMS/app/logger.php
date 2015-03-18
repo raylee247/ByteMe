@@ -6,10 +6,8 @@ use Monolog\Handler\StreamHandler;
         $logFile = storage_path('logs/query.log');
         $monolog = new Logger('log');
         $monolog->pushHandler(new StreamHandler($logFile), Logger::INFO);
-        if (strpos($sql, 'select * from `users` where `email` = ? limit 1') !== false) {
-            // This is a login query. Do not log.
-        } elseif (strpos($sql, 'select * from `users` where `users`.`id` = ? limit 1') !== false){
-            // This is an auth query generated on every page load. Do not log.
+        if (strpos($sql, 'select ') !== false) {
+            // This is a select query. No modification to db. Do not log.
         } elseif (strpos($sql, 'insert into `log`') !== false){
             // Do not log db interactions that insert into log. Do not log.
         } else {
