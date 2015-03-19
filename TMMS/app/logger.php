@@ -12,6 +12,10 @@ use Monolog\Handler\StreamHandler;
             // Do not log db interactions that insert into log. Do not log.
         } else {
             // Probably a valid interaction for logging
+            // Need to read binds and replace the ? under 'Action'
+            foreach($bindings as $singleBinding) {
+                $sql = preg_replace('/\?/', $singleBinding, $sql, 1);
+            }
 
             if (\Auth::check()) {
                 $name = \Auth::user()->name;
