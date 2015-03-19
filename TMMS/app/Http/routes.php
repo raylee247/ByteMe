@@ -64,6 +64,7 @@ Route::post('studentSearch', 'AdminController@studentSearch');
 //Route::get('currentmatch', '')
 //Route::get('savedmatches', '')
 Route::get('weight', 'weightController@index');
+Route::get('appEdit', 'appLoader@grabStudentApp');
 
 // application form ROUTES
 //Route::get('studentform', '')
