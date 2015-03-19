@@ -24,27 +24,16 @@
     <![endif]-->
 
     <script src="{{ asset('/js/jquery-1.9.1.js') }}"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
 
-
-
-
-
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    {{--<script src="//code.jquery.com/jquery-1.10.2.js"></script>--}}
     <script src="{{ asset('/js/jquery-1.10.2.js') }}"></script>
     <script src="{{ asset('/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('/js/sortable.js') }}"></script>
-    {{--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>--}}
-    <style>
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%;}
-        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-        #sortable li span { position: absolute; margin-left: -1.3em; }
-    </style>
+
+
 
 
 
@@ -87,9 +76,9 @@
         <li class="dropdown">
          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
          <ul class="dropdown-menu" role="menu">
-          <li><a data-toggle="modal" data-target="#createAdmin">Make New Admin</a></li>
+          <li><a href={{url('/makeadmin')}}>Make New Admin</a></li>
           <li><a href={{url('/password/email')}}>Change Password</a></li>
-          <li><a data-toggle="modal" data-target="#myModal">View Logs</a></li>
+          <li><a href={{url('/log')}}>View Logs</a></li>
           <li role="presentation" class="divider"></li>
           <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
         </ul>
@@ -128,10 +117,9 @@
         <div class="main-content">
           @yield('content')
         </div>
-      </div> 
-   
-      <!-- Scripts -->
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+      </div>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
     </body>
     </html>
