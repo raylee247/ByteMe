@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('content')
+@section('guestcontent')
 
 
         <div class="row">

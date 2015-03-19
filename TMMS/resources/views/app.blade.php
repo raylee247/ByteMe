@@ -52,7 +52,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">TMMS</a>
+       @if (Auth::guest())
+       <a class="navbar-brand" href="{{ url('/') }}">TMMS</a>
+       @else
+      <a class="navbar-brand" href="{{ url('/home') }}">TMMS</a>
+      @endif
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -88,9 +92,9 @@
   </div>
 </nav>
 
-
 <!-- FIX USER AUTH TO YIELD CONTENT ONLY WHEN LOGGED IN -->
 <div class="container">
+   @if (Auth::check())
   <div id="sidebar">
     <ul>
       <li><a href="#">Participant Management</a>
@@ -117,6 +121,9 @@
         <div class="main-content">
           @yield('content')
         </div>
+        @else
+          @yield('guestcontent')
+          @endif
       </div>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
