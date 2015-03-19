@@ -108,7 +108,8 @@ class MatchGenerator{
 					// call dotheMatch 
 					$mod_seniors = array_without($seniors,$senior);
 					$mod_juniors = array_without($juniors,$junior);
-					$temp = doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
+					$key = $target . "," . $senior . "," . $junior;
+					$temp = $MentorSatTable[$target][$key] + doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
 					$result[] = $temp; 
 				}
 			}
@@ -116,21 +117,12 @@ class MatchGenerator{
 			// call doTheMatch without this mentor, senior and junior remains 
 			$without = doTheMatch($mod_mentors,$seniors,$juniors);
 			$with = max($result);
+
 			if($with > $without){
 				return $with; 
 			}else{
-
+				return $without;
 			}
-			return ;
-
-
-			
-		}
-			
-
-
-			
-
 		}
 	}
 	/**
@@ -197,7 +189,8 @@ class MatchGenerator{
 			foreach ($this->seniors as $senior) {
 				foreach ($this->juniors as $junior) {
 					$key = $mentor . "," . $senior . "," . $junior;
-					$temp[$key] = trioMatch($mentor,$senior,$student);
+					$satisfaction = trioMatch($mentor,$senior,$student);
+					if
 				}
 			}
 			$this->MentorSatTable[$mentor] = $temp;
@@ -205,7 +198,7 @@ class MatchGenerator{
 	}
 
 	/**
-	 * compute the statisfactoion rate of two provided person 
+	 * compute the satisfaction rate of two provided person 
 	 *
 	 * @param First person to match
 	 * @param Second person to match
@@ -237,7 +230,7 @@ class MatchGenerator{
 		return $person;
 	}
 	/**
-	 * compute the statisfactoion rate of two provided person 
+	 * compute the satisfaction rate of two provided person 
 	 *
 	 * @param First person to match
 	 * @param Second person to match
