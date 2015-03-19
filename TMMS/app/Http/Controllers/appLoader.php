@@ -10,7 +10,7 @@ class appLoader extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 *
 	 */
 	public function index()
     {
@@ -21,7 +21,7 @@ class appLoader extends Controller {
 	/**
 	 * Grab student application form
 	 *
-	 * @return Response
+	 *
 	 */
 	public function grabStudentApp()
 	{
@@ -72,7 +72,7 @@ class appLoader extends Controller {
     /**
      * Grab mentor application form
      *
-     * @return Response
+     *
      */
     public function grabMentorApp()
     {
@@ -99,7 +99,7 @@ class appLoader extends Controller {
             $questions = explode('`', $rawQuestion);
             //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
             foreach ($questions as $q){
-                //(format,question,answers)
+                //(format,id,question,answers)
                 $q = explode('|', $q);
                 array_push($newQuestions, $q);
             }
