@@ -50,6 +50,14 @@ class AdminController extends Controller {
         return view('waitlist');
     }
 
+    public function viewLog()
+    {
+        // Make select call to log table
+        $result = \DB::table('log')->get();
+        // Return view with log array
+        return \View::make('log')->with('result',$result);
+    }
+
     public function studentSearch(){
         $dropdown = $_POST['search_param'];
         $text = $_POST['text'];
@@ -58,10 +66,6 @@ class AdminController extends Controller {
         preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
         $matches = $matches[0][0];
-        echo $matches;
-        echo "<br>";
-        echo $text;
-        echo "<br>";
         if(strcmp($text, $matches) != 0){
             echo "input error, please make sure the input value is a name, student number or cs-id";
         }else{

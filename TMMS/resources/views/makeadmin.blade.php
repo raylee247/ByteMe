@@ -34,7 +34,13 @@
 						<!-- Password Input -->
 						<div class="form-group">
 							{!! Form::label('password', 'Password: ') !!}
-							{!! Form::text('password', null, ['class' => 'form-control']) !!}
+							{!! Form::password('password', null, ['class' => 'form-control']) !!}
+						</div>
+
+						<!-- Password Confirmation Input -->
+						<div class="form-group">
+							{!! Form::label('password_confirmation', 'Password Confirmation: ') !!}
+							{!! Form::password('password_confirmation', null, ['class' => 'form-control']) !!}
 						</div>
 
 						<!-- Register Button --> 
@@ -47,4 +53,4 @@
 		</div>
 	</div>
 </div>
-@stop
+@endsection

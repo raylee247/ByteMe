@@ -1,5 +1,8 @@
 <?php
 
+require_once app_path('logger.php');
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -37,6 +40,9 @@ Route::post('makeadmin', 'MakeAdminController@store');
 // admin home
 
 Route::get('admin', 'AdminController@index');
+
+// view audit log
+Route::get('log', 'AdminController@viewLog');
 
 // participant management
 

@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use Request; 
 use App\User;
+use App\Http\Requests\MakeAdminRequest;
 
 class MakeAdminController extends Controller {
 
@@ -26,14 +26,14 @@ class MakeAdminController extends Controller {
     }
 
     // store admin to database 
-    public function store()
+    public function store(MakeAdminRequest $request)
     {
-        $data = Request::all();
+        //User::create($request->all());
 
         User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
         ]);
 
         return redirect('makeadmin'); 
