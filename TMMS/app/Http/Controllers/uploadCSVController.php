@@ -9,6 +9,11 @@ use Goodby\CSV\Import\Standard\LexerConfig;
 
 class uploadCSVController extends Controller {
 
+	public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 	public function index()
 	{	
 		$preview_header = array();
