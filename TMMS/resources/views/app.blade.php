@@ -97,7 +97,7 @@
    @if (Auth::check())
   <div id="sidebar">
     <ul>
-      <li><a href="#">Participant Management</a>
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Participant Management<span class="caret"></span></a>
         <ul>
           <li><a href="{{ url('/students') }}">Students</a></li>
           <li><a href="{{ url('/mentors') }}">Mentors</a></li>
@@ -105,13 +105,13 @@
           <li><a href="{{ url('/downloadcsv') }}">Export Participant(s)</a></li>
           <li><a href="{{ url('/waitlist') }}">Waitlist</a></li>
         </ul></li>
-        <li><a href="#">Match Making</a>
+        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Match Making<span class="caret"></span></a>
           <ul>
             <li><a href="{{ url('/currentmatch') }}">Current Selection</a></li>
             <li><a href="{{ url('/weight') }}">Adjust Weighting</a></li>
             <li><a href="{{ url('/savedmatches') }}">Saved Matches</a></li>
           </ul></li>
-          <li><a href="#">Application Form</a>
+          <li><a href="#"><span class="glyphicon glyphicon-pencil"></span> Application Form<span class="caret"></span></a>
             <ul>
               <li><a href="{{ url('/studentform') }}">Student Form</a></li>
               <li><a href="{{ url('/mentorform') }}">Mentor Form</a></li>
