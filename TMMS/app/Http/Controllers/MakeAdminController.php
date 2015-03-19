@@ -28,13 +28,13 @@ class MakeAdminController extends Controller {
     // store admin to database 
     public function store(MakeAdminRequest $request)
     {
-        User::create($request->all());
+        //User::create($request->all());
 
-        // User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => bcrypt($data['password']),
-        // ]);
+        User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);
 
         return redirect('makeadmin'); 
     }
