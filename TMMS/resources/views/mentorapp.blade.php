@@ -11,9 +11,6 @@
 
                 Thank you for your interest in becoming a mentor with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
 
-                <!-- testing from student application POST -->
-                <!--  Welcome <?php echo $name . " " . $email; ?><br>  -->
-
 // TODO : SET UP REQUIRED FIELDS AND FIELD TYPES, POST VARIABLES, SET UP ROUTE AND CONTROLLER METHOD
 
                 <form class="form-horizontal" role="form" action="TODO" method="POST" >

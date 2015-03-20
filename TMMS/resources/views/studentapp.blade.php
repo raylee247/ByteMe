@@ -10,7 +10,7 @@
             <div class="panel-body">
                 
 // TODO : SET UP REQUIRED FIELDS AND FIELD TYPES, POST VARIABLES (FIX ACTION URL)
-<form class="form-horizontal" role="form" action="mentorapp" method="POST" >
+<form class="form-horizontal" role="form" action="TODO" method="POST" >
     <div class="form-group">
          <label class="control-label col-sm-3">Email address:</label>
             <div class="col-md-6">
@@ -219,8 +219,6 @@
 <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
 </div>
 </form>
-</body>
-</html>
 </div>
 </div>
 </div>
