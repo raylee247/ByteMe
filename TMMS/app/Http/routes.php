@@ -26,6 +26,7 @@ Route::get('home', 'HomeController@index');
 //application forms
 
 Route::get('studentapp', 'StudentAppController@index');
+Route::post('mentorapp', 'StudentAppController@index2');
 
 Route::get('mentorapp', 'MentorAppController@index');
 

@@ -92,6 +92,7 @@
   </div>
 </nav>
 
+<div class="main">
 <!-- FIX USER AUTH TO YIELD CONTENT ONLY WHEN LOGGED IN -->
 <div class="container">
    @if (Auth::check())
@@ -125,6 +126,7 @@
           @yield('guestcontent')
           @endif
       </div>
+    </div>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
