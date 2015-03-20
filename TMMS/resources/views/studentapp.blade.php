@@ -195,11 +195,11 @@ Additional questions or comments? <br>
            <input type="text" class="form-control" name="email">
           </div><br><br> 
       </form>
-<!--          <label class="control-label col-sm-3">Student number:</label>
+         <label class="control-label col-sm-3">Student number:</label>
            <div class="col-md-6">
            <input type="text" class="form-control" name="studentnum">
           </div><br><br> 
-         <label class="control-label col-sm-3">Given name:</label>
+      <!--    <label class="control-label col-sm-3">Given name:</label>
            <div class="col-md-6">
             <input type="text" class="form-control" id="givenname">
           </div><br><br> 

@@ -11,7 +11,7 @@
                         Welcome to mentor application form!
 
 
-Welcome <?php echo $_POST["email"]; ?><br>
+Welcome <?php echo $name . " " . $email; ?><br>
 
 
                     </div>

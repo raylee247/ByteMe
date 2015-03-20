@@ -44,9 +44,9 @@ class StudentAppController extends Controller {
     public function index2()    
     {
         $email = $_POST['email'];
-        return view('studentapp')->with('email', $email);
+        $name = $_POST['studentnum'];
+        return view('mentorapp',compact('email','name'));
     }
-
 
 
 }
