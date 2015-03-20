@@ -57,7 +57,7 @@ Route::get('downloadCSV', 'AdminController@downloadCSVfile');
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadCSV', 'uploadCSVController@upload');
 
-Route::post('studentSearch', 'AdminController@studentSearch');
+Route::post('students', 'AdminController@studentSearch');
 
 // match making
 
@@ -65,7 +65,7 @@ Route::post('studentSearch', 'AdminController@studentSearch');
 //Route::get('currentmatch', '')
 //Route::get('savedmatches', '')
 Route::get('weight', 'weightController@index');
-Route::get('appEdit', 'appLoader@grabStudentApp');
+Route::get('appEdit', 'appLoaderController@grabStudentApp');
 
 // application form ROUTES
 //Route::get('studentform', '')
