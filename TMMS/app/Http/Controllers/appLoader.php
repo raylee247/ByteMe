@@ -10,7 +10,7 @@ class appLoader extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 *
 	 */
 	public function index()
     {
@@ -21,7 +21,7 @@ class appLoader extends Controller {
 	/**
 	 * Grab student application form
 	 *
-	 * @return Response
+	 *
 	 */
 	public function grabStudentApp()
 	{
@@ -48,31 +48,72 @@ class appLoader extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
-        //if element is a new question (contains |) then break it down into (format|question|answerA,answerB,answerC`format2|question2|answer)
+        //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
-        $rawQuestion = $rawApp["extra"];
-        $questions = "TEST";
+        $newQuestions = [];
 
-        return View('appEdit')->with('course', $course)-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $questions);
+        $rawQuestion = $rawApp["extra"];
+        if ($rawQuestion == null){
+            $newQuestions = null;
+        } else {
+            $questions = explode('`', $rawQuestion);
+            //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
+            foreach ($questions as $q){
+                //(format,question,answers)
+                $q = explode('|', $q);
+                array_push($newQuestions, $q);
+            }
+        }
+
+        return View('appEdit')->with('course', $course)-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
 	}
 
-    /**
-     * Break Extra field in database into questions
-     *
-     * @return Response
-     */
-    public function newQuestion($element){
 
-    }
     /**
      * Grab mentor application form
      *
-     * @return Response
+     *
      */
     public function grabMentorApp()
     {
-        //grab application form from DB
-        $results = DB::select('select * from users where id = ?', [1]);
+        //grab application form from DB for current year
+        $year = date("Y");
+        $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
+
+        //return $rawApp;
+
+        //break into different elements to get the text for HTML
+
+        //Current dates for planned Kickoff night
+        $rawKickoff = $rawApp["kickoff"];
+        $kickoff = explode(",", $rawKickoff);
+
+        //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
+        //pass view HTML tags? or just variables?
+        $newQuestions = [];
+
+        $rawQuestion = $rawApp["extra"];
+        if ($rawQuestion == null){
+            $newQuestions = null;
+        } else {
+            $questions = explode('`', $rawQuestion);
+            //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
+            foreach ($questions as $q){
+                //(format,id,question,answers)
+                $q = explode('|', $q);
+                array_push($newQuestions, $q);
+            }
+        }
+
+        return View('appEdit')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
     }
 
+
+
+    /**TODO: CHANGE DB SO THAT IT AUTO CREATES NEW TABLE EVERY YEAR
+     *
+     *
+     *
+     *
+     */
 }

@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+TODO NEED TO GRAB THE DIFFERENT PARAMETERS FROM DB
 MUSTHAVES
 <ul id="sortable1" class="droptrue">
   <li class="ui-state-default" id="element_gender">Gender Preference</li>
