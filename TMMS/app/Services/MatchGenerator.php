@@ -33,29 +33,15 @@ class MatchGenerator{
 	 * @param priority list for this generator
 	 * @return void
 	 */
-	public function __construct($participants,$mustList,$priority)
+	public function __construct($mentors,$seniors,$juniors,$mustList,$priority)
 	{
-		categorize($participants);
+		$this->mentors = $mentors;
+		$this->seniors = $seniors;
+		$this->juniors = $juniors;
 		$this->mustList = $mustList;
 		$this->priority = $priority;
+		echo "wat";
 	}
-	/**
-	 * seperate participants in to mentor, senior student and junior student
-	 *
-	 * @param list of participants 
-	 * 
-	 * @return satisfaction rate 
-	 */
-	public function categorize($participants){
-		// parse $participants in a way such that we categorize them 
-		//TODO
-
-		//dummy actions 
-		$this->mentors = array();
-		$this->seniors = array();
-		$this->juniors = array();
-	}
-
 
 	/**
 	 * start point of the generation of result 
@@ -64,9 +50,10 @@ class MatchGenerator{
 	 */
 	
 	public function generate(){
-		generateTable();
+		
+		$this->generateTable();
 
-		$result = doTheMatch($this->mentors,$this->seniors,$this->juniors);
+		$result = doTheMatch(array(1,4),array(2,5),array(3,6));
 
 		return $result;
 	}
@@ -83,6 +70,7 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
+
 		// match a mentor each time
 		$target = $mentors[0];
 		// base case 	
@@ -148,7 +136,7 @@ class MatchGenerator{
 	 *
 	 * @return the key that holds the maximum value in $targetArray
 	 */
-	public function maxAvailiable($seniors,juniors,$targetArray){
+	public function maxAvailiable($seniors,$juniors,$targetArray){
 		$temp = $targetArray;
 		// sort it low to high
 		arsort($temp);
@@ -188,13 +176,17 @@ class MatchGenerator{
 			$temp = array();
 			foreach ($this->seniors as $senior) {
 				foreach ($this->juniors as $junior) {
-					$key = $mentor . "," . $senior . "," . $junior;
-					$satisfaction = trioMatch($mentor,$senior,$student);
-					if
+					$key = $mentor['pid'] . "," . $senior['pid'] . "," . $junior['pid'];
+					$satisfaction = $this->trioMatch($mentor,$senior,$student);
+					//if ($satisfaction > 49){
+						$temp[$key] = $satisfaction;
+					//} 
 				}
 			}
-			$this->MentorSatTable[$mentor] = $temp;
+			$this->MentorSatTable[$mentor['pid']] = $temp;
 		}
+
+		var_dump($MentorSatTable);
 	}
 
 	/**
