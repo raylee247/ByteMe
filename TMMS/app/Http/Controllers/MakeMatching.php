@@ -8,7 +8,7 @@ use App\Services\MatchGenerator;
 
 //start_session();
 //to get the priority array from weighted parameters page
-//$weight = $_SESSION['weight'];
+// $weight = $_SESSION['weight'];
 //to get the must array from weghted parameters page
 //$must = $_SESSION['must'];
 
@@ -17,9 +17,12 @@ class MakeMatching extends Controller {
 	protected $participants = array();
 
 
-	public function generateMatch(){
-		$generator = new MatchGenerator($this->participants);
-		return $generator->test();
+	public function generateMatchTest(){
+		$must = array("KickOffAvailibility");
+		$priority = array("interest");
+		$generator = new MatchGenerator($must,$priority);
+		echo $generator->generate();
+		return 0;
 	}
 	/**
 	 * Display a listing of the resource.

@@ -9,8 +9,8 @@ class MatchMakingTest extends TestCase {
 	 */
 	public function testStructure()
 	{
-		$response = $this->action('GET', "MakeMatching@generateMatch");
-		echo $response;
+		$response = $this->action('GET', "MakeMatching@generateMatchTest");
+		// echo $response;
 	}
 
 }

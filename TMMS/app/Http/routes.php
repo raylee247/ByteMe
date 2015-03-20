@@ -73,7 +73,7 @@ Route::get('appEdit', 'appLoaderController@grabStudentApp');
 //////////////////////////////////
 
 //==== for unit testing purpose 
-Route::get("test", "MakeMatching@generateMatch");
+Route::get("test", "MakeMatching@generateMatchTest");
 //====
 
 Route::controllers([

@@ -24,7 +24,7 @@ class MatchGenerator{
 
 
 	public function test(){
-		return "i made it to match-gen";
+		// echo "i made it to match-gen";
 	}
 	/**
 	 * Create a new controller instance.
@@ -33,29 +33,23 @@ class MatchGenerator{
 	 * @param priority list for this generator
 	 * @return void
 	 */
-	public function __construct($participants,$mustList,$priority)
+	public function __construct($mustList,$priority)
 	{
-		categorize($participants);
+		// $this->mentors = $mentors;
+		// $this->seniors = $seniors;
+		// $this->juniors = $juniors;
+		// grab all the ids for mentor, senior and student from db
+
+		// mock up now
+		$this->mentors = array(1,4);
+		$this->seniors = array(2,5);
+		$this->juniors = array(3,6);
+
+
+
 		$this->mustList = $mustList;
 		$this->priority = $priority;
 	}
-	/**
-	 * seperate participants in to mentor, senior student and junior student
-	 *
-	 * @param list of participants 
-	 * 
-	 * @return satisfaction rate 
-	 */
-	public function categorize($participants){
-		// parse $participants in a way such that we categorize them 
-		//TODO
-
-		//dummy actions 
-		$this->mentors = array();
-		$this->seniors = array();
-		$this->juniors = array();
-	}
-
 
 	/**
 	 * start point of the generation of result 
@@ -64,10 +58,12 @@ class MatchGenerator{
 	 */
 	
 	public function generate(){
-		generateTable();
-
-		$result = doTheMatch($this->mentors,$this->seniors,$this->juniors);
-
+		$this->test();
+		$this->generateTable();
+		echo "done table";
+		var_dump($this->$MentorSatTable);
+		$result = $this->doTheMatch(array(1,4),array(2,5),array(3,6));
+		echo "wat.2";
 		return $result;
 	}
 
@@ -83,15 +79,16 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
+
 		// match a mentor each time
 		$target = $mentors[0];
 		// base case 	
 		if (count($mentors) == 1){
 			// return the key with the maxx vlaue 
 			//should sotre the key somewhere for backtracking
-			$key = maxAvailiable($MentorSatTable[$target]); 
+			$key = $this->maxAvailiable($MentorSatTable[$target]); 
 
-			$value = $MentorSatTable[$target][$key]; 
+			$value = $this->$MentorSatTable[$target][$key]; 
 			return $value;
 		}else{
 			// find max of all combination for this mentor at this level 
@@ -102,20 +99,20 @@ class MatchGenerator{
 			// for all the match possible for this mentor, for example, <mentorA, seniorA, junior A>
 			// call doTheMatch($mentors - mentorA ,$seniors - SeniorA ,$juniors - JuniorA )
 			// return the maximum value of the cases 
-			$mod_mentors = array_without($mentors,$target);
+			$mod_mentors = $this->array_without($mentors,$target);
 			foreach ($seniors as $senior) {
 				foreach ($juniors as $junior) {
 					// call dotheMatch 
-					$mod_seniors = array_without($seniors,$senior);
-					$mod_juniors = array_without($juniors,$junior);
+					$mod_seniors = $this->array_without($seniors,$senior);
+					$mod_juniors = $this->array_without($juniors,$junior);
 					$key = $target . "," . $senior . "," . $junior;
-					$temp = $MentorSatTable[$target][$key] + doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
+					$temp = $this->$MentorSatTable[$target][$key] + $this->doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
 					$result[] = $temp; 
 				}
 			}
 			// not using this mentor
 			// call doTheMatch without this mentor, senior and junior remains 
-			$without = doTheMatch($mod_mentors,$seniors,$juniors);
+			$without = $this->doTheMatch($mod_mentors,$seniors,$juniors);
 			$with = max($result);
 
 			if($with > $without){
@@ -148,7 +145,7 @@ class MatchGenerator{
 	 *
 	 * @return the key that holds the maximum value in $targetArray
 	 */
-	public function maxAvailiable($seniors,juniors,$targetArray){
+	public function maxAvailiable($seniors,$juniors,$targetArray){
 		$temp = $targetArray;
 		// sort it low to high
 		arsort($temp);
@@ -164,12 +161,6 @@ class MatchGenerator{
 		}
 		return $result;
 	}
-
-
-
-
-
-
 
 	/**
 	 * compute the satisfaction of ALL possible combination 
@@ -189,11 +180,21 @@ class MatchGenerator{
 			foreach ($this->seniors as $senior) {
 				foreach ($this->juniors as $junior) {
 					$key = $mentor . "," . $senior . "," . $junior;
-					$satisfaction = trioMatch($mentor,$senior,$student);
-					if
+					$satisfaction = $this->trioMatch($mentor,$senior,$junior);
+					// if ($satisfaction > 49){
+						$temp[$key] = $satisfaction;
+					// } 
 				}
 			}
 			$this->MentorSatTable[$mentor] = $temp;
+		}
+
+		foreach ($this->MentorSatTable as $key => $value) {
+			echo "mentor:".$key;
+			foreach ($key as $innerkey => $innervalue) {
+				echo "combination : ".$innerkey;
+				echo "satisfaction : ".$innervalue;
+			}
 		}
 	}
 
@@ -207,13 +208,12 @@ class MatchGenerator{
 	 * @return satisfaction rate 
 	 */
 	public function trioMatch($personA, $personB, $personC){
-		$A = getPersonWithID($personA);
-		$B = getPersonWithID($personB);
-		$C = getPersonWithID($personC);
-
-		$total = match($A,$B) + 
-				 match($B,$C) +
-				 match($A,$C);
+		$A = $this->getPersonWithID($personA);
+		$B = $this->getPersonWithID($personB);
+		$C = $this->getPersonWithID($personC);
+		$total = $this->match($A,$B) + 
+				 $this->match($B,$C) +
+				 $this->match($A,$C);
 		return $total / 3 ;
 	}
 
@@ -226,8 +226,66 @@ class MatchGenerator{
 	 */
 	public function getPersonWithID($id){
 		// get the person's info from db somehow 
-		$person = array();
-		return $person;
+		// mock up now
+		$william 	= array("LastName" => "hsiao",
+						 "FirstName" => "william",
+						 "pid" => "1",
+						 "StudentNumber" => "32574113",
+						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+						 "interest" => array("game", "bigdata", "whatever"));
+		$roy 		= array("LastName" => "hsiao",
+						 "FirstName" => "roy",
+						 "pid" => "2",
+						 "StudentNumber" => "32574113",
+						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+						 "interest" => array("game", "bigdata", "whatever"));
+		$billy		= array("LastName" => "hsiao",
+						 "FirstName" => "billy",
+						 "pid" => "3",
+						 "StudentNumber" => "32574113",
+						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+						 "interest" => array("game", "bigdata", "whatever"));
+		$niggaplz 	= array("LastName" => "hsiao",
+						 "FirstName" => "niggaplz",
+						 "pid" => "4",
+						 "StudentNumber" => "32574113",
+						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+						 "interest" => array("game", "bigdata", "whatever"));
+		$troy		= array("LastName" => "hsiao",
+						 "FirstName" => "troy",
+						 "pid" => "5",
+						 "StudentNumber" => "32574113",
+						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+						 "interest" => array("gafweme", "bifewfegdata", "whafewfewtever"));
+		$bob 		= array("LastName" => "hsiao",
+						 "FirstName" => "bob",
+						 "pid" => "6",
+						 "StudentNumber" => "32574113",
+						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+						 "interest" => array("game", "bigdata", "whatever"));
+
+		switch ($id){
+			case "1" :
+				return $william;
+				break;
+			case "2" :
+				return $roy;
+				break;
+			case "3" :
+				return $billy;
+				break;
+			case "4" :
+				return $niggaplz;
+				break;
+			case "5" :
+				return $troy;
+				break;
+			case "6" :
+				return $bob;
+				break;
+		}
+
+		// return $person;
 	}
 	/**
 	 * compute the satisfaction rate of two provided person 
@@ -243,7 +301,7 @@ class MatchGenerator{
 		foreach ($this->mustList as $m){
 			switch ($m){
 				case "KickOffAvailibility":
-					if (!dataAvalibility($personA["KickOffAvailibility"],$personB["KickOffAvailibility"])){
+					if (!$this->dataAvalibility($personA["KickOffAvailibility"],$personB["KickOffAvailibility"])){
 						echo "here 0 ";
 						return 0;
 					}
@@ -270,7 +328,7 @@ class MatchGenerator{
 		$priorityResult = 0;
 		
 		for($counter = 0 ; $counter < $length; $counter++){
-			$similiraity = array_similarity($personA[$this->priority[$counter]],$personB[$this->priority[$counter]]);
+			$similiraity = $this->array_similarity($personA[$this->priority[$counter]],$personB[$this->priority[$counter]]);
 			$priorityResult += $similiraity*$weighting;
 			$weighting++;
 		}
@@ -309,8 +367,6 @@ class MatchGenerator{
 			$temp = strtolower($temp);
 			array_push($a2_local, $temp);
 		}
-		var_dump($a1_local);
-		var_dump($a2_local);
 		$commonStringCount = count(array_intersect($a1_local, $a2_local));
 		$similiraitya1 = $commonStringCount/$lengtha1;
 		$similiraitya2 = $commonStringCount/$lengtha2;
