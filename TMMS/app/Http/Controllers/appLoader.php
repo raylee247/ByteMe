@@ -110,10 +110,12 @@ class appLoader extends Controller {
 
 
 
-    /**TODO: CHANGE DB SO THAT IT AUTO CREATES NEW TABLE EVERY YEAR
+    /**
      *
-     *
-     *
-     *
+     * insert application form answers into database
+     * {"name":"bob","gender":"female","age":5}
      */
+    public function newQuestions(){
+
+    }
 }
