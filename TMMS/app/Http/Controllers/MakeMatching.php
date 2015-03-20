@@ -18,49 +18,9 @@ class MakeMatching extends Controller {
 
 
 	public function generateMatchTest(){
-		$william 	= array("LastName" => "hsiao",
-						 "FirstName" => "william",
-						 "pid" => "1",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$roy 		= array("LastName" => "hsiao",
-						 "FirstName" => "roy",
-						 "pid" => "2",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$billy		= array("LastName" => "hsiao",
-						 "FirstName" => "billy",
-						 "pid" => "3",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$niggaplz 	= array("LastName" => "hsiao",
-						 "FirstName" => "niggaplz",
-						 "pid" => "4",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$troy		= array("LastName" => "hsiao",
-						 "FirstName" => "troy",
-						 "pid" => "5",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("gafweme", "bifewfegdata", "whafewfewtever"));
-		$bob 		= array("LastName" => "hsiao",
-						 "FirstName" => "bob",
-						 "pid" => "6",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-
-		$mentors = array($william,$niggaplz);
-		$seniors = array($roy,$troy);
-		$juniors = array($billy,$bob);
 		$must = array("KickOffAvailibility");
 		$priority = array("interest");
-		$generator = new MatchGenerator($mentors,$seniors,$juniors,$must,$priority);
+		$generator = new MatchGenerator($must,$priority);
 		echo $generator->generate();
 		return 0;
 	}
