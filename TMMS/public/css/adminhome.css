@@ -7,6 +7,14 @@ body, html {
     font-family: helvetica;
     font-weight: 100;
 }
+.main {
+    height:100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: auto;
+}
 .container {
     margin:0px;
     position: relative;
@@ -127,8 +135,7 @@ margin-top:10px;
  #sidebar ul li:hover li{
     display: block;
     }
-#sidebar ul li:hover ul li{
-    background: #ffffff;
+#sidebar ul li:hover ul{
 
 }
 

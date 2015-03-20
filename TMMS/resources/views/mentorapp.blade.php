@@ -9,6 +9,11 @@
 
                     <div class="panel-body">
                         Welcome to mentor application form!
+
+
+Welcome <?php echo $name . " " . $email; ?><br>
+
+
                     </div>
                 </div>
             </div>
