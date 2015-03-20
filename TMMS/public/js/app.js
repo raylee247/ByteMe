@@ -1,7 +1,15 @@
-// $("#ui-state-default").on("mousedown", function () {
-//     $(this).addClass("mouseDown");
-// }).on("mouseup", function () {
-//     $(this).removeClass("mouseDown");
-// });
+$(document).ready(function(){
+$('#otherfield').collapse('hide');    
+$('input[name="gender"]').change( function() {
+        
+        if ($('#other').is(":checked")){
 
-// var idsInOrder = $( "#ui-state-default" ).sortable("toArray");
+            $('#otherfield').collapse('show');
+        
+        } else {
+            
+            $('#otherfield').collapse('hide');
+        }
+        
+  });
+});
