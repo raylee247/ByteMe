@@ -43,9 +43,8 @@ class StudentAppController extends Controller {
      */
     public function index2()    
     {
-        $email = $_POST['email'];
-        $name = $_POST['studentnum'];
-        return view('mentorapp',compact('email','name'));
+        $gender = $_POST['gender'];
+        return view('mentorapp',compact('gender'));
     }
 
 
