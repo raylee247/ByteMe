@@ -7,7 +7,18 @@
         <div class="panel panel-default">
             <div class="panel-heading"><center>Mentor Application Form</center></div>
             <div class="panel-body">
+
+
+
+<?php echo $studentnum . " " . $email . " " . $givenname . " " . $familyname . " " . $phone . " " . $phonealt . " " . 
+        $birthyear . " " . $additionalcomments_avail . " " . $mentorgender . " " . $programofstudy . " " .  $programofstudy_other
+         . " " . $yearofstudy . " " . $participation . " " . $coop  . " " . $cs_areasofinterest . " " .$hobbies_interest . " " .
+         $additionalcomments_questions   ?><br>
+
+    
+
                 <h2>Sign up to be a mentor<?php foreach($course as $g){ echo $g . "<br>";} ?></h2>
+
 
                 Thank you for your interest in becoming a mentor with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
 

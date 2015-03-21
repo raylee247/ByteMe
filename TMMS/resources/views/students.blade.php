@@ -2,15 +2,15 @@
 
 @section('content')
 
-    <div class="row">    
+    <div>    
         <div class="col-xs-8 col-xs-offset-2">
 
 <form action="students" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 		    <div class="input-group">
                 <div class="input-group-btn search-panel">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span id="search_concept">Filter by</span> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="junior students">Junior students</a></li>

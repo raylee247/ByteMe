@@ -29,13 +29,13 @@ Route::get('home', 'HomeController@index');
 //application forms
 
 Route::get('studentapp', 'StudentAppController@index');
-Route::post('mentorapp', 'StudentAppController@index2');
+Route::post('mentorapp', 'appLoaderController@test');
 
 Route::get('mentorapp', 'MentorAppController@index');
 
-Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@create']);
+// Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@create']);
 
-Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
+// Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
 
 // make admin
 Route::get('makeadmin', 'MakeAdminController@index');

@@ -35,17 +35,4 @@ class StudentAppController extends Controller {
     {
         return view('studentapp');
     }
-
-    /**
-     * Show the application welcome screen to the user.
-     *
-     * @return Response
-     */
-    public function index2()    
-    {
-        $course = $_POST['course'];
-        return view('mentorapp',compact('course'));
-    }
-
-
 }
