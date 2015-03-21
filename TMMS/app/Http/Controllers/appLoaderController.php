@@ -115,7 +115,35 @@ class appLoaderController extends Controller {
      * insert application form answers into database
      * {"name":"bob","gender":"female","age":5}
      */
-    public function newQuestions(){
+    public function test(){
+        $email = $_POST['email'];
+        $studentnum = $_POST['studentnum'];
+        $givenname = $_POST['givenname'];
+        $familyname = $_POST['familyname']; 
+        $phone = $_POST['phone'];
+        $phonealt = $_POST['phonealt'];
+        // $gender = $_POST['gender'];
+        $birthyear = $_POST['birthyear'];
+        // kickoff
+        $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        $mentorgender = $_POST['mentorgender'];
+        $programofstudy = $_POST['programofstudy'];
+        $programofstudy_other = $_POST['programofstudy_other'];
+        $yearofstudy = $_POST['yearofstudy'];
+        $participation = $_POST['participation'];
+        $coop = $_POST['coop'];
 
+        // $courses = $_POST['courses'];
+        // $futurecareer
+        $cs_areasofinterest = $_POST['cs_areasofinterest'];
+        $hobbies_interest = $_POST['hobbies_interest'];
+        $additionalcomments_questions = $_POST['additionalcomments_questions'];
+
+
+        return view('mentorapp',compact('email','studentnum','givenname', 'familyname', 'phone', 'phonealt', 'birthyear', 
+            'additionalcomments_avail', 'mentorgender', 'programofstudy', 'programofstudy_other', 'yearofstudy', 'participation',
+            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions'));
     }
+
 }
+
