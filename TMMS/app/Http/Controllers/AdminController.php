@@ -37,8 +37,12 @@ class AdminController extends Controller {
 
     public function studentsview()
     {
-        //SELECT FROM PARTICIPANTS FOR NOW
-        $result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')->get();
+        
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')->get();   
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')->get();
+                                                  
+        $result = array_merge($junior_result, $senior_result);
+
         return \View::make('students')->with('result', $result);
     }
    
