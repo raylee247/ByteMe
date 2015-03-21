@@ -13,6 +13,9 @@ require_once app_path('logger.php');
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('testEmail', 'testEmailController@index');
+
+Route::get('downloademails', 'testEmailController@downloadEmails');
 
 Route::get('testDBselect', 'testDBController@DBSelect');
 
