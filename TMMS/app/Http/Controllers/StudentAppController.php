@@ -43,8 +43,8 @@ class StudentAppController extends Controller {
      */
     public function index2()    
     {
-        $gender = $_POST['gender'];
-        return view('mentorapp',compact('gender'));
+        $course = $_POST['course'];
+        return view('mentorapp',compact('course'));
     }
 
 

@@ -39,23 +39,23 @@
           {{--</div><br><br> --}}
           {{--<div class="gender">--}}
           {{--<label class="control-label col-sm-3">Gender:</label>--}}
-          <form role="form">
-            <label class="radio-inline">
-              <input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male
-          </label>
-          <label class="radio-inline">
-              <input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Identify as female
-          </label>
-          <label class="radio-inline">
-              <input type="radio" name="gender" <?php if (isset($gender) && $gender=="other") echo "checked";?> class ="other" value="other">Other (please specify)
-          </label>
-            <div class="col-md-6" id="otherfield">
-           <label class="control-label col-sm-6">Gender (please specify):</label>
-            <div class="col-md-6 panel-collapse collapse in">
-           <input type="text" class="form-control" id="otherfield">
-          </div><br>
-          </div>
-      </form><br>
+          {{--<form role="form">--}}
+            {{--<label class="radio-inline">--}}
+              {{--<input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male--}}
+          {{--</label>--}}
+          {{--<label class="radio-inline">--}}
+              {{--<input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Identify as female--}}
+          {{--</label>--}}
+          {{--<label class="radio-inline">--}}
+              {{--<input type="radio" name="gender" <?php if (isset($gender) && $gender=="other") echo "checked";?> class ="other" value="other">Other (please specify)--}}
+          {{--</label>--}}
+            {{--<div class="col-md-6" id="otherfield">--}}
+           {{--<label class="control-label col-sm-6">Gender (please specify):</label>--}}
+            {{--<div class="col-md-6 panel-collapse collapse in">--}}
+           {{--<input type="text" class="form-control" id="otherfield">--}}
+          {{--</div><br>--}}
+          {{--</div>--}}
+      {{--</form><br>--}}
         {{--<label class="control-label col-sm-3">Year of birth (Optional):</label>--}}
             {{--<div class="col-md-6">--}}
            {{--<input type="text" class="form-control" id="birthyear">--}}
@@ -139,15 +139,12 @@
                 {{--<option id="other">Other</option> //TODO--}}
             {{--</select>--}}
         {{--</div><br>--}}
-    {{--<label class="control-label col-sm-4">Which of the following courses have you completed:</label>--}}
-    {{--<form role="form">--}}
-    {{--<label class="checkbox-inline">--}}
-      {{--<input type="checkbox" id="210">CPSC 210</label>--}}
-    {{--<label class="checkbox-inline">--}}
-      {{--<input type="checkbox" id="213">CPSC 213</label>--}}
-    {{--<label class="checkbox-inline">--}}
-      {{--<input type="checkbox" id="221">CPSC 221</label>--}}
-  {{--</form><br>--}}
+    <label class="control-label col-sm-4">Which of the following courses have you completed:</label>
+    <form role="form">
+      <input type="checkbox" name="course[]" value="210">CPSC 210<label class="checkbox-inline"></label>
+      <input type="checkbox" name="course[]" value="213">CPSC 213<label class="checkbox-inline"></label>
+      <input type="checkbox" name="course[]" value="221">CPSC 221<label class="checkbox-inline"></label>
+  </form><br>
 
 {{--<form role="form">--}}
     {{--<div class="form-inline">--}}
