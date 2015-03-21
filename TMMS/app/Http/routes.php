@@ -65,7 +65,6 @@ Route::post('students', 'AdminController@studentSearch');
 //Route::get('currentmatch', '')
 //Route::get('savedmatches', '')
 Route::get('weight', 'weightController@index');
-Route::get('appEdit', 'appLoaderController@grabStudentApp');
 
 // application form ROUTES
 //Route::get('studentform', '')
@@ -74,6 +73,7 @@ Route::get('appEdit', 'appLoaderController@grabStudentApp');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
+Route::get('ray', 'profileController@deleteParticipant');
 //====
 
 Route::controllers([
