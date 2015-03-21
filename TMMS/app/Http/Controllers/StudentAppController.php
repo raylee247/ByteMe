@@ -35,5 +35,4 @@ class StudentAppController extends Controller {
     {
         return view('studentapp');
     }
-
 }

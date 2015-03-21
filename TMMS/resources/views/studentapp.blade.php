@@ -7,7 +7,7 @@
         <div class="panel panel-default">
             <div class="panel-heading"><center>Student Application Form</center></div>
             <div class="panel-body">
-                
+              
 // TODO : SET UP REQUIRED FIELDS AND FIELD TYPES, POST VARIABLES (FIX ACTION URL)
 <form class="form-horizontal" role="form" action="mentorapp" method="POST" >
     <div class="form-group">
@@ -31,36 +31,35 @@
            <div class="col-md-6">
             <input type="text" class="form-control" name="phone">
           </div><br><br> 
-         <label class="control-label col-sm-3">Phone(alternate):</label>
+         <label class="control-label col-sm-3">Phone (alternate):</label>
            <div class="col-md-6">
             <input type="text" class="form-control" name="phonealt">
           </div><br><br> 
+
           <div class="gender">
-          <label class="control-label col-sm-3">Gender:</label>
-          <form role="form">
-            <label class="radio-inline">
-              <input type="radio" name="gender" id="male">Identify as male
-          </label>
-          <label class="radio-inline">
-              <input type="radio" name="gender" id="female">Identify as female
-          </label>
-          <label class="radio-inline">
-              <input type="radio" name="gender" class ="other" id="other">Other (please specify)
-          </label>
-            <div class="col-md-6" id="otherfield">
-           <label class="control-label col-sm-6">Gender (please specify):</label>
-            <div class="col-md-6 panel-collapse collapse in">
-           <input type="text" class="form-control" name="gender" id="otherfield">
-          </div><br>
-          </div>
-      </form><br>
+            <label class="control-label col-sm-3">Gender:</label>
+            <form role="form">
+            <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male</label>
+            <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Identify as female</label>
+            <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other (please specify)</label>
+            <div class="genderother" id="otherfield">
+             <label class="control-label col-sm-3">Gender (please specify):</label> //TODO : FIX ALIGNMENT
+             <div class="col-md-6 panel-collapse collapse in">
+               <input type="text" class="form-control" name="gender" id="otherfield">
+             </div>
+           </div>
+         </div><br>
+
         <label class="control-label col-sm-3">Year of birth (Optional):</label>
-            <div class="col-md-6">
+          <div class="col-md-6">
            <input type="text" class="form-control" name="birthyear">
           </div><br><br> 
         <label class="control-label col-sm-3">Kickoff event availability</label>
-         <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their student/mentor matches. There are 3 different event dates to choose from. All evenings follow the same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please indicate your availability for the following dates:
-       </div> 
+         <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their 
+          student/mentor matches. There are 3 different event dates to choose from. All evenings follow the 
+          same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please 
+          indicate your availability for the following dates:
+        </div> 
         <table class="table table-hover" style="width:90%">
             <tr>
                 <th></th>
@@ -91,10 +90,12 @@
                 <td><center><input type="radio" name="daythree" id="kickoff_notavail_c"></center>
             </tr>
         </table><br>
+
         <div class="form-inline">
             <label class="control-label col-sm-3">Additional comments regarding availability?</label>
             <textarea name="additionalcomments_avail" class="form-control" rows="5" cols="90" ></textarea><br>
         </div> <br>
+
         <div class="form-inline">
             <label class="control-label col-sm-3">Mentor gender preference:</label>
             <select class="form-control" name="mentorgender">
@@ -103,10 +104,11 @@
                 <option id="malepref">Match with male mentor only</option>
             </select>
         </div><br>
+
         <div class="form-inline">
             <label class="control-label col-sm-3">Program of study:</label>
             <select class="form-control" name="programofstudy">
-                <option id="program_none">- None -</option>
+                <option id="program_none">None</option>
                 <option id="ba_cs">BA, Computer Science</option>
                 <option id="bcomm_combined_cs">BComm, Combined Business / Computer Science (BUCS)</option>
                 <option id="bcs_second">BCS (Bachelor of CS, 2nd Degree)</option>
@@ -119,37 +121,39 @@
                 <option id="bsc_cs_phys">BSc, Combined Major (Computer Science and Physics)</option>
                 <option id="bsc_combined_cs_other">BSc, Combined Major (Computer Science and Another Science Subject)</option>
                 <option id="bsc_honours_cs">BSc, Honours Computer Science</option>
+                <option id="other">Other (please specify)</option>
             </select>
         </div><br>
+
         <div class="form-inline">
-            <label class="control-label col-sm-3">Program of study (other):</label>
+            <label class="control-label col-sm-3">Program of study (other):</label> // TODO: DROPDOWN WHEN OTHER IS SELECTED
             <input type="text" class="form-control" name="programofstudy_other">
         </div><br> 
 
         <div class="form-inline">
-            <label class="control-label col-sm-3">Year of study:</label>
+            <label class="control-label col-sm-3">Year of study:</label> // TODO: OTHER
             <select class="form-control" name="yearofstudy">
                 <option id="year_none">- None -</option>
                 <option id="firstyr">1st year</option>
                 <option id="secondyr">2nd year</option>
                 <option id="thirdyr">3rd year</option>
                 <option id="fourthyr">4th year</option>
-                <option id="other">Other</option> //TODO
+                <option id="other">Other</option> 
             </select>
         </div><br>
-    <label class="control-label col-sm-4">Which of the following courses have you completed:</label>
-    <form role="form">
-    <label class="checkbox-inline">
-      <input type="checkbox" name="courses[]" id="210">CPSC 210</label>
-    <label class="checkbox-inline">
-      <input type="checkbox" name="courses[]" id="213">CPSC 213</label>
-    <label class="checkbox-inline">
-      <input type="checkbox" name="courses[]" id="221">CPSC 221</label>
-  </form><br>
+
+<label class="control-label col-sm-4">Which of the following courses have you completed:</label>
+<form role="form">
+  <label class="checkbox-inline">
+<input type="checkbox" name="course[]" value="" checked="checked" style="display:none"></label>
+<input type="checkbox" name="course[]" value="210">CPSC 210<label class="checkbox-inline"></label>
+<input type="checkbox" name="course[]" value="213">CPSC 213<label class="checkbox-inline"></label>
+<input type="checkbox" name="course[]" value="221">CPSC 221<label class="checkbox-inline"></label>
+</form><br>
 
     <div class="form-inline">
     <label class="control-label col-sm-4">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
-      <select class="form-control" name="participation">
+    <select class="form-control" name="participation">
       <option id="previousmatched_no">No, I have not participated before</option>
       <option id="previousmatched_junior">Yes, as a junior student</option>
       <option id="previousmatched_senior">Yes, as a senior student</option>
@@ -157,39 +161,31 @@
     </select>
     </div><br>
 
-    <div class="form-inline">
-        <label class="control-label col-sm-4">Co-op status:</label>
+        <label class="control-label col-sm-1">Co-op status:</label> // TODO: FIX ALIGNMENT
         <select class="form-control" name="coop">
-          <option id="coop_completed">Have completed all co-op terms</option>
-          <option id="coop_current">Currently a co-op student</option>
-          <option id="coop_interested">Not a co-op student, but interested in joining co-op</option>
-          <option id="coop_no">Not a co-op student</option>
-      </select>
-  </div><br>
+          <option value="coop_completed">Have completed all co-op terms</option>
+          <option value="coop_current">Currently a co-op student</option>
+          <option value="coop_interested">Not a co-op student, but interested in joining co-op</option>
+          <option value="coop_no">Not a co-op student</option>
+      </select><br>
+
+
+
+
 
     <label class="control-label col-sm-4">Future career plans (choose all that apply):</label>
     <form role="form">
-    <div class="col-md-6">
-    <div class="checkbox">
-      <label><input type="checkbox" id="work_cs">Work in CS-related job immediately after graduation</label>
-    </div>
-        <div class="checkbox">
-      <label><input type="checkbox" id="work_startup">Work for a start-up</label>
-    </div>
-        <div class="checkbox">
-      <label><input type="checkbox" id="work_ownbusiness">Own my own business</label>
-    </div>
-        <div class="checkbox">
-      <label><input type="checkbox" id="masters_phd">Complete a Master's or PhD</label>
-    </div>
-        <div class="checkbox">
-      <label><input type="checkbox" id="work_academic">Work as an academic</label>
-    </div>
-        <div class="checkbox">
-      <label><input type="checkbox" id="career_unsure">Career plans still unsure</label>
-        </div>
-    </div>
-  </form><br>
+      <div class="col-md-6">
+        <input type="checkbox" name="careerplan[]" value="" checked="checked" style="display:none"></label>
+        <input type="checkbox" name="careerplan[]" value="work_cs">Work in CS-related job immediately after graduation <br>
+        <input type="checkbox" name="careerplan[]" value="work_startup">Work for a start-up<br>
+        <input type="checkbox" name="careerplan[]" value="work_ownbusiness">Own my own business<br>
+        <input type="checkbox" name="careerplan[]" value="masters_phd">Complete a Master's or PhD<br>
+        <input type="checkbox" name="careerplan[]" value="work_academic">Work as an academic<br>
+        <input type="checkbox" name="careerplan[]" value="career_unsure">Career plans still unsure<br>
+        <input type="checkbox" name="careerplan[]" value="other">Other (please specify) // TODO: DROPDOWN<br>
+      </div>
+    </form><br>
 
         <div class="form-inline">
             <label class="control-label col-sm-3">Computer Science areas of interest (please enter as comma-separated list):</label>
@@ -205,15 +201,13 @@
             <label class="control-label col-sm-3">Additional questions or comments?</label>
             <textarea rows="5" cols="90" name="additionalcomments_questions" id="additionalcomments_questions"></textarea><br>
         </div> <br>
-      </form>
-  </div><br><br> 
-</form>
 
-<center><button type="submit" class="btn btn-primary">Submit Application</button></center>
-</div>
-</form>
-</div>
-</div>
-</div>
+        <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
+  </div><br>
+
+
+
+
+ </div></div></div>
 
 @endsection
