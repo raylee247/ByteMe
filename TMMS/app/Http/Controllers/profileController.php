@@ -14,7 +14,7 @@ class profileController extends Controller {
 	 */
 	public function index()
 	{
-		//
+
 	}
 
 	/**
@@ -34,7 +34,21 @@ class profileController extends Controller {
 	 */
 	public function deleteParticipant()
 	{
-		//
+        //retrieve email to do query on the participant to remove (email cause it is shared primary key)
+		//$email = $_GET['email'];
+        //$year = date("Y");
+        $email = "willy504@gmail.com";
+        $year = "2014";
+        $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->delete();
+
+        //check if correctly removed
+        if($rawApp > 1){
+            $response = "removed too many";
+        }if($rawApp < 1) {
+            $response = "did nothing";
+        }else{
+            $response = "removed participant";
+        }
 	}
 
 	/**
@@ -84,7 +98,19 @@ class profileController extends Controller {
      */
     public function removeYearData()
     {
-        //
+        //retrieve email to do query on the participant to remove (email cause it is shared primary key)
+        //$email = $_GET['email'];
+        //$year = date("Y");
+        $email = "willy504@gmail.com";
+        $year = "2014";
+        $rawApp = \DB::table('participant')->where('year', $year)->delete();
+
+        //check if correctly removed
+        if($rawApp < 1) {
+            $response = "Did nothing";
+        }else{
+            $response = "Removed all participant data for " . $year;
+        }
     }
 
 }

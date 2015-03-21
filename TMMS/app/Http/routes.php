@@ -13,6 +13,9 @@ require_once app_path('logger.php');
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('testEmail', 'testEmailController@index');
+
+Route::get('downloademails', 'testEmailController@downloadEmails');
 
 Route::get('testDBselect', 'testDBController@DBSelect');
 
@@ -65,7 +68,6 @@ Route::post('students', 'AdminController@studentSearch');
 //Route::get('currentmatch', '')
 //Route::get('savedmatches', '')
 Route::get('weight', 'weightController@index');
-Route::get('appEdit', 'appLoaderController@grabStudentApp');
 
 // application form ROUTES
 //Route::get('studentform', '')
@@ -74,6 +76,7 @@ Route::get('appEdit', 'appLoaderController@grabStudentApp');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
+Route::get('ray', 'profileController@deleteParticipant');
 //====
 
 Route::controllers([

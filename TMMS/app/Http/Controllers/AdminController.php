@@ -93,13 +93,35 @@ class AdminController extends Controller {
         //         echo "<br>";
         //     }
         // }
-        //test 
-        $result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
-                                           ->where('First name', 'LIKE', '%'.$text.'%')
-                                           ->orWhere('Family name', 'LIKE', '%'.$text.'%')
-                                           ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
-                                           ->orWhere('csid', 'LIKE', '%'.$text.'%')
-                                           ->get();
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('First name', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('csid', 'LIKE', '%'.$text.'%')
+                                                  ->get();
+
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('First name', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('csid', 'LIKE', '%'.$text.'%')
+                                                  ->get();
+        
+        if (strcmp($dropdown, "junior students") == 0) 
+        {
+            //result query - joins participant table with junior student 
+            $result = $junior_result;
+        }
+
+        else if (strcmp($dropdown, "senior students") == 0) 
+        {
+            //result query - joins participant table with senior student 
+            $result = $senior_result;
+        }
+        else 
+        {
+            $result = array_merge($junior_result, $senior_result);
+        }
 
         return \View::make('students')->with('result', $result);
     }
