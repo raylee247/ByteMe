@@ -116,13 +116,14 @@ class appLoaderController extends Controller {
      * {"name":"bob","gender":"female","age":5}
      */
     public function test(){
+
         $email = $_POST['email'];
         $studentnum = $_POST['studentnum'];
         $givenname = $_POST['givenname'];
         $familyname = $_POST['familyname']; 
         $phone = $_POST['phone'];
         $phonealt = $_POST['phonealt'];
-        // $gender = $_POST['gender'];
+        $gender = $_POST['gender'];
         $birthyear = $_POST['birthyear'];
         // kickoff
         $additionalcomments_avail = $_POST['additionalcomments_avail'];
@@ -133,8 +134,8 @@ class appLoaderController extends Controller {
         $participation = $_POST['participation'];
         $coop = $_POST['coop'];
 
-        // $courses = $_POST['courses'];
-        // $futurecareer
+        $course = $_POST['course'];
+        $futurecareer = $_POST['careerplan'];
         $cs_areasofinterest = $_POST['cs_areasofinterest'];
         $hobbies_interest = $_POST['hobbies_interest'];
         $additionalcomments_questions = $_POST['additionalcomments_questions'];
@@ -142,7 +143,7 @@ class appLoaderController extends Controller {
 
         return view('mentorapp',compact('email','studentnum','givenname', 'familyname', 'phone', 'phonealt', 'birthyear', 
             'additionalcomments_avail', 'mentorgender', 'programofstudy', 'programofstudy_other', 'yearofstudy', 'participation',
-            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions'));
+            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender'));
     }
 
 }
