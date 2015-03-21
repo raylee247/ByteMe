@@ -20,11 +20,13 @@ class MatchGenerator{
 	protected $priority;
 
 	//table for values
-	protected $MentorSatTable;
+	protected $MentorSatTable = array();
 
 
 	public function test(){
-		// echo "i made it to match-gen";
+		// print("i made it to match-gen \n");
+		// print ("test");
+		$this->getParticipant();
 	}
 	/**
 	 * Create a new controller instance.
@@ -38,8 +40,10 @@ class MatchGenerator{
 		// $this->mentors = $mentors;
 		// $this->seniors = $seniors;
 		// $this->juniors = $juniors;
+		
 		// grab all the ids for mentor, senior and student from db
-
+		// $this->getParticipants()
+		
 		// mock up now
 		$this->mentors = array(1,4);
 		$this->seniors = array(2,5);
@@ -50,6 +54,21 @@ class MatchGenerator{
 		$this->mustList = $mustList;
 		$this->priority = $priority;
 	}
+	/**
+	 * get participants from db and init class field
+	 * 
+	 * @Void
+	 */
+	public function getParticipant(){
+
+		$mentors = \DB::select("select pid from innodb.participant p ,innodb.mentor m where p.pid = m.mid");
+		$this->mentors = $mentors;
+		$seniors = \DB::select("select pid from innodb.participant p ,innodb.senior s where p.pid = s.sid");
+		$this->seniors = $seniors;
+		$juniors = \DB::select("select pid from innodb.participant p ,innodb.junior j where p.pid = j.jid");
+		$this->juniors = $juniors;
+	}
+
 
 	/**
 	 * start point of the generation of result 
@@ -59,12 +78,10 @@ class MatchGenerator{
 	
 	public function generate(){
 		$this->test();
-		$this->generateTable();
-		echo "done table";
-		var_dump($this->$MentorSatTable);
-		$result = $this->doTheMatch(array(1,4),array(2,5),array(3,6));
-		echo "wat.2";
-		return $result;
+		// $this->generateTable();
+		// $result = $this->doTheMatch(array(1,4),array(2,5),array(3,6));
+		// echo "DONE DO THE MATCH";
+		// return $result;
 	}
 
 	/**
@@ -79,16 +96,26 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
-
 		// match a mentor each time
-		$target = $mentors[0];
+		print ("\ndoTheMatch with parameter: ");
+		print ("mentor:");
+		var_dump($mentors);
+		print ("\n senior:");
+		var_dump($seniors);
+		print ("\n junior:");
+		var_dump($juniors);
+
+		$target = array_values($mentors)[0];
+		print ("\ntarget:");
+		print($target);
 		// base case 	
 		if (count($mentors) == 1){
 			// return the key with the maxx vlaue 
 			//should sotre the key somewhere for backtracking
-			$key = $this->maxAvailiable($MentorSatTable[$target]); 
+			$key = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]); 
+			print("\nhere");
+			$value = $this->MentorSatTable[$target][$key]; 
 
-			$value = $this->$MentorSatTable[$target][$key]; 
 			return $value;
 		}else{
 			// find max of all combination for this mentor at this level 
@@ -106,7 +133,11 @@ class MatchGenerator{
 					$mod_seniors = $this->array_without($seniors,$senior);
 					$mod_juniors = $this->array_without($juniors,$junior);
 					$key = $target . "," . $senior . "," . $junior;
-					$temp = $this->$MentorSatTable[$target][$key] + $this->doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
+					print("do matching with key:");
+					print($key);
+					// var_dump($this->MentorSatTable[$target][$key]);
+					$temp = $this->MentorSatTable[$target][$key] + $this->doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
+					echo "back";
 					$result[] = $temp; 
 				}
 			}
@@ -130,10 +161,12 @@ class MatchGenerator{
 	 *
 	 * @return the key that holds the maximum value in $targetArray
 	 */
-	public function array_without($array,$key){
+	public function array_without($array,$victim){
 		$result = $array; 
 		// something about unset
-		unset($result[$key]);
+		if(($key = array_search($victim, $array)) !== false) {
+	    	unset($result[$key]);
+		}
 		return $result;
 	}
 
@@ -148,6 +181,7 @@ class MatchGenerator{
 	public function maxAvailiable($seniors,$juniors,$targetArray){
 		$temp = $targetArray;
 		// sort it low to high
+
 		arsort($temp);
 		$result="";
 		$maximum = -1;
@@ -188,14 +222,8 @@ class MatchGenerator{
 			}
 			$this->MentorSatTable[$mentor] = $temp;
 		}
-
-		foreach ($this->MentorSatTable as $key => $value) {
-			echo "mentor:".$key;
-			foreach ($key as $innerkey => $innervalue) {
-				echo "combination : ".$innerkey;
-				echo "satisfaction : ".$innervalue;
-			}
-		}
+		print ("done generateTable with table:\n");
+		var_dump($this->MentorSatTable);
 	}
 
 	/**
@@ -226,6 +254,25 @@ class MatchGenerator{
 	 */
 	public function getPersonWithID($id){
 		// get the person's info from db somehow 
+		$query_mentor = 'select * from innodb.participant p ,innodb.mentor m where p.pid = m.mid and p.pid ='.$id;
+		$query_senior = 'select * from innodb.participant p ,innodb.senior s where p.pid = s.sid and p.pid ='.$id;
+		$query_junior = 'select * from innodb.participant p ,innodb.junior j where p.pid = j.jid and p.pid ='.$id;
+
+		$result_mentor = \DB::select($query_mentor);
+		$result_senior = \DB::select($query_senior);
+		$result_junior = \DB::select($query_junior);
+
+		if(count($result_mentor)>0){
+			return $result_mentor[0];
+		}elseif(count($result_senior)>0){
+			return $result_senior[0];
+		}elseif(count($result_junior)>0){
+			return $result_junior[0];
+		}else{
+			return "bad";
+		}
+
+
 		// mock up now
 		$william 	= array("LastName" => "hsiao",
 						 "FirstName" => "william",

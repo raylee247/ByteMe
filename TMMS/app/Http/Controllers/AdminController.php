@@ -37,7 +37,9 @@ class AdminController extends Controller {
 
     public function studentsview()
     {
-        return view('students');
+        //SELECT FROM PARTICIPANTS FOR NOW
+        $result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')->get();
+        return \View::make('students')->with('result', $result);
     }
    
     public function mentorsview()
@@ -58,29 +60,48 @@ class AdminController extends Controller {
         return \View::make('log')->with('result',$result);
     }
 
-    public function studentSearch(){
+    public function studentSearch()
+    {
         $dropdown = $_POST['search_param'];
         $text = $_POST['text'];
-        $pattern = '/([1-9][0-9]{7})|([a-z][0-9][a-z][0-9])|([a-zA-Z]+\ ?[a-zA-Z]*)/';
+        //validates search param 
+        // $pattern = '/([1-9][0-9]{7})|([a-z][0-9][a-z][0-9])|([a-zA-Z]+\ ?[a-zA-Z]*)/';
 
-        preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+        // preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
 
-        $matches = $matches[0][0];
-        if(strcmp($text, $matches) != 0){
-            echo "input error, please make sure the input value is a name, student number or cs-id";
-        }else{
-            if(strcmp($dropdown, "junior students") == 0){
-                echo "search junior student";
-            }
+        // $matches = $matches[0][0];
+        // if(strcmp($text, $matches) != 0)
+        // {
+        //     echo "input error, please make sure the input value is a name, student number or cs-id";
+        // }
+        // else
+        // {
+        //     if(strcmp($dropdown, "junior students") == 0){
+        //         echo "search junior student";
+        //     }
 
-            if(strcmp($dropdown, "senior students") == 0){
-                echo "search senior student";
-            }
+        //     if(strcmp($dropdown, "senior students") == 0){
+        //         echo "search senior student";
+        //     }
 
-            if(strcmp($dropdown, "all") == 0){
-                echo "search all";
-            }
-        }
+        //     if(strcmp($dropdown, "all") == 0){
+        //         echo $dropdown; 
+        //         echo "<br>";
+        //         echo $text;
+        //         echo "<br>";
+        //         echo $pattern;
+        //         echo "<br>";
+        //     }
+        // }
+        //test 
+        $result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                           ->where('First name', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('csid', 'LIKE', '%'.$text.'%')
+                                           ->get();
+
+        return \View::make('students')->with('result', $result);
     }
 
     public function downloadcsv()
