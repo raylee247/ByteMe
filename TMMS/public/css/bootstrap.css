@@ -2328,7 +2328,7 @@ th {
   background-color: #f9f9f9;
 }
 .table-hover > tbody > tr:hover {
-  background-color: #f5f5f5;
+  background-color: #DBDBDB;
 }
 table col[class*="col-"] {
   position: static;
@@ -5549,6 +5549,7 @@ a.list-group-item-danger.active:focus {
 }
 .panel-default {
   border-color: #ddd;
+  margin-right: 20px;
 }
 .panel-default > .panel-heading {
   color: #333;
