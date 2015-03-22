@@ -116,56 +116,75 @@ class appLoaderController extends Controller {
      * {"name":"bob","gender":"female","age":5}
      */
     public function studenttest(){
+        //all participants attributes
+//        $givenname = $_POST['givenname'];
+//        $familyname = $_POST['familyname'];
+//        $gender = $_POST['gender'];
+//        //kickoff
+//        $day1 = $_POST['day1'];
+//        $day2 = $_POST['day2'];
+//        $day3 = $_POST['day3'];
+//        $additionalcomments_avail = $_POST['additionalcomments_avail'];
+//        $email = $_POST['email'];
+//        $phone = $_POST['phone'];
+//        $phonealt = $_POST['phonealt'];
+//        $birthyear = $_POST['birthyear'];
+//        $mentorgender = $_POST['mentorgender'];
+//        $participation = $_POST['participation'];
 
-        $email = $_POST['email'];
-        $studentnum = $_POST['studentnum'];
-        $givenname = $_POST['givenname'];
-        $familyname = $_POST['familyname']; 
-        $phone = $_POST['phone'];
-        $phonealt = $_POST['phonealt'];
-        $gender = $_POST['gender'];
-        $birthyear = $_POST['birthyear'];
-        //kickoff
-        $day1 = $_POST['day1'];
-        $day2 = $_POST['day2'];
-        $day3 = $_POST['day3'];
-        $additionalcomments_avail = $_POST['additionalcomments_avail'];
-        $mentorgender = $_POST['mentorgender'];
-        $programofstudy = $_POST['programofstudy'];
-        $programofstudy_other = $_POST['programofstudy_other'];
-        $yearofstudy = $_POST['yearofstudy'];
-        $participation = $_POST['participation'];
-        $coop = $_POST['coop'];
-        $course = $_POST['course'];
-        $careerplan = $_POST['careerplan'];
-        $cs_areasofinterest = $_POST['cs_areasofinterest'];
-        $hobbies_interest = $_POST['hobbies_interest'];
-        $additionalcomments_questions = $_POST['additionalcomments_questions'];
+        //student only
+//        $studentnum = $_POST['studentnum'];
+//        $yearofstudy = $_POST['yearofstudy'];
+//        $programofstudy = $_POST['programofstudy'];
+//        $programofstudy_other = $_POST['programofstudy_other'];
+//        $course = $_POST['course']; //array
+//        $coop = $_POST['coop'];
+
+        //extra questions
+//        $careerplan = $_POST['careerplan']; //array
+//        $cs_areasofinterest = $_POST['cs_areasofinterest'];
+//        $hobbies_interest = $_POST['hobbies_interest'];
+//        $additionalcomments_questions = $_POST['additionalcomments_questions'];
 
 
-        return view('mentorapp',compact('email','studentnum','givenname', 'familyname', 'phone', 'phonealt', 'birthyear', 
-            'additionalcomments_avail', 'mentorgender', 'programofstudy', 'programofstudy_other', 'yearofstudy', 'participation',
-            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender', 'careerplan', 'day1', 'day2', 'day3'));
+//        return view('mentorapp',compact('email','studentnum','givenname', 'familyname', 'phone', 'phonealt', 'birthyear',
+//            'additionalcomments_avail', 'mentorgender', 'programofstudy', 'programofstudy_other', 'yearofstudy', 'participation',
+//            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender', 'careerplan', 'day1', 'day2', 'day3'));
+
+        if(count($course)==4){
+            $status = "Senior";
+        }else{
+            $status = "Junior";
+        }
+        //TODO make a check to see if past deadline date for waitlist
+
+
     }
 
     public function mentortest(){
-        $email = $_POST['email'];
+        //all participants attributes
         $givenname = $_POST['givenname'];
-        $familyname = $_POST['familyname']; 
-        $phone = $_POST['phone'];
-        $phonealt = $_POST['phonealt'];
+        $familyname = $_POST['familyname'];
         $gender = $_POST['gender'];
-        $birthyear = $_POST['birthyear'];
-        $studentgenderpref = $_POST['studentgenderpref'];
         //kickoff
         $day1 = $_POST['day1'];
         $day2 = $_POST['day2'];
         $day3 = $_POST['day3'];
         $additionalcomments_avail = $_POST['additionalcomments_avail'];
-        $employmentstatus = $_POST['employmentstatus'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $phonealt = $_POST['phonealt'];
+        $birthyear = $_POST['birthyear'];
+        $studentgenderpref = $_POST['studentgenderpref'];
+        $participation = $_POST['participation'];
+
+        //mentor only attributes
+        $employmentstatus = $_POST['employmentstatus']; //array
         $yearsofcswork = $_POST['yearsofcswork'];
         $levelofeducation = $_POST['levelofeducation'];
         $cs_areasofinterest = $_POST['cs_areasofinterest'];
+
+        //extra questions
         $hobbies_interest = $_POST['hobbies_interest'];
         $alumnus = $_POST['alumnus'];
         $additionalcomments_questions = $_POST['additionalcomments_questions'];

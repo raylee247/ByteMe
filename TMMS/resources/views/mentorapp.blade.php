@@ -105,6 +105,15 @@
                     <textarea class="form-control" rows="5" cols="90" name="additionalcomments_avail"></textarea><br>
                 </div> <br>
 
+                        <label class="control-label col-sm-4">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
+                        <select class="form-control" name="participation" >
+                            <option id="previousmatched_no">No, I have not participated before</option>
+                            <option id="previousmatched_junior">Yes, as a junior student</option>
+                            <option id="previousmatched_senior">Yes, as a senior student</option>
+                            <option id="previousmatched_both">Both junior and senior student</option>
+                        </select>
+                        <br>
+
                 <label class="control-label col-sm-4">Current employment status (check all that apply):</label>
                   <form role="form">
                       <div class="col-md-6">
