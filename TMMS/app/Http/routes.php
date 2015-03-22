@@ -34,10 +34,6 @@ Route::post('studentapp', 'appLoaderController@mentortest');
 
 Route::get('mentorapp', 'MentorAppController@index');
 
-// Route::get('submit', ['as' => 'studentapp', 'uses' => 'StudentAppController@create']);
-
-// Route::post('submit', ['as' => 'studentapp_store', 'uses' => 'StudentAppController@store']);
-
 // make admin
 Route::get('makeadmin', 'MakeAdminController@index');
 Route::post('makeadmin', 'MakeAdminController@store');
