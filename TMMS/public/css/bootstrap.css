@@ -5640,6 +5640,7 @@ a.list-group-item-danger.active:focus {
 }
 .panel-danger {
   border-color: #ebccd1;
+  margin-right: 20px;
 }
 .panel-danger > .panel-heading {
   color: #a94442;
@@ -5733,7 +5734,6 @@ button.close {
   overflow: hidden;
 }
 .modal {
-  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -5786,7 +5786,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: -1;
   background-color: #000;
 }
 .modal-backdrop.fade {
