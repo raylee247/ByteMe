@@ -9,16 +9,11 @@
             <div class="panel-body">
 
 
-<!-- REMOVE lines 13-16 after db insert is good ; for testing purposes -->
-<!-- displays the application form data from mentor application -->
-<?php echo $email . " " . $givenname . " " . $familyname . " " . $phone . " " . $phonealt . " " . $gender . " " . $birthyear . " " . 
-$studentgenderpref . " " . $day1 . " " . $day2 . " " . $day3 . " " . $additionalcomments_avail . " " . $yearsofcswork . " " . $levelofeducation 
-. " " . $cs_areasofinterest . " " .$hobbies_interest . " " . $alumnus . " " . $additionalcomments_questions ?><br>
-  <?php foreach($employmentstatus as $m){ echo $m . "<br>";} ?>
 
-              <h2>Sign up to be a mentor</h2>
 
-                Thank you for your interest in becoming a mentor with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
+              <h2>Sign up to be a Student</h2>
+
+                Thank you for your interest in becoming a student with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
 
               
 // TODO : SET UP REQUIRED FIELDS AND FIELD TYPES, POST VARIABLES (FIX ACTION URL)

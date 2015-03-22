@@ -73,7 +73,7 @@ Route::get('weight', 'weightController@index');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
-Route::get('ray', 'profileController@toWaitlistPool');
+Route::get('ray', 'appLoaderController@studenttest');
 //====
 
 Route::controllers([
