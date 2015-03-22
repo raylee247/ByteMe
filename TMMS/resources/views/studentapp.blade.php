@@ -27,6 +27,10 @@
            <div class="col-md-6">
           <input type="text" class="form-control" name="studentnum">
           </div><br><br> 
+          <label class="control-label col-sm-3">Computer Science ID:</label>
+           <div class="col-md-6">
+          <input type="text" class="form-control" name="csid">
+          </div><br><br> 
          <label class="control-label col-sm-3">Given name:</label>
            <div class="col-md-6">
             <input type="text" class="form-control" name="givenname">
