@@ -35,10 +35,10 @@ class profileController extends Controller {
 	public function deleteParticipant()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-		//$email = $_GET['email'];
-        //$year = date("Y");
-        $email = "willy504@gmail.com";
-        $year = "2014";
+		$email = $_GET['email'];
+        $year = date("Y");
+        //$email = "willy504@gmail.com";
+        //$year = "2014";
         $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->delete();
 
         //check if correctly removed
@@ -56,9 +56,23 @@ class profileController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function toWaitlist()
+	public function toWaitlistPool()
 	{
-		//
+        //retrieve email to do query on the participant to remove (email cause it is shared primary key)
+        //$email = $_GET['email'];
+        //$year = date("Y");
+        $email = "willy504@gmail.com";
+        $year = "2014";
+        $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->update(array('waitlist'=> 1));
+
+        //check if correctly updated
+        if($rawApp > 1){
+            $response = "updated too many";
+        }if($rawApp < 1) {
+            $response = "did nothing";
+        }else{
+            $response = "Moved into waitlist pool";
+        }
 	}
 
 	/**
@@ -68,7 +82,18 @@ class profileController extends Controller {
 	 */
 	public function toParticipantPool()
 	{
-		//
+        $email = "willy504@gmail.com";
+        $year = "2014";
+        $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->update(array('waitlist' => 0));
+
+        //check if correctly updated
+        if($rawApp > 1){
+            $response = "updated too many";
+        }if($rawApp < 1) {
+            $response = "did nothing";
+        }else{
+            $response = "Moved into participant pool";
+        }
 	}
 
 	/**
@@ -81,15 +106,6 @@ class profileController extends Controller {
 		//
 	}
 
-	/**
-	 * Retrieve all participants in the waitlist to display
-	 *
-	 * @return Response
-	 */
-	public function getWaitlist()
-	{
-		//
-	}
 
     /**
      * Remove specified year's data from database
@@ -99,10 +115,8 @@ class profileController extends Controller {
     public function removeYearData()
     {
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-        //$email = $_GET['email'];
-        //$year = date("Y");
-        $email = "willy504@gmail.com";
-        $year = "2014";
+        $year = date("Y");
+        //$year = "2014";
         $rawApp = \DB::table('participant')->where('year', $year)->delete();
 
         //check if correctly removed
