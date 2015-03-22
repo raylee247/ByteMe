@@ -7,17 +7,30 @@
         <div class="panel panel-default">
             <div class="panel-heading"><center>Student Application Form</center></div>
             <div class="panel-body">
+
+
+<!-- REMOVE lines 13-16 after db insert is good ; for testing purposes -->
+<!-- displays the application form data from mentor application -->
+<?php echo $email . " " . $givenname . " " . $familyname . " " . $phone . " " . $phonealt . " " . $gender . " " . $birthyear . " " . 
+$studentgenderpref . " " . $day1 . " " . $day2 . " " . $day3 . " " . $additionalcomments_avail . " " . $yearsofcswork . " " . $levelofeducation 
+. " " . $cs_areasofinterest . " " .$hobbies_interest . " " . $alumnus . " " . $additionalcomments_questions ?><br>
+  <?php foreach($employmentstatus as $m){ echo $m . "<br>";} ?>
+
+              <h2>Sign up to be a mentor</h2>
+
+                Thank you for your interest in becoming a mentor with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
+
               
 // TODO : SET UP REQUIRED FIELDS AND FIELD TYPES, POST VARIABLES (FIX ACTION URL)
 <form class="form-horizontal" role="form" action="mentorapp" method="POST" >
     <div class="form-group">
          <label class="control-label col-sm-3">Email address:</label>
             <div class="col-md-6">
-           <input type="text" class="form-control" name="email">
+           <input type="text" class="form-control" name="email" >
           </div><br><br> 
          <label class="control-label col-sm-3">Student number:</label>
            <div class="col-md-6">
-           <input type="text" class="form-control" name="studentnum">
+          <input type="text" class="form-control" name="studentnum">
           </div><br><br> 
          <label class="control-label col-sm-3">Given name:</label>
            <div class="col-md-6">
@@ -38,14 +51,13 @@
 
           <div class="gender">
             <label class="control-label col-sm-3">Gender:</label>
-            <form role="form">
             <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male</label>
             <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Identify as female</label>
-            <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other (please specify)</label>
+            <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other (please specify)//TODO</label>
             <div class="genderother" id="otherfield">
              <label class="control-label col-sm-3">Gender (please specify):</label> //TODO : FIX ALIGNMENT
              <div class="col-md-6 panel-collapse collapse in">
-               <input type="text" class="form-control" name="gender" id="otherfield">
+               <input type="text" class="form-control" name="genderother" value="otherfield">
              </div>
            </div>
          </div><br>
@@ -70,24 +82,24 @@
             </tr>
             <tr>
                 <td><center>Wed. Sept. 24, 2014, from 5:45 - 7:45pm</center></td>
-                <td><center><input type="radio" name="dayone" id="kickoff_first_a"></center>
-                <td><center><input type="radio" name="dayone" id="kickoff_second_a"></center>
-                <td><center><input type="radio" name="dayone" id="kickoff_third_a"></center>
-                <td><center><input type="radio" name="dayone" id="kickoff_notavail_a"></center>
+                <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="firstchoice") echo "checked";?> value="firstchoice" ></center>
+                <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="secondchoice") echo "checked";?> value="secondchoice" ></center>
+                <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="thirdchoice") echo "checked";?>value="thirdchoice" ></center>
+                <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="fourthchoice") echo "checked";?>value="fourthchoice" ></center>
             </tr>
             <tr>
                 <td><center>Thurs. Sept. 25, 2014 from 5:45 - 7:45pm</center></td> 
-                <td><center><input type="radio" name="daytwo" id="kickoff_first_b"></center>
-                <td><center><input type="radio" name="daytwo" id="kickoff_second_b"></center>
-                <td><center><input type="radio" name="daytwo" id="kickoff_third_b"></center>
-                <td><center><input type="radio" name="daytwo" id="kickoff_notavail_b"></center>
+                <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="firstchoice") echo "checked";?> value="firstchoice" ></center>
+                <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="secondchoice") echo "checked";?> value="secondchoice" ></center>
+                <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="thirdchoice") echo "checked";?> value="thirdchoice" ></center>
+                <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="fourthchoice") echo "checked";?> value="fourthchoice" ></center>
             </tr>
             <tr>
                 <td><center>Thurs. Oct. 2, 2014, from 5:45 - 7:45pm</center></td>
-                <td><center><input type="radio" name="daythree" id="kickoff_first_c"></center>
-                <td><center><input type="radio" name="daythree" id="kickoff_second_c"></center>
-                <td><center><input type="radio" name="daythree" id="kickoff_third_c"></center>
-                <td><center><input type="radio" name="daythree" id="kickoff_notavail_c"></center>
+                <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="firstchoice") echo "checked";?> value="firstchoice" ></center>
+                <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="secondchoice") echo "checked";?> value="secondchoice" ></center>
+                <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="thirdchoice") echo "checked";?> value="thirdchoice" ></center>
+                <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="fourthchoice") echo "checked";?> value="fourthchoice" ></center>
             </tr>
         </table><br>
 
@@ -98,7 +110,7 @@
 
         <div class="form-inline">
             <label class="control-label col-sm-3">Mentor gender preference:</label>
-            <select class="form-control" name="mentorgender">
+            <select class="form-control" name="mentorgender" >
                 <option id="nopref">No preference</option>
                 <option id="femalepref">Match with female mentor only</option>
                 <option id="malepref">Match with male mentor only</option>
@@ -107,7 +119,7 @@
 
         <div class="form-inline">
             <label class="control-label col-sm-3">Program of study:</label>
-            <select class="form-control" name="programofstudy">
+            <select class="form-control" name="programofstudy" >
                 <option id="program_none">None</option>
                 <option id="ba_cs">BA, Computer Science</option>
                 <option id="bcomm_combined_cs">BComm, Combined Business / Computer Science (BUCS)</option>
@@ -132,7 +144,7 @@
 
         <div class="form-inline">
             <label class="control-label col-sm-3">Year of study:</label> // TODO: OTHER
-            <select class="form-control" name="yearofstudy">
+            <select class="form-control" name="yearofstudy" >
                 <option id="year_none">- None -</option>
                 <option id="firstyr">1st year</option>
                 <option id="secondyr">2nd year</option>
@@ -151,41 +163,36 @@
 <input type="checkbox" name="course[]" value="221">CPSC 221<label class="checkbox-inline"></label>
 </form><br>
 
-    <div class="form-inline">
+
     <label class="control-label col-sm-4">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
-    <select class="form-control" name="participation">
+    <select class="form-control" name="participation" >
       <option id="previousmatched_no">No, I have not participated before</option>
       <option id="previousmatched_junior">Yes, as a junior student</option>
       <option id="previousmatched_senior">Yes, as a senior student</option>
       <option id="previousmatched_both">Both junior and senior student</option>
     </select>
-    </div><br>
+<br>
 
         <label class="control-label col-sm-1">Co-op status:</label> // TODO: FIX ALIGNMENT
         <select class="form-control" name="coop">
-          <option value="coop_completed">Have completed all co-op terms</option>
-          <option value="coop_current">Currently a co-op student</option>
+          <option value="coop_alltermscompleted">Have completed all co-op terms</option>
+          <option value="coop_currentstudent">Currently a co-op student</option>
           <option value="coop_interested">Not a co-op student, but interested in joining co-op</option>
-          <option value="coop_no">Not a co-op student</option>
+          <option value="coop_notacoopstudent">Not a co-op student</option>
       </select><br>
 
-
-
-
-
     <label class="control-label col-sm-4">Future career plans (choose all that apply):</label>
-    <form role="form">
       <div class="col-md-6">
-        <input type="checkbox" name="careerplan[]" value="" checked="checked" style="display:none"></label>
-        <input type="checkbox" name="careerplan[]" value="work_cs">Work in CS-related job immediately after graduation <br>
-        <input type="checkbox" name="careerplan[]" value="work_startup">Work for a start-up<br>
+        <input type="checkbox" name="careerplan[]" value="" checked="checked" style="display:none">
+        <input type="checkbox" name="careerplan[]" value="work_csaftergrad">Work in CS-related job immediately after graduation <br>
+        <input type="checkbox" name="careerplan[]" value="work_forstartup">Work for a start-up<br>
         <input type="checkbox" name="careerplan[]" value="work_ownbusiness">Own my own business<br>
-        <input type="checkbox" name="careerplan[]" value="masters_phd">Complete a Master's or PhD<br>
-        <input type="checkbox" name="careerplan[]" value="work_academic">Work as an academic<br>
+        <input type="checkbox" name="careerplan[]" value="domasters_phd">Complete a Master's or PhD<br>
+        <input type="checkbox" name="careerplan[]" value="work_asacademic">Work as an academic<br>
         <input type="checkbox" name="careerplan[]" value="career_unsure">Career plans still unsure<br>
-        <input type="checkbox" name="careerplan[]" value="other">Other (please specify) // TODO: DROPDOWN<br>
+        <input type="checkbox" name="careerplan[]" value="career_other">Other (please specify) // TODO: DROPDOWN<br>
       </div>
-    </form><br>
+<br>
 
         <div class="form-inline">
             <label class="control-label col-sm-3">Computer Science areas of interest (please enter as comma-separated list):</label>
@@ -204,9 +211,6 @@
 
         <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
   </div><br>
-
-
-
 
  </div></div></div>
 

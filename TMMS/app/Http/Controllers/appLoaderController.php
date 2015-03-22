@@ -115,7 +115,7 @@ class appLoaderController extends Controller {
      * insert application form answers into database
      * {"name":"bob","gender":"female","age":5}
      */
-    public function test(){
+    public function studenttest(){
 
         $email = $_POST['email'];
         $studentnum = $_POST['studentnum'];
@@ -125,7 +125,10 @@ class appLoaderController extends Controller {
         $phonealt = $_POST['phonealt'];
         $gender = $_POST['gender'];
         $birthyear = $_POST['birthyear'];
-        // kickoff
+        //kickoff
+        $day1 = $_POST['day1'];
+        $day2 = $_POST['day2'];
+        $day3 = $_POST['day3'];
         $additionalcomments_avail = $_POST['additionalcomments_avail'];
         $mentorgender = $_POST['mentorgender'];
         $programofstudy = $_POST['programofstudy'];
@@ -133,9 +136,8 @@ class appLoaderController extends Controller {
         $yearofstudy = $_POST['yearofstudy'];
         $participation = $_POST['participation'];
         $coop = $_POST['coop'];
-
         $course = $_POST['course'];
-        $futurecareer = $_POST['careerplan'];
+        $careerplan = $_POST['careerplan'];
         $cs_areasofinterest = $_POST['cs_areasofinterest'];
         $hobbies_interest = $_POST['hobbies_interest'];
         $additionalcomments_questions = $_POST['additionalcomments_questions'];
@@ -143,8 +145,35 @@ class appLoaderController extends Controller {
 
         return view('mentorapp',compact('email','studentnum','givenname', 'familyname', 'phone', 'phonealt', 'birthyear', 
             'additionalcomments_avail', 'mentorgender', 'programofstudy', 'programofstudy_other', 'yearofstudy', 'participation',
-            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender'));
+            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender', 'careerplan', 'day1', 'day2', 'day3'));
     }
 
+    public function mentortest(){
+        $email = $_POST['email'];
+        $givenname = $_POST['givenname'];
+        $familyname = $_POST['familyname']; 
+        $phone = $_POST['phone'];
+        $phonealt = $_POST['phonealt'];
+        $gender = $_POST['gender'];
+        $birthyear = $_POST['birthyear'];
+        $studentgenderpref = $_POST['studentgenderpref'];
+        //kickoff
+        $day1 = $_POST['day1'];
+        $day2 = $_POST['day2'];
+        $day3 = $_POST['day3'];
+        $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        $employmentstatus = $_POST['employmentstatus'];
+        $yearsofcswork = $_POST['yearsofcswork'];
+        $levelofeducation = $_POST['levelofeducation'];
+        $cs_areasofinterest = $_POST['cs_areasofinterest'];
+        $hobbies_interest = $_POST['hobbies_interest'];
+        $alumnus = $_POST['alumnus'];
+        $additionalcomments_questions = $_POST['additionalcomments_questions'];
+
+return view('studentapp',compact('email','givenname', 'familyname', 'phone', 'phonealt', 'gender','birthyear', 'studentgenderpref', 'day1', 'day2', 'day3',
+            'additionalcomments_avail', 'employmentstatus', 'yearsofcswork', 'levelofeducation', 'cs_areasofinterest', 'hobbies_interest', 
+            'alumnus', 'additionalcomments_questions'));
+   
+}
 }
 
