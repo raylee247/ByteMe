@@ -2267,9 +2267,9 @@ th {
   text-align: left;
 }
 .table {
-  width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
+  white-space:nowrap;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -2327,7 +2327,7 @@ th {
   background-color: #f9f9f9;
 }
 .table-hover > tbody > tr:hover {
-  background-color: #f5f5f5;
+  background-color: #DBDBDB;
 }
 table col[class*="col-"] {
   position: static;
@@ -5548,6 +5548,7 @@ a.list-group-item-danger.active:focus {
 }
 .panel-default {
   border-color: #ddd;
+  margin-right: 20px;
 }
 .panel-default > .panel-heading {
   color: #333;
@@ -5639,6 +5640,7 @@ a.list-group-item-danger.active:focus {
 }
 .panel-danger {
   border-color: #ebccd1;
+  margin-right: 20px;
 }
 .panel-danger > .panel-heading {
   color: #a94442;
@@ -5732,7 +5734,6 @@ button.close {
   overflow: hidden;
 }
 .modal {
-  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -5785,7 +5786,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: -1;
   background-color: #000;
 }
 .modal-backdrop.fade {

@@ -58,6 +58,7 @@ Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadCSV', 'uploadCSVController@upload');
 
 Route::post('students', 'AdminController@studentSearch');
+Route::post('mentors', 'AdminController@mentorSearch');
 
 // match making
 

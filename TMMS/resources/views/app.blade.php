@@ -12,6 +12,7 @@
 <!--   <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}"> -->
   <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  
   <!-- Fonts -->
   <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
@@ -22,22 +23,12 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <![endif]-->
-
-    <script src="{{ asset('/js/jquery-1.9.1.js') }}"></script>
+    <script src="{{ asset('/js/jquery-1.10.2.js') }}"></script>
     <script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
-
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="{{ asset('/js/jquery-1.10.2.js') }}"></script>
     <script src="{{ asset('/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('/js/sortable.js') }}"></script>
-
-
-
-
-
-
 
    <!-- Latest compiled and minified JavaScript -->
  </head>
@@ -104,7 +95,7 @@
           <li><a href="{{ url('/mentors') }}">Mentors</a></li>
           <li><a href="{{ url('/uploadcsv') }}">Add Participant(s)</a></li>
           <li><a href="{{ url('/downloadcsv') }}">Export Participant(s)</a></li>
-          <li><a href="{{ url('/waitlist') }}">Waitlist</a></li>
+          <li><a href="{{ url('/waitlist') }}">Manage Waitlist</a></li>
         </ul></li>
         <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Match Making<span class="caret"></span></a>
           <ul>

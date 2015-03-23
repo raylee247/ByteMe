@@ -117,29 +117,73 @@ class appLoaderController extends Controller {
      */
     public function studenttest(){
         //all participants attributes
-//        $givenname = $_POST['givenname'];
-//        $familyname = $_POST['familyname'];
-//        $gender = $_POST['gender'];
-//        //kickoff
-//        $day1 = $_POST['day1'];
-//        $day2 = $_POST['day2'];
-//        $day3 = $_POST['day3'];
-//        $additionalcomments_avail = $_POST['additionalcomments_avail'];
-//        $email = $_POST['email'];
-//        $phone = $_POST['phone'];
-//        $phonealt = $_POST['phonealt'];
-//        $birthyear = $_POST['birthyear'];
-//        $mentorgender = $_POST['mentorgender'];
-//        $participation = $_POST['participation'];
+        $givenname = $_POST['givenname'];
+        $familyname = $_POST['familyname'];
+        $gender = $_POST['gender'];
+        //kickoff
+        $day1 = $_POST['day1'];
+        $day2 = $_POST['day2'];
+        $day3 = $_POST['day3'];
+        $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $phonealt = $_POST['phonealt'];
+        $birthyear = $_POST['birthyear'];
+        $mentorgender = $_POST['mentorgender'];
+        $participation = $_POST['participation'];
+        $year = date("Y"); //2015
+        $month = date("m"); //02
+        $date = date("d"); //01
+
+        //determine if registering past a deadline
+        $rawApp = \DB::table('studentapp')->where('year',$year);
+        $rawDeadline = $rawApp['deadline'];
+        $deadline = explode(",",$rawDeadline); //day, month, year
+        if($year > $deadline[2]){
+            $waitlist = 1;
+        }elseif($month > $deadline[1]){
+            $waitlist = 1;
+        }elseif($date > $deadline[0]){
+            $waitlist = 1;
+        }else{
+            $waitlist = 0;
+        }
+
+        //inserting into participant table
+        $participant_id = DB::table('participant')->insertGetId(
+            array('First name' => $givenname, 'Family name' => $familyname,
+                'gender' => $gender, 'kickoff' => $day1 . $day2 . $day3 . $additionalcomments_avail,
+                'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                'birth year' => $birthyear, 'genderpref' => mentorgender,
+                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year)
+        );
 
         //student only
-//        $studentnum = $_POST['studentnum'];
-//        $yearofstudy = $_POST['yearofstudy'];
-//        $programofstudy = $_POST['programofstudy'];
-//        $programofstudy_other = $_POST['programofstudy_other'];
-//        $course = $_POST['course']; //array
-//        $coop = $_POST['coop'];
+        $studentnum = $_POST['studentnum'];
+        $yearofstudy = $_POST['yearofstudy'];
+        $programofstudy = $_POST['programofstudy'];
+        $programofstudy_other = $_POST['programofstudy_other'];
+        $course = $_POST['course']; //array
+        $csid = $_POST['csid'];
+        $coop = $_POST['coop'];
 
+
+        //detemine if it is a senior or junior student (determined if they took all the listed CPSC courses)
+        //insert accordingly, with sid OR jid = participant_id
+        if(count($course)==4){
+            $senior_response = DB::table('senior')->insertGetId(
+                array('sid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
+                    'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
+                    'coop' => $coop)
+            );
+        }else{
+            $junior_response = DB::table('junior')->insertGetId(
+                array('jid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
+                    'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
+                    'coop' => $coop)
+            );
+        }
+//TODO NEED TO FIX DYNAMIC CALLS TO THE FORM, THESE ARE NOT ALWAY THERE
         //extra questions
 //        $careerplan = $_POST['careerplan']; //array
 //        $cs_areasofinterest = $_POST['cs_areasofinterest'];
@@ -151,12 +195,6 @@ class appLoaderController extends Controller {
 //            'additionalcomments_avail', 'mentorgender', 'programofstudy', 'programofstudy_other', 'yearofstudy', 'participation',
 //            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender', 'careerplan', 'day1', 'day2', 'day3'));
 
-        if(count($course)==4){
-            $status = "Senior";
-        }else{
-            $status = "Junior";
-        }
-        //TODO make a check to see if past deadline date for waitlist
 
 
     }
@@ -177,21 +215,57 @@ class appLoaderController extends Controller {
         $birthyear = $_POST['birthyear'];
         $studentgenderpref = $_POST['studentgenderpref'];
         $participation = $_POST['participation'];
+        $year = date("Y"); //2015
+        $month = date("m"); //02
+        $date = date("d"); //01
+
+        //determine if registering past a deadline
+        $rawApp = \DB::table('studentapp')->where('year',$year);
+        $rawDeadline = $rawApp['deadline'];
+        $deadline = explode(",",$rawDeadline); //day, month, year
+        if($year > $deadline[2]){
+            $waitlist = 1;
+        }elseif($month > $deadline[1]){
+            $waitlist = 1;
+        }elseif($date > $deadline[0]){
+            $waitlist = 1;
+        }else{
+            $waitlist = 0;
+        }
+
+        //inserting into participant table
+        $participant_id = DB::table('participant')->insertGetId(
+            array('First name' => $givenname, 'Family name' => $familyname,
+                'gender' => $gender, 'kickoff' => $day1 . $day2 . $day3 . $additionalcomments_avail,
+                'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                'birth year' => $birthyear, 'genderpref' => mentorgender,
+                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year)
+        );
 
         //mentor only attributes
         $employmentstatus = $_POST['employmentstatus']; //array
+        foreach($employmentstatus as $e){
+            $job = $e . ",";
+        }
         $yearsofcswork = $_POST['yearsofcswork'];
         $levelofeducation = $_POST['levelofeducation'];
         $cs_areasofinterest = $_POST['cs_areasofinterest'];
 
-        //extra questions
-        $hobbies_interest = $_POST['hobbies_interest'];
-        $alumnus = $_POST['alumnus'];
-        $additionalcomments_questions = $_POST['additionalcomments_questions'];
+        $mentor_response = DB::table('mentor')->insertGetId(
+            array('mid' => $participant_id, 'job' => $job, 'yearofcs' => $yearsofcswork,
+                'edulvl' => $levelofeducation, 'field of interest' => $cs_areasofinterest)
+        );
 
-return view('studentapp',compact('email','givenname', 'familyname', 'phone', 'phonealt', 'gender','birthyear', 'studentgenderpref', 'day1', 'day2', 'day3',
-            'additionalcomments_avail', 'employmentstatus', 'yearsofcswork', 'levelofeducation', 'cs_areasofinterest', 'hobbies_interest', 
-            'alumnus', 'additionalcomments_questions'));
+//TODO NEED TO FIX DYNAMIC CALLS TO THE FORM, THESE ARE NOT ALWAY THERE
+
+        //extra questions
+//        $hobbies_interest = $_POST['hobbies_interest'];
+//        $alumnus = $_POST['alumnus'];
+//        $additionalcomments_questions = $_POST['additionalcomments_questions'];
+//
+//return view('studentapp',compact('email','givenname', 'familyname', 'phone', 'phonealt', 'gender','birthyear', 'studentgenderpref', 'day1', 'day2', 'day3',
+//            'additionalcomments_avail', 'employmentstatus', 'yearsofcswork', 'levelofeducation', 'cs_areasofinterest', 'hobbies_interest',
+//            'alumnus', 'additionalcomments_questions'));
    
 }
 }
