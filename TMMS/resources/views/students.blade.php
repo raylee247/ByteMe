@@ -26,7 +26,7 @@
                           </ul>
                       </div>
                       <input type="hidden" name="search_param" value="all" id="search_param">         
-                      <input type="text" class="form-control" name="text" placeholder="Search with name, student number or CS ID">
+                      <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                     </span>

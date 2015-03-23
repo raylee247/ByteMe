@@ -102,6 +102,7 @@ class AdminController extends Controller {
                                                   ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('csid', 'LIKE', '%'.$text.'%')
+                                                  ->orWHere('email', 'LIKE', '%'.$text.'%')
                                                   ->get();
 
         $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
@@ -109,6 +110,7 @@ class AdminController extends Controller {
                                                   ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('csid', 'LIKE', '%'.$text.'%')
+                                                  ->orWHere('email', 'LIKE', '%'.$text.'%')
                                                   ->get();
         
         if (strcmp($dropdown, "junior students") == 0) 
