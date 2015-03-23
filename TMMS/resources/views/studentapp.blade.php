@@ -16,7 +16,7 @@
                 Thank you for your interest in becoming a student with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
 
               
-// TODO : SET UP REQUIRED FIELDS AND FIELD TYPES, POST VARIABLES (FIX ACTION URL)
+// TODO : SET UP REQUIRED FIELDS , validation, fix "other" fields
 <form class="form-horizontal" role="form" action="mentorapp" method="POST" >
     <div class="form-group">
          <label class="control-label col-sm-3">Email address:</label>

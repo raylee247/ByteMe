@@ -39,7 +39,7 @@
 <table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
         <tr> TODO // SEARCH FUNCTION + FILL IN DATATABLE + IMPLEMENT DB QUERY + PARTICIPANT INFO PROFILE<br>
-            TODO// participant info - implement jquery to display row data when selected, implement buttons functionality
+            TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality
             <th>First Name</th>
             <th>Last name</th>
             <th>Student Number</th>
@@ -50,21 +50,13 @@
     </thead>
     <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
     <tbody>
-        <tr data-toggle="modal" data-id="1" data-target="#orderModal">
+        <tr class="mentortable" data-toggle="modal" data-id="1" data-target="#orderModal">
             <td>Tiger Nixon</td>
             <td>System Architect</td>
             <td>Edinburgh</td>
             <td>61</td>
             <td>2011/04/25</td>
             <td>$320,800</td>
-        </tr>
-        <tr>
-            <td>Garrett Winters</td>
-            <td>Accountant</td>
-            <td>Tokyo</td>
-            <td>63</td>
-            <td>2011/07/25</td>
-            <td>$170,750</td>
         </tr>
     </tbody>
 </table>
@@ -75,50 +67,11 @@
  <div class="modal-dialog">
   <div class="modal-content">
    <div class="modal-body">
-
-    <!-- move to app.css -->
-    <style type="text/css">.user-row {
-        margin-bottom: 14px;
-    }
-
-    .user-row:last-child {
-        margin-bottom: 0;
-    }
-
-    .dropdown-user {
-        margin: 13px 0;
-        padding: 5px;
-        height: 100%;
-    }
-
-    .dropdown-user:hover {
-        cursor: pointer;
-    }
-
-    .table-user-information > tbody > tr {
-        border-top: 1px solid rgb(221, 221, 221);
-    }
-
-    .table-user-information > tbody > tr:first-child {
-        border-top: 0;
-    }
-
-
-    .table-user-information > tbody > tr > td {
-        border-top: 0;
-    }
-    .toppad
-    {margin-top:20px;
-    }
-    </style>
-    <!-- up until here -->
-
     <div class="panel panel-info">
         <div class="panel-heading">
           <div class="panel-title" style="display:inline">NAME</div>
           <a data-original-title="Edit user information" data-toggle="tooltip" type="button" data-placement="bottom" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
           <a data-original-title="Move to waitlist" data-toggle="tooltip" type="button" data-placement="bottom" class="btn pull-right btn-sm btn-danger"><i class="glyphicon glyphicon-flag"></i></a>
-
       </div>
       <div class="panel-body">
           <div class="row">
@@ -146,7 +99,7 @@
                             <td>$birthyear</td>
                         </tr>
                         <tr>
-                            <td>Preference of student mentee</td>
+                            <td>Preference of mentee gender</td>
                             <td>$menteepreference</td>
                         </tr>
                         <tr>
@@ -199,11 +152,9 @@
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
 
 <script type="text/javascript">$(function () {
   $('[data-toggle="tooltip"]').tooltip()
-})</script>
+})
+</script>
 @endsection
