@@ -13,14 +13,14 @@
     <div>    
         <div class="col-xs-8 col-xs-offset-2">
             <form action="mentors" method="post">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="input-group">
-                      <input type="hidden" name="search_param" value="all" id="search_param">         
-                      <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                    </span>
-                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="input-group">
+                  <input type="hidden" name="search_param" value="all" id="search_param">         
+                  <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
         </form>
     </div>
 </div>
@@ -41,43 +41,43 @@
     <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
     <tbody>
         <?php
-            foreach($result as $single_result) {
-                echo "<tr class='studenttable' data-toggle='modal' data-id='1' data-target='#orderModal'><td>"; 
-                print_r($single_result['First name']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['Family name']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['email']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['job']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['yearofcs']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['edulvl']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['field of interest']);
-                echo "</td></tr>";
-            }
-            ?>
+        foreach($result as $single_result) {
+            echo "<tr class='mentortable' data-toggle='modal' data-target='#modal-1'><td>"; 
+            print_r($single_result['First name']);
+            echo "</td>";
+            echo "<td>"; 
+            print_r($single_result['Family name']);
+            echo "</td>";
+            echo "<td>"; 
+            print_r($single_result['email']);
+            echo "</td>";
+            echo "<td>"; 
+            print_r($single_result['job']);
+            echo "</td>";
+            echo "<td>"; 
+            print_r($single_result['yearofcs']);
+            echo "</td>";
+            echo "<td>"; 
+            print_r($single_result['edulvl']);
+            echo "</td>";
+            echo "<td>"; 
+            print_r($single_result['field of interest']);
+            echo "</td></tr>";
+        }
+        ?>
     </tbody>
 </table>
 </div>
 </div>
 
-<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+<div id="modal-1" class="modal" tabindex="-1" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-body">
             <div class="panel panel-info">
                 <div class="panel-heading">
                   <div class="panel-title" style="display:inline">NAME</div>
-                  <a data-original-title="Edit user information" data-toggle="tooltip" type="button" data-placement="bottom" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
                   <a data-original-title="Move to waitlist" data-toggle="tooltip" type="button" data-placement="bottom" class="btn pull-right btn-sm btn-danger"><i class="glyphicon glyphicon-flag"></i></a>
               </div>
               <div class="panel-body">
@@ -88,10 +88,6 @@
                                 <tr>
                                     <td>Email</td>
                                     <td>$email</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Student number</td>
-                                    <td>$studentnum</td>
                                 </tr>
                                 <tr>
                                     <td>Phone Number</td>
@@ -159,6 +155,130 @@
 </div>
 </div>
 </div>
+
+
+<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+              <div class="panel-title" style="display:inline">NAME</div>
+              <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+          </div>
+          <div class="panel-body">
+              <div class="row">
+                  <div class=" col-md-12"> 
+                      <table class="table table-user-information">
+                        <tbody>
+                            <tr>
+                                <td>Email// TODO: grab info from previous page</td> 
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>                           
+                            <tr>
+                                <td>Phone Number</td>
+                                <td><div id="input" contenteditable></div><br><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Year of Birth</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Preference of mentee gender</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Kickoff night availability</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Previous participation</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Current employment</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Years of CS-related work</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>CS areas of interest</td>
+                                <td><div id="textarea" contenteditable></div></td>
+                            </tr>
+                            <tr>
+                                <td>Hobbies and interests</td>
+                                <td><div id="textarea" contenteditable></div></td>
+                            </tr>     
+                            <tr>
+                                <td>UBC alumnae/alumnus</td>
+                                <td><div id="input" contenteditable></div></td>
+                            </tr>                             
+                            <tr>
+                                <td>Additional comments or questions</td>
+                                <td><div id="textarea" contenteditable></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
+
+</div>
+</div>
+</div>
+</div>
+
+<style type="text/css">
+textarea {
+    height: 28px;
+    width: 400px;
+}
+
+#textarea {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 4em;
+    overflow: auto;
+    padding: 2px;
+    resize: both;
+    width: 225px;
+    white-space: normal;
+}
+
+input {
+    margin-top: 5px;
+    width: 400px;
+}
+
+#input {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    background-color: white;
+    background-color: -moz-field;
+    border: 1px solid darkgray;
+    box-shadow: 1px 1px 1px 0 lightgray inset;  
+    font: -moz-field;
+    font: -webkit-small-control;
+    margin-top: 5px;
+    padding: 2px 3px;
+    width: 225px;    
+    white-space: normal;
+}
+</style>
 
 <script type="text/javascript">
 $(function () {
