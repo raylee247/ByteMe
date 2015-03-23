@@ -54,7 +54,8 @@ class AdminController extends Controller {
 
      public function waitlist()
     {
-        return view('waitlist');
+        $result = \DB::table('participant')->where('waitlist', 1) ->get();
+        return view('waitlist', $result);
     }
 
     public function viewLog()
