@@ -104,6 +104,7 @@ input[readonly] {
 /*ADJUST WEIGHTING must-have styling*/
 #sortable1 {
   height: auto;
+  margin-left: 15px;
 }
 #sortable2 {
   height: 45%;
