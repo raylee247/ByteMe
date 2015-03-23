@@ -23,7 +23,7 @@
                               <li><a href="junior students">Junior students</a></li>
                               <li><a href="senior students">Senior students</a></li>
                               <li><a href="all">All students</a></li>
-                          </ul>
+                            </ul>
                       </div>
                       <input type="hidden" name="search_param" value="all" id="search_param">         
                       <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">

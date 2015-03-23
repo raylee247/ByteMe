@@ -12,24 +12,17 @@
   <div class="panel-body">
     <div>    
         <div class="col-xs-8 col-xs-offset-2">
-          <div class="input-group">
-            <div class="input-group-btn search-panel">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                   <span id="search_concept">Filter by</span> <span class="caret"></span>
-               </button>
-               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Junior students</a></li>
-                <li><a href="#">Senior students</a></li>
-                <li><a href="#">All mentors</a></li>
-              </ul>
-          </div>
-          <input type="hidden" name="search_param" value="all" id="search_param">         
-          <input type="text" class="form-control" name="text" placeholder="Search with name or email">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
+            <form action="mentors" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="input-group">
+                      <input type="hidden" name="search_param" value="all" id="search_param">         
+                      <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+        </form>
     </div>
-</div>
 </div>
 <br>
 <table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -38,22 +31,40 @@
             TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality
             <th>First Name</th>
             <th>Last name</th>
-            <th>Student Number</th>
-            <th>CS ID</th>
-            <th>Year Standing</th>
             <th>Email</th>
+            <th>Job</th>
+            <th>Years of Computer Science</th>
+            <th>Education Level</th>
+            <th>Field of Interest</th>
         </tr>
     </thead>
     <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
     <tbody>
-        <tr class="mentortable" data-toggle="modal" data-id="1" data-target="#orderModal">
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-        </tr>
+        <?php
+            foreach($result as $single_result) {
+                echo "<tr class='studenttable' data-toggle='modal' data-id='1' data-target='#orderModal'><td>"; 
+                print_r($single_result['First name']);
+                echo "</td>";
+                echo "<td>"; 
+                print_r($single_result['Family name']);
+                echo "</td>";
+                echo "<td>"; 
+                print_r($single_result['email']);
+                echo "</td>";
+                echo "<td>"; 
+                print_r($single_result['job']);
+                echo "</td>";
+                echo "<td>"; 
+                print_r($single_result['yearofcs']);
+                echo "</td>";
+                echo "<td>"; 
+                print_r($single_result['edulvl']);
+                echo "</td>";
+                echo "<td>"; 
+                print_r($single_result['field of interest']);
+                echo "</td></tr>";
+            }
+            ?>
     </tbody>
 </table>
 </div>

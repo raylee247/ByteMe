@@ -48,7 +48,8 @@ class AdminController extends Controller {
    
     public function mentorsview()
     {
-        return view('mentors');
+        $result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')->get();
+        return \View::make('mentors')->with('result', $result); 
     }
 
      public function waitlist()
@@ -102,7 +103,7 @@ class AdminController extends Controller {
                                                   ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('csid', 'LIKE', '%'.$text.'%')
-                                                  ->orWHere('email', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('email', 'LIKE', '%'.$text.'%')
                                                   ->get();
 
         $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
@@ -110,7 +111,7 @@ class AdminController extends Controller {
                                                   ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('csid', 'LIKE', '%'.$text.'%')
-                                                  ->orWHere('email', 'LIKE', '%'.$text.'%')
+                                                  ->orWhere('email', 'LIKE', '%'.$text.'%')
                                                   ->get();
         
         if (strcmp($dropdown, "junior students") == 0) 
@@ -130,6 +131,20 @@ class AdminController extends Controller {
         }
 
         return \View::make('students')->with('result', $result);
+    }
+
+    //TODO: regex to check for correct input? <- not sure if necessary 
+    public function mentorSearch()
+    {
+        $text = $_POST['text'];
+
+        $result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                           ->where('First name', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('email', 'LIKE', '%'.$text.'%')
+                                           ->get();
+
+        return \View::make('mentors')->with('result', $result);
     }
 
     public function downloadcsv()
