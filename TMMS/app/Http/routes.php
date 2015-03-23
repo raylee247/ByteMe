@@ -34,6 +34,10 @@ Route::post('studentapp', 'appLoaderController@mentortest');
 
 Route::get('mentorapp', 'MentorAppController@index');
 
+// edit application forms
+Route::get('studentform', 'appLoaderController@editstudentformindex');
+Route::get('mentorform', 'appLoaderController@editmentorformindex');
+
 // make admin
 Route::get('makeadmin', 'MakeAdminController@index');
 Route::post('makeadmin', 'MakeAdminController@store');
