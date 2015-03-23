@@ -8,86 +8,81 @@
 }
 </style>
 
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div>    
-            <div class="col-xs-8 col-xs-offset-2">
-                <form action="students" method="post">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="input-group">
-                        <div class="input-group-btn search-panel">
-                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span id="search_concept">Filter by</span> <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                              <li><a href="junior students">Junior students</a></li>
-                              <li><a href="senior students">Senior students</a></li>
-                              <li><a href="all">All students</a></li>
-                            </ul>
-                      </div>
-                      <input type="hidden" name="search_param" value="all" id="search_param">         
-                      <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                    </span>
-                </div>
-            </form>
-        </div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div>    
+        <div class="col-xs-8 col-xs-offset-2">
+            <form action="students" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="input-group">
+                    <div class="input-group-btn search-panel">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_concept">Filter by</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="junior students">Junior students</a></li>
+                          <li><a href="senior students">Senior students</a></li>
+                          <li><a href="all">All students</a></li>
+                      </ul>
+                  </div>
+                  <input type="hidden" name="search_param" value="all" id="search_param">         
+                  <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </form>
     </div>
-    <br>
-    <table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-        <thead>
-            <tr> <br>TODO // PARTICIPANT INFO PROFILE<br>
-                     TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality, set table width
-                <th>First Name</th>
-                <th>Last name</th>
-                <th>Student Number</th>
-                <th>CS ID</th>
-                <th>Year Standing</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach($result as $single_result) {
-                echo "<tr class='studenttable' data-toggle='modal' data-target='#modal-1'><td>"; 
-                print_r($single_result['First name']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['Family name']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['studentNum']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['csid']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['yearStand']);
-                echo "</td>";
-                echo "<td>"; 
-                print_r($single_result['email']);
-                echo "</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+</div>
+<br>
+<table id="example" class="table table-striped table-bordered table-hover" width="100%">
+    <thead>
+        <tr> <br>TODO // PARTICIPANT INFO PROFILE<br>
+           TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality
+           <th>First Name</th>
+           <th>Last name</th>
+           <th>Student Number</th>
+           <th>CS ID</th>
+           <th>Year Standing</th>
+           <th>Email</th>
+       </tr>
+   </thead>
+   <tbody>
+    <?php
+    foreach($result as $single_result) {
+        echo "<tr class='studenttable' data-toggle='modal' data-target='#modal-1'><td>"; 
+        print_r($single_result['First name']);
+        echo "</td>";
+        echo "<td>"; 
+        print_r($single_result['Family name']);
+        echo "</td>";
+        echo "<td>"; 
+        print_r($single_result['studentNum']);
+        echo "</td>";
+        echo "<td>"; 
+        print_r($single_result['csid']);
+        echo "</td>";
+        echo "<td>"; 
+        print_r($single_result['yearStand']);
+        echo "</td>";
+        echo "<td>"; 
+        print_r($single_result['email']);
+        echo "</td></tr>";
+    }
+    ?>
+</tbody>
+</table>
 </div>
 </div>
-
-<script type="text/javascript">$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
 
 <div id="modal-1" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
-<div class="panel panel-info">
+        <div class="panel panel-info">
             <div class="panel-heading">
               <div class="panel-title" style="display:inline">NAME</div>
-               <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+              <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
               <a data-original-title="Move to waitlist" data-toggle="tooltip" type="button" data-placement="bottom" class="btn pull-right btn-sm btn-danger"><i class="glyphicon glyphicon-flag"></i></a>
           </div>
           <div class="panel-body">
@@ -111,7 +106,7 @@
                                 <td>Phone Number</td>
                                 <td>$number<br>$othernumber</td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td>Gender</td>
                                 <td>$gender</td>
                             </tr>
@@ -180,9 +175,9 @@
             </span>
         </div>
     </div>    
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
 </div>
 
 <div id="modal-2" class="modal" tabindex="-1" role="dialog">
@@ -193,7 +188,7 @@
             <div class="panel-heading">
               <div class="panel-title" style="display:inline">NAME</div>
               <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
-             </div>
+          </div>
           <div class="panel-body">
               <div class="row">
                   <div class=" col-md-12"> 
@@ -277,43 +272,15 @@
             </div>
         </div>
     </div> 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
-
-      </div>
-    </div>
-  </div>
 </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
 
-
-<script type="text/javascript">
-$(document)  
-  .on('show.bs.modal', '.modal', function(event) {
-    $(this).appendTo($('body'));
-  })
-  .on('shown.bs.modal', '.modal.in', function(event) {
-    setModalsAndBackdropsOrder();
-  })
-  .on('hidden.bs.modal', '.modal', function(event) {
-    setModalsAndBackdropsOrder();
-  });
-
-function setModalsAndBackdropsOrder() {  
-  var modalZIndex = 1040;
-  $('.modal.in').each(function(index) {
-    var $modal = $(this);
-    modalZIndex++;
-    $modal.css('zIndex', modalZIndex);
-    $modal.next('.modal-backdrop.in').addClass('hidden').css('zIndex', modalZIndex - 1);
-});
-  $('.modal.in:visible:last').focus().next('.modal-backdrop.in').removeClass('hidden');
-}
-</script>
-
-
-
+</div>
+</div>
+</div>
+</div>
 
 <!-- move to app.css -->
 <style type="text/css">
@@ -356,8 +323,5 @@ input {
     white-space: normal;
 }
 </style>
-
-
-
 
 @endsection

@@ -28,12 +28,12 @@
 <table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
         <tr> TODO // SEARCH FUNCTION + FILL IN DATATABLE + IMPLEMENT DB QUERY + PARTICIPANT INFO PROFILE<br>
-            TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality
+            TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality, fix table width
             <th>First Name</th>
-            <th>Last name</th>
+            <th>Last Name</th>
             <th>Email</th>
             <th>Job</th>
-            <th>Years of Computer Science</th>
+            <th>Years of<br>CS work</th>
             <th>Education Level</th>
             <th>Field of Interest</th>
         </tr>
