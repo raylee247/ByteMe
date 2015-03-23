@@ -94,7 +94,7 @@
           <li><a href="{{ url('/mentors') }}">Mentors</a></li>
           <li><a href="{{ url('/uploadcsv') }}">Add Participant(s)</a></li>
           <li><a href="{{ url('/downloadcsv') }}">Export Participant(s)</a></li>
-          <li><a href="{{ url('/waitlist') }}">Waitlist</a></li>
+          <li><a href="{{ url('/waitlist') }}">Manage Waitlist</a></li>
         </ul></li>
         <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Match Making<span class="caret"></span></a>
           <ul>
