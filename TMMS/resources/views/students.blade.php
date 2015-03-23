@@ -22,11 +22,11 @@
                             <ul class="dropdown-menu" role="menu">
                               <li><a href="junior students">Junior students</a></li>
                               <li><a href="senior students">Senior students</a></li>
-                              <li><a href="all">All</a></li>
+                              <li><a href="all">All students</a></li>
                           </ul>
                       </div>
                       <input type="hidden" name="search_param" value="all" id="search_param">         
-                      <input type="text" class="form-control" name="text" placeholder="Search with name, student number or cs-id">
+                      <input type="text" class="form-control" name="text" placeholder="Search with name, student number or CS ID">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
@@ -38,7 +38,7 @@
     <table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
         <thead>
             <tr> <br>TODO // PARTICIPANT INFO PROFILE<br>
-                     TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality
+                     TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality, set table width
                 <th>First Name</th>
                 <th>Last name</th>
                 <th>Student Number</th>
