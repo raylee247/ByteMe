@@ -21,11 +21,11 @@ class uploadCSVController extends Controller {
 		return view('uploadcsv',compact('preview_header','preview_data'));
 	}
 	/**
-	 * Display a listing of the resource.
+	 * preview the csv being uploaded 
 	 *
-	 * @return Response
+	 * @return view 
 	 */
-	public function upload()
+	public function preview()
 	{
 		$target_dir = "Uploads/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -60,6 +60,146 @@ class uploadCSVController extends Controller {
 		
 		return view('uploadcsv',compact('preview_header','preview_data', 'test'));
 	}
+
+	public function upload(){
+		$config = new LexerConfig();
+		$lexer = new Lexer($config);
+		$interpreter = new Interpreter();
+		$result = array();
+		$linecount = 1;
+		$interpreter->addObserver(function(array $columns) use (&$result) {
+			$result[] = $columns;
+		});
+		$lexer->parse(SITE_ROOT.'/../storage/app/1.csv', $interpreter);
+		// parses the uploaded CSV at where is putted in to array
+		// result[0] are the headers 
+		// result[1...n] are the participants 
+		$data = array();
+		foreach ($result as $key => $value) {
+			if($key == 0){
+				$header = $value;
+			}else{
+				$data[] = $value;
+			}
+		}
+
+		// get "who" (mentor or student) is this CSV for
+		$participantType = "mentor";
+		// or 
+		$participantType = "student";
+
+		// general prarm for a participant. 
+		$index_firstName = array_search("Given name",$header);
+		$index_lastName = array_search("Family name", $header);
+		$index_gender = array_search("Gender (please specify)", haystack);
+		
+		// regex for date , or however the kick off date will be represented in our csv
+		$index_Kickoff = array_search("", $header);
+		
+		$index_email = array_search("E-mail", $header);
+		$index_phone = array_search("Phone", $header);
+		$index_phone_alt = array_search("Phone (alternate)", $header);
+		$index_birth = array_search("Birth year ", $header);
+		//$index_genderPref = array_search("Preference of student mentee gender", $header);
+		
+		//what is this?
+		$index_pastParticipation = array_search("???", $header);
+
+
+		if ($participantType == "mentor"){
+			// get param for mentor 
+			// job title, do i include the company ?
+
+			$index_genderPref = array_search("Preference of student mentee gender", $header);
+			$index_job = array_search("Current job title", $header);
+			$index_yearofCS = array_search("Years of CS-related work experience", $header);
+			$index_eduLv = array_search("Highest level of education", $header);
+			$index_fieldOfInterest = array_search("CS areas of interest", $header);
+
+			// construct SQL statement 
+			foreach ($data as $key) {				
+			$SQL_participant  = "insert into innodb.participant values ( 
+								''," +   
+								$data[$key][$index_firstName]+ "," +
+								$data[$key][$index_lastName]+ "," +
+								$data[$key][$index_gender]+ "," +
+								$data[$key][$index_Kickoff]+ "," +
+								$data[$key][$index_email]+ "," +
+								$data[$key][$index_phone]+ "," +
+								$data[$key][$index_phone_alt]+ "," +
+								$data[$key][$index_birth]+ "," +
+								$data[$key][$index_genderPref]+ "," +
+								"'','',''"+ ");";
+			print($SQL_participant);
+			$SQL_mentor = "insert into innodb.mentor values( ''," +
+						   $data[$key][$index_job] +","+
+						   $data[$key][$index_yearofCS] +","+
+						   $data[$key][$index_eduLv] +","+
+						   $data[$key][$index_fieldOfInterest] + ");";
+			print ($SQL_mentor);
+			$SQL_Parameter = "insert into innodb.parameter values ('',"+
+							// current year 
+							// rest of the data 
+							"";
+			print($SQL_Parameter);
+
+
+
+
+			}
+		}else{
+			// else get student param, and classify senior as year > 2 for old csv. for out CSV will have a category 
+			$index_genderPref = array_search("Mentor gender preference", $header);
+			$index_studentNumber = array_search("Student number", $header);
+			$index_yearStnd = array_search("Year of study ", $header);
+			$index_programOfStudy = array_search("Program of study", $header);
+			// WTF no ID id in CSV TROLOLOL
+			// $index_csid 
+			// with senior flag base on courses 
+
+			foreach ($data as $key) {				
+			$SQL_participant  = "insert into innodb.participant values ( 
+								''," +   
+								$data[$key][$index_firstName]+ "," +
+								$data[$key][$index_lastName]+ "," +
+								$data[$key][$index_gender]+ "," +
+								$data[$key][$index_Kickoff]+ "," +
+								$data[$key][$index_email]+ "," +
+								$data[$key][$index_phone]+ "," +
+								$data[$key][$index_phone_alt]+ "," +
+								$data[$key][$index_birth]+ "," +
+								$data[$key][$index_genderPref]+ "," +
+								"'','',''"+ ");";
+			print($SQL_participant);
+			if ($senior){
+				$SQL_student = "insert into innodb.senior values( ''," +
+						   $data[$key][$index_job] +","+
+						   $data[$key][$index_yearofCS] +","+
+						   $data[$key][$index_eduLv] +","+
+						   $data[$key][$index_fieldOfInterest] + ");";
+				print ($SQL_mentor);
+			}else{
+				$SQL_student = "insert into innodb.junior values( ''," +
+						   $data[$key][$index_job] +","+
+						   $data[$key][$index_yearofCS] +","+
+						   $data[$key][$index_eduLv] +","+
+						   $data[$key][$index_fieldOfInterest] + ");";
+				print ($SQL_mentor);
+			}
+
+			$SQL_Parameter = "insert into innodb.parameter values ('',"+
+							// current year 
+							// rest of the data 
+							"";
+			print($SQL_Parameter);
+		}
+
+
+
+
+	}	
+
+
 
 	/**
 	 * Show the form for creating a new resource.
