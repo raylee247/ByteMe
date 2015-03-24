@@ -20,7 +20,7 @@
  //       echo "<br>";
  //   }
 
-echo $day1 . $day2 . $day3;
+echo $programofstudy;
 
 ?>
 

@@ -18,31 +18,31 @@
            <label class="control-label col-sm-3">Email address:</label>
            <div class="col-md-6">
              <input type="text" class="form-control" name="email" >
-           </div><br><br> 
+           </div><br><br>
            <label class="control-label col-sm-3">Student number:</label>
            <div class="col-md-6">
             <input type="text" class="form-control" name="studentnum">
-          </div><br><br> 
+          </div><br><br>
           <label class="control-label col-sm-3">Computer Science ID:</label>
           <div class="col-md-6">
             <input type="text" class="form-control" name="csid">
-          </div><br><br> 
+          </div><br><br>
           <label class="control-label col-sm-3">Given name:</label>
           <div class="col-md-6">
             <input type="text" class="form-control" name="givenname">
-          </div><br><br> 
+          </div><br><br>
           <label class="control-label col-sm-3">Family name:</label>
           <div class="col-md-6">
             <input type="text" class="form-control" name="familyname">
-          </div><br><br> 
+          </div><br><br>
           <label class="control-label col-sm-3">Phone:</label>
           <div class="col-md-6">
             <input type="text" class="form-control" name="phone">
-          </div><br><br> 
+          </div><br><br>
           <label class="control-label col-sm-3">Phone (alternate):</label>
           <div class="col-md-6">
             <input type="text" class="form-control" name="phonealt">
-          </div><br><br> 
+          </div><br><br>
 
           <div class="gender">
             <label class="control-label col-sm-3">Gender:</label>
@@ -120,30 +120,27 @@
           </select>
         </div><br>
 
-        <div class="form-inline">
-          <label class="control-label col-sm-3">Program of study:</label>
-          <select class="form-control" name="programofstudy" >
-            <option id="program_none">None</option>
-            <option id="ba_cs">BA, Computer Science</option>
-            <option id="bcomm_combined_cs">BComm, Combined Business / Computer Science (BUCS)</option>
-            <option id="bcs_second">BCS (Bachelor of CS, 2nd Degree)</option>
-            <option id="bsc_cog">BSc, Cognitive Systems (Comp. Intelligence and Design)</option>
-            <option id="bsc_cs">BSc, Computer Science</option>
-            <option id="bsc_combined_cs_bio">BSc, Combined Major (Computer Science and Biology)</option>
-            <option id="bsc_combined_cs_math">BSc, Combined Major (Computer Science and Mathematics)</option>
-            <option id="bsc_combined_cs_micb">BSc, Combined Major (Computer Science and Microbiology and Immunology)</option>
-            <option id="bsc_combined_cs_stats">BSc, Combined Major (Computer Science and Statistics)</option>
-            <option id="bsc_cs_phys">BSc, Combined Major (Computer Science and Physics)</option>
-            <option id="bsc_combined_cs_other">BSc, Combined Major (Computer Science and Another Science Subject)</option>
-            <option id="bsc_honours_cs">BSc, Honours Computer Science</option>
-            <option id="other">Other (please specify)</option>
-          </select>
-        </div><br>
+
+        <?php
+
+            //generate the program of study section of application form
+            echo '<div class="form-inline">
+                <label class="control-label col-sm-3">Program of study:</label>
+                <select class="form-control" name="programofstudy" >';
+
+            $programCount = count($program);
+            for($i = 0; $i < $programCount; $i++){
+                echo '<option>' . $program[$i] . '</option>';
+            }
+
+            echo ' </select></div><br>';
+
+        ?>
 
         <div class="form-inline">
           <label class="control-label col-sm-3">Program of study (other):</label> // TODO: DROPDOWN WHEN OTHER IS SELECTED
           <input type="text" class="form-control" name="programofstudy_other">
-        </div><br> 
+        </div><br>
 
         <div class="form-inline">
           <label class="control-label col-sm-3">Year of study:</label> // TODO: OTHER
@@ -153,7 +150,7 @@
             <option id="secondyr">2nd year</option>
             <option id="thirdyr">3rd year</option>
             <option id="fourthyr">4th year</option>
-            <option id="other">Other</option> 
+            <option id="other">Other</option>
           </select>
         </div><br>
 
