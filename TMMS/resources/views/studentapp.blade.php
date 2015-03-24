@@ -71,6 +71,7 @@
 
 
         <?php
+            //generate kickoff section on application form
             $count = count($kickoff);
 
             echo '<label class="control-label col-sm-3">Kickoff event availability</label>
@@ -88,26 +89,29 @@
            }
             echo '<th><center>NOT AVAIL.</th></center>
             </tr>';
-                for($i = 0; $i < $count; $i++){
-                    echo '<tr>
+
+            //display kickoff dates and radio buttons
+            for($i = 0; $i < $count; $i++){
+                echo '<tr>
                     <td><center>' . $kickoff[$i] . '</center></td>';
-                    for($j = 0; $j < $count; $j++){
-                        echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
-                        if(isset($day1) && $day1 == $kickoff[$i]){
-                            echo "checked";
-                       }
-                        $value = 'value="' . $kickoff[$i] . '"></center>';
-                        echo $value;
-                    }
+                //generate each row
+                for($j = 0; $j < $count; $j++){
                     echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
-                    if (isset($day1) && $day1== $kickoff[$i]) {
+                    if(isset($day1) && $day1 == $kickoff[$i]){
                         echo "checked";
                     }
-                    echo $value = 'value="null"></center>';
-                    echo "</tr>";
+                    $value = 'value="' . $kickoff[$i] . '"></center>';
+                    echo $value;
                 }
+                echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
+                if (isset($day1) && $day1== $kickoff[$i]) {
+                    echo "checked";
+                }
+                echo $value = 'value="null"></center>';
+                echo "</tr>";
+            }
 
-        echo '</table><br>';
+            echo '</table><br>';
         ?>
 
 
