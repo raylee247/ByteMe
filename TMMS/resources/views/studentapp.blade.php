@@ -8,13 +8,9 @@
       <div class="panel-heading"><center>Student Application Form</center></div>
       <div class="panel-body">
 
-
-
-
         <h2>Sign up to be a Student</h2>
 
         Thank you for your interest in becoming a student with our Computer Science tri-mentoring program. To help in matching mentors to appropriate students, please complete all sections of the application form.
-
 
         // TODO : SET UP REQUIRED FIELDS , validation, fix "other" fields
         <form class="form-horizontal" role="form" action="mentorapp" method="POST" >
@@ -207,10 +203,8 @@
             <label class="control-label col-sm-3">Additional questions or comments?</label>
             <textarea rows="5" cols="90" name="additionalcomments_questions" id="additionalcomments_questions"></textarea><br>
           </div> <br>
-
           <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
         </div><br>
-
       </div></form></div></div>
 
       @endsection
