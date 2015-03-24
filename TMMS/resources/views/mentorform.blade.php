@@ -170,9 +170,7 @@
 					<label class="control-label col-sm-3">Additional questions or comments?</label>
 					<textarea rows="5" cols="90" name="additionalcomments_questions" id="additionalcomments_questions"></textarea><br>
 				</div> 
-
-		
-			</div>		<center><button class="btn btn-primary">Submit Application</button></center>
+			</div>
 		</form>
 	</div>
 </div>
