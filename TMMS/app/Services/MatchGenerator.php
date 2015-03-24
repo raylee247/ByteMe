@@ -21,6 +21,7 @@ class MatchGenerator{
 
 	//table for values
 	protected $MentorSatTable = array();
+	protected $memory = array();
 
 
 	public function test(){
@@ -83,8 +84,8 @@ class MatchGenerator{
 		// echo "DONE DO THE MATCH";
 		// return $result;
 	}
-
-	/**
+    
+    /**
 	 * DYNAMIC PROGRAMMING WOOOOOOHOOOOOOO
 	 * since mentor is the primary constraint on the program, 
 	 * i write this function base on mentors for now
@@ -96,6 +97,18 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
+		$key = implode(",", $mentors);
+		$key += implode(",", $seniors);
+		$key += implode(",", $juniors);
+
+		if (array_key_exists($key, $this->memory[$key])){
+			return  $this->memory[$key];
+		}else{
+			$this->memory[$key] = $this->doTheMatch_compute($mentors,$seniors,$juniors);
+		}
+	}
+	
+	public function doTheMatch_compute($mentors,$seniors,$juniors){
 		// match a mentor each time
 		print ("\ndoTheMatch with parameter: ");
 		print ("mentor:");

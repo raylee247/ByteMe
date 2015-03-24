@@ -270,5 +270,15 @@ class appLoaderController extends Controller {
 //            'alumnus', 'additionalcomments_questions'));
    
 }
+
+    public function editstudentformindex() {
+        return view('studentform');
+    }
+
+    public function editmentorformindex() {
+        return view('mentorform');        
+    }
+
+
 }
 

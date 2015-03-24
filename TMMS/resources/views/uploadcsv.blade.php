@@ -10,8 +10,7 @@
       <div class="col-lg-6 col-sm-6 col-12">
         <form>
           I am uploading participant information for: <br> //TODO: NEED TO POST VALUES AND SEND TO CONTROLLER
-          <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="junior") echo "checked";?> value="junior">Juniors</label>
-          <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="senior") echo "checked";?> value="senior">Seniors</label>
+          <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="student") echo "checked";?> value="student">Students</label>
           <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="mentor") echo "checked";?> value="mentor">Mentors</label>
         </form><br><br>
         Select a file to upload: 
@@ -22,12 +21,17 @@
             </span>
           </span>
           <input type="text" class="form-control" readonly>
+          <span class="input-group-btn">
+            <span class="btn btn-info btn-file">
+              <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Preview <input type="submit" value="" name="submit"><!--specify value type here-->
+            </span>
+          </span>
         </div>
         <span class="help-block">
           File format requires to be in .csv extension
         </span>
         <span class="input-group-btn">
-          <span class="btn btn-primary btn-file">
+          <span class="btn btn-success btn-file">
             <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload File <input type="submit" value="Upload CSV File" name="submit">
           </span>
         </span>
