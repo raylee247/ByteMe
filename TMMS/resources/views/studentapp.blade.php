@@ -171,6 +171,95 @@
           </div>
           <br>
 
+              {{--this is the extra questions part--}}
+              <?php
+
+              //questions comes in as an array holding arrays
+              //each array looks like the following [format2|id2|question2|answer]
+              for ($x = 0; $x < count($questions); $x++) {
+                  //echo "NEW QUESTIONS ARE HERE";
+                  switch($questions[$x][0]){
+
+                      case "checkbox":
+                          echo '<div class="form-inline"><label class="control-label col-sm-4">' . $questions[$x][2] . '</label><div class="col-md-6">';
+                          echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
+                          $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                          $answer = explode("," , $rawAnswer);
+                          $answerCount = count($answer);
+                          for ($i = 0; $i < $answerCount; $i++){
+                              echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
+                          }
+                          echo '</div><br>';
+                          break;
+
+                      case "text":
+                          echo '<div class="form-inline"><label class="control-label col-sm-3">' . $questions[$x][2] . '</label>
+                          <div class="col-md-6">
+                          <input type="text" class="form-control" name="' . $questions[$x][1] . '">
+                          </div><br>';
+                          break;
+
+                      case "radio":
+                          echo '<div class="form-inline"><label class="control-label col-sm-3">' . $questions[$x][2] . '</label><div class="col-md-9">' .
+                              $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
+
+                          $rawOptions = $questions[$x][4];
+                          $options = explode("," , $rawOptions);
+                          $optionsCount = count($options);
+
+                          $rawAnswer = $questions[$x][5];
+                          $answer = explode("," , $rawAnswer);
+                          $answerCount = count($answer);
+
+                          //display the options on the top
+                          for($i = 0; $i < $optionsCount; $i++){
+                              echo '<th><center>' . $options[$i] . '</center></th>';
+                          }
+
+                          //display the answers (on the side) and the radio buttons
+                          for($i = 0; $i < $answerCount; $i++){
+                              echo '<tr><td><center>' . $answer[$i] . '</center></td>';
+                              //generate each row
+                              for($j = 0; $j < $answerCount; $j++){
+                                  echo '<td><center><input type="radio" name="' . $questions[$x][1] . '"';
+                                  if(isset($day1) && $day1 == $answer[$i]){
+                                      echo "checked";
+                                  }
+                                  $value = 'value="' . $answer[$i] . '"></center>';
+                                  echo $value;
+                              }
+                              echo "</tr>";
+                          }
+
+                          echo '</table><br>';
+                          break;
+
+                      case "select": //this is dropdown
+                          echo '<div class="form-inline"><label class="control-label col-sm-4">' . $questions[$x][2] . '<br></label>
+                                <select class="form-control" name="' . $questions[$x][1] . '" >';
+                          $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                          $answer = explode("," , $rawAnswer);
+                          $answerCount = count($answer);
+                          for($i = 0; $i < $answerCount; $i++){
+                              echo '<option>' . $answer[$i] . '</option>';
+                          }
+                          echo '</select><br>';
+                          break;
+
+                      case "textarea":
+                          echo '<div class="form-inline">
+                          <label class="control-label col-sm-3">' . $questions[$x][2] . '</label>
+                          <textarea rows="5" cols="90" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br>
+                          </div> <br>';
+                          break;
+
+                  }
+                  echo '<br>';
+              }
+
+              ?>
+
+                
           <div class="form-inline">
             <div class="col-sm-1"></div><label class="control-label">Co-op status:</label> 
             <select class="form-control" name="coop">

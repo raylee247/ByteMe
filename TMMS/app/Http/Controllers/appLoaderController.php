@@ -14,8 +14,8 @@ class appLoaderController extends Controller {
 	 */
 	public function index()
     {
-        $programofstudy = $_POST['programofstudy'];
-        return View('appEdit')->with('programofstudy', $programofstudy);
+        $careerplan = $_POST['human?pig?'];
+        return View('appEdit')->with('careerplan', $careerplan);
     }
 
 	/**
