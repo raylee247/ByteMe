@@ -14,8 +14,10 @@ class appLoaderController extends Controller {
 	 */
 	public function index()
     {
-        $year = date("Y");
-        return View('appEdit')->with('year', $year);
+        $day1 = $_POST['day1'];//format of YYYY-MM-DD
+        $day2 = $_POST['day2'];
+        $day3 = $_POST['day3'];
+        return View('appEdit')->with('day1', $day1)->with('day2', $day2)->with('day3', $day3);
     }
 
 	/**
@@ -34,8 +36,8 @@ class appLoaderController extends Controller {
         //break into different elements to get the text for HTML
 
         //Courses offered @ UBC student may have taken
-        $rawCourse = $rawApp["courses"];
-        $course = explode("," , $rawCourse);
+//        $rawCourse = $rawApp["courses"];
+//        $course = explode("," , $rawCourse);
 //        foreach($course as $c){
 //            echo $c . "<br>";
 //        }
@@ -65,7 +67,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('appEdit')->with('course', $course)-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('studentapp')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
 	}
 
 
@@ -121,7 +123,7 @@ class appLoaderController extends Controller {
         $familyname = $_POST['familyname'];
         $gender = $_POST['gender'];
         //kickoff
-        $day1 = $_POST['day1'];
+        $day1 = $_POST['day1'];//format of YYYY-MM-DD
         $day2 = $_POST['day2'];
         $day3 = $_POST['day3'];
         $additionalcomments_avail = $_POST['additionalcomments_avail'];
@@ -138,12 +140,12 @@ class appLoaderController extends Controller {
         //determine if registering past a deadline
         $rawApp = \DB::table('studentapp')->where('year',$year);
         $rawDeadline = $rawApp['deadline'];
-        $deadline = explode(",",$rawDeadline); //day, month, year
-        if($year > $deadline[2]){
+        $deadline = explode(",",$rawDeadline); //year, month, day
+        if($year > $deadline[0]){
             $waitlist = 1;
         }elseif($month > $deadline[1]){
             $waitlist = 1;
-        }elseif($date > $deadline[0]){
+        }elseif($date > $deadline[2]){
             $waitlist = 1;
         }else{
             $waitlist = 0;
@@ -152,7 +154,7 @@ class appLoaderController extends Controller {
         //inserting into participant table
         $participant_id = DB::table('participant')->insertGetId(
             array('First name' => $givenname, 'Family name' => $familyname,
-                'gender' => $gender, 'kickoff' => $day1 . $day2 . $day3 . $additionalcomments_avail,
+                'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
                 'birth year' => $birthyear, 'genderpref' => mentorgender,
                 'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year)
@@ -223,11 +225,11 @@ class appLoaderController extends Controller {
         $rawApp = \DB::table('studentapp')->where('year',$year);
         $rawDeadline = $rawApp['deadline'];
         $deadline = explode(",",$rawDeadline); //day, month, year
-        if($year > $deadline[2]){
+        if($year > $deadline[0]){
             $waitlist = 1;
         }elseif($month > $deadline[1]){
             $waitlist = 1;
-        }elseif($date > $deadline[0]){
+        }elseif($date > $deadline[2]){
             $waitlist = 1;
         }else{
             $waitlist = 0;
@@ -236,7 +238,7 @@ class appLoaderController extends Controller {
         //inserting into participant table
         $participant_id = DB::table('participant')->insertGetId(
             array('First name' => $givenname, 'Family name' => $familyname,
-                'gender' => $gender, 'kickoff' => $day1 . $day2 . $day3 . $additionalcomments_avail,
+                'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
                 'birth year' => $birthyear, 'genderpref' => mentorgender,
                 'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year)
@@ -268,5 +270,15 @@ class appLoaderController extends Controller {
 //            'alumnus', 'additionalcomments_questions'));
    
 }
+
+    public function editstudentformindex() {
+        return view('studentform');
+    }
+
+    public function editmentorformindex() {
+        return view('mentorform');        
+    }
+
+
 }
 
