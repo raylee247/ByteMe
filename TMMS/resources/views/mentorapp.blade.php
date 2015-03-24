@@ -56,7 +56,7 @@
                    <div class="col-md-9">Mentors are requested to attend one evening kickoff event to meet with their student matches. There are 3 different event dates to choose from. All evenings follow the same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please indicate your availability for the following dates:
                    </div><br><br><br><br>
 
-                   <table class="table table-hover" style="width:90%">
+                   <table class="table table-hover table-striped" style="width:90%">
                     <tr>
                         <th></th>
                         <th><center>FIRST CHOICE</center></th>
