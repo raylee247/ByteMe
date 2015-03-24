@@ -6,41 +6,45 @@
   <div class="panel-body">
     <div>    
         <div class="col-xs-8 col-xs-offset-2">
-		    <div class="input-group">
-                <div class="input-group-btn search-panel">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Junior students</a></li>
-                      <li><a href="#">Senior students</a></li>
-                      <li><a href="#">All students</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">Mentors</a></li>
-                    </ul>
-                </div>
-                <input type="hidden" name="search_param" value="all" id="search_param">         
-                <input type="text" class="form-control" name="text" placeholder="Search with name, student number, CS ID or email">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            <form action="waitlist" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="input-group">
+                  <input type="hidden" name="search_param" value="all" id="search_param">         
+                  <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
             </div>
-        </div>
-	</div>
+        </form>
+    </div>
+</div>
 <br>
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr> TODO // implement MOVE TO PARTICIPANT function + SEARCH FUNCTION + FILL IN DATATABLE + IMPLEMENT DB QUERY <br> + PARTICIPANT INFO PROFILE (figure out whether participant is mentor/student and displaying accordingly)
                 <th>First Name</th>
                 <th>Last name</th>
-                <th>Student Number</th>
-                <th>CS ID</th>
-                <th>Year Standing</th>
                 <th>Email</th>               
             </tr>
         </thead>
  <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
         <tbody>
+            <?php
+                foreach($result as $single_result) 
+                {
+                    echo "<tr class='waitlisttable' data-toggle='modal' data-target='#modal-1'><td>"; 
+                    print_r($single_result['First name']);
+                    echo "</td>";
+                    echo "<td>"; 
+                    print_r($single_result['Family name']);
+                    echo "</td>";
+                    echo "<td>"; 
+                    print_r($single_result['email']);
+                    echo "</td>";
+                    echo "<td><p data-placement='top' data-toggle='tooltip' title='Move to Participants'><button class='btn btn-danger btn-xs' data-title='Move' data-toggle='modal' data-target='#move' ><span class='glyphicon glyphicon-flag'></span></button></p></td>";
+                    echo "</tr>";
+                }
+            ?>
             <tr> 
                 <td>Tiger Nixon</td>
                 <td>System Architect</td>
