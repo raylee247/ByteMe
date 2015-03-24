@@ -70,7 +70,7 @@
            same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
            indicate your availability for the following dates:
            </div><br><br><br><br>
-           <table class="table table-hover" style="width:90%">
+           <table class="table table-hover table-striped" style="width:90%">
            <tr>
            <th></th>';
 
