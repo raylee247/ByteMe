@@ -22,12 +22,12 @@ class MatchGenerator{
 	//table for values
 	protected $MentorSatTable = array();
 	protected $memory = array();
-
+	protected $backTrack = array();
 
 	public function test(){
 		// print("i made it to match-gen \n");
 		// print ("test");
-		$this->getParticipant();
+		// $this->getParticipant();
 	}
 	/**
 	 * Create a new controller instance.
@@ -43,14 +43,12 @@ class MatchGenerator{
 		// $this->juniors = $juniors;
 		
 		// grab all the ids for mentor, senior and student from db
-		// $this->getParticipants()
+		// $this->getParticipant();
 		
 		// mock up now
 		$this->mentors = array(1,4);
 		$this->seniors = array(2,5);
 		$this->juniors = array(3,6);
-
-
 
 		$this->mustList = $mustList;
 		$this->priority = $priority;
@@ -68,6 +66,7 @@ class MatchGenerator{
 		$this->seniors = $seniors;
 		$juniors = \DB::select("select pid from innodb.participant p ,innodb.junior j where p.pid = j.jid");
 		$this->juniors = $juniors;
+		print("\nget participant done");
 	}
 
 
@@ -78,13 +77,45 @@ class MatchGenerator{
 	 */
 	
 	public function generate(){
-		$this->test();
-		// $this->generateTable();
-		// $result = $this->doTheMatch(array(1,4),array(2,5),array(3,6));
-		// echo "DONE DO THE MATCH";
-		// return $result;
+		// $this->test();
+		$this->generateTable();
+		print("\ngeneratetable done");
+		$result = $this->doTheMatch(array(1,4),array(2,5),array(3,6));
+		print "\nDONE DO THE MATCH";
+		$this->doBackTrack(array(1,4),array(2,5),array(3,6));
+		
+
+		return $result;
 	}
     
+    public function doBackTrack($mentors,$seniors,$juniors){
+    	$key = implode(",", $mentors);
+		$key .= ",";
+		$key .= implode(",", $seniors);
+		$key .= ",";
+		$key .= implode(",", $juniors);
+		// print ($key);
+		if (array_key_exists($key, $this->backTrack)){
+			$match = $this->backTrack[$key];
+			print ("\n");
+			print($match);
+			$match_array = explode(",", $match);
+			if (count($match_array) > 1){
+				$target_mentor = $match_array[0];
+				$target_senior = $match_array[1];
+				$target_junior = $match_array[2];
+				$mod_mentors = $this->array_without($mentors,$target_mentor);
+				$mod_seniors = $this->array_without($seniors,$target_senior);
+				$mod_juniors = $this->array_without($juniors,$target_junior);
+				$this->doBackTrack($mod_mentors, $mod_seniors,$mod_juniors);
+			}else{
+				// $victim = array_values($mentors)[0]
+				// $mod_mentors = array_without();
+				echo "end";
+			}
+		}
+		// var_dump($this->backTrack);
+    }
     /**
 	 * DYNAMIC PROGRAMMING WOOOOOOHOOOOOOO
 	 * since mentor is the primary constraint on the program, 
@@ -98,20 +129,26 @@ class MatchGenerator{
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
 		$key = implode(",", $mentors);
-		$key += implode(",", $seniors);
-		$key += implode(",", $juniors);
-
-		if (array_key_exists($key, $this->memory[$key])){
+		$key .= ",";
+		$key .= implode(",", $seniors);
+		$key .= ",";
+		$key .= implode(",", $juniors);
+		print("\n");
+		print ($key);
+		if (array_key_exists($key, $this->memory)){
+			print("\nresult exist");
 			return  $this->memory[$key];
 		}else{
+			print("\ncompute");
 			$this->memory[$key] = $this->doTheMatch_compute($mentors,$seniors,$juniors);
+			return $this->memory[$key];
 		}
 	}
 	
 	public function doTheMatch_compute($mentors,$seniors,$juniors){
 		// match a mentor each time
 		print ("\ndoTheMatch with parameter: ");
-		print ("mentor:");
+		print ("\nmentor:");
 		var_dump($mentors);
 		print ("\n senior:");
 		var_dump($seniors);
@@ -126,15 +163,21 @@ class MatchGenerator{
 			// return the key with the maxx vlaue 
 			//should sotre the key somewhere for backtracking
 			$key = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]); 
-			print("\nhere");
 			$value = $this->MentorSatTable[$target][$key]; 
-
+			
+			$backTrackkey = implode(",", $mentors);
+			$backTrackkey .= ",";
+			$backTrackkey .= implode(",", $seniors);
+			$backTrackkey .= ",";
+			$backTrackkey .= implode(",", $juniors);
+			$this->backTrack[$backTrackkey] = $key;
 			return $value;
 		}else{
 			// find max of all combination for this mentor at this level 
 			// max( not using this mentor, using this mentor)
 			// in the using this mentor case, we want the max(all possible combination)
 			$result = array();
+			$resultKey = array();
 			// using this mentor 
 			// for all the match possible for this mentor, for example, <mentorA, seniorA, junior A>
 			// call doTheMatch($mentors - mentorA ,$seniors - SeniorA ,$juniors - JuniorA )
@@ -146,12 +189,12 @@ class MatchGenerator{
 					$mod_seniors = $this->array_without($seniors,$senior);
 					$mod_juniors = $this->array_without($juniors,$junior);
 					$key = $target . "," . $senior . "," . $junior;
-					print("do matching with key:");
+					print("\ndo matching with key:");
 					print($key);
 					// var_dump($this->MentorSatTable[$target][$key]);
 					$temp = $this->MentorSatTable[$target][$key] + $this->doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
-					echo "back";
-					$result[] = $temp; 
+					$result[$key] = $temp; 
+					
 				}
 			}
 			// not using this mentor
@@ -160,8 +203,22 @@ class MatchGenerator{
 			$with = max($result);
 
 			if($with > $without){
+				$choice = array_keys($result,$with);
+				$backTrackkey = implode(",", $mentors);
+				$backTrackkey .= ",";
+				$backTrackkey .= implode(",", $seniors);
+				$backTrackkey .= ",";
+				$backTrackkey .= implode(",", $juniors);
+				$this->backTrack[$backTrackkey] = $choice[0];
 				return $with; 
 			}else{
+				$choice = "no including mentor " . $target;
+				$backTrackkey = implode(",", $mentors);
+				$backTrackkey .= ",";
+				$backTrackkey .= implode(",", $seniors);
+				$backTrackkey .= ",";
+				$backTrackkey .= implode(",", $juniors);
+				$this->backTrack[$backTrackkey] = $choice;
 				return $without;
 			}
 		}
@@ -194,7 +251,6 @@ class MatchGenerator{
 	public function maxAvailiable($seniors,$juniors,$targetArray){
 		$temp = $targetArray;
 		// sort it low to high
-
 		arsort($temp);
 		$result="";
 		$maximum = -1;
@@ -267,23 +323,23 @@ class MatchGenerator{
 	 */
 	public function getPersonWithID($id){
 		// get the person's info from db somehow 
-		$query_mentor = 'select * from innodb.participant p ,innodb.mentor m where p.pid = m.mid and p.pid ='.$id;
-		$query_senior = 'select * from innodb.participant p ,innodb.senior s where p.pid = s.sid and p.pid ='.$id;
-		$query_junior = 'select * from innodb.participant p ,innodb.junior j where p.pid = j.jid and p.pid ='.$id;
+		// $query_mentor = 'select * from innodb.participant p ,innodb.mentor m where p.pid = m.mid and p.pid ='.$id;
+		// $query_senior = 'select * from innodb.participant p ,innodb.senior s where p.pid = s.sid and p.pid ='.$id;
+		// $query_junior = 'select * from innodb.participant p ,innodb.junior j where p.pid = j.jid and p.pid ='.$id;
 
-		$result_mentor = \DB::select($query_mentor);
-		$result_senior = \DB::select($query_senior);
-		$result_junior = \DB::select($query_junior);
+		// $result_mentor = \DB::select($query_mentor);
+		// $result_senior = \DB::select($query_senior);
+		// $result_junior = \DB::select($query_junior);
 
-		if(count($result_mentor)>0){
-			return $result_mentor[0];
-		}elseif(count($result_senior)>0){
-			return $result_senior[0];
-		}elseif(count($result_junior)>0){
-			return $result_junior[0];
-		}else{
-			return "bad";
-		}
+		// if(count($result_mentor)>0){
+		// 	return $result_mentor[0];
+		// }elseif(count($result_senior)>0){
+		// 	return $result_senior[0];
+		// }elseif(count($result_junior)>0){
+		// 	return $result_junior[0];
+		// }else{
+		// 	return "bad";
+		// }
 
 
 		// mock up now
