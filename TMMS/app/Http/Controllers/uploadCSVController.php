@@ -108,14 +108,15 @@ class uploadCSVController extends Controller {
 	}
 
 	public function parseOldCSV($type,$headers,$datas){
+		print($type);
 		// $type is either mentors or student
 		// header string require for participant 
 		$participant_target_keywords = array("---", // pid
-											 "Given name",
-											 "Family name",
+											 "Given",
+											 "Family",
 											 "Gender",
 											 "-",
-											 "Email",
+											 "mail",
 											 "Phone",
 											 "Phone (alternate)",
 											 "Birth year",
@@ -124,7 +125,7 @@ class uploadCSVController extends Controller {
 											 "---" // waitlist
 											 );
 		$mentor_target_keywords = array("---", // mid
-										"job title", // job title  
+										"title", // job title  
 										"Years of CS", // year of CS
 										"level of education", //edu lv
 										"CS areas of interest" // field of interest 
@@ -157,13 +158,25 @@ class uploadCSVController extends Controller {
 							for ($x=0; $x <3; $x++) { 
 								switch ($person[$i+$x]) {
 									case 'First Choice':
-										$temp[0] = $headers_clone[$i+$x];
+										if (array_key_exists(0, $temp)){
+											$temp[] = $headers_clone[$i+$x];
+										}else{
+											$temp[0] = $headers_clone[$i+$x];
+										}
 										break;
 									case 'Second Choice':
-										$temp[1] = $headers_clone[$i+$x];
+										if (array_key_exists(1, $temp)){
+											$temp[] = $headers_clone[$i+$x];
+										}else{
+											$temp[1] = $headers_clone[$i+$x];
+										}
 										break;
 									case 'Third Choice':
-										$temp[2] = $headers_clone[$i+$x];
+										if (array_key_exists(2, $temp)){
+											$temp[] = $headers_clone[$i+$x];
+										}else{
+											$temp[2] = $headers_clone[$i+$x];
+										}
 										break;
 								}
 							}
@@ -180,10 +193,10 @@ class uploadCSVController extends Controller {
 				$participant_values[] = $value;
 			}
 			$participant_values[] = date("Y");
-			var_dump($participant_values);
-			print("\n===============================\n");
+			// var_dump($participant_values);
+			// print("\n===============================\n");
 
-			if($type = "mentor"){
+			if($type == "mentor"){
 				// construct mentor value array
 				$mentor_values = array();
 				foreach ($mentor_target_keywords as $keyword) {
@@ -198,8 +211,26 @@ class uploadCSVController extends Controller {
 					}
 					$mentor_values[] = $value;
 				}
-				var_dump($mentor_values);
-				print("\n===============================\n");
+				// var_dump($mentor_values);
+				// print("\n===============================\n");
+				$leftover = array_diff($person, $mentor_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
+				// var_dump($leftover);
+				$parameter_value = array();
+				$parameter_value[] = ""; 
+				$parameter_value[] = date("Y");		
+				$empStat = array();	
+				$extra = "{";	
+				foreach ($leftover as $key => $value) {
+					$title = $headers[$key];
+					if ($value == "X" && $title != "CS Alumni/ae"){
+						$empStat[] = $title;
+					}else{
+						$extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
+					}
+				}
+				$extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
+				$parameter_value[] = $extra;
+				// var_dump($parameter_value);
 			}else{
 				// construct student value array
 				$student_values = array();
@@ -215,8 +246,27 @@ class uploadCSVController extends Controller {
 					}
 					$student_values[] = $value;
 				}
-				var_dump($student_values);
-				print("\n===============================\n");
+				// var_dump($student_values);
+				$leftover = array_diff($person, $student_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
+				// var_dump($leftover);
+				$parameter_value = array();
+				$parameter_value[] = ""; 
+				$parameter_value[] = date("Y");		
+				$empStat = array();	
+				$extra = "{";	
+				foreach ($leftover as $key => $value) {
+					$title = $headers[$key];
+					if ($value == "X" && $title != "CS Alumni/ae"){
+						$empStat[] = $title;
+					}else{
+						$extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
+					}
+				}
+				$extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
+				$parameter_value[] = $extra;
+				// var_dump($student_values);
+				var_dump($parameter_value);
+				// print("\n===============================\n");
 			}
 			//===============================================================
 			// the rest goes into extra 
