@@ -30,9 +30,9 @@ Route::get('home', 'HomeController@index');
 
 Route::get('studentapp', 'appLoaderController@grabStudentApp');
 Route::get('mentorapp', 'appLoaderController@grabMentorApp');
-Route::post('mentorapp', 'appLoaderController@studenttest');
-Route::post('studentapp', 'appLoaderController@mentortest');
-//Route::post('mentorapp', 'appLoaderController@index');
+//Route::post('mentorapp', 'appLoaderController@mentorToDB');
+//Route::post('studentapp', 'appLoaderController@studenToDB');
+Route::post('mentorapp', 'appLoaderController@index');
 
 // edit application forms
 Route::get('studentform', 'appLoaderController@editstudentformindex');
@@ -79,7 +79,7 @@ Route::get('weight', 'weightController@index');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
-Route::get('ray', 'appLoaderController@studenttest');
+Route::get('ray', 'appLoaderController@index');
 //====
 
 Route::controllers([
