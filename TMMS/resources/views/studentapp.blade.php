@@ -181,7 +181,7 @@
                   switch($questions[$x][0]){
 
                       case "checkbox":
-                          echo '<div class="form-inline"><label class="control-label col-sm-4">' . $questions[$x][2] . '</label><div class="col-md-6">';
+                          echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
                           echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
                           $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                           $answer = explode("," , $rawAnswer);
@@ -189,18 +189,18 @@
                           for ($i = 0; $i < $answerCount; $i++){
                               echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
                           }
-                          echo '</div><br>';
+                          echo '</div><br><br><br>';
                           break;
 
                       case "text":
-                          echo '<div class="form-inline"><label class="control-label col-sm-3">' . $questions[$x][2] . '</label>
-                          <div class="col-md-6">
+                          echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label>
+                          <div class="col-md-4">
                           <input type="text" class="form-control" name="' . $questions[$x][1] . '">
-                          </div><br>';
+                          </div><br><br>';
                           break;
 
                       case "radio":
-                          echo '<div class="form-inline"><label class="control-label col-sm-3">' . $questions[$x][2] . '</label><div class="col-md-9">' .
+                          echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-9">' .
                               $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
 
                           $rawOptions = $questions[$x][4];
@@ -235,22 +235,23 @@
                           break;
 
                       case "select": //this is dropdown
-                          echo '<div class="form-inline"><label class="control-label col-sm-4">' . $questions[$x][2] . '<br></label>
-                                <select class="form-control" name="' . $questions[$x][1] . '" >';
+                          echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '<br></label>
+                                <div class="col-md-4"><select class="form-control" name="' . $questions[$x][1] . '" >';
                           $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                           $answer = explode("," , $rawAnswer);
                           $answerCount = count($answer);
                           for($i = 0; $i < $answerCount; $i++){
                               echo '<option>' . $answer[$i] . '</option>';
                           }
-                          echo '</select><br>';
+                          echo '</select></div><br>';
                           break;
 
                       case "textarea":
-                          echo '<div class="form-inline">
-                          <label class="control-label col-sm-3">' . $questions[$x][2] . '</label>
-                          <textarea rows="5" cols="90" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br>
-                          </div> <br>';
+                          echo '<div class="col-sm-1"></div>
+                          <label class="pull-left">' . $questions[$x][2] . '</label><br><br>
+                          <div class="col-sm-1"></div>
+                          <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br>
+                          <br>';
                           break;
 
                   }
@@ -258,7 +259,6 @@
               }
 
               ?>
-
                 
           <div class="form-inline">
             <div class="col-sm-1"></div><label class="control-label">Co-op status:</label> 
