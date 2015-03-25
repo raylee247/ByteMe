@@ -14,11 +14,13 @@ class appLoaderController extends Controller {
 	 */
 	public function index()
     {
+        //extra questions
         $newQuestions = [];
 
+        //grabbing raw questions from database
         $year = date("Y");
-        $rawStuApp = \DB::table('studentapp')->where('year', $year)->first();
-        $rawQuestion = $rawStuApp["extra"];
+        $rawMenApp = \DB::table('mentorapp')->where('year', $year)->first();
+        $rawQuestion = $rawMenApp["extra"];
         if ($rawQuestion == null){
             $newQuestions = null;
         } else {
@@ -30,31 +32,46 @@ class appLoaderController extends Controller {
                 array_push($newQuestions, $q);
             }
         }
+
+        //split the questions into just the tags
+        //such that we can use the tags to check if form submitted anything
         $variables = [];
         $countQ = count($newQuestions);
         for($i = 0; $i < $countQ; $i++){
             array_push($variables, $newQuestions[$i][1]);
         }
 
+        //check if anything was posted for the extra's questions and grab the answers
         $paralist = [];
+        $insert = "";
         $countV = count($variables);
 
         for($k = 0; $k < $countV; $k++){
             if(isset($_POST[$variables[$k]])){
                 if($_POST[$variables[$k]] != ""){
+                    $middle = "";
                     if(count($_POST[$variables[$k]]) > 1){
                         $combineVariable = $_POST[$variables[$k]];
-                        for($m = 0; $m < (count($combineVariable) - 1) ; $m++){
-                            array_push($paralist, $combineVariable[$m + 1]);
+                        for($m = 1; $m < count($_POST[$variables[$k]]) ; $m++){
+                            //array_push($paralist, $combineVariable[$m + 1]);
+                            if($m == (count($_POST[$variables[$k]]) - 1)) {
+                                $middle .= $combineVariable[$m];
+                            }else{
+                                $middle .= $combineVariable[$m] . ',';
+                            }
                         }
-                    } else {
-                        array_push($paralist, $_POST[$variables[$k]]);
+                    }else{
+                        //array_push($paralist, $_POST[$variables[$k]]);
+                        $middle = $middle . $_POST[$variables[$k]];
                     }
+                    $insert .= '"' . $variables[$k] . '":"' . $middle . '",';
+                    $combineInsert = $insert;
                 }
             }
         }
 
-        $parameter = implode("," , $paralist);
+        //$parameter = implode("," , $paralist);
+        $parameter = '{' . substr($combineInsert,0,-1) . '}';
 
         return View('appEdit')->with('parameter',$parameter);
     }
@@ -177,7 +194,7 @@ class appLoaderController extends Controller {
         $date = date("d"); //01
 
         //determine if registering past a deadline
-        $rawApp = \DB::table('studentapp')->where('year',$year);
+        $rawApp = \DB::table('studentapp')->where('year',$year)->first();
         $rawDeadline = $rawApp['deadline'];
         $deadline = explode("-",$rawDeadline); //year, month, day
         if($year > $deadline[0]){
@@ -191,11 +208,11 @@ class appLoaderController extends Controller {
         }
 
         //inserting into participant table
-        $participant_id = DB::table('participant')->insertGetId(
+        $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $givenname, 'Family name' => $familyname,
                 'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
-                'birth year' => $birthyear, 'genderpref' => mentorgender,
+                'birth year' => $birthyear, 'genderpref' => $mentorgender,
                 'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year]
         );
 
@@ -212,13 +229,13 @@ class appLoaderController extends Controller {
         //detemine if it is a senior or junior student (determined if they took all the listed CPSC courses)
         //insert accordingly, with sid OR jid = participant_id
         if(count($course)==4){
-            $senior_response = DB::table('senior')->insert(
+            $senior_response = \DB::table('senior')->insert(
                     ['sid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
                     'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
             );
         }else{
-            $junior_response = DB::table('junior')->insert(
+            $junior_response = \DB::table('junior')->insert(
                     ['jid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
                     'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
@@ -226,7 +243,6 @@ class appLoaderController extends Controller {
         }
 
         //extra questions
-        //TODO NEED TO FIX DYNAMIC CALLS TO THE FORM, THESE ARE NOT ALWAY THERE
         $newQuestions = [];
 
         //grabbing raw questions from database
@@ -254,28 +270,65 @@ class appLoaderController extends Controller {
         }
 
         //check if anything was posted for the extra's questions and grab the answers
-        $paralist = [];
+
+
+//        $paralist = [];
+//        $countV = count($variables);
+//
+//        for($k = 0; $k < $countV; $k++){
+//            if(isset($_POST[$variables[$k]])){
+//                if($_POST[$variables[$k]] != ""){
+//                    if(count($_POST[$variables[$k]]) > 1){
+//                        $combineVariable = $_POST[$variables[$k]];
+//                        for($m = 0; $m < (count($combineVariable) - 1) ; $m++){
+//                            array_push($paralist, $combineVariable[$m + 1]);
+//                        }
+//                    } else {
+//                        array_push($paralist, $_POST[$variables[$k]]);
+//                    }
+//                }
+//            }
+//        }
+//
+//        $parameter = implode("," , $paralist);
+
+
+
+
+        //$paralist = [];
+        $insert = "";
         $countV = count($variables);
 
         for($k = 0; $k < $countV; $k++){
             if(isset($_POST[$variables[$k]])){
                 if($_POST[$variables[$k]] != ""){
+                    $middle = "";
                     if(count($_POST[$variables[$k]]) > 1){
                         $combineVariable = $_POST[$variables[$k]];
-                        for($m = 0; $m < (count($combineVariable) - 1) ; $m++){
-                            array_push($paralist, $combineVariable[$m + 1]);
+                        for($m = 1; $m < count($_POST[$variables[$k]]) ; $m++){
+                            //array_push($paralist, $combineVariable[$m + 1]);
+                            if($m == (count($_POST[$variables[$k]]) - 1)) {
+                                $middle .= $combineVariable[$m];
+                            }else{
+                                $middle .= $combineVariable[$m] . ',';
+                            }
                         }
-                    } else {
-                        array_push($paralist, $_POST[$variables[$k]]);
+                    }else{
+                        //array_push($paralist, $_POST[$variables[$k]]);
+                        $middle = $middle . $_POST[$variables[$k]];
                     }
+                    $insert .= '"' . $variables[$k] . '":"' . $middle . '",';
+                    $combineInsert = $insert;
                 }
             }
         }
 
-        $parameter = implode("," , $paralist);
+        //$parameter = implode("," , $paralist);
+        $parameter = '{' . substr($combineInsert,0,-1) . '}';
+
 
         //insert extra questions answers into parameter
-        $paramter_response = DB::table('parameter')->insert(
+        $paramter_response = \DB::table('parameter')->insert(
                 ['pid' => $participant_id, 'year' => $year, 'extra' => $parameter]
         );
 
@@ -314,7 +367,7 @@ class appLoaderController extends Controller {
         $date = date("d"); //01
 
         //determine if registering past a deadline
-        $rawApp = \DB::table('studentapp')->where('year',$year);
+        $rawApp = \DB::table('mentorapp')->where('year',$year)->first();
         $rawDeadline = $rawApp['deadline'];
         $deadline = explode("-",$rawDeadline); //day, month, year
         if($year > $deadline[0]){
@@ -328,11 +381,11 @@ class appLoaderController extends Controller {
         }
 
         //inserting into participant table
-        $participant_id = DB::table('participant')->insertGetId(
+        $participant_id = \DB::table('participant')->insertGetId(
             array('First name' => $givenname, 'Family name' => $familyname,
                 'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
-                'birth year' => $birthyear, 'genderpref' => mentorgender,
+                'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
                 'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year)
         );
 
@@ -345,12 +398,10 @@ class appLoaderController extends Controller {
         $levelofeducation = $_POST['levelofeducation'];
         $cs_areasofinterest = $_POST['cs_areasofinterest'];
 
-        $mentor_response = DB::table('mentor')->insert(
+        $mentor_response = \DB::table('mentor')->insert(
                 ['mid' => $participant_id, 'job' => $job, 'yearofcs' => $yearsofcswork,
                 'edulvl' => $levelofeducation, 'field of interest' => $cs_areasofinterest]
         );
-
-//TODO NEED TO FIX DYNAMIC CALLS TO THE FORM, THESE ARE NOT ALWAY THERE
 
         //extra questions
         $newQuestions = [];
@@ -380,28 +431,39 @@ class appLoaderController extends Controller {
         }
 
         //check if anything was posted for the extra's questions and grab the answers
-        $paralist = [];
+        //$paralist = [];
+        $insert = "";
         $countV = count($variables);
 
         for($k = 0; $k < $countV; $k++){
             if(isset($_POST[$variables[$k]])){
                 if($_POST[$variables[$k]] != ""){
+                    $middle = "";
                     if(count($_POST[$variables[$k]]) > 1){
                         $combineVariable = $_POST[$variables[$k]];
-                        for($m = 0; $m < (count($combineVariable) - 1) ; $m++){
-                            array_push($paralist, $combineVariable[$m + 1]);
+                        for($m = 1; $m < count($_POST[$variables[$k]]) ; $m++){
+                            //array_push($paralist, $combineVariable[$m + 1]);
+                            if($m == (count($_POST[$variables[$k]]) - 1)) {
+                                $middle .= $combineVariable[$m];
+                            }else{
+                                $middle .= $combineVariable[$m] . ',';
+                            }
                         }
-                    } else {
-                        array_push($paralist, $_POST[$variables[$k]]);
+                    }else{
+                        //array_push($paralist, $_POST[$variables[$k]]);
+                        $middle = $middle . $_POST[$variables[$k]];
                     }
+                    $insert .= '"' . $variables[$k] . '":"' . $middle . '",';
+                    $combineInsert = $insert;
                 }
             }
         }
 
-        $parameter = implode("," , $paralist);
+        //$parameter = implode("," , $paralist);
+        $parameter = '{' . substr($combineInsert,0,-1) . '}';
 
         //insert extra questions answers into parameter
-        $paramter_response = DB::table('parameter')->insert(
+        $paramter_response = \DB::table('parameter')->insert(
             ['pid' => $participant_id, 'year' => $year, 'extra' => $parameter]
         );
 

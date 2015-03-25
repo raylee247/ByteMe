@@ -16,7 +16,7 @@
                 </div>
                 <div class="panel-body">
                     // TODO : SET UP REQUIRED FIELDS , validation, fix "other" fields
-                    <form class="form-horizontal" role="form" action="mentorapp" method="POST" >
+                    <form class="form-horizontal" role="form" action="studentapp" method="POST" >
                         <div class="form-group">
                             <label class="control-label col-sm-3">Email address:</label>
                             <div class="col-md-6">
