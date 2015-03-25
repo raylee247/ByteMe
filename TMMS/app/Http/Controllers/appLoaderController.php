@@ -390,16 +390,13 @@ class appLoaderController extends Controller {
         );
 
         //mentor only attributes
-        $employmentstatus = $_POST['employmentstatus']; //array
-        foreach($employmentstatus as $e){
-            $job = $e . ",";
-        }
+        $position = $_POST['position']; //array
         $yearsofcswork = $_POST['yearsofcswork'];
         $levelofeducation = $_POST['levelofeducation'];
         $cs_areasofinterest = $_POST['cs_areasofinterest'];
 
         $mentor_response = \DB::table('mentor')->insert(
-                ['mid' => $participant_id, 'job' => $job, 'yearofcs' => $yearsofcswork,
+                ['mid' => $participant_id, 'job' => $position, 'yearofcs' => $yearsofcswork,
                 'edulvl' => $levelofeducation, 'field of interest' => $cs_areasofinterest]
         );
 
@@ -468,7 +465,10 @@ class appLoaderController extends Controller {
         );
 
 
-
+//        $employmentstatus = $_POST['employmentstatus']; //array
+//        foreach($employmentstatus as $e){
+//            $job = $e . ",";
+//        }
 //        $hobbies_interest = $_POST['hobbies_interest'];
 //        $alumnus = $_POST['alumnus'];
 //        $additionalcomments_questions = $_POST['additionalcomments_questions'];

@@ -132,6 +132,14 @@
                                 </select>
                             </div>
                             <br><br><br>
+
+                            <div class="form-inline">
+                                <div class="col-sm-1"></div><label class="control-label pull-left">Current Position At Work</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="position">
+                                </div>
+                            <br><br>
+
                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Current employment status (check all that apply):</label>
                             <div class="col-md-4">
