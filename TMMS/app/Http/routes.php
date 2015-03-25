@@ -29,11 +29,10 @@ Route::get('home', 'HomeController@index');
 //application forms
 
 Route::get('studentapp', 'appLoaderController@grabStudentApp');
-//Route::post('mentorapp', 'appLoaderController@studenttest');
+Route::get('mentorapp', 'appLoaderController@grabMentorApp');
+Route::post('mentorapp', 'appLoaderController@studenttest');
 Route::post('studentapp', 'appLoaderController@mentortest');
-Route::post('mentorapp', 'appLoaderController@index');
-
-Route::get('mentorapp', 'MentorAppController@index');
+//Route::post('mentorapp', 'appLoaderController@index');
 
 // edit application forms
 Route::get('studentform', 'appLoaderController@editstudentformindex');

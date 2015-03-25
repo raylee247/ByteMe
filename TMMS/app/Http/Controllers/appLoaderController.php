@@ -105,7 +105,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('appEdit')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
     }
 
 

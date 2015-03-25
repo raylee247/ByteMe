@@ -52,40 +52,47 @@
                        <input type="text" class="form-control" name="birthyear">
                    </div><br><br>
 
-                   <label class="control-label col-sm-3">Kickoff event availability</label>
-                   <div class="col-md-9">Mentors are requested to attend one evening kickoff event to meet with their student matches. There are 3 different event dates to choose from. All evenings follow the same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please indicate your availability for the following dates:
-                   </div><br><br><br><br>
+                    <?php
+                    //generate kickoff section on application form
+                    $count = count($kickoff);
 
-                   <table class="table table-hover table-striped" style="width:90%">
-                    <tr>
-                        <th></th>
-                        <th><center>FIRST CHOICE</center></th>
-                        <th><center>SECOND CHOICE</center> </th> 
-                        <th><center>THIRD CHOICE</center></th>
-                        <th><center>NOT AVAIL.</center></th>
-                    </tr>
-                    <tr>
-                        <td><center>Wed. Sept. 24, 2014, from 5:45 - 7:45pm</center></td>
-                        <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="firstchoice") echo "checked";?> value="firstchoice" ></center></td>
-                        <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="secondchoice") echo "checked";?> value="secondchoice" ></center></td>
-                        <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="thirdchoice") echo "checked";?>value="thirdchoice" ></center></td>
-                        <td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="fourthchoice") echo "checked";?>value="fourthchoice" ></center></td>
-                    </tr>
-                    <tr>
-                        <td><center>Thurs. Sept. 25, 2014 from 5:45 - 7:45pm</center></td> 
-                        <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="firstchoice") echo "checked";?> value="firstchoice" ></center></td>
-                        <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="secondchoice") echo "checked";?> value="secondchoice" ></center></td>
-                        <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="thirdchoice") echo "checked";?> value="thirdchoice" ></center></td>
-                        <td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="fourthchoice") echo "checked";?> value="fourthchoice" ></center></td>
-                    </tr>
-                    <tr>
-                        <td><center>Thurs. Oct. 2, 2014, from 5:45 - 7:45pm</center></td>
-                        <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="firstchoice") echo "checked";?> value="firstchoice" ></center></td>
-                        <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="secondchoice") echo "checked";?> value="secondchoice" ></center></td>
-                        <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="thirdchoice") echo "checked";?> value="thirdchoice" ></center></td>
-                        <td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="fourthchoice") echo "checked";?> value="fourthchoice" ></center></td>
-                    </tr>
-                </table>
+                    echo '<label class="control-label col-sm-3">Kickoff event availability</label>
+                       <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
+                       student/mentor matches. There are " . $count . " different event dates to choose from. All evenings follow the
+                       same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
+                       indicate your availability for the following dates:
+                       </div><br><br><br><br>
+                       <table class="table table-hover table-striped" style="width:90%">
+                       <tr>
+                       <th></th>';
+
+                    for($i = 0; $i < $count; $i++){
+                        echo '<th><center>CHOICE ' . ($i+1) . '</center></th>';
+                    }
+                    echo '<th><center>NOT AVAIL.</th></center></tr>';
+
+                    //display kickoff dates and radio buttons
+                    for($i = 0; $i < $count; $i++){
+                        echo '<tr><td><center>' . $kickoff[$i] . '</center></td>';
+                        //generate each row
+                        for($j = 0; $j < $count; $j++){
+                            echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
+                            if(isset($day1) && $day1 == $kickoff[$i]){
+                                echo "checked";
+                            }
+                            $value = 'value="' . $kickoff[$i] . '"></center>';
+                            echo $value;
+                        }
+                        echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
+                        if (isset($day1) && $day1== $kickoff[$i]) {
+                            echo "checked";
+                        }
+                        echo $value = 'value="null"></center>';
+                        echo "</tr>";
+                    }
+
+                    echo '</table>';
+                    ?>
 
                 <div>
                     <div class="col-sm-1"></div><label class="pull-left">Additional comments regarding availability?</label><br><br>
@@ -153,6 +160,93 @@
                         </select>
                     </div>
                 </div><br><br>
+
+                {{--this is the extra questions part--}}
+                <?php
+
+                //questions comes in as an array holding arrays
+                //each array looks like the following [format2|id2|question2|answer]
+                for ($x = 0; $x < count($questions); $x++) {
+                    //echo "NEW QUESTIONS ARE HERE";
+                    switch($questions[$x][0]){
+
+                        case "checkbox":
+                            echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
+                            echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
+                            $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                            $answer = explode("," , $rawAnswer);
+                            $answerCount = count($answer);
+                            for ($i = 0; $i < $answerCount; $i++){
+                                echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
+                            }
+                            echo '</div><br><br><br>';
+                            break;
+
+                        case "text":
+                            echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label>
+                                 <div class="col-md-4"><input type="text" class="form-control" name="' . $questions[$x][1] . '"></div><br><br>';
+                            break;
+
+                        case "radio":
+                            echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-9">' .
+                                    $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
+
+                            $rawOptions = $questions[$x][4];
+                            $options = explode("," , $rawOptions);
+                            $optionsCount = count($options);
+
+                            $rawAnswer = $questions[$x][5];
+                            $answer = explode("," , $rawAnswer);
+                            $answerCount = count($answer);
+
+                            //display the options on the top
+                            for($i = 0; $i < $optionsCount; $i++){
+                                echo '<th><center>' . $options[$i] . '</center></th>';
+                            }
+
+                            //display the answers (on the side) and the radio buttons
+                            for($i = 0; $i < $answerCount; $i++){
+                                echo '<tr><td><center>' . $answer[$i] . '</center></td>';
+                                //generate each row
+                                for($j = 0; $j < $answerCount; $j++){
+                                    echo '<td><center><input type="radio" name="' . $questions[$x][1] . '"';
+                                    if(isset($day1) && $day1 == $answer[$i]){
+                                        echo "checked";
+                                    }
+                                    $value = 'value="' . $answer[$i] . '"></center>';
+                                    echo $value;
+                                }
+                                echo "</tr>";
+                            }
+
+                            echo '</table><br>';
+                            break;
+
+                        case "select": //this is dropdown
+                            echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '<br></label>
+                    <div class="col-md-4"><select class="form-control" name="' . $questions[$x][1] . '" >';
+                            $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                            $answer = explode("," , $rawAnswer);
+                            $answerCount = count($answer);
+                            for($i = 0; $i < $answerCount; $i++){
+                                echo '<option>' . $answer[$i] . '</option>';
+                            }
+                            echo '</select></div><br>';
+                            break;
+
+                        case "textarea":
+                            echo '<div class="col-sm-1"></div>
+              <label class="pull-left">' . $questions[$x][2] . '</label><br><br>
+              <div class="col-sm-1"></div>
+              <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br>
+              <br>';
+                            break;
+
+                    }
+                    echo '<br>';
+                }
+
+                ?>
 
                 <div class="col-sm-1"></div>
                 <label class="control-label pull-left">Are you a UBC alumnae/alumnus?</label>
