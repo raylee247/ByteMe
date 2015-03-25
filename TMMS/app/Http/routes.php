@@ -29,11 +29,10 @@ Route::get('home', 'HomeController@index');
 //application forms
 
 Route::get('studentapp', 'appLoaderController@grabStudentApp');
+Route::get('mentorapp', 'appLoaderController@grabMentorApp');
 Route::post('mentorapp', 'appLoaderController@studenttest');
 Route::post('studentapp', 'appLoaderController@mentortest');
 //Route::post('mentorapp', 'appLoaderController@index');
-
-Route::get('mentorapp', 'MentorAppController@index');
 
 // edit application forms
 Route::get('studentform', 'appLoaderController@editstudentformindex');
@@ -65,6 +64,7 @@ Route::post('uploadcsv_uploaded', 'uploadCSVController@upload');
 
 Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
+Route::post('waitlist', 'AdminController@waitlistSearch');
 
 // match making
 

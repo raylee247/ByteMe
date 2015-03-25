@@ -14,10 +14,8 @@ class appLoaderController extends Controller {
 	 */
 	public function index()
     {
-        $day1 = $_POST['day1'];//format of YYYY-MM-DD
-        $day2 = $_POST['day2'];
-        $day3 = $_POST['day3'];
-        return View('appEdit')->with('day1', $day1)->with('day2', $day2)->with('day3', $day3);
+        $careerplan = $_POST['human?pig?'];
+        return View('appEdit')->with('careerplan', $careerplan);
     }
 
 	/**
@@ -107,7 +105,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('appEdit')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
     }
 
 

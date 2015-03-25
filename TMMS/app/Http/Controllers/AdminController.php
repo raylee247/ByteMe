@@ -56,7 +56,8 @@ class AdminController extends Controller {
     {
         $date = date("Y");
         $result = \DB::table('participant')->where('waitlist', 1)->where('year', $date)->get();
-        return view('waitlist', $result);
+        
+        return \View::make('waitlist')->with('result', $result);
     }
 
     public function viewLog()
@@ -147,6 +148,18 @@ class AdminController extends Controller {
                                            ->get();
 
         return \View::make('mentors')->with('result', $result);
+    }
+
+    public function waitlistSearch()
+    {
+        $text = $_POST['text'];
+
+        $result = \DB::table('participant')->where('First name', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                           ->orWhere('email', 'LIKE', '%'.$text.'%')
+                                           ->get();
+
+        return \View::make('waitlist')->with('result', $result);
     }
 
     public function downloadcsv()
