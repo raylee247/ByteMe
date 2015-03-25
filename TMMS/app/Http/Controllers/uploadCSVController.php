@@ -9,6 +9,7 @@ use Goodby\CSV\Import\Standard\LexerConfig;
 
 class uploadCSVController extends Controller {
 
+
 	public function __construct()
     {
         $this->middleware('auth');
@@ -46,6 +47,7 @@ class uploadCSVController extends Controller {
 			$result[] = $columns;
 		});
 		$lexer->parse(SITE_ROOT.'/../storage/app/1.csv', $interpreter);
+		$this->CSVContent = $result;
 		// parses the uploaded CSV at where is putted in to array
 		// result[0] are the headers 
 		// result[1...n] are the participants 
@@ -70,7 +72,7 @@ class uploadCSVController extends Controller {
 		$interpreter->addObserver(function(array $columns) use (&$result) {
 			$result[] = $columns;
 		});
-		$lexer->parse(SITE_ROOT.'/../storage/app/1.csv', $interpreter);
+		$lexer->parse(SITE_ROOT.'/../storage/app/1.csv', $interpreter);	
 		// parses the uploaded CSV at where is putted in to array
 		// result[0] are the headers 
 		// result[1...n] are the participants 
@@ -82,187 +84,167 @@ class uploadCSVController extends Controller {
 				$data[] = $value;
 			}
 		}
+		// var_dump($header);
+		// var_dump($data);
 
-		// get "who" (mentor or student) is this CSV for
-		$participantType = "mentor";
-		// or 
-		$participantType = "student";
-
-		// general prarm for a participant. 
-		$index_firstName = array_search("Given name",$header);
-		$index_lastName = array_search("Family name", $header);
-		$index_gender = array_search("Gender (please specify)", haystack);
 		
-		// regex for date , or however the kick off date will be represented in our csv
-		$index_Kickoff = array_search("", $header);
-		
-		$index_email = array_search("E-mail", $header);
-		$index_phone = array_search("Phone", $header);
-		$index_phone_alt = array_search("Phone (alternate)", $header);
-		$index_birth = array_search("Birth year ", $header);
-		//$index_genderPref = array_search("Preference of student mentee gender", $header);
-		
-		//what is this?
-		$index_pastParticipation = array_search("???", $header);
+		// Given : participant type 
+		// 		   what is to be upload? (full db backup? matching ? or participant upload)
+		// upload procedure :
+		// 1. determine the version of CSV (provided version OR generated version)
+		// 2. parse EVERYTHING accordingly 
+		// 3. setup array with input 
+		// 4. setup SQL statement with array
 
-
-		if ($participantType == "mentor"){
-			// get param for mentor 
-			// job title, do i include the company ?
-
-			$index_genderPref = array_search("Preference of student mentee gender", $header);
-			$index_job = array_search("Current job title", $header);
-			$index_yearofCS = array_search("Years of CS-related work experience", $header);
-			$index_eduLv = array_search("Highest level of education", $header);
-			$index_fieldOfInterest = array_search("CS areas of interest", $header);
-
-			// construct SQL statement 
-			foreach ($data as $key) {				
-			$SQL_participant  = "insert into innodb.participant values ( 
-								''," +   
-								$data[$key][$index_firstName]+ "," +
-								$data[$key][$index_lastName]+ "," +
-								$data[$key][$index_gender]+ "," +
-								$data[$key][$index_Kickoff]+ "," +
-								$data[$key][$index_email]+ "," +
-								$data[$key][$index_phone]+ "," +
-								$data[$key][$index_phone_alt]+ "," +
-								$data[$key][$index_birth]+ "," +
-								$data[$key][$index_genderPref]+ "," +
-								"'','',''"+ ");";
-			print($SQL_participant);
-			$SQL_mentor = "insert into innodb.mentor values( ''," +
-						   $data[$key][$index_job] +","+
-						   $data[$key][$index_yearofCS] +","+
-						   $data[$key][$index_eduLv] +","+
-						   $data[$key][$index_fieldOfInterest] + ");";
-			print ($SQL_mentor);
-			$SQL_Parameter = "insert into innodb.parameter values ('',"+
-							// current year 
-							// rest of the data 
-							"";
-			print($SQL_Parameter);
-
-
-
-
-			}
+		// determine the version 
+		if(array_search("IP Address", $header)!==false){
+			//parse with old way 
+			$this->parseOldCSV($_POST['category'], $header, $data); 
 		}else{
-			// else get student param, and classify senior as year > 2 for old csv. for out CSV will have a category 
-			$index_genderPref = array_search("Mentor gender preference", $header);
-			$index_studentNumber = array_search("Student number", $header);
-			$index_yearStnd = array_search("Year of study ", $header);
-			$index_programOfStudy = array_search("Program of study", $header);
-			// WTF no ID id in CSV TROLOLOL
-			// $index_csid 
-			// with senior flag base on courses 
-
-			foreach ($data as $key) {				
-			$SQL_participant  = "insert into innodb.participant values ( 
-								''," +   
-								$data[$key][$index_firstName]+ "," +
-								$data[$key][$index_lastName]+ "," +
-								$data[$key][$index_gender]+ "," +
-								$data[$key][$index_Kickoff]+ "," +
-								$data[$key][$index_email]+ "," +
-								$data[$key][$index_phone]+ "," +
-								$data[$key][$index_phone_alt]+ "," +
-								$data[$key][$index_birth]+ "," +
-								$data[$key][$index_genderPref]+ "," +
-								"'','',''"+ ");";
-			print($SQL_participant);
-			if ($senior){
-				$SQL_student = "insert into innodb.senior values( ''," +
-						   $data[$key][$index_job] +","+
-						   $data[$key][$index_yearofCS] +","+
-						   $data[$key][$index_eduLv] +","+
-						   $data[$key][$index_fieldOfInterest] + ");";
-				print ($SQL_mentor);
-			}else{
-				$SQL_student = "insert into innodb.junior values( ''," +
-						   $data[$key][$index_job] +","+
-						   $data[$key][$index_yearofCS] +","+
-						   $data[$key][$index_eduLv] +","+
-						   $data[$key][$index_fieldOfInterest] + ");";
-				print ($SQL_mentor);
-			}
-
-			$SQL_Parameter = "insert into innodb.parameter values ('',"+
-							// current year 
-							// rest of the data 
-							"";
-			print($SQL_Parameter);
+			//parse with new way
 		}
 
+		return 0;
+	}
 
+	public function parseOldCSV($type,$headers,$datas){
+		// $type is either mentors or student
+		// header string require for participant 
+		$participant_target_keywords = array("---", // pid
+											 "Given name",
+											 "Family name",
+											 "Gender",
+											 "-",
+											 "Email",
+											 "Phone",
+											 "Phone (alternate)",
+											 "Birth year",
+											 "reference", // gender preference 
+											 "---", // past participant
+											 "---" // waitlist
+											 );
+		$mentor_target_keywords = array("---", // mid
+										"job title", // job title  
+										"Years of CS", // year of CS
+										"level of education", //edu lv
+										"CS areas of interest" // field of interest 
+										);
+		$student_target_keywords = array("---",
+										"Student number",// student num
+										"Year of study ",// year stand 
+										"Program of study",//programOfStudy
+										"---",//courses
+										"---",//csid 
+										"Co-op status"// co op 
+										);
+		
+		// foreach participant in data
+		foreach ($datas as $person) {
+			$headers_clone = $headers; 
 
+			// construct participant value array
+			$participant_values = array();
+			foreach ($participant_target_keywords as $keyword) {
+				// go through headers to find the index
+				$value ="";
+				for ($i=0; $i < count($headers_clone)-1; $i++) { 
+					$header = $headers_clone[$i];
+					if (strpos($header, $keyword) !== FALSE){
+						if($keyword == "-"){
+							// got a date 
+							// get all three pref
+							$temp = array();
+							for ($x=0; $x <3; $x++) { 
+								switch ($person[$i+$x]) {
+									case 'First Choice':
+										$temp[0] = $headers_clone[$i+$x];
+										break;
+									case 'Second Choice':
+										$temp[1] = $headers_clone[$i+$x];
+										break;
+									case 'Third Choice':
+										$temp[2] = $headers_clone[$i+$x];
+										break;
+								}
+							}
+							$temp = $this->format_date($temp);
+							$value = implode(",", $temp);
+							
+						}else{
+							$value = $person[$i];
+						}
+							
+						break;
+					}
+				}
+				$participant_values[] = $value;
+			}
+			$participant_values[] = date("Y");
+			var_dump($participant_values);
+			print("\n===============================\n");
+
+			if($type = "mentor"){
+				// construct mentor value array
+				$mentor_values = array();
+				foreach ($mentor_target_keywords as $keyword) {
+					// go through headers to find the index
+					$value ="";
+					for ($i=0; $i < count($headers_clone)-1; $i++) { 
+						$header = $headers_clone[$i];
+						if (strpos($header, $keyword) !== FALSE){
+							$value = $person[$i];
+							break;
+						}
+					}
+					$mentor_values[] = $value;
+				}
+				var_dump($mentor_values);
+				print("\n===============================\n");
+			}else{
+				// construct student value array
+				$student_values = array();
+				foreach ($student_target_keywords as $keyword) {
+					// go through headers to find the index
+					$value ="";
+					for ($i=0; $i < count($headers_clone)-1; $i++) { 
+						$header = $headers_clone[$i];
+						if (strpos($header, $keyword) !== FALSE){
+							$value = $person[$i];
+							break;
+						}
+					}
+					$student_values[] = $value;
+				}
+				var_dump($student_values);
+				print("\n===============================\n");
+			}
+			//===============================================================
+			// the rest goes into extra 
+
+			// $parameter_value = array();
+			// $parameter_value[] = ""; // pid 
+			// $parameter_value[] = date("Y");
+			// for ($i=0; $i < count($headers_clone)-1; $i++) { 
+			// 	$header = $headers_clone[$i];
+			// 	if (strpos($header, $keyword) !== FALSE){
+			// 		$value = $person[$i];
+			// 		unset($headers_clone[$i]);
+			// 		unset($person[$i]);
+			// 		break;
+			// 	}
+			// }
+			break;
+		}
 
 	}	
-
-
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+	public function format_date($arrayOfDate){
+		$result = array();
+		foreach ($arrayOfDate as $key) {
+			$result[] = date("Y-m-d", strtotime($key));
+		}
+		return $result;
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
+	
 }

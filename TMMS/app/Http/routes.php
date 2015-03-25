@@ -60,7 +60,8 @@ Route::get('downloadcsv', 'AdminController@downloadcsv');
 Route::get('downloadCSV', 'AdminController@downloadCSVfile');
 
 Route::get('uploadcsv', 'uploadCSVController@index');
-Route::post('uploadCSV', 'uploadCSVController@upload');
+Route::post('uploadcsv_preview', 'uploadCSVController@preview');
+Route::post('uploadcsv_uploaded', 'uploadCSVController@upload');
 
 Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
