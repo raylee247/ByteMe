@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use App\Http\Requests\EditParticipantRequest;
 
 class AdminController extends Controller {
 
@@ -162,17 +163,63 @@ class AdminController extends Controller {
         return \View::make('waitlist')->with('result', $result);
     }
 
-    //test function
-    public function indexParticipant() 
-    {
-
-    }
-
     public function showParticipant($pid) 
     {
-        $participant_result = \DB::table('participant')->where('pid', $pid)->get();
+        // Gets all mentor senior and junior students possible data 
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('pid', $pid)->get();
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', $pid)->get();
+        $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid',$pid)->get();
+        $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                               ->where('parameter.pid', $pid)->pluck('extra');
 
-        return \View::make('participant')->with('participant_result', $participant_result);
+        //json parse the parameter data 
+        $extra_decoded = json_decode($json_extra, true);
+        $participant_result = array_merge($junior_result, $senior_result);
+
+        return \View::make('participant')->with('participant_result', $participant_result)->with('json_extra', $json_extra);
+    }
+
+    public function editParticipant(EditParticipantRequest $request, $pid)
+    {
+
+        // Append these 2 fields because there is only one kickoff column
+        $kickoff_data = $request['kickoff'].$request['kickoffcomments'];
+
+        //Update columns in participant table
+        \DB::table('participant')->where('pid', $pid)
+                                 ->update(['email' => $request['email'],
+                                           'gender' => $request['gender'],
+                                           'birth year' => $request['birthyear'],
+                                           'phone' => $request['phone'],
+                                           'phone alt' => $request['phone alt'],
+                                           'kickoff' => $kickoff_data,
+                                           'genderpref' => $request['genderpref'],
+                                           'past participation' => $request['pastparticipation'],
+                                           ]);
+
+        $jid = \DB::table('junior')->where('jid', $pid)->pluck('jid');
+
+        if ($jid == $pid)
+        {
+            \DB::table('junior')->update[''];
+        }
+
+        // Gets all mentor senior and junior students possible data
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('pid', $pid)->get();
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', $pid)->get();
+        $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid', $pid)->get();
+        $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                               ->where('parameter.pid', $pid)->pluck('extra');
+
+        $participant_result = array_merge($junior_result, $senior_result);
+
+        return \View::make('participant')->with('participant_result', $participant_result)->with('json_extra', $json_extra);
     }
 
     public function downloadcsv()
