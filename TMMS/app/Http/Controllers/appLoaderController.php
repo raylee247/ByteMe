@@ -584,6 +584,7 @@ class appLoaderController extends Controller {
                             break;
 
                         case "update":
+
                             break;
                     }
                 }
