@@ -17,6 +17,9 @@
                             </ul>
                         </div>
 @endif
+<?php
+print_r($participant_result);
+?>
 <br>
 <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2">
         <i class="glyphicon glyphicon-pencil"></i> Edit
@@ -137,38 +140,22 @@
                 ?>
             </td>
         </tr>
-        <tr>
-            <td>Future Career Plans</td>
-            <td>
-                <?php
-                    echo "placeholder";
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td>CS Area of Interest</td>
-            <td>
-                <?php
-                    echo "placeholder";
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td>Hobbies and Interests</td>
-            <td>
-                <?php
-                    echo "placeholder";
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td>Additional Comments or Questions</td>
-            <td>
-                <?php
-                    echo "placeholder";
-                ?>
-            </td>
-        </tr>   
+        <?php
+            $extra = json_decode($json_extra, true);
+            $extra_keys = array_keys($extra);
+
+            foreach($extra_keys as $key)
+            {
+                echo "<tr>";
+                echo "<td>";
+                echo $key;
+                echo "</td>";
+                echo "<td>";
+                echo $extra[$key];
+                echo "</td>";
+                echo "</tr>";
+            }
+        ?>
     </tbody>
 </table>
 
