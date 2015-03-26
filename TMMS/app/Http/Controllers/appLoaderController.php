@@ -127,6 +127,51 @@ class appLoaderController extends Controller {
 	}
 
 
+    public function grabStudentAppEdit()
+    {
+        //grab application form from DB for current year
+        $year = date("Y");
+        $rawApp = \DB::table('studentapp')->where('year', $year)->first();
+
+        //return $rawApp;
+
+        //break into different elements to get the text for HTML
+
+        //Courses offered @ UBC student may have taken
+//        $rawCourse = $rawApp["courses"];
+//        $course = explode("," , $rawCourse);
+//        foreach($course as $c){
+//            echo $c . "<br>";
+//        }
+
+        //Current programs offered at UBC that have affiliation with CPSC
+        $rawProgram =$rawApp["program"];
+        $program = explode("," , $rawProgram);
+
+        //Current dates for planned Kickoff night
+        $rawKickoff = $rawApp["kickoff"];
+        $kickoff = explode(",", $rawKickoff);
+
+        //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
+        //pass view HTML tags? or just variables?
+        $newQuestions = [];
+
+        $rawQuestion = $rawApp["extra"];
+        if ($rawQuestion == null){
+            $newQuestions = null;
+        } else {
+            $questions = explode('`', $rawQuestion);
+            //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
+            foreach ($questions as $q){
+                //(format,question,answers)
+                $q = explode('|', $q);
+                array_push($newQuestions, $q);
+            }
+        }
+
+        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+    }
+
     /**
      * Grab mentor application form and pass to mentorapp.blade.php
      *
@@ -520,7 +565,7 @@ class appLoaderController extends Controller {
 
     public function editForm()
     {
-        //I need following parameters
+        //parameters
         /*
          * WHAT IT IS                                   VARIABLE NAME       POSSIBLE CHOICES FOR ANSWER
          * -------------------------------------------------------------------------------------------------
@@ -584,7 +629,18 @@ class appLoaderController extends Controller {
                             break;
 
                         case "update":
-
+                            $question = explode('|', $questions[$i]);
+                            $splitRawApp = explode('`', $rawApp['extra']);
+                            for($m = 0; $m < count($splitRawApp); $m++){
+                                $extra = "";
+                                $pos = strpos($splitRawApp[$m], $question[1]);
+                                if ($pos !== false){
+                                    $splitRawApp[$m] = $questions[$i];
+                                }
+                                $extra .= $splitRawApp[$m];
+                                $newExtra = $extra;
+                            }
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
                 }
@@ -594,12 +650,29 @@ class appLoaderController extends Controller {
                     //grab raw application for status provided
                     switch (operation) {
                         case "add":
+                            $rawApp['extra'] .= $questions[$i];
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
                             break;
 
                         case "delete":
+                            $newExtra = str_replace($questions[$i] . ',', "" , $rawApp['extra']);
+                            $newExtra = str_replace($questions[$i], "" , $rawApp['extra']);
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
+                            $question = explode('|', $questions[$i]);
+                            $splitRawApp = explode('`', $rawApp['extra']);
+                            for($m = 0; $m < count($splitRawApp); $m++){
+                                $extra = "";
+                                $pos = strpos($splitRawApp[$m], $question[1]);
+                                if ($pos !== false){
+                                    $splitRawApp[$m] = $questions[$i];
+                                }
+                                $extra .= $splitRawApp[$m];
+                                $newExtra = $extra;
+                            }
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
                 }

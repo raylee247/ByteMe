@@ -67,7 +67,7 @@
 
                             echo '<label class="control-label col-sm-3">Kickoff event availability</label>
 					   <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
-					   student/mentor matches. There are " . $count . " different event dates to choose from. All evenings follow the
+					   student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
 					   same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
 					   indicate your availability for the following dates:
 					   </div><br><br><br><br>

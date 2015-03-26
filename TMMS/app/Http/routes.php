@@ -25,6 +25,7 @@ Route::get('hello_world', 'WelcomeController@hello');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('about', 'aboutController@index');
 
 //application forms
 
@@ -35,7 +36,7 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 //Route::post('mentorapp', 'appLoaderController@index');
 
 // edit application forms
-Route::get('studentform', 'appLoaderController@editstudentformindex');
+Route::get('studentform', 'appLoaderController@grabStudentAppEdit');
 Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
 
 Route::get('success', 'AdminController@downloadcsv');
