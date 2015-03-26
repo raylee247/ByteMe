@@ -520,7 +520,7 @@ class appLoaderController extends Controller {
 
     public function editForm()
     {
-        //I need following parameters
+        //parameters
         /*
          * WHAT IT IS                                   VARIABLE NAME       POSSIBLE CHOICES FOR ANSWER
          * -------------------------------------------------------------------------------------------------
@@ -584,7 +584,18 @@ class appLoaderController extends Controller {
                             break;
 
                         case "update":
-
+                            $question = explode('|', $questions[$i]);
+                            $splitRawApp = explode('`', $rawApp['extra']);
+                            for($m = 0; $m < count($splitRawApp); $m++){
+                                $extra = "";
+                                $pos = strpos($splitRawApp[$m], $question[1]);
+                                if ($pos !== false){
+                                    $splitRawApp[$m] = $questions[$i];
+                                }
+                                $extra .= $splitRawApp[$m];
+                                $newExtra = $extra;
+                            }
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
                 }
@@ -594,12 +605,29 @@ class appLoaderController extends Controller {
                     //grab raw application for status provided
                     switch (operation) {
                         case "add":
+                            $rawApp['extra'] .= $questions[$i];
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
                             break;
 
                         case "delete":
+                            $newExtra = str_replace($questions[$i] . ',', "" , $rawApp['extra']);
+                            $newExtra = str_replace($questions[$i], "" , $rawApp['extra']);
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
+                            $question = explode('|', $questions[$i]);
+                            $splitRawApp = explode('`', $rawApp['extra']);
+                            for($m = 0; $m < count($splitRawApp); $m++){
+                                $extra = "";
+                                $pos = strpos($splitRawApp[$m], $question[1]);
+                                if ($pos !== false){
+                                    $splitRawApp[$m] = $questions[$i];
+                                }
+                                $extra .= $splitRawApp[$m];
+                                $newExtra = $extra;
+                            }
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
                 }
