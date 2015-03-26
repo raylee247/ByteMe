@@ -480,6 +480,30 @@ class appLoaderController extends Controller {
 }
 
     public function editstudentformindex() {
+        //I need following parameters
+        /*
+         * WHAT IT IS                                   VARIABLE NAME       POSSIBLE CHOICES FOR ANSWER
+         * -------------------------------------------------------------------------------------------------
+         * Determine if student or mentor app           'status'            (student, mentor)
+         *
+         * Determine which operation                    'operation'         (add, delete, update)
+         *
+         * actual fields of questions                   'question[]'        (checkbox|checkboxTest|CheckboxQuestion|A1,A2,A3`
+         *                                                                   text|textTest|textQuestion`
+         *                                                                   radio|radioTest|radioQuestion|radioMessage|option1,option2,option3|B1,B2,B3`
+         *                                                                   select|selectTest|selectQuestion|C1,C2,C3`
+         *                                                                   textarea|textareaTest|textareaQuestion)
+         *
+         *                                                                   General form of above is
+         *                                                                   (format|html name|question to be asked|message?|options?|answers?)
+         *                                                                   follow that format depending on which they request for
+         *
+        */
+        //want to be able to add more questions
+
+        //want to edit already existing questions
+
+        //want to remove already existing question
         return view('studentform');
     }
 
