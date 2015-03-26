@@ -108,6 +108,7 @@ class uploadCSVController extends Controller {
 	}
 
 	public function parseOldCSV($type,$headers,$datas){
+		set_time_limit(180);
 		print($type);
 		// $type is either mentors or student
 		// header string require for participant 
@@ -139,6 +140,13 @@ class uploadCSVController extends Controller {
 										);
 		
 		// foreach participant in data
+		$listOfParticipant = array();
+		$listOfMentor = array();
+		$listOfStudent = array();
+		$listOfParameter = array();
+
+
+
 		foreach ($datas as $person) {
 			$headers_clone = $headers; 
 
@@ -167,6 +175,7 @@ class uploadCSVController extends Controller {
 			}
 			$participant_values[] = 0; 
 			$participant_values[] = date("Y");
+			$listOfParticipant[] =$participant_values;
 			// var_dump($participant_values);
 			// print("\n===============================\n");
 
@@ -186,6 +195,7 @@ class uploadCSVController extends Controller {
 					$mentor_values[] = $value;
 				}
 				// var_dump($mentor_values);
+				$listOfMentor[] = $mentor_values;
 				// print("\n===============================\n");
 				$leftover = array_diff($person, $mentor_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
 				// var_dump($leftover);
@@ -204,52 +214,8 @@ class uploadCSVController extends Controller {
 				}
 				$extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
 				$parameter_value[] = $extra;
-				// insert to participant 
-				// var_dump($participant_values);
-				// $REAL = "[";
-				// $REAL .= implode(",", $participant_values);
-				// $REAL .="]";
-				// \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
+				$listOfParameter[] = $parameter_value;
 				
-				$participant_id = \DB::table('participant')->insertGetId(
-				    ['First name' => $participant_values[1], 
-				    'Family name' => $participant_values[2],
-				    'gender' => $participant_values[3],
-				    'kickoff' => $participant_values[4],
-				    'email' => $participant_values[5],
-				    'phone' => $participant_values[6],
-				    'phone alt' => $participant_values[7],
-				    'birth year' => $participant_values[8],
-				    'genderpref' => $participant_values[9],
-				    'past participation' => $participant_values[10],
-				    'waitlist' => $participant_values[11],
-				    'year' => $participant_values[12]
-				    ]
-				);
-				// insert into mentor 
-				// var_dump($mentor_values);
-				// \DB::insert('insert into innodb.mentor (mid, job, yearofcs, edulvl, field of interest) 
-				// 			values (?, ?, ?, ?, ?)', $mentor_values);
-				$response = \DB::table('mentor')->insert(
-				    ['mid' => $participant_id,
-				    'job' => $mentor_values[1], 
-				    'yearofcs' => $mentor_values[2],
-				    'edulvl' => $mentor_values[3],
-				    'field of interest' => $mentor_values[4]
-				    ]
-				);
-				 print ($response);
-				// insert into parameter 
-				// var_dump($parameter_value);
-				
-				\DB::table('parameter')->insert(
-				    ['pid' => $participant_id,
-				    'year' => $parameter_value[1], 
-				    'extra' => $parameter_value[2]
-				    ]
-				);
-
-				// \DB::insert('insert into innodb.parameter (pid, year, extra) values (?, ?, ?)', $parameter_value);
 			}else{
 				// construct student value array
 				$student_values = array();
@@ -266,6 +232,7 @@ class uploadCSVController extends Controller {
 					$student_values[] = $value;
 				}
 				// var_dump($student_values);
+				$listOfStudent[] = $student_values;
 				$leftover = array_diff($person, $student_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
 				// var_dump($leftover);
 				$parameter_value = array();
@@ -284,7 +251,8 @@ class uploadCSVController extends Controller {
 				$extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
 				$parameter_value[] = $extra;
 				// var_dump($student_values);
-				var_dump($parameter_value);
+				// var_dump($parameter_value);
+				$listOfParameter[] = $parameter_value;
 				// print("\n===============================\n");
 			}
 			//===============================================================
@@ -302,8 +270,117 @@ class uploadCSVController extends Controller {
 			// 		break;
 			// 	}
 			// }
-			break;
+			// break;
 		}
+
+
+		// insert to participant 
+		// var_dump($participant_values);
+		// $REAL = "[";
+		// $REAL .= implode(",", $participant_values);
+		// $REAL .="]";
+		// \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
+		$listOfID = array();
+		foreach ($listOfParticipant as $participant_values) {
+			$participant_id = \DB::table('participant')->insertGetId(
+		    ['First name' => $participant_values[1], 
+		    'Family name' => $participant_values[2],
+		    'gender' => $participant_values[3],
+		    'kickoff' => $participant_values[4],
+		    'email' => $participant_values[5],
+		    'phone' => $participant_values[6],
+		    'phone alt' => $participant_values[7],
+		    'birth year' => $participant_values[8],
+		    'genderpref' => $participant_values[9],
+		    'waitlist' => $participant_values[11],
+		    'year' => $participant_values[12]
+		    ]);
+
+		    $pid = \DB::table('participant')->where('email', $participant_values[5])->pluck('pid');
+		    $listOfID[] = $pid;
+		}
+		var_dump($listOfID);
+		// insert into mentor 
+		// var_dump($mentor_values);
+		if (count($listOfMentor) > 0){
+			$i = 0;
+			foreach ($listOfMentor as $mentor_values) {
+				\DB::table('mentor')->insert(
+				    ['mid' => $listOfID[$i],
+				    'job' => $mentor_values[1], 
+				    'yearofcs' => $mentor_values[2],
+				    'edulvl' => $mentor_values[3],
+				    'field of interest' => $mentor_values[4]
+				    ]
+				);
+				$i++;
+			}
+		}elseif (count($listOfStudent) > 0){
+			$i = 0;
+			foreach ($listOfStudent as $student_values) {
+				if (($student_values[2]== "3rd year")||($student_values[2]== "4th year")){
+					\DB::table('senior')->insert(
+					    ['sid' => $listOfID[$i],
+					    'studentNum' => $student_values[1], 
+					    'yearStand' => $student_values[2],
+					    'programOfStudy' => $student_values[3],
+					    'courses' => $student_values[4],
+					    'csid' => $student_values[5],
+					    'coop' => $student_values[6]
+					    ]
+					);
+				}else{
+					\DB::table('junior')->insert(
+					    ['jid' => $listOfID[$i],
+					    'studentNum' => $student_values[1], 
+					    'yearStand' => $student_values[2],
+					    'programOfStudy' => $student_values[3],
+					    'courses' => $student_values[4],
+					    'csid' => $student_values[5],
+					    'coop' => $student_values[6]
+					    ]
+					);
+				}
+				
+				$i++;
+			}
+		}
+
+		if (count($listOfParameter) > 0){
+			$i = 0;
+			foreach ($listOfParameter as $parameter_value) {
+				\DB::table('parameter')->insert(
+				    ['pid' => $listOfID[$i],
+				    'year' => $parameter_value[1], 
+				    'extra' => $parameter_value[2]
+				    ]
+				);
+				$i++;
+			}
+		}
+
+
+		// \DB::insert('insert into innodb.mentor (mid, job, yearofcs, edulvl, field of interest) 
+		// 			values (?, ?, ?, ?, ?)', $mentor_values);
+		// $response = \DB::table('mentor')->insert(
+		//     ['mid' => $participant_id,
+		//     'job' => $mentor_values[1], 
+		//     'yearofcs' => $mentor_values[2],
+		//     'edulvl' => $mentor_values[3],
+		//     'field of interest' => $mentor_values[4]
+		//     ]
+		// );
+		//  print ($response);
+		// insert into parameter 
+		// var_dump($parameter_value);
+		
+		// \DB::table('parameter')->insert(
+		//     ['pid' => $participant_id,
+		//     'year' => $parameter_value[1], 
+		//     'extra' => $parameter_value[2]
+		//     ]
+		// );
+
 
 	}	
 	public function format_date($arrayOfDate){
