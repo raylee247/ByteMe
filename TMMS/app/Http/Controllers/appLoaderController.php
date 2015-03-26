@@ -128,7 +128,7 @@ class appLoaderController extends Controller {
 
 
     /**
-     * Grab mentor application form
+     * Grab mentor application form and pass to mentorapp.blade.php
      *
      *
      */
@@ -166,6 +166,45 @@ class appLoaderController extends Controller {
         return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
     }
 
+
+/**
+     * Grab mentor application form and pass to mentorform.blade.php
+     *
+     *
+     */
+    public function grabMentorAppEdit()
+    {
+        //grab application form from DB for current year
+        $year = date("Y");
+        $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
+
+        //return $rawApp;
+
+        //break into different elements to get the text for HTML
+
+        //Current dates for planned Kickoff night
+        $rawKickoff = $rawApp["kickoff"];
+        $kickoff = explode(",", $rawKickoff);
+
+        //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
+        //pass view HTML tags? or just variables?
+        $newQuestions = [];
+
+        $rawQuestion = $rawApp["extra"];
+        if ($rawQuestion == null){
+            $newQuestions = null;
+        } else {
+            $questions = explode('`', $rawQuestion);
+            //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
+            foreach ($questions as $q){
+                //(format,id,question,answers)
+                $q = explode('|', $q);
+                array_push($newQuestions, $q);
+            }
+        }
+
+        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+    }
 
 
     /**
