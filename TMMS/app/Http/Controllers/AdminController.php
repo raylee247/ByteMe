@@ -162,6 +162,19 @@ class AdminController extends Controller {
         return \View::make('waitlist')->with('result', $result);
     }
 
+    //test function
+    public function indexParticipant() 
+    {
+
+    }
+
+    public function showParticipant($pid) 
+    {
+        $participant_result = \DB::table('participant')->where('pid', $pid)->get();
+
+        return \View::make('participant')->with('participant_result', $participant_result);
+    }
+
     public function downloadcsv()
     {
         return view('downloadcsv');
