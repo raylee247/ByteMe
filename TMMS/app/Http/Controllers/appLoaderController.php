@@ -128,7 +128,7 @@ class appLoaderController extends Controller {
 
 
     /**
-     * Grab mentor application form
+     * Grab mentor application form and pass to mentorapp.blade.php
      *
      *
      */
@@ -166,6 +166,45 @@ class appLoaderController extends Controller {
         return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
     }
 
+
+/**
+     * Grab mentor application form and pass to mentorform.blade.php
+     *
+     *
+     */
+    public function grabMentorAppEdit()
+    {
+        //grab application form from DB for current year
+        $year = date("Y");
+        $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
+
+        //return $rawApp;
+
+        //break into different elements to get the text for HTML
+
+        //Current dates for planned Kickoff night
+        $rawKickoff = $rawApp["kickoff"];
+        $kickoff = explode(",", $rawKickoff);
+
+        //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
+        //pass view HTML tags? or just variables?
+        $newQuestions = [];
+
+        $rawQuestion = $rawApp["extra"];
+        if ($rawQuestion == null){
+            $newQuestions = null;
+        } else {
+            $questions = explode('`', $rawQuestion);
+            //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
+            foreach ($questions as $q){
+                //(format,id,question,answers)
+                $q = explode('|', $q);
+                array_push($newQuestions, $q);
+            }
+        }
+
+        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+    }
 
 
     /**
@@ -479,36 +518,109 @@ class appLoaderController extends Controller {
    
 }
 
-    public function editstudentformindex() {
+    public function editForm()
+    {
         //I need following parameters
         /*
          * WHAT IT IS                                   VARIABLE NAME       POSSIBLE CHOICES FOR ANSWER
          * -------------------------------------------------------------------------------------------------
          * Determine if student or mentor app           'status'            (student, mentor)
          *
-         * Determine which operation                    'operation'         (add, delete, update)
+         * Determine the kickoff nights                 'kickoff'           (day1,day2,dayn)
          *
-         * actual fields of questions                   'question[]'        (checkbox|checkboxTest|CheckboxQuestion|A1,A2,A3`
-         *                                                                   text|textTest|textQuestion`
-         *                                                                   radio|radioTest|radioQuestion|radioMessage|option1,option2,option3|B1,B2,B3`
-         *                                                                   select|selectTest|selectQuestion|C1,C2,C3`
+         * Determine the program of study               'program'           (pro1,pro2,pron) only for student
+         *
+         * deadline                                     'deadline'          (YYYY-MM-DD)
+         *
+         * Determine which operation                    'operation[]'         (add, delete, update, new)
+         *                                                                   add    :   adding new question
+         *                                                                   delete :   deleting existing question
+         *                                                                   update :   updating a existing question
+         *                                                                   new    :   new application form for the new year
+         *
+         * actual fields of questions                   'question[]'        (checkbox|checkboxTest|CheckboxQuestion|A1,A2,A3       OR
+         *                                                                   text|textTest|textQuestion        OR
+         *                                                                   radio|radioTest|radioQuestion|radioMessage|option1,option2,option3|B1,B2,B3    OR
+         *                                                                   select|selectTest|selectQuestion|C1,C2,C3     OR
          *                                                                   textarea|textareaTest|textareaQuestion)
          *
          *                                                                   General form of above is
          *                                                                   (format|html name|question to be asked|message?|options?|answers?)
          *                                                                   follow that format depending on which they request for
          *
+         *
+         * Everytime someone clicked ADD, DELETE, UPDATE you add that operation into 'operation[]', concurrently
+         * the in 'question[]' please add what they edited/added so that means
+         *
+         * operation[1] and question[1] are related, 
+         * ex. ADD text would look like
+         * operation[1] = add
+         * question[1] = text|textTest|textQuestion
         */
+        $year = date("Y");
+        $status = $_POST['status'];
+        $kickoff = $_POST['kickoff'];
+        $program = $_POST['program'];
+        $deadline = $_POST['deadline'];
+        $operation = $_POST['operation'];
+        $questions = $_POST['question'];
+
+        //check if creating new application form, else, grab current form and do operation
+        if ($operation != "new") {
+            if ($status == "student") {
+                $rawApp = \DB::table('studentapp')->where('year', $year)->first();
+                for ($i = 0; $i < count(operation); $i++) {
+                    //grab raw application for status provided
+                    switch (operation) {
+                        case "add":
+                            $rawApp['extra'] .= $questions[$i];
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
+                            break;
+
+                        case "delete":
+                            $newExtra = str_replace($questions[$i] . ',', "" , $rawApp['extra']);
+                            $newExtra = str_replace($questions[$i], "" , $rawApp['extra']);
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                            break;
+
+                        case "update":
+                            break;
+                    }
+                }
+            } else {
+                $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
+                for ($i = 0; $i < count(operation); $i++) {
+                    //grab raw application for status provided
+                    switch (operation) {
+                        case "add":
+                            break;
+
+                        case "delete":
+                            break;
+
+                        case "update":
+                            break;
+                    }
+                }
+            }
+        }else{
+            if($status == 'student'){
+                $student_response = \DB::table('studentapp')->insertGetId(
+                    ['program' => $program, 'kickoff' => $kickoff,
+                     'year' => $year, 'deadline' => $deadline]);
+            }else{
+                $mentor_response = \DB::table('mentorapp')->insertGetId(
+                    ['kickoff' => $kickoff, 'year' => $year, 'deadline' => $deadline]);
+            }
+        }
+
+
         //want to be able to add more questions
 
         //want to edit already existing questions
 
         //want to remove already existing question
         return view('studentform');
-    }
-
-    public function editmentorformindex() {
-        return view('mentorform');        
     }
 
 

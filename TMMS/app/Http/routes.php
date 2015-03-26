@@ -36,7 +36,9 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 
 // edit application forms
 Route::get('studentform', 'appLoaderController@editstudentformindex');
-Route::get('mentorform', 'appLoaderController@editmentorformindex');
+Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
+
+Route::get('success', 'AdminController@downloadcsv');
 
 // make admin
 Route::get('makeadmin', 'MakeAdminController@index');

@@ -4,7 +4,7 @@
 
 <div class="panel panel-info">
 	<div class="panel-heading"><b>Mentor Application Form</b>
-		<button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button>
+		<!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
 	</div>
 	<div class="panel-footer">
 		<h5>Application Submission Deadline: <b>September 25, 2015 at 11:59:59 PM //TODO: update this value</b>
@@ -12,174 +12,264 @@
 		</h5>
 	</div>
 	<div class="panel-body">
-		<form class="form-horizontal">
-			<div class="form-group">
-				<label class="control-label col-sm-3">Email address:</label>
-				<div class="col-md-6">
-					<input type="text" class="form-control" name="email">
-				</div><br><br> 
-				<label class="control-label col-sm-3">Given name:</label>
-				<div class="col-md-6">
-					<input type="text" class="form-control" name="givenname">
-				</div><br><br> 
-				<label class="control-label col-sm-3">Family name:</label>
-				<div class="col-md-6">
-					<input type="text" class="form-control" name="familyname">
-				</div><br><br> 
-				<label class="control-label col-sm-3">Phone:</label>
-				<div class="col-md-6">
-					<input type="text" class="form-control" name="phone">
-				</div><br><br> 
-				<label class="control-label col-sm-3">Phone (alternate):</label>
-				<div class="col-md-6">
-					<input type="text" class="form-control" name="phonealt">
-				</div><br><br> 
+		<?php
+                            //questions comes in as an array holding arrays
+                            //each array looks like the following [format2|id2|question2|answer]
+                            for ($x = 0; $x < count($questions); $x++) {
+                                //echo "NEW QUESTIONS ARE HERE";
+										echo '<legend></legend>';
+                                      // echo '<legend></legend><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                                      // <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>';
+                                      
+                                      
+                                switch($questions[$x][0]){
 
-				<div class="gender">
-					<label class="control-label col-sm-3">Gender:</label>
-					<label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male</label>
-					<label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Identify as female</label>
-					<label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other (please specify)//TODO</label>
-					<div class="genderother" id="otherfield">
-						<label class="control-label col-sm-3">Gender (please specify):</label> //TODO : FIX ALIGNMENT
-						<div class="col-md-6 panel-collapse collapse in">
-							<input type="text" class="form-control" name="genderother" value="otherfield">
-						</div>
-					</div>
-				</div><br>
+                                    case "checkbox":
+                                        echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                                      <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i></button>
+                                      <div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
+                                        echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
+                                        $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                                        $answer = explode("," , $rawAnswer);
+                                        $answerCount = count($answer);
+                                        for ($i = 0; $i < $answerCount; $i++){
+                                            echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
+                                        }
+                                       
+										echo '<div id="modal-1" class="modal" tabindex="-1" role="dialog">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-body">
+										        <div class="panel panel-info">
+										            <div class="panel-heading">
+										              <div class="panel-title" style="display:inline">Editing Question...</div>
+										              </div>
+										          <div class="panel-body">
+										              <div class="row">
+										                  <div class=" col-md-12"> 
+										                            <div class="form-inline">
+										                                <label class="pull-left">Question type:</label>
+										                                <div class="col-md-6">
+										                                    <select class="form-control" name="questiontype">
+										                                    // option is "selected" depending on the question type clicked
+										                                        <option>Checkbox</option>
+										                                        <option>Radio button</option>
+										                                        <option>Dropdown</option>
+										                                        <option>Text input</option>
+										                                        <option>Text area</option>
+										                                    </select>
+										                                </div>
+										                            </div>
+										                        </div>
+												            </div>
+												        </div>
+												            <b>Question:</b><div id="input" contenteditable>' . $questions[$x][2] . '</div>
+												    </div>    
+												</div>
+											  </div>
+											</div>
+										  </div>';
 
-				<label class="control-label col-sm-3">Year of birth (Optional):</label>
-				<div class="col-md-6">
-					<input type="text" class="form-control" name="birthyear">
-				</div><br><br>
+                                        echo '</div><br><br><br>';
+                                        break;
 
-				<label class="control-label col-sm-3">Kickoff event availability</label>
-				<div class="col-md-9">Mentors are requested to attend one evening kickoff event to meet with their student matches. There are 3 different event dates to choose from. All evenings follow the same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please indicate your availability for the following dates:
-				</div><br><br><br><br>
+                                    case "text":
+                                        echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                                      <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>
+                                      <div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label>
+						            <div class="col-md-4">
+						            <input type="text" class="form-control" name="' . $questions[$x][1] . '">
+						            </div>';
+										echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-body">
+										        <div class="panel panel-info">
+										            <div class="panel-heading">
+										              <div class="panel-title" style="display:inline">Editing Question...</div>
+										              </div>
+										          	<div class="panel-body">
+										              <div class="row">
+										                  <div class=" col-md-12"> 
+										                            <div class="form-inline">
+										                                <label class="pull-left">Question type:</label>
+										                                <div class="col-md-6">
+										                                    <select class="form-control" name="questiontype">
+										                                    // option is "selected" depending on the question type clicked
+										                                        <option>Checkbox</option>
+										                                        <option>Radio button</option>
+										                                        <option>Dropdown</option>
+										                                        <option selected>Text input</option>
+										                                        <option>Text area</option>
+										                                    </select>
+										                                </div>
+										                            </div>
+												                </div>
+												            </div>
+												        </div>
+												    </div>    
+												</div>
+											  </div>
+											</div>
+										  </div><br><br>';					            
+                                        break;
 
-				<table class="table table-hover table-striped" style="width:90%">
-					<tr>
-						<th></th>
-						<th><center>FIRST CHOICE</center></th>
-						<th><center>SECOND CHOICE</center> </th> 
-						<th><center>THIRD CHOICE</center></th>
-						<th><center>NOT AVAIL.</center></th>
-					</tr>
-					<tr>
-						<td><center>Wed. Sept. 24, 2014, from 5:45 - 7:45pm</center></td>
-						<td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="firstchoice") echo "checked";?> value="firstchoice" ></center></td>
-						<td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="secondchoice") echo "checked";?> value="secondchoice" ></center></td>
-						<td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="thirdchoice") echo "checked";?>value="thirdchoice" ></center></td>
-						<td><center><input type="radio" name="day1" <?php if (isset($day1) && $day1=="fourthchoice") echo "checked";?>value="fourthchoice" ></center></td>
-					</tr>
-					<tr>
-						<td><center>Thurs. Sept. 25, 2014 from 5:45 - 7:45pm</center></td> 
-						<td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="firstchoice") echo "checked";?> value="firstchoice" ></center></td>
-						<td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="secondchoice") echo "checked";?> value="secondchoice" ></center></td>
-						<td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="thirdchoice") echo "checked";?> value="thirdchoice" ></center></td>
-						<td><center><input type="radio" name="day2" <?php if (isset($day2) && $day2=="fourthchoice") echo "checked";?> value="fourthchoice" ></center></td>
-					</tr>
-					<tr>
-						<td><center>Thurs. Oct. 2, 2014, from 5:45 - 7:45pm</center></td>
-						<td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="firstchoice") echo "checked";?> value="firstchoice" ></center></td>
-						<td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="secondchoice") echo "checked";?> value="secondchoice" ></center></td>
-						<td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="thirdchoice") echo "checked";?> value="thirdchoice" ></center></td>
-						<td><center><input type="radio" name="day3" <?php if (isset($day3) && $day3=="fourthchoice") echo "checked";?> value="fourthchoice" ></center></td>
-					</tr>
-				</table>
+                                    case "radio":
+                                        echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-9">' .
+                                                $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
 
-				<div>
-					<div class="col-sm-1"></div><label class="pull-left">Additional comments regarding availability?</label><br><br>
-					<div class="col-sm-1"></div><textarea name="additionalcomments_avail" rows="5" cols="130"></textarea>
-				</div><br>
+                                        $rawOptions = $questions[$x][4];
+                                        $options = explode("," , $rawOptions);
+                                        $optionsCount = count($options);
 
-				<div class="form-inline">
-					<div class="col-sm-1"></div>
-					<label class="pull-left">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
-					<div class="col-md-4">
-						<select class="form-control" name="participation" >
-							<option id="previousmatched_no">No, I have not participated before</option>
-							<option id="previousmatched_junior">Yes, as a junior student</option>
-							<option id="previousmatched_senior">Yes, as a senior student</option>
-							<option id="previousmatched_both">Both junior and senior student</option>
-						</select>
-					</div>
-				</div><br><br>
+                                        $rawAnswer = $questions[$x][5];
+                                        $answer = explode("," , $rawAnswer);
+                                        $answerCount = count($answer);
 
-				<div class="col-sm-1"></div>
-				<label class="pull-left">Preference of student mentee gender:</label>
-				<div class="col-md-4">
-					<select class="form-control" name="studentgenderpref">
-						<option id="nopref">No preference</option>
-						<option id="femalepref">Match with female students only</option>
-						<option id="malepref">Match with male students only</option>
-					</select>
-				</div><br><br><br>
+                                        //display the options on the top
+                                        for($i = 0; $i < $optionsCount; $i++){
+                                            echo '<th><center>' . $options[$i] . '</center></th>';
+                                        }
 
-				<div class="col-sm-1"></div>
-				<label class="control-label pull-left">Current employment status (check all that apply):</label>
-				<div class="col-md-4">
-					<input type="checkbox" name="employmentstatus[]" value="industry">Working in industry<br>
-					<input type="checkbox" name="employmentstatus[]" value="academia">Working in academia<br>
-					<input type="checkbox" name="employmentstatus[]" value="startup">Working for a startup<br>
-					<input type="checkbox" name="employmentstatus[]" value="selfemployed">Self-employed<br>
-					<input type="checkbox" name="employmentstatus[]" value="retired">Retired<br>
-					<input type="checkbox" name="employmentstatus[]" value="other_employment">Other (please specify) //TODO <br>
-				</div><br><br><br><br><br><br><br>
+                                        //display the answers (on the side) and the radio buttons
+                                        for($i = 0; $i < $answerCount; $i++){
+                                            echo '<tr><td><center>' . $answer[$i] . '</center></td>';
+                                            //generate each row
+                                            for($j = 0; $j < $answerCount; $j++){
+                                                echo '<td><center><input type="radio" name="' . $questions[$i][1] . '"';
+                                                if(isset($day1) && $day1 == $answer[$i]){
+                                                    echo "checked";
+                                                }
+                                                $value = 'value="' . $answer[$i] . '"></center>';
+                                                echo $value;
+                                            }
+                                            echo "</tr>";
+                                        }
 
-				<div class="form-inline">
-					<div class="col-sm-1"></div>
-					<label class="pull-left">Years of CS-related work experience:</label>
-					<div class="col-md-6">
-						<select class="form-control" name="yearsofcswork">
-							<option id="0-2years">0-2 years</option>
-							<option id="3-5years">3-5 years</option>
-							<option id="6-10years">6-10 years</option>
-							<option id="11-15years">11-15 years</option>
-							<option id="16-20years">16-20 years</option>
-							<option id="20+years">20+ years</option>
-						</select>
-					</div>
-				</div><br><br><br>
+                                        echo '</table><br>';
+                                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-body">
+										        <div class="panel panel-info">
+										            <div class="panel-heading">
+										              <div class="panel-title" style="display:inline">Editing Question...</div>
+										              </div>
+										          <div class="panel-body">
+										              <div class="row">
+										                  <div class=" col-md-12"> 
+										                            <div class="form-inline">
+										                                <label class="pull-left">Question type:</label>
+										                                <div class="col-md-6">
+										                                    <select class="form-control" name="questiontype">
+										                                    // option is "selected" depending on the question type clicked
+										                                        <option>Checkbox</option>
+										                                        <option selected>Radio button</option>
+										                                        <option>Dropdown</option>
+										                                        <option>Text input</option>
+										                                        <option>Text area</option>
 
-				<div class="form-inline">
-					<div class="col-sm-1"></div>
-					<label class="pull-left">Highest level of education:</label>
-					<div class="col-md-6">
-						<select class="form-control" name="levelofeducation">
-							<option id="0-2years">Bachelor's</option>
-							<option id="3-5years">Master's</option>
-							<option id="6-10years">PhD</option>
-							<option id="11-15years">Other (please specify)</option> // TODO
-						</select>
-					</div>
-				</div><br><br>
+										                                    </select>
+										                                </div>
+										                            </div>
+										                		</div>
+												            </div>
+												        </div>
+												    </div>    
+												</div>
+											  </div>
+											</div>
+										  </div>';
+		                                  break;
 
-				<div class="col-sm-1"></div>
-				<label class="control-label pull-left">Are you a UBC alumnae/alumnus?</label>
-				<div class="col-md-4">
-					<label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_yes") echo "checked";?> value="alumnus_yes">Yes</label>
-					<label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_no") echo "checked";?> value="alumnus_no">No</label>
-				</div><br><br>
+                                    case "select": //this is dropdown
+                                        echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '<br></label>
+						                  <div class="col-md-4"><select class="form-control" name="' . $questions[$x][1] . '" >';
+                                        $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                                        $answer = explode("," , $rawAnswer);
+                                        $answerCount = count($answer);
+                                        for($i = 0; $i < $answerCount; $i++){
+                                            echo '<option>' . $answer[$i] . '</option>';
+                                        }
+                                        echo '</select></div><br>';
+                                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-body">
+										        <div class="panel panel-info">
+										            <div class="panel-heading">
+										              <div class="panel-title" style="display:inline">Editing Question...</div>
+										              </div>
+										          <div class="panel-body">
+										              <div class="row">
+										                  <div class=" col-md-12"> 
+										                            <div class="form-inline">
+										                                <label class="pull-left">Question type:</label>
+										                                <div class="col-md-6">
+										                                    <select class="form-control" name="questiontype">
+										                                    // option is "selected" depending on the question type clicked
+										                                        <option>Checkbox</option>
+										                                        <option>Radio button</option>
+										                                        <option selected>Dropdown</option>
+										                                        <option>Text input</option>
+										                                        <option>Text area</option>
+										                                    </select>
+										                                </div>
+										                            </div>
+												                </div>
+												            </div>
+												        </div>
+												    </div>    
+												</div>
+											  </div>
+											</div>
+										  </div>';
+		                                  break;
 
-				<div class="col-sm-1"></div>
-				<label class="control-label pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
-				<div class="col-sm-1"></div>
-				<textarea rows="5" cols="130" name="cs_areasofinterest" id="cs_areasofinterest"></textarea><br><br>
+                                    case "textarea":
+                                        echo '<div class="col-sm-1"></div>
+						            <label class="pull-left">' . $questions[$x][2] . '</label><br><br>
+						            <div class="col-sm-1"></div>
+						            <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br>
+						            <br>';
+						            echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-body">
+										        <div class="panel panel-info">
+										            <div class="panel-heading">
+										              <div class="panel-title" style="display:inline">Editing Question...</div>
+										              </div>
+										          <div class="panel-body">
+										              <div class="row">
+										                  <div class=" col-md-12"> 
+										                            <div class="form-inline">
+										                                <label class="pull-left">Question type:</label>
+										                                <div class="col-md-6">
+										                                    <select class="form-control" name="questiontype">
+										                                    // option is "selected" depending on the question type clicked
+										                                        <option>Checkbox</option>
+										                                        <option>Radio button</option>
+										                                        <option>Dropdown</option>
+										                                        <option>Text input</option>
+										                                        <option selected>Text area</option>
+										                                    </select>
+										                                </div>
+										                            </div>
+												                </div>
+												            </div>
+												        </div>
+												    </div>    
+												</div>
+											  </div>
+											</div>
+										</div>';
+                                        break;
+                                }
+                                echo '<br>';
+                            }
 
-				<div class="col-sm-1"></div>
-				<label class="pull-left">Hobbies and interests (please enter as comma-separated list):</label><br><br>
-				<div class="col-sm-1"></div>
-				<textarea rows="5" cols="130" name="hobbies_interest" id="hobbies_interest"></textarea><br><br>
-
-				<div class="col-sm-1"></div>
-				<label class="pull-left">Additional questions or comments?</label><br><br>
-				<div class="col-sm-1"></div>
-				<textarea rows="5" cols="130" name="additionalcomments_questions" id="additionalcomments_questions"></textarea><br><br>
-
-				<center><div class="btn btn-primary">Submit Application</div></center>
-			</div>
-			</for
+                            ?>
 		</div>
 	</div>
 
