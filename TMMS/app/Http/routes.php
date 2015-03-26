@@ -66,6 +66,10 @@ Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
 Route::post('waitlist', 'AdminController@waitlistSearch');
 
+//view individual participant profile
+Route::get('participant', 'AdminController@indexParticipant');
+Route::get('participant/{pid}', 'AdminController@showParticipant'); 	
+
 // match making
 
 // TODO current match + saved matches needs to be put in a controller
