@@ -36,7 +36,9 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 
 // edit application forms
 Route::get('studentform', 'appLoaderController@editstudentformindex');
-Route::get('mentorform', 'appLoaderController@editmentorformindex');
+Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
+
+Route::get('success', 'AdminController@downloadcsv');
 
 // make admin
 Route::get('makeadmin', 'MakeAdminController@index');
@@ -65,10 +67,6 @@ Route::post('uploadcsv_uploaded', 'uploadCSVController@upload');
 Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
 Route::post('waitlist', 'AdminController@waitlistSearch');
-
-//view individual participant profile
-Route::get('participant', 'AdminController@indexParticipant');
-Route::get('participant/{pid}', 'AdminController@showParticipant'); 	
 
 // match making
 
