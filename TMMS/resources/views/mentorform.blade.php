@@ -25,7 +25,7 @@
 
                     case "checkbox":
                         echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
-                             <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i></button>
+                             <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>
                             <div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
                         echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
                         $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
@@ -35,7 +35,7 @@
                             echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
                         }
 
-                        echo '<div id="modal-1" class="modal" tabindex="-1" role="dialog">
+                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-body">
@@ -60,9 +60,22 @@
                                           </div>
                                       </div>
                                   </div>
+                            </div><br>
+                            <div class="form-inline">
+                            <label class="pull-left">Question:</label><div class="col-md-6"><div class="form-control" id="input" contenteditable>' . $questions[$x][2] . '</div>
+                            </div></div><br><br>
+                            <div class="form-inline">
+                            <label class="pull-left">Answer choices:</label><div class="col-md-6"><div class="form-control" id="input" contenteditable>' . $questions[$x][3] . '</div></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+                            </div><br>
+                             <div class="form-inline">
+                            <label class="pull-left">ID name:</label><div class="col-md-6"><div class="form-control" id="input" contenteditable ></div><br>
+                            </div></div>
                             </div>
                             </div>
-                            <b>Question:</b><div id="input" contenteditable>' . $questions[$x][2] . '</div>
+                            </div>
+                            <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes//todo: implement functionality</button>
                             </div>
                             </div>
                             </div>
@@ -74,12 +87,12 @@
 
                     case "text":
                         echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
-                              <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>
+                              <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-3"><i class="glyphicon glyphicon-pencil"></i></button>
                               <div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label>
                               <div class="col-md-4">
                               <input type="text" class="form-control" name="' . $questions[$x][1] . '">
 			                  </div>';
-                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+                        echo '<div id="modal-3" class="modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-body">
@@ -114,7 +127,8 @@
                         break;
 
                     case "radio":
-                        echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-9">' .
+                        echo '<div class="form-inline"><div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                             <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-4"><i class="glyphicon glyphicon-pencil"></i></button><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-9">' .
                                 $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
 
                         $rawOptions = $questions[$x][4];
@@ -146,7 +160,7 @@
                         }
 
                         echo '</table><br>';
-                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+                        echo '<div id="modal-4" class="modal" tabindex="-1" role="dialog">
                         <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-body">
@@ -182,7 +196,8 @@
                         break;
 
                     case "select": //this is dropdown
-                        echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '<br></label>
+                        echo '<div class="form-inline"><div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                             <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-5"><i class="glyphicon glyphicon-pencil"></i></button><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '<br></label>
 			                <div class="col-md-4"><select class="form-control" name="' . $questions[$x][1] . '" >';
                         $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                         $answer = explode("," , $rawAnswer);
@@ -191,7 +206,7 @@
                             echo '<option>' . $answer[$i] . '</option>';
                         }
                         echo '</select></div><br>';
-                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+                        echo '<div id="modal-5" class="modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-body">
@@ -226,12 +241,13 @@
                         break;
 
                     case "textarea":
-                        echo '<div class="col-sm-1"></div>
+                        echo '<div class="col-sm-1"></div><div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                             <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-6"><i class="glyphicon glyphicon-pencil"></i></button>
                             <label class="pull-left">' . $questions[$x][2] . '</label><br><br>
                             <div class="col-sm-1"></div>
                             <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br>
                             <br>';
-                        echo '<div id="modal-2" class="modal" tabindex="-1" role="dialog">
+                        echo '<div id="modal-6" class="modal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog">
                                 <div class="modal-content">
                                 <div class="modal-body">
