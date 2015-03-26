@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use App\Http\Requests\EditParticipantRequest;
 
 class AdminController extends Controller {
 
@@ -162,19 +163,42 @@ class AdminController extends Controller {
         return \View::make('waitlist')->with('result', $result);
     }
 
-    //test function
-    public function indexParticipant() 
-    {
-
-    }
-
     public function showParticipant($pid) 
     {
-        $participant_result = \DB::table('participant')->where('pid', $pid)->get();
+        // Gets all mentor senior and junior students possible data 
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('pid', $pid)->get();
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', $pid)->get();
+        $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid',$pid)->get();
+
+        $participant_result = array_merge($junior_result, $senior_result, $mentor_result);
 
         return \View::make('participant')->with('participant_result', $participant_result);
     }
 
+    public function editParticipant(EditParticipantRequest $request, $pid)
+    {
+
+        //UPDATES
+        \DB::table('participant')->where('pid', $pid)
+                                ->update(['email' => $request['email'],
+                                          'gender' => $request['gender'],
+                                        ]);
+
+        // Gets all mentor senior and junior students possible data
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('pid', $pid)->get();
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', $pid)->get();
+        $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid',$pid)->get();
+
+        $participant_result = array_merge($junior_result, $senior_result, $mentor_result);
+
+        return \View::make('participant')->with('participant_result', $participant_result);
+    }
     public function downloadcsv()
     {
         return view('downloadcsv');
