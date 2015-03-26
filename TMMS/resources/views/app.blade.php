@@ -53,8 +53,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="#">About</a></li>      
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="about">About</a></li>
       </ul>   
       <ul class="nav navbar-nav navbar-right">
 
@@ -65,8 +64,7 @@
         @endif
 
         @if (Auth::guest())
-        <li><a href="{{ url('/auth/login') }}">Sign In</a></li> 
-        <li><a href="{{ url('/auth/register') }}">Register</a></li>
+        <li><a href="{{ url('/auth/login') }}">Sign In</a></li>
         @else
         <li class="dropdown">
          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
