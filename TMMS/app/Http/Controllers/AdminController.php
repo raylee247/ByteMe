@@ -64,7 +64,16 @@ class AdminController extends Controller {
     public function viewLog()
     {
         // Make select call to log table
-        $result = \DB::table('log')->get();
+//        $result = \DB::table('log')->orderBy('logID','desc')->get();
+        // Return view with log array
+        return \View::make('log');
+    }
+
+    public function viewLog2()
+    {
+        // Make select call to log table
+        $retrieveAmount = $_POST["numRetrieve"];
+        $result = \DB::table('log')->take($retrieveAmount)->orderBy('logID','desc')->get();
         // Return view with log array
         return \View::make('log')->with('result',$result);
     }

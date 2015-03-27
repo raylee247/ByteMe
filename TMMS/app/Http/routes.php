@@ -51,6 +51,7 @@ Route::get('admin', 'AdminController@index');
 
 // view audit log
 Route::get('log', 'AdminController@viewLog');
+Route::post('log', 'AdminController@viewLog2');
 
 // participant management
 
