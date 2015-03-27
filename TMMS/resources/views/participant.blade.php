@@ -96,14 +96,6 @@ print_r($id_array);
                 </td>
             </tr>
             <tr>
-                <td>Kickoff availability comments</td>
-                <td>
-                    <?php
-                        print_r($participant_result[0]['kickoff']);
-                    ?>
-                </td>
-            </tr>
-            <tr>
                 <td>Preference of mentor gender</td>
                 <td>
                     <?php
@@ -265,12 +257,6 @@ print_r($id_array);
                                 <input class="form-control" name="kickoff" type="text" value="<?= $participant_result[0]['kickoff'] ?>" id="kickoff">
                             </div>
 
-                            <!-- Kickoff Availability Comments Input -->
-                            <div class="form-group">
-                                <label for="name">Kickoff Availability Comments: </label>
-                                <input class="form-control" name="kickoffcomments" type="text" value="<?= $participant_result[0]['kickoff'] ?>" id="kickoffcomments">
-                            </div>
-
                             <!-- Gender Preference Input -->
                             <div class="form-group">
                                 <label for="name">Gender Preference: </label>
@@ -402,14 +388,6 @@ print_r($id_array);
             </tr>
             <tr>
                 <td>Kickoff night availability</td>
-                <td>
-                    <?php
-                        print_r($participant_result[0]['kickoff']);
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Kickoff availability comments</td>
                 <td>
                     <?php
                         print_r($participant_result[0]['kickoff']);
@@ -549,12 +527,6 @@ print_r($id_array);
                                 <div class="form-group">
                                     <label for="name">Kickoff Night Availability: </label>
                                     <input class="form-control" name="kickoff" type="text" value="<?= $participant_result[0]['kickoff'] ?>" id="kickoff">
-                                </div>
-
-                                <!-- Kickoff Availability Comments Input -->
-                                <div class="form-group">
-                                    <label for="name">Kickoff Availability Comments: </label>
-                                    <input class="form-control" name="kickoffcomments" type="text" value="<?= $participant_result[0]['kickoff'] ?>" id="kickoffcomments">
                                 </div>
 
                                 <!-- Gender Preference Input -->
