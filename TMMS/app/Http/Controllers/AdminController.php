@@ -64,7 +64,16 @@ class AdminController extends Controller {
     public function viewLog()
     {
         // Make select call to log table
-        $result = \DB::table('log')->get();
+//        $result = \DB::table('log')->orderBy('logID','desc')->get();
+        // Return view with log array
+        return \View::make('log');
+    }
+
+    public function viewLog2()
+    {
+        // Make select call to log table
+        $retrieveAmount = $_POST["numRetrieve"];
+        $result = \DB::table('log')->take($retrieveAmount)->orderBy('logID','desc')->get();
         // Return view with log array
         return \View::make('log')->with('result',$result);
     }
@@ -184,7 +193,6 @@ class AdminController extends Controller {
 
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
-
         // Append these 2 fields because there is only one kickoff column
         $kickoff_data = $request['kickoff'].$request['kickoffcomments'];
 
@@ -194,17 +202,72 @@ class AdminController extends Controller {
                                            'gender' => $request['gender'],
                                            'birth year' => $request['birthyear'],
                                            'phone' => $request['phone'],
-                                           'phone alt' => $request['phone alt'],
+                                           'phone alt' => $request['phonealt'],
                                            'kickoff' => $kickoff_data,
                                            'genderpref' => $request['genderpref'],
                                            'past participation' => $request['pastparticipation'],
                                            ]);
 
+        // Query here because need to fetch the keys (ex. CS Areas of Interest)
+        // CURRENT DATA IN DATABASE PRE-EDITED
+        $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                               ->where('parameter.pid', $pid)->pluck('extra');
+
+        // Decode JSON format of the extra column, then populate an array of keys 
+        $extra = json_decode($json_extra, true);
+        $extra_keys = array_keys($extra);
+
+        // Make array for json_encode
+        $extra_update = array();
+
+        //populate array
+        foreach($extra_keys as $key)
+        {
+            if ($key == "SID" || $key == "Time") 
+            {
+                // maintain original data
+                $extra_update[$key] = $extra[$key];
+            }
+            else
+            {
+                //the actual edit takes place here
+                //for some reason null values if not trimmed
+                $no_spaces_key = preg_replace('/\s+/', '', $key);
+                $extra_update[$key] = $request[$no_spaces_key];
+            }
+        }
+
+        $encoded_extra_update = json_encode($extra_update);
+
+        \DB::table('parameter')->where('pid', $pid) 
+                               ->update(['extra' => $encoded_extra_update]);
+
+
         $jid = \DB::table('junior')->where('jid', $pid)->pluck('jid');
 
-        if ($jid == $pid)
+        // UPDATE PARTICIPANT IF JUNIOR STUDENT 
+        if ($jid == $pid) 
         {
-            \DB::table('junior')->update[''];
+            \DB::table('junior')->where('jid', $pid)
+                                ->update(['studentNum' => $request['studentnum'],
+                                          'yearStand' => $request['yearstanding'],
+                                          'programOfStudy' => $request['program'],
+                                          'courses' => $request['courses'],
+                                          'csid' => $request['csid'],
+                                          'coop' => $request['coop']
+                                          ]);
+        }
+        // UPDATE PARTICIPANT IF SENIOR STUDENT 
+        else
+        {
+            \DB::table('senior')->where('sid', $pid)
+                                ->update(['studentNum' => $request['studentnum'],
+                                          'yearStand' => $request['yearstanding'],
+                                          'programOfStudy' => $request['program'],
+                                          'courses' => $request['courses'],
+                                          'csid' => $request['csid'],
+                                          'coop' => $request['coop']
+                                          ]);
         }
 
         // Gets all mentor senior and junior students possible data
@@ -214,6 +277,8 @@ class AdminController extends Controller {
                                                   ->where('pid', $pid)->get();
         $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                                   ->where('pid', $pid)->get();
+
+
         $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                ->where('parameter.pid', $pid)->pluck('extra');
 

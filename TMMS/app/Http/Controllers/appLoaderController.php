@@ -276,6 +276,7 @@ class appLoaderController extends Controller {
         $year = date("Y"); //2015
         $month = date("m"); //02
         $date = date("d"); //01
+        $cs_areasofinterest = $_POST['cs_areasofinterest'];
 
         //determine if registering past a deadline
         $rawApp = \DB::table('studentapp')->where('year',$year)->first();
@@ -297,7 +298,7 @@ class appLoaderController extends Controller {
                 'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
                 'birth year' => $birthyear, 'genderpref' => $mentorgender,
-                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year]
+                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
         );
 
         //student only
@@ -449,6 +450,7 @@ class appLoaderController extends Controller {
         $year = date("Y"); //2015
         $month = date("m"); //02
         $date = date("d"); //01
+        $cs_areasofinterest = $_POST['cs_areasofinterest'];
 
         //determine if registering past a deadline
         $rawApp = \DB::table('mentorapp')->where('year',$year)->first();
@@ -470,18 +472,17 @@ class appLoaderController extends Controller {
                 'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
                 'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
-                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year)
+                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest)
         );
 
         //mentor only attributes
         $position = $_POST['position']; //array
         $yearsofcswork = $_POST['yearsofcswork'];
         $levelofeducation = $_POST['levelofeducation'];
-        $cs_areasofinterest = $_POST['cs_areasofinterest'];
 
         $mentor_response = \DB::table('mentor')->insert(
                 ['mid' => $participant_id, 'job' => $position, 'yearofcs' => $yearsofcswork,
-                'edulvl' => $levelofeducation, 'field of interest' => $cs_areasofinterest]
+                'edulvl' => $levelofeducation]
         );
 
         //extra questions
