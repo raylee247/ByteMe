@@ -254,7 +254,7 @@ class AdminController extends Controller {
                                           'programOfStudy' => $request['program'],
                                           'courses' => $request['courses'],
                                           'csid' => $request['csid'],
-                                          'coop' => $kickoff_data['coop']
+                                          'coop' => $request['coop']
                                           ]);
         }
         // UPDATE PARTICIPANT IF SENIOR STUDENT 
@@ -266,7 +266,7 @@ class AdminController extends Controller {
                                           'programOfStudy' => $request['program'],
                                           'courses' => $request['courses'],
                                           'csid' => $request['csid'],
-                                          'coop' => $kickoff_data['coop']
+                                          'coop' => $request['coop']
                                           ]);
         }
 
