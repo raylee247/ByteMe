@@ -11,9 +11,9 @@ class MatchGenerator{
 	|
 	*/
 	// participants 
-	protected $mentors;
-	protected $seniors;
-	protected $juniors;
+	protected $mentors = array();
+	protected $seniors = array();
+	protected $juniors = array();
 
 	// param for generator
 	protected $mustList;
@@ -46,10 +46,12 @@ class MatchGenerator{
 		// $this->getParticipant();
 		
 		// mock up now
-		$this->mentors = array(1,4);
-		$this->seniors = array(2,5);
-		$this->juniors = array(3,6);
+		// $this->mentors = array(1,4);
+		// $this->seniors = array(2,5);
+		// $this->juniors = array(3,6);
 
+		print("in constructor\n\n");
+		$this->getParticipant();
 		$this->mustList = $mustList;
 		$this->priority = $priority;
 	}
@@ -59,14 +61,54 @@ class MatchGenerator{
 	 * @Void
 	 */
 	public function getParticipant(){
+		print("********************* got into getParticipant *********************\n");
 
-		$mentors = \DB::select("select pid from innodb.participant p ,innodb.mentor m where p.pid = m.mid");
-		$this->mentors = $mentors;
-		$seniors = \DB::select("select pid from innodb.participant p ,innodb.senior s where p.pid = s.sid");
-		$this->seniors = $seniors;
-		$juniors = \DB::select("select pid from innodb.participant p ,innodb.junior j where p.pid = j.jid");
-		$this->juniors = $juniors;
-		print("\nget participant done");
+		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->select('participant.pid')
+                                                  ->where('participant.pid', '<', '2640')
+                                                  ->where('participant.pid', '>', '2634')
+                                                  ->get();
+        foreach ($response_mentor as $key => $value) {
+        	$this->mentors[] = $value['pid'];
+        }
+
+		// print("***** mentor name *****\n");
+		// foreach($this->mentors as $parti){
+		// 	print($parti['First name']);
+		// 	print("\n");
+		// }
+
+		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->select('participant.pid')
+                                                  ->where('participant.pid', '<', '2769')
+                                                  ->where('participant.pid', '>', '2763')
+                                                  ->get();
+
+		foreach ($response_seniors as $key => $value) {
+        	$this->seniors[] = $value['pid'];
+        }
+		// print("***** senior student name *****\n");                                          
+		// foreach($this->seniors as $parti){
+		// 	print($parti['First name']);
+		// 	print("\n");
+		// }
+
+		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->select('participant.pid')
+                                                  ->where('participant.pid', '<', '2792')
+                                                  ->where('participant.pid', '>', '2787')
+                                                  ->get();
+		
+		foreach ($response_juniors as $key => $value) {
+        	$this->juniors[] = $value['pid'];
+        }
+		// print("***** junior stuent name *****\n");
+		// foreach($this->juniors as $parti){
+		// 	print($parti['First name']);
+		// 	print("\n");
+		// }
+
+		print("********************* getParticipant complete *********************\n\n");
 	}
 
 
@@ -78,17 +120,18 @@ class MatchGenerator{
 	
 	public function generate(){
 		// $this->test();
+		print("******************* in generate function *******************\n");
 		$this->generateTable();
-		print("\ngeneratetable done");
-		$result = $this->doTheMatch(array(1,4),array(2,5),array(3,6));
-		print "\nDONE DO THE MATCH";
-		$this->doBackTrack(array(1,4),array(2,5),array(3,6));
-		
-
+		//print("\ngeneratetable done");
+		// $result = $this->doTheMatch($this->mentors, $this->seniors, $this->juniors);
+		// print "\nDONE DO THE MATCH";
+		// $this->doBackTrack($this->mentors, $this->seniors, $this->juniors);
+		print("******************* end of genrate function *******************\n\n");
 		return $result;
 	}
     
     public function doBackTrack($mentors,$seniors,$juniors){
+    	print("******************* in dobacktrack function *******************\n");
     	$key = implode(",", $mentors);
 		$key .= ",";
 		$key .= implode(",", $seniors);
@@ -114,6 +157,7 @@ class MatchGenerator{
 				echo "end";
 			}
 		}
+		print("******************* end of dobacktrack function *******************\n\n");
 		// var_dump($this->backTrack);
     }
     /**
@@ -128,6 +172,7 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
+		print("******************* in dothematch function *******************\n");
 		$key = implode(",", $mentors);
 		$key .= ",";
 		$key .= implode(",", $seniors);
@@ -137,23 +182,26 @@ class MatchGenerator{
 		print ($key);
 		if (array_key_exists($key, $this->memory)){
 			print("\nresult exist");
+			print("******************* in dothematch function *******************\n\n");
 			return  $this->memory[$key];
 		}else{
 			print("\ncompute");
 			$this->memory[$key] = $this->doTheMatch_compute($mentors,$seniors,$juniors);
+			print("******************* in dothematch function *******************\n\n");
 			return $this->memory[$key];
 		}
 	}
 	
 	public function doTheMatch_compute($mentors,$seniors,$juniors){
 		// match a mentor each time
-		print ("\ndoTheMatch with parameter: ");
-		print ("\nmentor:");
-		var_dump($mentors);
-		print ("\n senior:");
-		var_dump($seniors);
-		print ("\n junior:");
-		var_dump($juniors);
+		print("******************* in doTheMatch function *******************\n");
+		// print ("\ndoTheMatch with parameter: ");
+		// print ("\nmentor:");
+		// var_dump($mentors);
+		// print ("\n senior:");
+		// var_dump($seniors);
+		// print ("\n junior:");
+		// var_dump($juniors);
 
 		$target = array_values($mentors)[0];
 		print ("\ntarget:");
@@ -210,6 +258,7 @@ class MatchGenerator{
 				$backTrackkey .= ",";
 				$backTrackkey .= implode(",", $juniors);
 				$this->backTrack[$backTrackkey] = $choice[0];
+				print("******************* done with doTheMatch function *******************\n\n");
 				return $with; 
 			}else{
 				$choice = "no including mentor " . $target;
@@ -219,6 +268,7 @@ class MatchGenerator{
 				$backTrackkey .= ",";
 				$backTrackkey .= implode(",", $juniors);
 				$this->backTrack[$backTrackkey] = $choice;
+				print("******************* done with doTheMatch function *******************\n\n");
 				return $without;
 			}
 		}
@@ -257,7 +307,7 @@ class MatchGenerator{
 		foreach ($temp as $key => $value) {
 			$senior = explode(",", $key)[1];
 			$junior = explode(",", $key)[2];
-			if (($value > $result) && (in_array($senior, $seniors)) && (in_array($junior, $juniors))){
+			if (($value > $maximum) && (in_array($senior, $seniors)) && (in_array($junior, $juniors))){
 				$maximum = $value;
 				$result = $key;
 			}
@@ -278,20 +328,29 @@ class MatchGenerator{
 	 * @return Void
 	 */
 	public function generateTable(){
+		print("******************* in generateTable function *******************\n");
 		foreach ($this->mentors as $mentor) {
+			print("in loop level 1\n");
 			$temp = array();
 			foreach ($this->seniors as $senior) {
+				print("in loop level 2\n");
 				foreach ($this->juniors as $junior) {
+					print("in loop level 3\n");
 					$key = $mentor . "," . $senior . "," . $junior;
+					print("in loop level 3\n");
 					$satisfaction = $this->trioMatch($mentor,$senior,$junior);
-					// if ($satisfaction > 49){
-						$temp[$key] = $satisfaction;
-					// } 
+					print("in loop level 3\n");
+					$temp[$key] = $satisfaction;
+					print("end of loop level 3\n");
 				}
+				print("end of loop level 2\n");
 			}
+			print("end of loop level 1\n");
+
 			$this->MentorSatTable[$mentor] = $temp;
 		}
-		print ("done generateTable with table:\n");
+		// print ("done generateTable with table:\n");
+		print("******************* end of generateTable function *******************\n\n");
 		var_dump($this->MentorSatTable);
 	}
 
@@ -305,12 +364,16 @@ class MatchGenerator{
 	 * @return satisfaction rate 
 	 */
 	public function trioMatch($personA, $personB, $personC){
+		print("************************** in trioMatch ***********************\n");
 		$A = $this->getPersonWithID($personA);
 		$B = $this->getPersonWithID($personB);
 		$C = $this->getPersonWithID($personC);
+
+
 		$total = $this->match($A,$B) + 
 				 $this->match($B,$C) +
 				 $this->match($A,$C);
+				 print("************************** end of trioMatch ***********************\n\n");
 		return $total / 3 ;
 	}
 
@@ -322,86 +385,87 @@ class MatchGenerator{
 	 * @return array of person's information 
 	 */
 	public function getPersonWithID($id){
-		// get the person's info from db somehow 
-		// $query_mentor = 'select * from innodb.participant p ,innodb.mentor m where p.pid = m.mid and p.pid ='.$id;
-		// $query_senior = 'select * from innodb.participant p ,innodb.senior s where p.pid = s.sid and p.pid ='.$id;
-		// $query_junior = 'select * from innodb.participant p ,innodb.junior j where p.pid = j.jid and p.pid ='.$id;
-
-		// $result_mentor = \DB::select($query_mentor);
-		// $result_senior = \DB::select($query_senior);
-		// $result_junior = \DB::select($query_junior);
-
-		// if(count($result_mentor)>0){
-		// 	return $result_mentor[0];
-		// }elseif(count($result_senior)>0){
-		// 	return $result_senior[0];
-		// }elseif(count($result_junior)>0){
-		// 	return $result_junior[0];
-		// }else{
-		// 	return "bad";
-		// }
-
+		print("************************** in getPersonWithID ***********************\n");
 
 		// mock up now
-		$william 	= array("LastName" => "hsiao",
-						 "FirstName" => "william",
-						 "pid" => "1",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$roy 		= array("LastName" => "hsiao",
-						 "FirstName" => "roy",
-						 "pid" => "2",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$billy		= array("LastName" => "hsiao",
-						 "FirstName" => "billy",
-						 "pid" => "3",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$niggaplz 	= array("LastName" => "hsiao",
-						 "FirstName" => "niggaplz",
-						 "pid" => "4",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
-		$troy		= array("LastName" => "hsiao",
-						 "FirstName" => "troy",
-						 "pid" => "5",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("gafweme", "bifewfegdata", "whafewfewtever"));
-		$bob 		= array("LastName" => "hsiao",
-						 "FirstName" => "bob",
-						 "pid" => "6",
-						 "StudentNumber" => "32574113",
-						 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
-						 "interest" => array("game", "bigdata", "whatever"));
+		// $william 	= array("LastName" => "hsiao",
+		// 				 "FirstName" => "william",
+		// 				 "pid" => "1",
+		// 				 "StudentNumber" => "32574113",
+		// 				 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+		// 				 "interest" => array("game", "bigdata", "whatever"));
+		// $roy 		= array("LastName" => "hsiao",
+		// 				 "FirstName" => "roy",
+		// 				 "pid" => "2",
+		// 				 "StudentNumber" => "32574113",
+		// 				 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+		// 				 "interest" => array("game", "bigdata", "whatever"));
+		// $billy		= array("LastName" => "hsiao",
+		// 				 "FirstName" => "billy",
+		// 				 "pid" => "3",
+		// 				 "StudentNumber" => "32574113",
+		// 				 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+		// 				 "interest" => array("game", "bigdata", "whatever"));
+		// $niggaplz 	= array("LastName" => "hsiao",
+		// 				 "FirstName" => "niggaplz",
+		// 				 "pid" => "4",
+		// 				 "StudentNumber" => "32574113",
+		// 				 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+		// 				 "interest" => array("game", "bigdata", "whatever"));
+		// $troy		= array("LastName" => "hsiao",
+		// 				 "FirstName" => "troy",
+		// 				 "pid" => "5",
+		// 				 "StudentNumber" => "32574113",
+		// 				 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+		// 				 "interest" => array("gafweme", "bifewfegdata", "whafewfewtever"));
+		// $bob 		= array("LastName" => "hsiao",
+		// 				 "FirstName" => "bob",
+		// 				 "pid" => "6",
+		// 				 "StudentNumber" => "32574113",
+		// 				 "KickOffAvailibility" => array("2014-01-01", "2014-01-02"),
+		// 				 "interest" => array("game", "bigdata", "whatever"));
 
-		switch ($id){
-			case "1" :
-				return $william;
-				break;
-			case "2" :
-				return $roy;
-				break;
-			case "3" :
-				return $billy;
-				break;
-			case "4" :
-				return $niggaplz;
-				break;
-			case "5" :
-				return $troy;
-				break;
-			case "6" :
-				return $bob;
-				break;
-		}
+		// switch ($id){
+		// 	case "1" :
+		// 		return $william;
+		// 		break;
+		// 	case "2" :
+		// 		return $roy;
+		// 		break;
+		// 	case "3" :
+		// 		return $billy;
+		// 		break;
+		// 	case "4" :
+		// 		return $niggaplz;
+		// 		break;
+		// 	case "5" :
+		// 		return $troy;
+		// 		break;
+		// 	case "6" :
+		// 		return $bob;
+		// 		break;
+		// }
 
 		// return $person;
+
+		//****************************************** everything below this in this function links to DB data ******************************************
+		
+		$junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+												  ->where('pid', '=', $id)
+                                                  ->get();
+
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', '=', $id)
+                                                  ->get();
+
+       	$mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid', '=', $id)
+                                                  ->get();
+
+        $result = array_merge($junior_result, $senior_result, $mentor_result);
+
+        print("************************** end of getPersonWithID ***********************\n\n");
+        return $result[0];
 	}
 	/**
 	 * compute the satisfaction rate of two provided person 
@@ -412,17 +476,27 @@ class MatchGenerator{
 	 * @return satisfaction rate 
 	 */
 	public function match($personA,$personB){
-
+		print("******************* in match function *******************\n");
 		// do must
 		foreach ($this->mustList as $m){
+			// print("in for loop level 1\n");
+			// print("the value of m: ");
+			// print($m);
+			// print("\n");
+
 			switch ($m){
 				case "KickOffAvailibility":
-					if (!$this->dataAvalibility($personA["KickOffAvailibility"],$personB["KickOffAvailibility"])){
+					 if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
+						// print("in kick off if statement\n");
 						echo "here 0 ";
 						return 0;
+					}else{
+						//for debugging purpose
+						// print("in kick off if statement's else clause\n");
 					}
 					break;
 				default :
+					// print("in default case of switch in match function\n");	
 					if (is_array($personA[$m])){
 						$length = $personA[$m];
 						if ((count(array_intersect($personA[$m], $personB[$m]))/$length) != 1){
@@ -437,23 +511,51 @@ class MatchGenerator{
 			}
 		}
 
+		// print("done for loop; starting priority list shit\n");
+
 		// do priority List
 		$length = count($this->priority);
+		// print("printing out length: ");
+		// print($length);
+		// print("\n");
 		$weighting = count($this->priority);
+		// print("printing out weighting: ");
+		// print($weighting);
+		// print("\n");
 		$totalWeight = (($length+1)*$length)/2; 
+		// print("printing out totalweight: ");
+		// print($totalWeight);
+		// print("\n");
 		$priorityResult = 0;
-		
+
+		 print(("entering for loop with counter and shit\n"));
+
+		// print($this->priority[0]);	
+		// print("\n");
+
 		for($counter = 0 ; $counter < $length; $counter++){
-			$similiraity = $this->array_similarity($personA[$this->priority[$counter]],$personB[$this->priority[$counter]]);
+			// print(("entered for loop\n"));
+			$try = $this->priority[$counter];
+			$pAinterest = explode(",", $personA[$try]);
+			// print(("entered for loop\n"));
+			$pBinterest = explode(",", $personB[$try]);
+			// print(("entering for loop with counter and shit\n"));
+			$similiraity = $this->array_similarity($pAinterest,$pBinterest);
 			$priorityResult += $similiraity*$weighting;
-			$weighting++;
+			$weighting--;
+			// print(("end of for loop\n"));
 		}
+
+		 print("quit for loop successfully and the value of final result will be: ");
+		// print(50+50*$priorityResult/$totalWeight);
+		// print("\n");
 
 		$priorityResult = $priorityResult/$totalWeight;
 		$finalResult = 50 + 50*$priorityResult;
 
 
 		// average the two and return
+		print("******************* end of match function *******************\n\n");
 		return $finalResult;
 	}
 
@@ -465,7 +567,7 @@ class MatchGenerator{
 	 * 
 	 * @return similarity rate
 	 */
-	public function array_similarity(Array $a1, Array $a2){
+	public function array_similarity($a1, $a2){
 	
 		$lengtha1 = count($a1);
 		$lengtha2 = count($a2);
@@ -499,11 +601,16 @@ class MatchGenerator{
 	 * 
 	 * @return true if they have common date, else false
 	 */
-	public function dataAvalibility(Array $a1, Array $a2){
-		$result = array_intersect($a1, $a2);
+	public function dataAvalibility($a1,$a2){
+		print("******************* got into dataAvailability *******************\n");
+		$william = explode(",", $a1);
+		$黃麗玲 = explode(",", $a2);
+		$result = array_intersect($william, $黃麗玲);
 		if (is_array($result) && (count($result)>0)){
+			print("******************* end of dataAvailability true *******************\n\n");
 			return true;
 		}else{
+			print("******************* end of dataAvailability false *******************\n\n");
 			return false;
 		}
 	}
