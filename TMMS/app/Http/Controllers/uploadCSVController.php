@@ -99,12 +99,13 @@ class uploadCSVController extends Controller {
 		// determine the version 
 		if(array_search("IP Address", $header)!==false){
 			//parse with old way 
-			$this->parseOldCSV($_POST['category'], $header, $data); 
+			// $this->parseOldCSV($_POST['category'], $header, $data); 
 		}else{
 			//parse with new way
 		}
 
-		return 0;
+		$message = "successfully upload " . $_POST['category'] . " form"; 
+		return view('success',compact('message'));
 	}
 
 	public function parseOldCSV($type,$headers,$datas){
@@ -122,13 +123,13 @@ class uploadCSVController extends Controller {
 											 "alternate",
 											 "Birth year",
 											 "reference", // gender preference 
-											 "previous" // past participant // waitlist
+											 "TM previous" ,
+											 "CS areas of interest" // past participant // waitlist // interest
 											 );
 		$mentor_target_keywords = array("---", // mid
 										"title", // job title  
 										"Years of CS", // year of CS
-										"level of education", //edu lv
-										"CS areas of interest" // field of interest 
+										"level of education" //edu lv 
 										);
 		$student_target_keywords = array("---",
 										"Student number",// student num
@@ -161,11 +162,36 @@ class uploadCSVController extends Controller {
 						$value = $person[$i];
 						break;
 					}elseif ($keyword == "date"){
-						
-						$first_index = array_search("First Choice", $person);
-						$second_index = array_search("Second Choice", $person);
-						$third_index = array_search("Third Choice", $person);
-						$temp = array($headers[$first_index], $headers[$second_index], $headers[$third_index]);
+						$temp = array();
+						foreach ($person as $key => $value) {
+							switch ($value) {
+								case 'First Choice':
+									if(array_key_exists(0, $temp)){
+										$temp[] = $headers[$key];
+									}else{
+										$temp[0] = $headers[$key];
+									}
+									break;
+								case 'Second Choice':
+									if(array_key_exists(1, $temp)){
+										$temp[] = $headers[$key];
+									}else{
+										$temp[1] = $headers[$key];
+									}
+									break;
+								case 'Third Choice':
+									if(array_key_exists(2, $temp)){
+										$temp[] = $headers[$key];
+									}else{
+										$temp[2] = $headers[$key];
+									}
+									break;
+								case 'Not Avail.':
+									# dont do shit
+									break;
+							}
+						}
+
 						$temp = $this->format_date($temp);
 						$value = implode(",", $temp);
 					}
@@ -173,8 +199,7 @@ class uploadCSVController extends Controller {
 				
 				$participant_values[] = $value;
 			}
-			$participant_values[] = 0; 
-			$participant_values[] = date("Y");
+
 			$listOfParticipant[] =$participant_values;
 			// var_dump($participant_values);
 			// print("\n===============================\n");
@@ -233,7 +258,7 @@ class uploadCSVController extends Controller {
 				}
 				// var_dump($student_values);
 				$listOfStudent[] = $student_values;
-				$leftover = array_diff($person, $student_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
+				$leftover = array_diff($person, $student_values,$participant_values,array("First Choice","Second Choice","Third Choice","Not Avail."));
 				// var_dump($leftover);
 				$parameter_value = array();
 				$parameter_value[] = ""; 
@@ -248,7 +273,7 @@ class uploadCSVController extends Controller {
 						$extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
 					}
 				}
-				$extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
+				$extra .= '"Employment Status" :' . '"' . implode(",", $empStat) . '"}';
 				$parameter_value[] = $extra;
 				// var_dump($student_values);
 				// var_dump($parameter_value);
@@ -292,8 +317,11 @@ class uploadCSVController extends Controller {
 		    'phone alt' => $participant_values[7],
 		    'birth year' => $participant_values[8],
 		    'genderpref' => $participant_values[9],
-		    'waitlist' => $participant_values[11],
-		    'year' => $participant_values[12]
+		    'past participation' => $participant_values[10],
+		    'interest' => $participant_values[11],
+		    'waitlist' => "0",
+		    'year' => date("Y")
+		    
 		    ]);
 
 		    $pid = \DB::table('participant')->where('email', $participant_values[5])->pluck('pid');
@@ -309,8 +337,7 @@ class uploadCSVController extends Controller {
 				    ['mid' => $listOfID[$i],
 				    'job' => $mentor_values[1], 
 				    'yearofcs' => $mentor_values[2],
-				    'edulvl' => $mentor_values[3],
-				    'field of interest' => $mentor_values[4]
+				    'edulvl' => $mentor_values[3]
 				    ]
 				);
 				$i++;
@@ -360,26 +387,6 @@ class uploadCSVController extends Controller {
 		}
 
 
-		// \DB::insert('insert into innodb.mentor (mid, job, yearofcs, edulvl, field of interest) 
-		// 			values (?, ?, ?, ?, ?)', $mentor_values);
-		// $response = \DB::table('mentor')->insert(
-		//     ['mid' => $participant_id,
-		//     'job' => $mentor_values[1], 
-		//     'yearofcs' => $mentor_values[2],
-		//     'edulvl' => $mentor_values[3],
-		//     'field of interest' => $mentor_values[4]
-		//     ]
-		// );
-		//  print ($response);
-		// insert into parameter 
-		// var_dump($parameter_value);
-		
-		// \DB::table('parameter')->insert(
-		//     ['pid' => $participant_id,
-		//     'year' => $parameter_value[1], 
-		//     'extra' => $parameter_value[2]
-		//     ]
-		// );
 
 
 	}	

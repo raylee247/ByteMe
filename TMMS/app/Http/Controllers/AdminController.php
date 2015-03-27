@@ -209,17 +209,17 @@ class AdminController extends Controller {
 
         // UPDATE COLUMNS IN PARTICIPANT TABLE 
         \DB::table('participant')->where('pid', $pid)
-                                 ->update(['First name'  => $request['firstname'],
-                                           'Family name' => $request['familyname'],
-                                           'email'       => $request['email'],
-                                           'gender' => $request['gender'],
-                                           'birth year' => $request['birthyear'],
-                                           'phone' => $request['phone'],
-                                           'phone alt' => $request['phonealt'],
-                                           'kickoff' => $kickoff_data,
-                                           'genderpref' => $request['genderpref'],
+                                 ->update(['First name'         => $request['firstname'],
+                                           'Family name'        => $request['familyname'],
+                                           'email'              => $request['email'],
+                                           'gender'             => $request['gender'],
+                                           'birth year'         => $request['birthyear'],
+                                           'phone'              => $request['phone'],
+                                           'phone alt'          => $request['phonealt'],
+                                           'kickoff'            => $kickoff_data,
+                                           'genderpref'         => $request['genderpref'],
                                            'past participation' => $request['pastparticipation'],
-                                           'interest' => $request['interest']
+                                           'interest'           => $request['interest']
                                            ]);
 
         // To be used in participant.blade.php

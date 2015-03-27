@@ -334,7 +334,7 @@ print_r($id_array);
                             <div class="form-group">
                                 {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
                             </div>
-                            <input data-dismiss="modal" type="reset" value="Reset!">
+                            <input data-dismiss="modal" type="reset" value="Close!">
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -410,10 +410,34 @@ print_r($id_array);
                 </td>
             </tr>
             <tr>
-                <td>Preference of mentor gender</td>
+                <td>Preference of mentee gender</td>
                 <td>
                     <?php
                         print_r($participant_result[0]['genderpref']);
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Years of CS</td>
+                <td>
+                    <?php
+                        print_r($participant_result[0]['yearofcs']);
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Occupation</td>
+                <td>
+                    <?php
+                        print_r($participant_result[0]['job']);
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Education Level</td>
+                <td>
+                    <?php
+                        print_r($participant_result[0]['edulvl']);
                     ?>
                 </td>
             </tr>
@@ -426,6 +450,7 @@ print_r($id_array);
                     if ($key == "SID" || $key == "Time")
                     {
                         //do nothing and continue iteration
+                        // TODO
                     }
 
                     else
