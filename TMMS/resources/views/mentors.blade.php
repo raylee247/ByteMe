@@ -35,14 +35,17 @@
             <th>Job</th>
             <th>Years of<br>CS work</th>
             <th>Education Level</th>
-            <th>Field of Interest</th>
         </tr>
     </thead>
     <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
     <tbody>
         <?php
-        foreach($result as $single_result) {
-            echo "<tr class='mentortable' data-toggle='modal' data-target='#modal-1'><td>"; 
+        $i = 0;
+        foreach($result as $single_result)
+        {
+            $array[$i] = $result[$i]['pid'];
+            $i++; 
+            echo "<tr href='participant'><td>"; 
             print_r($single_result['First name']);
             echo "</td>";
             echo "<td>"; 
@@ -59,9 +62,6 @@
             echo "</td>";
             echo "<td>"; 
             print_r($single_result['edulvl']);
-            echo "</td>";
-            echo "<td>"; 
-            print_r($single_result['field of interest']);
             echo "</td></tr>";
         }
         ?>
@@ -279,9 +279,21 @@ input {
 }
 </style>
 
-<script type="text/javascript">
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+<script>
+    $(document).ready(function(){
+        $('table tr').click(function(){
+            // index of row clicked 
+            var row = ($(this).index());
+
+            // actual pid of the participant 
+            var myvar = <?php
+                            echo json_encode($array);
+                        ?>;
+
+            window.location.href = "participant" + "/" + myvar[row];
+            return false;
+        });
+    });
 </script>
+
 @endsection
