@@ -81,11 +81,7 @@ Route::post('participant/{pid}', 'AdminController@editParticipant');
 //Route::get('currentmatch', '')
 //Route::get('savedmatches', '')
 Route::get('weight', 'weightController@index');
-
-// application form ROUTES
-//Route::get('studentform', '')
-//Route::get('mentorform', '')
-//////////////////////////////////
+Route::post('matchresult', 'weightController@matchresultindex');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");

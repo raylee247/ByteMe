@@ -8,6 +8,8 @@
   <div class="panel-body">
     //TODO : NEED TO GRAB THE DIFFERENT PARAMETERS FROM DB, make heights same
     <h5>Required parameters that will be considered for the matching:</h5>
+
+    <form id="passparameter" action="matchresult" method="POST">
     <div class="row">
         <ul id="sortable1" class="droptrue">
           <li class="ui-state-default" id="element_gender">Gender Preference</li>
@@ -31,24 +33,26 @@
         <li class="ui-state-default" id="element_5"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
         <li class="ui-state-default" id="element_6"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
     </ul>
-    <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span>
+    <button id="passparameterSubmit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+    <!-- <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span> -->
     <br style="clear:both">
-
+<!-- 
     <div class="modal fade" id="makematch" tabindex="-1" role="dialog" aria-labelledby="makematchLabel" aria-hidden="true">
        <div class="modal-dialog">
           <div class="modal-content">
              <div class="modal-body">Adjustments will now be finalized. Click "continue" to create the matching or "cancel" to make changes.</div>
              <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Continue</button> 
+                <button id="passparameterSubmit" class="btn btn-primary" data-dismiss="modal">Continue</button> 
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- div to display array or parameter order to pass to controller - can remove after-->
 <div id= 'test'></div>
 </div>
+</form>
 </div>
 </div>
 
