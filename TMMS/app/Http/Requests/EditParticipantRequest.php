@@ -22,6 +22,8 @@ class EditParticipantRequest extends Request {
 	public function rules()
 	{
 		return [
+			'firstname'			=> 'required',
+			'familyname'		=> 'required',
 			'email'				=> 'required|email',
 			'studentnum'		=> 'required',
 			'csid'				=> 'required',
@@ -36,7 +38,8 @@ class EditParticipantRequest extends Request {
 			'yearstanding'		=> 'required',
 			'courses'			=> 'required',
 			'pastparticipation'	=> 'required',
-			'coop'				=> 'required'
+			'coop'				=> 'required',
+			'interest'			=> 'required'
 		];
 	}
 

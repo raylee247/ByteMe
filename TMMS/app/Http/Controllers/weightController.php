@@ -50,5 +50,11 @@ class weightController extends Controller {
 
     }
 
+    public function matchresultindex()
+    {
+
+        return view('matchresult');
+    }
+
 
 }
