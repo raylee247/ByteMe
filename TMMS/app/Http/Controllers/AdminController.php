@@ -244,7 +244,7 @@ class AdminController extends Controller {
         // UPDATE PARTICIPANT IF SENIOR STUDENT 
         else if ($sid == $pid)
         {
-            \DB::table('senior')->where('sid', $pid)
+            \DB::table('mentor')->where('sid', $pid)
                                 ->update(['studentNum' => $request['studentnum'],
                                           'yearStand' => $request['yearstanding'],
                                           'programOfStudy' => $request['program'],
@@ -254,8 +254,13 @@ class AdminController extends Controller {
                                           ]);
         }
         // UPDATE PARTICIPANT IF MENTOR
-        else if ($mid == $pid) 
+        else
         {
+            \DB::table('mentor')->where('mid', $pid)
+                                ->update(['yearofcs' => $request['yearofcs'],
+                                          'job' => $request['job'],
+                                          'edulvl' => $request['edulvl']
+                                          ]);
         }
         
         // Query here because need to fetch the keys (ex. CS Areas of Interest)

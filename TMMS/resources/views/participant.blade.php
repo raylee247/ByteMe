@@ -23,10 +23,12 @@ print_r($id_array);
 <br>
 
 @if (isset($id_array[0]) || isset($id_array[1]))
-
+    
+    <!-- Display name at top of the participant page --> 
     <?php
         echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
     ?>
+
     <!-- Edit Student Button -->
     <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
             <i class="glyphicon glyphicon-pencil"></i> Edit
@@ -351,6 +353,11 @@ print_r($id_array);
 
 @else
 
+    <!-- Display name at top of the participant page --> 
+    <?php
+        echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
+    ?>
+
     <!-- Edit Mentor Button -->
     <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#mentor-modal">
             <i class="glyphicon glyphicon-pencil"></i> Edit
@@ -441,6 +448,14 @@ print_r($id_array);
                     ?>
                 </td>
             </tr>
+            <tr>
+                <td>Interests</td>
+                <td>
+                    <?php
+                        print_r($participant_result[0]['interest']);
+                    ?>
+                </td>
+            </tr>
             <?php
                 $extra = json_decode($json_extra, true);
                 $extra_keys = array_keys($extra);
@@ -487,6 +502,18 @@ print_r($id_array);
                           <div class=" col-md-12"> 
                             <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>". accept-charset="UTF-8">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                <!-- First Name Input -->
+                                <div class="form-group">
+                                    <label for="name">First Name: </label>
+                                    <input class="form-control" name="firstname" type="text" value="<?= $participant_result[0]['First name'] ?>" id="firstname">
+                                </div>
+
+                                <!-- Family Name Input -->
+                                <div class="form-group">
+                                    <label for="name">Last Name: </label>
+                                    <input class="form-control" name="familyname" type="text" value="<?= $participant_result[0]['Family name'] ?>" id="familyname">
+                                </div>
 
                                 <!-- Email Input -->
                                 <div class="form-group">
@@ -535,6 +562,31 @@ print_r($id_array);
                                     <label for="name">Gender Preference: </label>
                                     <input class="form-control" name="genderpref" type="text" value="<?= $participant_result[0]['genderpref'] ?>" id="genderpref">
                                 </div>
+
+                                <!-- Years of CS Input -->
+                                <div class="form-group">
+                                    <label for="name">Years of CS: </label>
+                                    <input class="form-control" name="yearofcs" type="text" value="<?= $participant_result[0]['yearofcs'] ?>" id="yearofcs">
+                                </div>
+
+                                <!-- Occupation Input -->
+                                <div class="form-group">
+                                    <label for="name">Occupation: </label>
+                                    <input class="form-control" name="job" type="text" value="<?= $participant_result[0]['job'] ?>" id="job">
+                                </div>
+
+                                <!-- Education Level Input -->
+                                <div class="form-group">
+                                    <label for="name">Education Level: </label>
+                                    <input class="form-control" name="edulvl" type="text" value="<?= $participant_result[0]['edulvl'] ?>" id="edulvl">
+                                </div>
+
+                                <!-- Interest Input -->
+                                <div class="form-group">
+                                    <label for="name">Interests: </label>
+                                    <input class="form-control" name="interest" type="text" value="<?= $participant_result[0]['interest'] ?>" id="interest">
+                                </div>
+
                                 <!-- Extra Input -->
                                 <?php
                                     $extra = json_decode($json_extra, true);
