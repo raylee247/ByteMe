@@ -233,7 +233,33 @@ class AdminController extends Controller {
         \DB::table('parameter')->where('pid', $pid) 
                                ->update(['extra' => $encoded_extra_update]);
 
+
         $jid = \DB::table('junior')->where('jid', $pid)->pluck('jid');
+
+        // UPDATE PARTICIPANT IF JUNIOR STUDENT 
+        if ($jid == $pid) 
+        {
+            \DB::table('junior')->where('jid', $pid)
+                                ->update(['studentNum' => $request['studentnum'],
+                                          'yearStand' => $request['yearstanding'],
+                                          'programOfStudy' => $request['program'],
+                                          'courses' => $request['courses'],
+                                          'csid' => $request['csid'],
+                                          'coop' => $kickoff_data['coop']
+                                          ]);
+        }
+        // UPDATE PARTICIPANT IF SENIOR STUDENT 
+        else
+        {
+            \DB::table('senior')->where('sid', $pid)
+                                ->update(['studentNum' => $request['studentnum'],
+                                          'yearStand' => $request['yearstanding'],
+                                          'programOfStudy' => $request['program'],
+                                          'courses' => $request['courses'],
+                                          'csid' => $request['csid'],
+                                          'coop' => $kickoff_data['coop']
+                                          ]);
+        }
 
         // Gets all mentor senior and junior students possible data
         $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
@@ -242,6 +268,7 @@ class AdminController extends Controller {
                                                   ->where('pid', $pid)->get();
         $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                                   ->where('pid', $pid)->get();
+
 
         $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                ->where('parameter.pid', $pid)->pluck('extra');

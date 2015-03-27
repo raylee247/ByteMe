@@ -282,7 +282,7 @@ print_r($json_extra);
                             {
                                 // need this line because for some reason request doesn't accept any white spaces and returns NULL
                                 $no_spaces_key = preg_replace('/\s+/', '', $key);
-                                
+
                                 echo "<div class='form-group'>";
                                 echo "<label for='$key'>";
                                 echo $key;
@@ -294,7 +294,7 @@ print_r($json_extra);
 
                         <!-- Submit Button --> 
                         <div class="form-group">
-                            {!! Form::submit('Submit', ['class' => 'btn btn-primary form-control']) !!}
+                            {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
                         </div>
                         <input data-dismiss="modal" type="reset" value="Reset!">
                     {!! Form::close() !!}
