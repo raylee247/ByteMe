@@ -18,7 +18,7 @@
                         </div>
 @endif
 <?php
-print_r($participant_result);
+print_r($json_extra);
 ?>
 <br>
 <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#modal-2">
@@ -146,14 +146,22 @@ print_r($participant_result);
 
             foreach($extra_keys as $key)
             {
-                echo "<tr>";
-                echo "<td>";
-                echo $key;
-                echo "</td>";
-                echo "<td>";
-                echo $extra[$key];
-                echo "</td>";
-                echo "</tr>";
+                if ($key == "SID" || $key == "Time")
+                {
+                    //do nothing and continue iteration
+                }
+
+                else
+                {
+                    echo "<tr>";
+                    echo "<td>";
+                    echo $key;
+                    echo "</td>";
+                    echo "<td>";
+                    echo $extra[$key];
+                    echo "</td>";
+                    echo "</tr>";
+                }
             }
         ?>
     </tbody>
@@ -214,7 +222,7 @@ print_r($participant_result);
                         <!-- Birth Year Input -->
                         <div class="form-group">
                             <label for="name">Birth Year: </label>
-                            <input class="form-control" name="birthyear" type="text" value="<?= $participant_result[0]['birth year'] ?>" id="birth year">
+                            <input class="form-control" name="birthyear" type="text" value="<?= $participant_result[0]['birth year'] ?>" id="birthyear">
                         </div>
 
                         <!-- Kickoff Night Availability Input -->
@@ -265,9 +273,28 @@ print_r($participant_result);
                             <input class="form-control" name="coop" type="text" value="<?= $participant_result[0]['coop'] ?>" id="coop">
                         </div>
 
+                        <!-- Extra Input -->
+                        <?php
+                            $extra = json_decode($json_extra, true);
+                            $extra_keys = array_keys($extra);
+
+                            foreach($extra_keys as $key)
+                            {
+                                // need this line because for some reason request doesn't accept any white spaces and returns NULL
+                                $no_spaces_key = preg_replace('/\s+/', '', $key);
+
+                                echo "<div class='form-group'>";
+                                echo "<label for='$key'>";
+                                echo $key;
+                                echo "</label>";
+                                echo "<input class='form-control' name='$no_spaces_key' type='text' value='$extra[$key]' id='$no_spaces_key'>";
+                                echo "</div>";
+                            }
+                        ?>
+
                         <!-- Submit Button --> 
                         <div class="form-group">
-                            {!! Form::submit('Submit', ['class' => 'btn btn-primary form-control']) !!}
+                            {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
                         </div>
                         <input data-dismiss="modal" type="reset" value="Reset!">
                     {!! Form::close() !!}

@@ -38,6 +38,7 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 // edit application forms
 Route::get('studentform', 'appLoaderController@grabStudentAppEdit');
 Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
+Route::post('mentorform', 'appLoaderController@editForm');
 
 Route::get('success', 'AdminController@downloadcsv');
 
@@ -51,6 +52,7 @@ Route::get('admin', 'AdminController@index');
 
 // view audit log
 Route::get('log', 'AdminController@viewLog');
+Route::post('log', 'AdminController@viewLog2');
 
 // participant management
 
