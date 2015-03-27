@@ -38,7 +38,8 @@ class EditParticipantRequest extends Request {
 			'yearstanding'		=> 'required',
 			'courses'			=> 'required',
 			'pastparticipation'	=> 'required',
-			'coop'				=> 'required'
+			'coop'				=> 'required',
+			'interest'			=> 'required'
 		];
 	}
 
