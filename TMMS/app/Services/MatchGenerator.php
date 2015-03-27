@@ -64,10 +64,10 @@ class MatchGenerator{
 		print("********************* got into getParticipant *********************\n");
 
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
-                                                  ->select('participant.pid')
-                                                  ->where('participant.pid', '<', '2640')
-                                                  ->where('participant.pid', '>', '2634')
-                                                  ->get();
+                                                   ->select('participant.pid')
+                                                   ->where('participant.pid', '<', '3431')
+                                                   ->where('participant.pid', '>', '3419')
+                                                   ->get();
         foreach ($response_mentor as $key => $value) {
         	$this->mentors[] = $value['pid'];
         }
@@ -79,10 +79,10 @@ class MatchGenerator{
 		// }
 
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
-                                                  ->select('participant.pid')
-                                                  ->where('participant.pid', '<', '2769')
-                                                  ->where('participant.pid', '>', '2763')
-                                                  ->get();
+                                                  	 ->select('participant.pid')
+                                                  	 ->where('participant.pid', '<', '3567')
+                                                  	 ->where('participant.pid', '>', '3560')
+                                                  	 ->get();
 
 		foreach ($response_seniors as $key => $value) {
         	$this->seniors[] = $value['pid'];
@@ -94,10 +94,10 @@ class MatchGenerator{
 		// }
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
-                                                  ->select('participant.pid')
-                                                  ->where('participant.pid', '<', '2792')
-                                                  ->where('participant.pid', '>', '2787')
-                                                  ->get();
+                                                  	 ->select('participant.pid')
+                                                  	 ->where('participant.pid', '<', '3577')
+                                                  	 ->where('participant.pid', '>', '3572')
+                                                  	 ->get();
 		
 		foreach ($response_juniors as $key => $value) {
         	$this->juniors[] = $value['pid'];
@@ -122,9 +122,9 @@ class MatchGenerator{
 		// $this->test();
 		print("******************* in generate function *******************\n");
 		$this->generateTable();
-		//print("\ngeneratetable done");
-		// $result = $this->doTheMatch($this->mentors, $this->seniors, $this->juniors);
-		// print "\nDONE DO THE MATCH";
+		print("\n\n\n\n\n\ngeneratetable done\n\n\n\n\n");
+		$result = $this->doTheMatch($this->mentors, $this->seniors, $this->juniors);
+		print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
 		// $this->doBackTrack($this->mentors, $this->seniors, $this->juniors);
 		print("******************* end of genrate function *******************\n\n");
 		return $result;
@@ -179,22 +179,24 @@ class MatchGenerator{
 		$key .= ",";
 		$key .= implode(",", $juniors);
 		print("\n");
-		print ($key);
+		print("the value of key is = ");
+		print($key);
+		print("\n\n");
 		if (array_key_exists($key, $this->memory)){
-			print("\nresult exist");
-			print("******************* in dothematch function *******************\n\n");
+			print("\n\nresult exist\n\n");
+			print("******************* end of dothematch function if *******************\n\n");
 			return  $this->memory[$key];
 		}else{
-			print("\ncompute");
+			print("\n\ncompute\n\n");
 			$this->memory[$key] = $this->doTheMatch_compute($mentors,$seniors,$juniors);
-			print("******************* in dothematch function *******************\n\n");
+			print("******************* end of dothematch function else *******************\n\n");
 			return $this->memory[$key];
 		}
 	}
 	
 	public function doTheMatch_compute($mentors,$seniors,$juniors){
 		// match a mentor each time
-		print("******************* in doTheMatch function *******************\n");
+		print("******************* in doTheMatch_compute function *******************\n");
 		// print ("\ndoTheMatch with parameter: ");
 		// print ("\nmentor:");
 		// var_dump($mentors);
@@ -206,6 +208,7 @@ class MatchGenerator{
 		$target = array_values($mentors)[0];
 		print ("\ntarget:");
 		print($target);
+		print("\n\n");
 		// base case 	
 		if (count($mentors) == 1){
 			// return the key with the maxx vlaue 
@@ -239,6 +242,7 @@ class MatchGenerator{
 					$key = $target . "," . $senior . "," . $junior;
 					print("\ndo matching with key:");
 					print($key);
+					print("\n\n");
 					// var_dump($this->MentorSatTable[$target][$key]);
 					$temp = $this->MentorSatTable[$target][$key] + $this->doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
 					$result[$key] = $temp; 
@@ -258,7 +262,7 @@ class MatchGenerator{
 				$backTrackkey .= ",";
 				$backTrackkey .= implode(",", $juniors);
 				$this->backTrack[$backTrackkey] = $choice[0];
-				print("******************* done with doTheMatch function *******************\n\n");
+				print("******************* done with doTheMatch_compute function *******************\n\n");
 				return $with; 
 			}else{
 				$choice = "no including mentor " . $target;
@@ -268,7 +272,7 @@ class MatchGenerator{
 				$backTrackkey .= ",";
 				$backTrackkey .= implode(",", $juniors);
 				$this->backTrack[$backTrackkey] = $choice;
-				print("******************* done with doTheMatch function *******************\n\n");
+				print("******************* done with doTheMatch_compute function *******************\n\n");
 				return $without;
 			}
 		}
