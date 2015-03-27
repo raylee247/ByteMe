@@ -603,21 +603,33 @@ class appLoaderController extends Controller {
          * question[1] = text|textTest|textQuestion
         */
         $year = date("Y");
-        $status = $_POST['status'];
-        $kickoff = $_POST['kickoff'];
-        $program = $_POST['program'];
-        $deadline = $_POST['deadline'];
-        $operation = $_POST['operation'];
-        $questions = $_POST['question'];
-
+        if(isset($_POST['status'])){
+            $status = $_POST['status'];
+        }
+        if(isset($_POST['kickoff'])){
+            $kickoff = $_POST['kickoff'];
+        }
+        if(isset($_POST['program'])){
+            $program = $_POST['program'];
+        }
+        if(isset($_POST['deadline'])){
+            $deadline = $_POST['deadline'];
+        }
+        if(isset($_POST['operation'])){
+            $operation = $_POST['operation'];
+        }
+        if(isset($_POST['question'])){
+            $questions = $_POST['question'];
+        }
         //check if creating new application form, else, grab current form and do operation
         if ($operation != "new") {
             if ($status == "student") {
                 $rawApp = \DB::table('studentapp')->where('year', $year)->first();
-                for ($i = 0; $i < count(operation); $i++) {
+                for ($i = 0; $i < count($operation); $i++) {
                     //grab raw application for status provided
-                    switch (operation) {
+                    switch ($operation) {
                         case "add":
+                        // TODO: check if already existing tag, if so, echo failure
                             $rawApp['extra'] .= $questions[$i];
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
                             break;
@@ -646,9 +658,9 @@ class appLoaderController extends Controller {
                 }
             } else {
                 $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
-                for ($i = 0; $i < count(operation); $i++) {
+                for ($i = 0; $i < count($operation); $i++) {
                     //grab raw application for status provided
-                    switch (operation) {
+                    switch ($operation) {
                         case "add":
                             $rawApp['extra'] .= $questions[$i];
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
@@ -678,13 +690,15 @@ class appLoaderController extends Controller {
                 }
             }
         }else{
+            //TODO: ask for program and kickoff
             if($status == 'student'){
                 $student_response = \DB::table('studentapp')->insertGetId(
                     ['program' => $program, 'kickoff' => $kickoff,
-                     'year' => $year, 'deadline' => $deadline]);
+                     'year' => $year+1, 'deadline' => $deadline]);
             }else{
+                // TODO: ask for kickoff
                 $mentor_response = \DB::table('mentorapp')->insertGetId(
-                    ['kickoff' => $kickoff, 'year' => $year, 'deadline' => $deadline]);
+                    ['kickoff' => $kickoff, 'year' => $year+1, 'deadline' => $deadline]);
             }
         }
 
@@ -694,7 +708,8 @@ class appLoaderController extends Controller {
         //want to edit already existing questions
 
         //want to remove already existing question
-        return view('studentform');
+        // return view('studentform');
+        return view('mentorform');
     }
 
 
