@@ -184,7 +184,6 @@ class AdminController extends Controller {
 
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
-
         // Append these 2 fields because there is only one kickoff column
         $kickoff_data = $request['kickoff'].$request['kickoffcomments'];
 
@@ -194,18 +193,47 @@ class AdminController extends Controller {
                                            'gender' => $request['gender'],
                                            'birth year' => $request['birthyear'],
                                            'phone' => $request['phone'],
-                                           'phone alt' => $request['phone alt'],
+                                           'phone alt' => $request['phonealt'],
                                            'kickoff' => $kickoff_data,
                                            'genderpref' => $request['genderpref'],
                                            'past participation' => $request['pastparticipation'],
                                            ]);
 
-        $jid = \DB::table('junior')->where('jid', $pid)->pluck('jid');
+        // Query here because need to fetch the keys (ex. CS Areas of Interest)
+        // CURRENT DATA IN DATABASE PRE-EDITED
+        $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                               ->where('parameter.pid', $pid)->pluck('extra');
 
-        if ($jid == $pid)
+        // Decode JSON format of the extra column, then populate an array of keys 
+        $extra = json_decode($json_extra, true);
+        $extra_keys = array_keys($extra);
+
+        // Make array for json_encode
+        $extra_update = array();
+
+        //populate array
+        foreach($extra_keys as $key)
         {
-            \DB::table('junior')->update[''];
+            if ($key == "SID" || $key == "Time") 
+            {
+                // maintain original data
+                $extra_update[$key] = $extra[$key];
+            }
+            else
+            {
+                //the actual edit takes place here
+                //for some reason null values if not trimmed
+                $no_spaces_key = preg_replace('/\s+/', '', $key);
+                $extra_update[$key] = $request[$no_spaces_key];
+            }
         }
+
+        $encoded_extra_update = json_encode($extra_update);
+
+        \DB::table('parameter')->where('pid', $pid) 
+                               ->update(['extra' => $encoded_extra_update]);
+
+        $jid = \DB::table('junior')->where('jid', $pid)->pluck('jid');
 
         // Gets all mentor senior and junior students possible data
         $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
@@ -214,6 +242,7 @@ class AdminController extends Controller {
                                                   ->where('pid', $pid)->get();
         $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                                   ->where('pid', $pid)->get();
+
         $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                ->where('parameter.pid', $pid)->pluck('extra');
 
