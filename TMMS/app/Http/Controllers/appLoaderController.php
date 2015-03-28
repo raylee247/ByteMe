@@ -695,7 +695,7 @@ class appLoaderController extends Controller {
         $status = $_POST['status'];
         if(isset($_POST['kickoff'])) {
             $kickoff = $_POST['kickoff'];
-            if ($status = 'student') {
+            if ($status == 'student') {
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('kickoff' => $kickoff));
             } else {
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('kickoff' => $kickoff));
@@ -705,12 +705,18 @@ class appLoaderController extends Controller {
             $program = $_POST['program'];
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('program' => $program));
         }
-        if(isset($_POST['deadline'])){
-            $deadline = $_POST['deadline'];
-            if($status = 'student'){
+        if(isset($_POST['dlyear']) && isset($_POST['dlmonth']) && isset($_POST['dlday'])){
+            $dlyear = $_POST['dlyear'];
+            $dlmonth = $_POST['dlmonth'];
+            $dlday = $_POST['dlday'];
+            $deadline = $dlyear . "-" . $dlmonth . "-" . $dlday;
+            if($status == 'student'){
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('deadline' => $deadline));
+                return view('studentapp');
             }else{
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('deadline' => $deadline));
+                return $this->grabMentorAppEdit();
+
             }
 
         }
@@ -762,7 +768,7 @@ class appLoaderController extends Controller {
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
-                    return view('studentform');
+                    return $this->grabStudentAppEdit();
                 } else {
                     $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
 
@@ -787,16 +793,7 @@ class appLoaderController extends Controller {
                             break;
 
                         case "update":
-<<<<<<< HEAD
-                            $questionSplit = explode('|', $question);
-                            $splitRawApp = explode('`', $rawApp['extra']);
-                             $extra = "";
-                            for ($m = 0; $m < count($splitRawApp); $m++) {
-                               
-                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
-                                if ($pos !== false) {
-                                    $splitRawApp[$m] = $question;
-=======
+
                             $questionSplit = explode('|', $question); //FORMAT|ID|QUESTION... => (FORMAT, ID, QUESTION, ...)
                             $splitRawApp = explode('`', $rawApp['extra']); //Q1`Q2`Q3... => (Q1, Q2, Q3, ...)
                             $extra = "";
@@ -804,7 +801,6 @@ class appLoaderController extends Controller {
                                 $pos = strpos($splitRawApp[$m], $questionSplit[1]); //is ID in Qi
                                 if ($pos !== false) {  //true
                                     $splitRawApp[$m] = $question;  //Qi = question
->>>>>>> 75466b9138aa13c6d63e69c58f078604e0445178
                                 }
                                 $extra .= $splitRawApp[$m] . "`";
                                 $newExtra = $extra;
@@ -813,7 +809,7 @@ class appLoaderController extends Controller {
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
-                    return view('mentorform');
+                    return $this->grabMentorAppEdit();
                 }
             } else {
                 //default kickoff night and program from last year loaded into new year student app
@@ -853,14 +849,14 @@ class appLoaderController extends Controller {
                 $question = $_POST['question'];
                 $answers = $_POST['answers'];
 
-                $test = $format . "|" . $tag[0] . "|" . $question[0] . "|" . $answers[0];
+                $test = $format . "|" . $tag . "|" . $question . "|" . $answers;
                 break;
 
             case "text":
                 $tag = $_POST['tag'];
                 $question = $_POST['question'];
 
-                $test = $format . "|" . $tag[1] . "|" . $question[1];
+                $test = $format . "|" . $tag . "|" . $question;
                 break;
 
             case "radio":
@@ -874,23 +870,23 @@ class appLoaderController extends Controller {
                 $choices = $_POST['choices'];
 
 
-                $test = $format . "|" . $tag[2] . "|" . $question[2] . "|" . $message . "|" .
+                $test = $format . "|" . $tag . "|" . $question . "|" . $message . "|" .
                     $options ."|" . $choices;
                 break;
 
-            case "dropdown":
+            case "select":
                 $tag = $_POST['tag'];
                 $question = $_POST['question'];
                 $answers = $_POST['answers'];
 
-                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[3];
+                $test = $format . "|" . $tag . "|" . $question . "|" . $answers;
                 break;
 
             case "textarea":
                 $tag = $_POST['tag'];
                 $question = $_POST['question'];
 
-                $test = $format . "|" . $tag[4] . "|" . $question[4];
+                $test = $format . "|" . $tag . "|" . $question;
                 break;
         }
 
