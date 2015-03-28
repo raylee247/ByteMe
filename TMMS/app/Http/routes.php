@@ -88,7 +88,7 @@ Route::post('savedmatches', 'weightController@savedmatchname');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
-Route::get('ray', 'appLoaderController@index');
+Route::get('ray', 'appLoaderController@test');
 //====
 
 Route::controllers([

@@ -9,8 +9,10 @@ class MatchMakingTest extends TestCase {
 	 */
 	public function testMatching()
 	{
+		print("\nstarted testMatching\n");
 		$response = $this->action('GET', "MakeMatching@generateMatchTest");
-		// echo $response;
+		print("end of testMatching\n\n");
+		echo $response;
 	}
 	// public function testUploadcsv(){
 	// 	print("what is this shit\n");

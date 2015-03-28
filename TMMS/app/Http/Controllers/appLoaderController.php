@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class appLoaderController extends Controller {
 
+    protected $test;
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -266,7 +267,6 @@ class appLoaderController extends Controller {
         $day1 = $_POST['day1'];//format of YYYY-MM-DD
         $day2 = $_POST['day2'];
         $day3 = $_POST['day3'];
-        $additionalcomments_avail = $_POST['additionalcomments_avail'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $phonealt = $_POST['phonealt'];
@@ -291,16 +291,41 @@ class appLoaderController extends Controller {
         }else{
             $waitlist = 0;
         }
+        //CHECK IF ALREADY IN PARTICIPANT TABLE, MEANING EMAIL ALREADY IN BUT DIFFERENT YEAR
 
-        //inserting into participant table
-        $participant_id = \DB::table('participant')->insertGetId(
+        $pidYear = \DB::table('participant')->select('pid', 'year')->where('email', $email)->get();
+
+        if(count > 0){
+            if($pidYear[0]['year'] == $year){
+                $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
+                    ->update(
+                        ['First name' => $givenname, 'Family name' => $familyname,
+                        'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+                        'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                        'birth year' => $birthyear, 'genderpref' => $mentorgender,
+                        'past participation' => "Yes", 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
+                    );
+                //update
+            }else{
+                //grab PID and insert into table with new entry, but same PID
+                $participant_repsonse = \DB::table('participant')->insert(
+                    ['pid' => $pidYear[0]['pid'], 'First name' => $givenname, 'Family name' => $familyname,
+                    'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+                    'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                    'birth year' => $birthyear, 'genderpref' => $mentorgender,
+                    'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
+                );
+            }
+        }else { //make new Participant
+            //inserting into participant table
+            $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $givenname, 'Family name' => $familyname,
-                'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
+                'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
                 'birth year' => $birthyear, 'genderpref' => $mentorgender,
                 'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
-        );
-
+            );
+        }
         //student only
         $studentnum = $_POST['studentnum'];
         $yearofstudy = $_POST['yearofstudy'];
@@ -329,6 +354,7 @@ class appLoaderController extends Controller {
 
         //extra questions
         $newQuestions = [];
+        $additionalcomments_avail = $_POST['additionalcomments_avail'];
 
         //grabbing raw questions from database
         $year = date("Y");
@@ -409,7 +435,7 @@ class appLoaderController extends Controller {
         }
 
         //$parameter = implode("," , $paralist);
-        $parameter = '{' . substr($combineInsert,0,-1) . '}';
+        $parameter = '{' . substr($combineInsert,0,-1) . '"Additional comments re availability":"' . $additionalcomments_avail .'"' . '}';
 
 
         //insert extra questions answers into parameter
@@ -440,7 +466,6 @@ class appLoaderController extends Controller {
         $day1 = $_POST['day1'];
         $day2 = $_POST['day2'];
         $day3 = $_POST['day3'];
-        $additionalcomments_avail = $_POST['additionalcomments_avail'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $phonealt = $_POST['phonealt'];
@@ -466,15 +491,41 @@ class appLoaderController extends Controller {
             $waitlist = 0;
         }
 
-        //inserting into participant table
-        $participant_id = \DB::table('participant')->insertGetId(
-            array('First name' => $givenname, 'Family name' => $familyname,
-                'gender' => $gender, 'kickoff' => $day1 . "," .  $day2 . "," . $day3 . "," . $additionalcomments_avail,
-                'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
-                'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
-                'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest)
-        );
+        //CHECK IF ALREADY IN PARTICIPANT TABLE, MEANING EMAIL ALREADY IN BUT DIFFERENT YEAR
 
+        $pidYear = \DB::table('participant')->select('pid', 'year')->where('email', $email)->get();
+
+        if(count > 0) {
+            if ($pidYear[0]['year'] == $year) {
+                $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
+                    ->update(
+                        ['First name' => $givenname, 'Family name' => $familyname,
+                            'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+                            'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                            'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
+                            'past participation' => "Yes", 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
+                    );
+                //update
+            } else {
+                //grab PID and insert into table with new entry, but same PID
+                $participant_repsonse = \DB::table('participant')->insert(
+                    ['pid' => $pidYear[0]['pid'], 'First name' => $givenname, 'Family name' => $familyname,
+                        'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+                        'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                        'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
+                        'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
+                );
+            }
+        }else {
+            //inserting into participant table
+            $participant_id = \DB::table('participant')->insertGetId(
+                array('First name' => $givenname, 'Family name' => $familyname,
+                    'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+                    'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+                    'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
+                    'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest)
+            );
+        }
         //mentor only attributes
         $position = $_POST['position']; //array
         $yearsofcswork = $_POST['yearsofcswork'];
@@ -487,7 +538,7 @@ class appLoaderController extends Controller {
 
         //extra questions
         $newQuestions = [];
-
+        $additionalcomments_avail = $_POST['additionalcomments_avail'];
         //grabbing raw questions from database
         $year = date("Y");
         $rawMenApp = \DB::table('mentorapp')->where('year', $year)->first();
@@ -542,7 +593,7 @@ class appLoaderController extends Controller {
         }
 
         //$parameter = implode("," , $paralist);
-        $parameter = '{' . substr($combineInsert,0,-1) . '}';
+        $parameter = '{' . substr($combineInsert,0,-1) . '"Additional comments re availability":"' . $additionalcomments_avail .'"' . '}';
 
         //insert extra questions answers into parameter
         $paramter_response = \DB::table('parameter')->insert(
@@ -619,11 +670,11 @@ class appLoaderController extends Controller {
         if(isset($_POST['operation'])){
             $operation = $_POST['operation'];
         }
-        if(isset($_POST['question'])){
-            $questions = $_POST['question'];
-        }
+
         //check if creating new application form, else, grab current form and do operation
         if ($operation != "new") {
+            //grab the question being added/changed
+            $question = $this->getQuestion();
             if ($status == "student") {
                 $rawApp = \DB::table('studentapp')->where('year', $year)->first();
                 for ($i = 0; $i < count($operation); $i++) {
@@ -631,24 +682,24 @@ class appLoaderController extends Controller {
                     switch ($operation) {
                         case "add":
                         // TODO: check if already existing tag, if so, echo failure
-                            $rawApp['extra'] .= $questions[$i];
+                            $rawApp['extra'] .= $question;
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
                             break;
 
                         case "delete":
-                            $newExtra = str_replace($questions[$i] . ',', "" , $rawApp['extra']);
-                            $newExtra = str_replace($questions[$i], "" , $rawApp['extra']);
+                            $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
+                            $newExtra = str_replace($question, "" , $rawApp['extra']);
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
-                            $question = explode('|', $questions[$i]);
+                            $questionSplit = explode('|', $question);
                             $splitRawApp = explode('`', $rawApp['extra']);
                             for($m = 0; $m < count($splitRawApp); $m++){
                                 $extra = "";
-                                $pos = strpos($splitRawApp[$m], $question[1]);
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
                                 if ($pos !== false){
-                                    $splitRawApp[$m] = $questions[$i];
+                                    $splitRawApp[$m] = $question;
                                 }
                                 $extra .= $splitRawApp[$m];
                                 $newExtra = $extra;
@@ -663,29 +714,30 @@ class appLoaderController extends Controller {
                     //grab raw application for status provided
                     switch ($operation) {
                         case "add":
-                            $rawApp['extra'] .= $questions[$i];
-                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
+                            // TODO: check if already existing tag, if so, echo failure
+                            $rawApp['extra'] .= $question;
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
                             break;
 
                         case "delete":
-                            $newExtra = str_replace($questions[$i] . ',', "" , $rawApp['extra']);
-                            $newExtra = str_replace($questions[$i], "" , $rawApp['extra']);
-                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
+                            $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
+                            $newExtra = str_replace($question, "" , $rawApp['extra']);
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
-                            $question = explode('|', $questions[$i]);
+                            $questionSplit = explode('|', $question);
                             $splitRawApp = explode('`', $rawApp['extra']);
                             for($m = 0; $m < count($splitRawApp); $m++){
                                 $extra = "";
-                                $pos = strpos($splitRawApp[$m], $question[1]);
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
                                 if ($pos !== false){
-                                    $splitRawApp[$m] = $questions[$i];
+                                    $splitRawApp[$m] = $question;
                                 }
                                 $extra .= $splitRawApp[$m];
                                 $newExtra = $extra;
                             }
-                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
                 }
@@ -713,6 +765,63 @@ class appLoaderController extends Controller {
         return view('mentorform');
     }
 
+    public function getQuestion(){
+
+        $format = $_POST['questiontype'];
+        switch($format){
+            case "checkbox":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $answers = $_POST['answers'];
+
+                $test = $format . "|" . $tag[0] . "|" . $question[0] . "|" . $answers[0];
+                break;
+
+            case "text":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+
+                $test = $format . "|" . $tag[1] . "|" . $question[1];
+                break;
+
+            case "radio":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $message = "";
+                if(isset($_POST['message'])){
+                    $message = $_POST['message'];
+                }
+                $options = $_POST['options'];
+                $choices = $_POST['choices'];
+
+
+                $test = $format . "|" . $tag[2] . "|" . $question[2] . "|" . $message . "|" .
+                    $options ."|" . $choices;
+                break;
+
+            case "dropdown":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $answers = $_POST['answers'];
+
+                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[3];
+                break;
+
+            case "textarea":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+
+                $test = $format . "|" . $tag[4] . "|" . $question[4];
+                break;
+        }
+
+        return $test;
+    }
+
+    public function test(){
+        $test = \DB::table('participant')->select('pid', 'year')->where('email', "bill.gates@hotmail.com")->get();
+        return view('appEdit')->with('test', $test);
+    }
 
 }
 
