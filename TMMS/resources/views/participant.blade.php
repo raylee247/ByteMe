@@ -22,6 +22,18 @@ print_r($id_array);
 ?>
 <br>
 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                Download Participant Profile
+                                <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
+                                <input type="submit" value="Download CSV" name="download_report">
+                            </span>
+                    </span>
+</form>
+
 @if (isset($id_array[0]) || isset($id_array[1]))
     
     <!-- Display name at top of the participant page --> 
@@ -31,7 +43,10 @@ print_r($id_array);
 
     <!-- Edit Student Button -->
     <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
-            <i class="glyphicon glyphicon-pencil"></i> Edit
+        <i class="glyphicon glyphicon-pencil"></i> Edit
+    </button>
+        <a href="{{ url('/students') }}">Back</a> 
+    <button>
     </button>
 
     <!-- Student Information Table --> 
@@ -104,6 +119,14 @@ print_r($id_array);
                 </td>
             </tr>
             <tr>
+                <td>Previous Participation</td>
+                <td>
+                    <?php
+                        print_r($participant_result[0]['past participation']);
+                    ?>
+                </td>
+            </tr>
+            <tr>
                 <td>Program of Study</td>
                 <td>
                     <?php
@@ -124,14 +147,6 @@ print_r($id_array);
                 <td>
                     <?php
                         print_r($participant_result[0]['courses']);
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Previous Participation</td>
-                <td>
-                    <?php
-                        print_r($participant_result[0]['past participation']);
                     ?>
                 </td>
             </tr>
@@ -194,7 +209,7 @@ print_r($id_array);
               <div class="panel-body">
                   <div class="row">
                       <div class=" col-md-12"> 
-                        <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
+                        <form method="POST" action="<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 
@@ -269,6 +284,12 @@ print_r($id_array);
                                 <input class="form-control" name="genderpref" type="text" value="<?= $participant_result[0]['genderpref'] ?>" id="genderpref">
                             </div>
 
+                            <!-- Past Participation Input -->
+                            <div class="form-group">
+                                <label for="name">Past Participation: </label>
+                                <input class="form-control" name="pastparticipation" type="text" value="<?= $participant_result[0]['past participation'] ?>" id="pastparticipation">
+                            </div>
+
                             <!-- Program of Study Input -->
                             <div class="form-group">
                                 <label for="name">Program of Study: </label>
@@ -285,12 +306,6 @@ print_r($id_array);
                             <div class="form-group">
                                 <label for="name">Courses Completed: </label>
                                 <input class="form-control" name="courses" type="text" value="<?= $participant_result[0]['courses'] ?>" id="courses">
-                            </div>
-
-                            <!-- Past Participation Input -->
-                            <div class="form-group">
-                                <label for="name">Past Participation: </label>
-                                <input class="form-control" name="pastparticipation" type="text" value="<?= $participant_result[0]['past participation'] ?>" id="pastparticipation">
                             </div>
 
                             <!-- Coop Status Input -->
@@ -405,6 +420,14 @@ print_r($id_array);
                 <td>
                     <?php
                         print_r($participant_result[0]['genderpref']);
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Previous Participation</td>
+                <td>
+                    <?php
+                        print_r($participant_result[0]['past participation']);
                     ?>
                 </td>
             </tr>
@@ -545,6 +568,12 @@ print_r($id_array);
                                     <input class="form-control" name="genderpref" type="text" value="<?= $participant_result[0]['genderpref'] ?>" id="genderpref">
                                 </div>
 
+                                <!-- Past Participation Input -->
+                                <div class="form-group">
+                                    <label for="name">Past Participation: </label>
+                                    <input class="form-control" name="pastparticipation" type="text" value="<?= $participant_result[0]['past participation'] ?>" id="pastparticipation">
+                                </div>
+                                
                                 <!-- Years of CS Input -->
                                 <div class="form-group">
                                     <label for="name">Years of CS: </label>

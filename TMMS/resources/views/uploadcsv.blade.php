@@ -27,9 +27,11 @@
         </span>
         <form action="uploadcsv_uploaded" method="post" enctype="multipart/form-data" >
           I am uploading participant information for: <br> 
-          <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="student") echo "checked";?> value="student">Students</label>
-          <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="mentor") echo "checked";?> value="mentor">Mentors</label>
-          <br><br>
+            <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="student") echo "checked";?> value="student">Students</label>
+            <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="mentor") echo "checked";?> value="mentor">Mentors</label>
+            <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="report") echo "checked";?> value="report">Reports</label>
+
+            <br><br>
           <span class="input-group-btn">
           <span class="btn btn-success btn-file">
           <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload File <input type="submit" formmethod="post" value="Upload CSV File" name="submit">

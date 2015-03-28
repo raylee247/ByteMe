@@ -56,7 +56,20 @@
                 echo "</tr>";
             }
 
-            echo '</table>';
+            echo '</table><legend></legend>';
+
+
+            //generate the program of study section of application form
+            echo '<div class="form-inline">
+						<label class="control-label col-sm-3">Program of study:</label>
+						<select class="form-control" name="programofstudy" >';
+
+            $programCount = count($program);
+            for($i = 0; $i < $programCount; $i++){
+                echo '<option>' . $program[$i] . '</option>';
+            }
+
+            echo ' </select></div><br>';
             //questions comes in as an array holding arrays
             //each array looks like the following [format2|id2|question2|answer]
             for ($x = 0; $x < count($questions); $x++) {
@@ -119,7 +132,7 @@
                      </div>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </form>
@@ -178,11 +191,11 @@
                      </div>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </div>
-                     </form>"
+                     </form>
                      </div>
                      </div>
                      </div>
@@ -271,7 +284,7 @@
                      
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </div>
@@ -334,7 +347,7 @@
                      </div><br>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </form>
                      </div>
@@ -387,7 +400,7 @@
                      </div><br>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </form>
@@ -441,7 +454,7 @@
                     <div class="modal-footer">
                         //TODO:save to db
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -598,7 +611,7 @@
                     <div class="modal-footer">
                         //TODO:save to db
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -616,7 +629,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success">Confirm</button> // TODO : clear application form from db
+                        <button type="submit" class="btn btn-success">Confirm</button>
                     </div>
                 </form>
             </div>
@@ -640,21 +653,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Go!</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="modal-204" class="modal fade" id="deleteforms" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="POST">
-                    <div class="modal-body">
-                        Deleting a question will remove it from the current application form. Are you sure you want to continue?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Delete</button>
                     </div>
                 </form>
             </div>

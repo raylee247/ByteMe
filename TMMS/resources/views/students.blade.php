@@ -28,7 +28,7 @@
                   <input type="hidden" name="search_param" value="all" id="search_param">         
                   <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    <button class="btn btn-default" onclick="myFunction()" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
             </div>
         </form>
@@ -89,7 +89,6 @@
             var myvar = <?php
                             echo json_encode($array);
                         ?>;
-
             window.location.href = "participant" + "/" + myvar[row];
             return false;
         });

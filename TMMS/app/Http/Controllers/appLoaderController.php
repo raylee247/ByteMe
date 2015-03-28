@@ -736,8 +736,7 @@ class appLoaderController extends Controller {
                     //grab raw application for status provided
                     switch ($operation) {
                         case "add":
-                            //check the tag, if it fails send to failure page
-                            //failure page has a back button to send then back to edit page
+                            $question = $this->getAddQuestion();
                             $splitQuestion = explode("|", $question);
                             $questionTag = $splitQuestion[1];
                             if (strpos($rawApp['extra'], $questionTag) !== false) {
@@ -833,8 +832,8 @@ class appLoaderController extends Controller {
                         $student_response = \DB::table('studentapp')->insertGetId(
                             ['program' => $program[0]['program'], 'kickoff' => $kickoff,
                                 'year' => $year + 1, 'deadline' => $kickoff]);
+                        return $this->grabStudentAppEdit();
                     }
-                    return $this->grabStudentAppEdit();
                 } else {
                     //default kickoff night into new year mentor app
                     $made = \DB::table('mentorapp')->where('year', $year + 1)->get();
@@ -939,11 +938,11 @@ class appLoaderController extends Controller {
                 $test = $format . "|" . $tag[2] . "|" . $question[2] . "|" . $message . "|" .
                     $options ."|" . $choices;
                 break;
-            case "dropdown":
+            case "select":
                 $tag = $_POST['tag'];
                 $question = $_POST['question'];
                 $answers = $_POST['answers'];
-                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[3];
+                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[2];
                 break;
             case "textarea":
                 $tag = $_POST['tag'];
