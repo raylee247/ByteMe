@@ -557,6 +557,9 @@
                                                             <option value="radio">Radio button</option>
                                                             <option value="select">Dropdown</option>
                                                             <option value="textarea">Text area</option>
+                                                          <input type="hidden" name="operation" value="add">
+                                                          <input type="hidden" name="year" value=" <?php echo $year ?> ">
+                                                          <input type="hidden" name="status" value="mentor">
                                                       </select>
                                                       <div id="checkbox">
                                                             <p>CHECKBOX Tag name:<input type="text" class="form-control" name="tag[]"/></p>
@@ -566,7 +569,7 @@
                                                       <div id="text">
                                                             <p>TEXT Tag name:<input type="text" class="form-control" name="tag[]"/></p>
                                                             <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                            <p><input type="text" class="form-control" name="textans" value="" placeholder="Applicants will type in here" readonly></p>
+                                                            <p><input type="text" class="form-control" name="answers[]" value="" placeholder="Applicants will type in here" readonly></p>
                                                       </div>
                                                       <div id="radio">
                                                             <p>RADIO Tag name:<input type="text" class="form-control" name="tag[]"/></p>
@@ -606,7 +609,7 @@
                         <div class="modal-body">
                               Creating a new form will replace the current application form. New questions will need to be added. Are you sure you want to continue?
                               <input type="hidden" name="operation" value="new">
-                              <input type="hidden" name="year" value="2015">
+                              <input type="hidden" name="year" value=" <?php echo $year ?> ">
                               <input type="hidden" name="status" value="mentor">
                         </div>
                         <div class="modal-footer">

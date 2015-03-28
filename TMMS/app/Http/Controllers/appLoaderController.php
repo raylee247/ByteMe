@@ -697,13 +697,16 @@ class appLoaderController extends Controller {
             $kickoff = $_POST['kickoff'];
             if ($status == 'student') {
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('kickoff' => $kickoff));
+                return $this->grabStudentAppEdit();
             } else {
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('kickoff' => $kickoff));
+                return $this->grabMentorAppEdit();
             }
         }
         if(isset($_POST['program'])){
             $program = $_POST['program'];
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('program' => $program));
+                return $this->grabStudentAppEdit();
         }
         if(isset($_POST['dlyear']) && isset($_POST['dlmonth']) && isset($_POST['dlday'])){
             $dlyear = $_POST['dlyear'];
@@ -712,7 +715,7 @@ class appLoaderController extends Controller {
             $deadline = $dlyear . "-" . $dlmonth . "-" . $dlday;
             if($status == 'student'){
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('deadline' => $deadline));
-                return view('studentapp');
+                return $this->grabStudentAppEdit();
             }else{
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('deadline' => $deadline));
                 return $this->grabMentorAppEdit();
@@ -727,7 +730,6 @@ class appLoaderController extends Controller {
             //check if creating new application form, else, grab current form and do operation
             if ($operation != "new") {
                 //grab the question being added/changed
-                $question = $this->getQuestion();
                 if ($status == "student") {
                     $rawApp = \DB::table('studentapp')->where('year', $year)->first();
 
@@ -742,18 +744,20 @@ class appLoaderController extends Controller {
                                 $message = "Tag already exists, please choose another one.";
                                 return view('failure')->with('message', $message);
                             } else {
-                                $rawApp['extra'] .= $question;
+                                $rawApp['extra'] .= "`" . $question;
                                 $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
                             }
                             break;
 
                         case "delete":
+                            $question = $this->getQuestion();
                             $newExtra = str_replace($question . ',', "", $rawApp['extra']);
                             $newExtra = str_replace($question, "", $rawApp['extra']);
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
+                            $question = $this->getQuestion();
                             $questionSplit = explode('|', $question);
                             $splitRawApp = explode('`', $rawApp['extra']);
                             for ($m = 0; $m < count($splitRawApp); $m++) {
@@ -775,25 +779,27 @@ class appLoaderController extends Controller {
                     //grab raw application for status provided
                     switch ($operation) {
                         case "add":
+                            $question = $this->getAddQuestion();
                             $splitQuestion = explode("|", $question);
                             $questionTag = $splitQuestion[1];
                             if (strpos($rawApp['extra'], $questionTag) !== false) {
                                 $message = "Tag already exists, please choose another one.";
                                 return view('failure')->with('message', $message);
                             } else {
-                                $rawApp['extra'] .= $question;
+                                $rawApp['extra'] .= "`" . $question;
                                 $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
                             }
                             break;
 
                         case "delete":
+                            $question = $this->getQuestion();
                             $newExtra = str_replace($question . ',', "", $rawApp['extra']);
                             $newExtra = str_replace($question, "", $rawApp['extra']);
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
-
+                            $question = $this->getQuestion();
                             $questionSplit = explode('|', $question); //FORMAT|ID|QUESTION... => (FORMAT, ID, QUESTION, ...)
                             $splitRawApp = explode('`', $rawApp['extra']); //Q1`Q2`Q3... => (Q1, Q2, Q3, ...)
                             $extra = "";
@@ -816,17 +822,28 @@ class appLoaderController extends Controller {
                 $kickoff = "3000-12-30";
                 $year = date("Y");
                 if ($status == 'student') {
-                    $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
-                    $student_response = \DB::table('studentapp')->insertGetId(
-                        ['program' => $program[0]['program'], 'kickoff' => $kickoff,
-                            'year' => $year + 1, 'deadline' => $kickoff]);
-                    return view('studentform');
+                    $made = \DB::table('studentapp')->where('year', $year + 1)->get();
+                    if(count($made)>0){
+                        $message = "Form for next year already exist.";
+                        return view('failure')->with('message', $message);
+                    }else {
+                        $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
+                        $student_response = \DB::table('studentapp')->insertGetId(
+                            ['program' => $program[0]['program'], 'kickoff' => $kickoff,
+                                'year' => $year + 1, 'deadline' => $kickoff]);
+                    }
+                    return $this->grabStudentAppEdit();
                 } else {
                     //default kickoff night into new year mentor app
-                    $kickoff = "3000-12-30";
-                    $mentor_response = \DB::table('mentorapp')->insertGetId(
-                        ['kickoff' => $kickoff, 'year' => $year + 1, 'deadline' => $kickoff]);
-                    return view('mentorform');
+                    $made = \DB::table('mentorapp')->where('year', $year + 1)->get();
+                    if (count($made) > 0) {
+                        $message = "Form for next year already exist.";
+                        return view('failure')->with('message', $message);
+                    } else {
+                        $mentor_response = \DB::table('mentorapp')->insertGetId(
+                            ['kickoff' => $kickoff, 'year' => $year + 1, 'deadline' => $kickoff]);
+                        return $this->grabMentorAppEdit();
+                    }
                 }
             }
         }
@@ -890,6 +907,48 @@ class appLoaderController extends Controller {
                 break;
         }
 
+        return $test;
+    }
+
+    public function getAddQuestion(){
+
+        $format = $_POST['questiontype'];
+        switch($format){
+            case "checkbox":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $answers = $_POST['answers'];
+                $test = $format . "|" . $tag[0] . "|" . $question[0] . "|" . $answers[0];
+                break;
+            case "text":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $test = $format . "|" . $tag[1] . "|" . $question[1];
+                break;
+            case "radio":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $message = "";
+                if(isset($_POST['message'])){
+                    $message = $_POST['message'];
+                }
+                $options = $_POST['options'];
+                $choices = $_POST['choices'];
+                $test = $format . "|" . $tag[2] . "|" . $question[2] . "|" . $message . "|" .
+                    $options ."|" . $choices;
+                break;
+            case "dropdown":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $answers = $_POST['answers'];
+                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[3];
+                break;
+            case "textarea":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $test = $format . "|" . $tag[4] . "|" . $question[4];
+                break;
+        }
         return $test;
     }
 
