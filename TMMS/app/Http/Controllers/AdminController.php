@@ -340,23 +340,46 @@ class AdminController extends Controller {
 
     public function viewPastReport(){
       
-      // $year = $_POST['year'];
-      // $pid = $_POST['pid'];
+      $year = $_POST['year'];
+      $pid = $_POST['pid'];
 
-      // $result = \DB::table('report')->where('report.year', '=', $year)
-      //                               ->where('report.mentor', '=', $pid)
-      //                               ->orWhere('report.senior', '=', $pid)
-      //                               ->orWhere('report.junior', '=', $pid)
-      //                               ->get();
-      // $mentor = \DB::table('participant')->where('participant.pid', '=', $pid)
-      //                                    ->get();
-      // $senior = \DB::table('participant')->where('participant.pid', '=', $result['sid'])
-      //                                    ->get();                              
-      // $junior = \DB::table('participant')->where('participant.pid', '=', $result['jid'])
-      //                                    ->get();
-      // $echoline = "For year".$result["year"]." the requested match's mentor is ".$mentor["First name"]." ".$mentor["Last name"]." with email address ".$mentor["email"].". Senior student is ".$senior["First name"]." ".$senior["Last name"]." with email address ".$senior["email"].". Junior student is ".$junior["First name"]." ".$junior["Last name"]." with email address ".$junior["email"].".";
+      $result = \DB::table('report')->where('report.year', '=', $year)
+                                    ->where('report.mentor', '=', $pid)
+                                    ->orWhere('report.senior', '=', $pid)
+                                    ->orWhere('report.junior', '=', $pid)
+                                    ->get();
+      //$result = $result[0];
+
+      if(empty($result)){
+        return "no report found for this participant in year ".$year. ".";
+      }else{
+        $result = $result[0];
+      }
+
+      // var_dump($result);
+      // print($result['mentor']);
+      // print($result['senior']);
+      // print($result['junior']); 
+
+      $mentor = \DB::table('participant')->where('participant.pid', '=', $result['mentor'])
+                                         ->get(); 
+      $mentor = $mentor[0];
+      // var_dump($mentor);
+
+      $senior = \DB::table('participant')->where('participant.pid', '=', $result['senior'])
+                                         ->get();                              
+      $senior = $senior[0];
+      //var_dump($senior);
+
+
+      $junior = \DB::table('participant')->where('participant.pid', '=', $result['junior'])
+                                         ->get();
+      $junior = $junior[0];
+      // var_dump($junior);
+
+      $echoline = "For year ".$result["year"]." the requested match's mentor is ".$mentor["First name"]." ".$mentor["Family name"]." with email address ".$mentor["email"].". Senior student is ".$senior["First name"]." ".$senior["Family name"]." with email address ".$senior["email"].". Junior student is ".$junior["First name"]." ".$junior["Family name"]." with email address ".$junior["email"].".";
     
-      // echo "<script> alert(".$echoline."); </script>";
+      echo $echoline;
 
     }
 
