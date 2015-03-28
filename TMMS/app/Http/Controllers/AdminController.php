@@ -549,6 +549,45 @@ class AdminController extends Controller {
         //Close file
         fclose($mentor_file);
 
+        //*****************************************************************
+
+        // Create CSV/TXT file local FOR REPORTS
+        $reports_file_name = "downloadFiles/reportsCSV" . $year. ".txt";
+        $reports_file = fopen($reports_file_name, "a");
+
+        $reports = \DB::table('report')
+            ->where('report.year','=', $year)
+            ->get();
+
+        $single_report = $reports[0];
+        $key_array = array_keys($single_report);
+
+        // Write each heading to local file
+        foreach($key_array as $one_key) {
+            fwrite($reports_file, $one_key . ",");
+        }
+
+        // Write endline
+        fwrite($reports_file, "\r\n");
+
+
+        // Write values for each entry
+        foreach($reports as $one_report) {
+            // Get values for single_junior:
+            $one_report_values = array_values($one_report);
+            // Write each value to the junior file:
+            foreach($one_report_values as $one_report_value) {
+                fwrite($reports_file, "\"" . $one_report_value . "\"" . ",");
+            }
+            // Write endline
+            fwrite($reports_file, "\r\n");
+        }
+
+        //Close file
+        fclose($reports_file);
+
+        //*****************************************************************
+
         //Zip up all files in downloadFiles directory
         $download_file_zip = 'downloadFiles.zip';
         $files = glob('downloadFiles/*');
