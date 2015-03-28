@@ -34,6 +34,13 @@ print_r($id_array);
             <i class="glyphicon glyphicon-pencil"></i> Edit
     </button>
 
+    <!-- View Past Report Button -->
+    <form>
+    Pick past year report:
+    <input type="text" name="firstname" placeholder="Enter a past Tri-mentoring Year">
+    <input type="submit" value="Submit" action="viewpastreport method="POST">
+    </form>
+
     <!-- Student Information Table --> 
     <table class="table table-user-information">
         <tbody>
@@ -194,8 +201,14 @@ print_r($id_array);
               <div class="panel-body">
                   <div class="row">
                       <div class=" col-md-12"> 
-                        <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>". accept-charset="UTF-8">
+                        <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+                            <!-- Flag for EditParticipantRequest.php -->
+                            <div class="form-group">
+                                    <input class="form-control" name="flag" type="hidden" value="student" id="flag">
+                            </div>
 
                             <!-- First Name Input -->
                             <div class="form-group">
@@ -478,9 +491,13 @@ print_r($id_array);
                   <div class="panel-body">
                       <div class="row">
                           <div class=" col-md-12"> 
-                            <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>". accept-charset="UTF-8">
+                            <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
+                                <!-- Flag for EditParticipantRequest.php -->
+                                <div class="form-group">
+                                        <input class="form-control" name="flag" type="hidden" value="mentor" id="flag">
+                                </div>
                                 <!-- First Name Input -->
                                 <div class="form-group">
                                     <label for="name">First Name: </label>
