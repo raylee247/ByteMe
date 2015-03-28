@@ -74,7 +74,7 @@ Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
 Route::post('waitlist', 'AdminController@waitlistSearch');
 
-Route::post('viewpastreport', 'AdminController@viewPastReport');
+Route::post('{pid}/pastreport', 'AdminController@viewPastReport');
 
 //view individual participant profile
 Route::get('participant/{pid}', 'AdminController@showParticipant'); 
