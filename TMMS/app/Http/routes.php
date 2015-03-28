@@ -39,7 +39,9 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 Route::get('studentform', 'appLoaderController@grabStudentAppEdit');
 Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
 Route::post('mentorform', 'appLoaderController@editForm');
+Route::post('studentform', 'appLoaderController@editForm');
 Route::post('mentorform', 'appLoaderController@grabMentorAppEdit');
+Route::post('studentform', 'appLoaderController@grabStudentAppEdit');
 
 Route::post('editform', 'appLoaderController@editForm');
 
