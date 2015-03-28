@@ -93,6 +93,7 @@
                             echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
                         }
 
+                        //makes checkbox modal for delete
                         echo '<div class="modal fade" id="modal-20' . ($x+2) . '4" tabindex="-1" role="dialog">
                                         <div class="modal-dialog">
                                         <form action="editform" method="POST">
@@ -174,6 +175,7 @@
                      <input type="text" class="form-control" name="' . $questions[$x][1] . '">
                      </div>';
 
+                        //makes text delete modal
                         echo '<div class="modal fade" id="modal-20' . ($x+2) . '4" tabindex="-1" role="dialog">
                                         <div class="modal-dialog">
                                         <form action="editform" method="POST">
