@@ -107,6 +107,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -124,7 +127,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('studentapp')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('studentapp')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with('deadline', $deadline);;
 	}
 
 
@@ -163,6 +166,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -180,7 +186,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions) ->with('years', $listOfYear);
+        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions) ->with('years', $listOfYear) ->with('deadline', $deadline);
     }
 
     /**
@@ -202,6 +208,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -219,7 +228,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with('deadline', $deadline);;
     }
 
 
@@ -253,6 +262,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -270,7 +282,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with ('years', $listOfYear);
+        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with ('years', $listOfYear)->with('deadline', $deadline);;
     }
 
 
