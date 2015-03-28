@@ -21,7 +21,7 @@
             <?php
             $count = count($kickoff);
 
-            echo '<label class="control-label col-sm-3">Kickoff event availability</label>
+            echo '<label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br>
                   <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
                   student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
                   same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
@@ -57,11 +57,44 @@
             }
 
             echo '</table><legend></legend>';
-
+                    // kickoff modal
+                      echo '<div id="modal-103" class="modal" tabindex="-1" role="dialog">
+                     <div class="modal-dialog">
+                     <form action="editform" method="POST">                     
+                     <div class="modal-content">
+                     <div class="modal-body">
+                     <div class="panel panel-info">
+                     <div class="panel-heading">
+                     <div class="panel-title" style="display:inline">Editing Kickoff Night Dates...</div>
+                     </div>
+                     <div class="panel-body">
+                     <div class="row">
+                     <div class=" col-md-12">
+                     <input type="hidden" name="year" value="' . $year . '">
+                     <input type="hidden" name="status" value="student">
+                     <div class="form-inline">
+                     <label class="pull-left">Question type: </label> <u>Kickoff Night Dates</u> <br><br>
+                     <div class="form-inline">
+                     <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+                     </div><br>
+                     </div>
+                     </div>
+                     </div><br>
+                     </div>
+                     <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
+                     </div>
+                     </form>
+                     </div>
+                     </div>
+                     </div>
+                     </div>
+                     </div>';
 
             //generate the program of study section of application form
             echo '<div class="form-inline">
-						<label class="control-label col-sm-3">Program of study:</label>
+						<label class="control-label col-sm-3">Program of study:</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-104"><i class="glyphicon glyphicon-pencil"></i></button><br>
 						<select class="form-control" name="programofstudy" >';
 
             $programCount = count($program);
@@ -70,6 +103,40 @@
             }
 
             echo ' </select></div><br>';
+                        // program modal
+                      echo '<div id="modal-104" class="modal" tabindex="-1" role="dialog">
+                     <div class="modal-dialog">
+                     <form action="editform" method="POST">                     
+                     <div class="modal-content">
+                     <div class="modal-body">
+                     <div class="panel panel-info">
+                     <div class="panel-heading">
+                     <div class="panel-title" style="display:inline">Editing Programs of Study...</div>
+                     </div>
+                     <div class="panel-body">
+                     <div class="row">
+                     <div class=" col-md-12">
+                     <input type="hidden" name="year" value="' . $year . '">
+                     <input type="hidden" name="status" value="student">
+                     <div class="form-inline">
+                     <label class="pull-left">Question type: </label> <u>Program of Study</u> <br><br>
+                     <div class="form-inline">
+                     <label class="pull-left">Programs:</label><div class="col-md-6"><input class="form-control" name="program"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+                     </div><br>
+                     </div>
+                     </div>
+                     </div><br>
+                     </div>
+                     <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
+                     </div>
+                     </form>
+                     </div>
+                     </div>
+                     </div>
+                     </div>
+                     </div>';
             //questions comes in as an array holding arrays
             //each array looks like the following [format2|id2|question2|answer]
             for ($x = 0; $x < count($questions); $x++) {
