@@ -66,7 +66,7 @@ class MatchGenerator{
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                                    ->select('participant.pid')
                                                    ->where('participant.pid', '<', '3431')
-                                                   ->where('participant.pid', '>', '3419')
+                                                   ->where('participant.pid', '>', '3424')
                                                    ->get();
         foreach ($response_mentor as $key => $value) {
         	$this->mentors[] = $value['pid'];
@@ -209,19 +209,24 @@ class MatchGenerator{
 		print ("\ntarget:");
 		print($target);
 		print("\n\n");
-		// base case 	
+		// base case
+		print ("number of mentors:");
+		print(count($mentors));
+		print("\n\n");
 		if (count($mentors) == 1){
 			// return the key with the maxx vlaue 
 			//should sotre the key somewhere for backtracking
-			$key = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]); 
+			$key = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]);
+			print("\n\nwilliam your code breaks here\n\n");
 			$value = $this->MentorSatTable[$target][$key]; 
-			
+			print("\n\nit actually reach here\n\n");
 			$backTrackkey = implode(",", $mentors);
 			$backTrackkey .= ",";
 			$backTrackkey .= implode(",", $seniors);
 			$backTrackkey .= ",";
 			$backTrackkey .= implode(",", $juniors);
 			$this->backTrack[$backTrackkey] = $key;
+			print("******************* done with doTheMatch_compute function value *******************\n\n");
 			return $value;
 		}else{
 			// find max of all combination for this mentor at this level 
@@ -262,7 +267,7 @@ class MatchGenerator{
 				$backTrackkey .= ",";
 				$backTrackkey .= implode(",", $juniors);
 				$this->backTrack[$backTrackkey] = $choice[0];
-				print("******************* done with doTheMatch_compute function *******************\n\n");
+				print("******************* done with doTheMatch_compute function with *******************\n\n");
 				return $with; 
 			}else{
 				$choice = "no including mentor " . $target;
@@ -272,7 +277,7 @@ class MatchGenerator{
 				$backTrackkey .= ",";
 				$backTrackkey .= implode(",", $juniors);
 				$this->backTrack[$backTrackkey] = $choice;
-				print("******************* done with doTheMatch_compute function *******************\n\n");
+				print("******************* done with doTheMatch_compute function without *******************\n\n");
 				return $without;
 			}
 		}
@@ -286,11 +291,13 @@ class MatchGenerator{
 	 * @return the key that holds the maximum value in $targetArray
 	 */
 	public function array_without($array,$victim){
+		print("******************* in array_without function *******************\n");
 		$result = $array; 
 		// something about unset
 		if(($key = array_search($victim, $array)) !== false) {
 	    	unset($result[$key]);
 		}
+		print("******************* end of array_without function *******************\n\n");
 		return $result;
 	}
 
@@ -303,6 +310,7 @@ class MatchGenerator{
 	 * @return the key that holds the maximum value in $targetArray
 	 */
 	public function maxAvailiable($seniors,$juniors,$targetArray){
+		print("******************* in maxAvailable function *******************\n");
 		$temp = $targetArray;
 		// sort it low to high
 		arsort($temp);
@@ -313,9 +321,10 @@ class MatchGenerator{
 			$junior = explode(",", $key)[2];
 			if (($value > $maximum) && (in_array($senior, $seniors)) && (in_array($junior, $juniors))){
 				$maximum = $value;
-				$result = $key;
+				$result = $key;	
 			}
 		}
+		print("******************* end of maxAvailable function *******************\n\n");
 		return $result;
 	}
 
