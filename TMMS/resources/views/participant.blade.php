@@ -41,6 +41,7 @@ $current_year = date("Y");
 @if ($participant_result[0]['waitlist'] == 1 && $participant_result[0]['year'] == $current_year) 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('toParticipantPool') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    This participant is in the waitlist.
     <span class="input-group-btn">
         <span class="btn btn-primary btn-file">
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -55,12 +56,27 @@ $current_year = date("Y");
 @elseif ($participant_result[0]['waitlist'] == 0 && $participant_result[0]['year'] == $current_year) 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('toWaitlistPool') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    This participant is in the participant pool.
     <span class="input-group-btn">
         <span class="btn btn-primary btn-file">
             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                 Move to Waitlist Pool
                 <input type="hidden" name="participant_email_to_wl" value="<?= $participant_result[0]['email'] ?>">
                 <input type="submit" value="Move to Waitlist Pool" name="move_to_waitlist_pool">
+            </span>
+    </span>
+</form>
+@endif
+
+@if ($participant_result[0]['year'] == $current_year)
+<form class="form-horizontal" role="form" method="POST" action="{{ url('deleteParticipant') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <span class="input-group-btn">
+        <span class="btn btn-danger btn-file">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Delete Participant
+                <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['email'] ?>">
+                <input type="submit" value="Delete Participant Submit" name="delete_participant_submit">
             </span>
     </span>
 </form>
@@ -243,7 +259,6 @@ $current_year = date("Y");
                       <div class=" col-md-12"> 
                         <form method="POST" action="<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
 
                             <!-- Flag for EditParticipantRequest.php -->
                             <div class="form-group">

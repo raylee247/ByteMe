@@ -74,7 +74,7 @@ class profileController extends Controller {
 	public function deleteParticipant()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-		$email = $_GET['email'];
+		$email = $_POST['delete_participant'];
         $year = date("Y");
         //$email = "willy504@gmail.com";
         //$year = "2014";
@@ -113,7 +113,8 @@ class profileController extends Controller {
             $response = "Moved into waitlist pool";
         }
 
-        return \Redirect::back()->withMessage('Hello');
+        //placeholder redirect message
+        return \Redirect::back()->withMessage("hello");
 	}
 
 	/**
@@ -136,6 +137,7 @@ class profileController extends Controller {
             $response = "Moved into participant pool";
         }
 
+        //placeholder redirect message
         return \Redirect::back()->withMessage('Hello');
     }
 	/**
