@@ -48,7 +48,7 @@ print_r($id_array);
         <a href="{{ url('/students') }}">Back</a> 
     <button>
     </button>
-    
+
     <!-- Student Information Table --> 
     <table class="table table-user-information">
         <tbody>
