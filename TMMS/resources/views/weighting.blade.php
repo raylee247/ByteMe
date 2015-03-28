@@ -9,7 +9,7 @@
     //TODO : NEED TO GRAB THE DIFFERENT PARAMETERS FROM DB, make heights same
     <h5>Required parameters that will be considered for the matching:</h5>
 
-    <form id="passparameter" action="matchresult" method="POST">
+    <form action="matchresult" method="POST">
     <div class="row">
         <ul id="sortable1" class="droptrue">
           <li class="ui-state-default" id="element_gender">Gender Preference</li>
@@ -33,7 +33,7 @@
         <li class="ui-state-default" id="element_5"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
         <li class="ui-state-default" id="element_6"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
     </ul>
-    <button id="passparameterSubmit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+    <button class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
     <!-- <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span> -->
     <br style="clear:both">
 <!-- 
