@@ -20,6 +20,7 @@ class MakeMatching extends Controller {
 	public function generateMatchTest(){
 		$must = array("KickOffAvailibility");
 		$priority = array("interest");
+		print("going into matchGenerator\n\n");
 		$generator = new MatchGenerator($must,$priority);
 		echo $generator->generate();
 		return 0;

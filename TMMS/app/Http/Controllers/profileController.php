@@ -18,16 +18,6 @@ class profileController extends Controller {
 	}
 
 	/**
-	 * Edit the participant information
-	 *
-	 * @return Response
-	 */
-	public function editParticipant()
-	{
-		//
-	}
-
-	/**
 	 * Remove participant from current year's tri-mentoring program
 	 *
 	 * @return Response
@@ -61,8 +51,8 @@ class profileController extends Controller {
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
         //$email = $_GET['email'];
         //$year = date("Y");
-        $email = "willy504@gmail.com";
-        $year = "2014";
+        $email = $_POST('email');
+        $year = date("Y");
         $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->update(array('waitlist'=> 1));
 
         //check if correctly updated
@@ -82,8 +72,8 @@ class profileController extends Controller {
 	 */
 	public function toParticipantPool()
 	{
-        $email = "willy504@gmail.com";
-        $year = "2014";
+        $email = $_POST('email');
+        $year = date("Y");
         $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->update(array('waitlist' => 0));
 
         //check if correctly updated

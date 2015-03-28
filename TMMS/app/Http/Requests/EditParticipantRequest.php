@@ -22,21 +22,27 @@ class EditParticipantRequest extends Request {
 	public function rules()
 	{
 		return [
+			'flag'				=> 'required',
+			'firstname'			=> 'required',
+			'familyname'		=> 'required',
 			'email'				=> 'required|email',
-			'studentnum'		=> 'required',
-			'csid'				=> 'required',
 			'phone'				=> 'required',
 			'phonealt'			=> 'required',
 			'gender'			=> 'required',
 			'birthyear'			=> 'required',
 			'kickoff'			=> 'required',
-			'kickoffcomments'	=> 'required',
 			'genderpref'		=> 'required',
-			'program'			=> 'required',
-			'yearstanding'		=> 'required',
-			'courses'			=> 'required',
 			'pastparticipation'	=> 'required',
-			'coop'				=> 'required'
+			'interest'			=> 'required',
+			'studentnum'		=> 'required_if:flag, student',
+			'csid'				=> 'required_if:flag, student',
+			'program'			=> 'required_if:flag, student',
+			'yearstanding'		=> 'required_if:flag, student',
+			'courses'			=> 'required_if:flag, student',
+			'coop'				=> 'required_if:flag, student',
+			'yearofcs'			=> 'required_if:flag, mentor',
+			'job'				=> 'required_if:flag, mentor',
+			'edulvl'			=> 'required_if:flag, mentor'
 		];
 	}
 
