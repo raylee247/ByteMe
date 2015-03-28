@@ -24,14 +24,8 @@
       <ul id="sortable2" class="droptrue">
       </ul>
 
-      <ul id="sortable3">
-        <b>Specify the priority of the parameters for the matching:</b>
-        <li class="ui-state-default" id="element_1"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-        <li class="ui-state-default" id="element_2"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-        <li class="ui-state-default" id="element_3"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-        <li class="ui-state-default" id="element_4"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-        <li class="ui-state-default" id="element_5"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-        <li class="ui-state-default" id="element_6"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+      <ul id="sortable3" class="droptrue">
+
     </ul>
     <button class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
     <!-- <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span> -->
@@ -71,7 +65,7 @@
 <!-- move to app.js after data passing is successful // only here for convenience -->
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#sortable2").sortable({
+    $("#sortable2, #sortable3").sortable({
         opacity: 0.6,
         update: function(event, ui) {
             var info1 = $(this).sortable("serialize");
@@ -83,21 +77,6 @@ $(document).ready(function() {
     });
 });
 </script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#sortable3").sortable({
-        opacity: 0.6,
-        update: function(event, ui) {
-            var info2 = $(this).sortable("serialize");
-            var list2 = [];
-            list2.push(info2);
-            console.log(list2); //testing only
-            document.getElementById("test").innerHTML = info2;
-        }
-    });
-});
 
-
-</script>
 
 @endsection
