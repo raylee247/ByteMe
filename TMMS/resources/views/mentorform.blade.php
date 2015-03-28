@@ -14,20 +14,15 @@
 
 
 
-            <form action="editform" method="POST">
-		<!-- <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-8">Create new form</button> -->
-            <button type="submit" class="btn pull-right btn-xs btn-primary" >Create new form</button>
-            <input type="hidden" name="operation" value="new">
-            <input type="hidden" name="status" value="mentor">
-            <input type="hidden" name="year" value="2015">
-      </form>
+		<button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-8">Create new form</button>
+
 
 
             <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-9'><i class="glyphicon glyphicon-cog"></i> View past application forms</button>
             <!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
       </div>
       <div class="panel-footer">
-          <h5>Application Submission Deadline: <b>September 25, 2015 at 11:59:59 PM //TODO: update this value</b>
+          <h5>Application Submission Deadline: <b></b>
             <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-1'><i class="glyphicon glyphicon-calendar"></i> Set Deadline</button>
       </h5>
 </div>
@@ -592,20 +587,20 @@ function loadQuestion(){
                   <div class="modal-body">Specify a year:  
                         <?php
 
-                        echo '<select name="year" form="carform">';
+                        echo '<select name="year">';
 
                         $count = count($years);
-                        echo $count;
                         for($i = 0; $i < $count; $i++){
                                 // echo '<option id="year" value=" ' . $years[$i] . '"> ' . $years[$i] .'</option>';
 
                           echo '<option value=" ' . $years[$i] . '"> ' . $years[$i] .'</option>';
-                          echo '<input type="hidden" name="status" value="mentor">';
-                          echo '<input type="hidden" name="year" value="' . $years[$i] . '">';
+                         
+                       
 
                     }
-                    ?>
-              </select>
+                     echo '<input type="hidden" name="status" value="mentor">';
+              echo '</select>';
+                                      echo $count;?>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
