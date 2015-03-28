@@ -13,12 +13,18 @@
 	<div class="panel-body">
 		<legend>
 			<h5>
-				<button class="btn btn-primary pull-right"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Save Matching </span></button>
-				Name of matching: $$$$$<br>
-				Parameters required: $$$$$<br>
-				Parameter priority: $$$$$<br>
-				Average Satisfaction: $$$$$<br>
-				Median: $$$$$
+				<form action="savedmatches" method="POST">
+				<button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Save Matching </span></button>
+				<div class="form-inline">
+				<div class="form-group">
+					<label for="usr">Name of Matching:</label>
+					<input type="text" class="form-control" id="matchname" required>
+				</div></div><br><br>
+				<b>Parameters Required:</b> $$$$$<br>
+				<b>Parameter Priority:</b> $$$$$<br>
+				<b>Average Satisfaction:</b> $$$$$<br>
+				<b>Median:</b> $$$$$
+			</form>
 			</h5>
 		</legend>
 
@@ -151,7 +157,7 @@
 								<th>w@blah.com</th>
 								<th>Not Google Q.Q</th>
 								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></button></center></th>
-							
+
 							</tbody>
 						</table>
 					</div>
@@ -250,12 +256,12 @@
 								<th>1</th>
 								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></button></center></th>
 							</tbody>
-							</tbody>
-						</table>
-					</div>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 @endsection
