@@ -34,13 +34,6 @@ print_r($id_array);
             <i class="glyphicon glyphicon-pencil"></i> Edit
     </button>
 
-    <!-- View Past Report Button -->
-    <form>
-        Pick past year report:
-        <input type="text" name="firstname" placeholder="Enter a past Tri-mentoring Year">
-        <input type="submit" value="Submit" action="viewpastreport" method="POST">
-    </form>
-
     <!-- Student Information Table --> 
     <table class="table table-user-information">
         <tbody>
@@ -614,6 +607,14 @@ print_r($id_array);
         </div>
         </div>
 @endif
+
+
+<!-- View Past Report Button -->
+<form method="POST" action="pastreport">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    Year of report: <input type="text" name="year" id="year">
+    <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
+</form>
 
 <!-- move to app.css -->
 <style type="text/css">
