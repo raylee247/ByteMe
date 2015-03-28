@@ -26,7 +26,7 @@
 				<tbody>
 					<th>Gender prioritized<button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i></button></th>
 					<th>60%</th>
-					<th id="finalbutton"><center><button id="" class="btn btn-sm btn-primary">Set as Final Matching</button></center></th>
+					<th id="finalbutton"><center><button class="btn btn-sm btn-primary" data-toggle='modal' data-target="#modal-2">Set as Final Matching</button></center></th>
 				</tbody>
 			</table>
 		</div>
@@ -53,5 +53,33 @@
 </div>
 </div>
 
+<div id="modal-2" class="modal fade" id="renamemodal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
+                  <div class="modal-body">You are about to save the selected match as the final matching. Click "Confirm" to continue and proceed to kickoff night matching or "Cancel" to return.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle='modal' data-target="#modal-3">Confirm</button> 
+            </div>
+      </div>
+</div>
+
+</div>
+<div id="modal-3" class="modal fade" id="renamemodal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      	<form action="kickoffmatches" method="POST">
+            <div class="modal-content">
+                  <div class="modal-body"><u>Kickoff night matching will now be generated. </u><br><br> Please specify the maximum number of participants for the kickoff nights: <br>
+                        <input type="text" class="form-control" name="maxparticipants">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Confirm</button> 
+            </div>
+      </div>
+  </form>
+</div>
+</div>
 
 @endsection
