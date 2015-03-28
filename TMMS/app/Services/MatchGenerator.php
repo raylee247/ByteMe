@@ -124,7 +124,7 @@ class MatchGenerator{
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
 		$result = $this->doTheMatch($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
-		// $this->doBackTrack($this->mentors, $this->seniors, $this->juniors);
+		$this->doBackTrack($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		print("******************* end of genrate function *******************\n\n");
 		return $result;
 	}
@@ -157,7 +157,7 @@ class MatchGenerator{
 			}
 		}
 		print("******************* end of dobacktrack function *******************\n\n");
-		// var_dump($this->backTrack);
+		var_dump($this->backTrack);
     }
     /**
 	 * DYNAMIC PROGRAMMING WOOOOOOHOOOOOOO
@@ -216,6 +216,11 @@ class MatchGenerator{
 			//should sotre the key somewhere for backtracking
 			$key = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]);
 			print("\n\nwilliam your code breaks here\n\n");
+			// var_dump($this->MentorSatTable);
+			print("\n");
+			print("this is the value of key: ");
+			print($key);
+			print("\n");
 			$value = $this->MentorSatTable[$target][$key]; 
 			print("\n\nit actually reach here\n\n");
 			$backTrackkey = implode(",", $mentors);
@@ -317,11 +322,26 @@ class MatchGenerator{
 		foreach ($temp as $key => $value) {
 			$senior = explode(",", $key)[1];
 			$junior = explode(",", $key)[2];
-			if (($value > $maximum) && (in_array($senior, $seniors)) && (in_array($junior, $juniors))){
+			if (($value > $maximum) && (in_array($senior, $this->seniors_id)) && (in_array($junior, $this->juniors_id))){
 				$maximum = $value;
 				$result = $key;	
 			}
+			// print("\n");
+			// print("this is the value of value in maxAvailable in foreach: ");
+			// print($value);
+			// print("\n");
+			// print("this is the value of key in maxAvailable in foreach: ");
+			// print($key);
+			// print("\n");
 		}
+		// print("\n");
+		// print("this is the value of maximum in maxAvailable: ");
+		// print($maximum);
+		// print("\n");
+		// print("this is the value of result in maxAvailable: ");
+		// print($result);
+		// print("\n");
+		// var_dump($temp);
 		print("******************* end of maxAvailable function *******************\n\n");
 		return $result;
 	}

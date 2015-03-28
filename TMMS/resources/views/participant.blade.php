@@ -34,6 +34,13 @@ print_r($id_array);
             <i class="glyphicon glyphicon-pencil"></i> Edit
     </button>
 
+    <!-- View Past Report Button -->
+    <form>
+    Pick past year report:
+    <input type="text" name="firstname" placeholder="Enter a past Tri-mentoring Year">
+    <input type="submit" value="Submit" action="viewpastreport method="POST">
+    </form>
+
     <!-- Student Information Table --> 
     <table class="table table-user-information">
         <tbody>
