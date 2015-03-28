@@ -750,10 +750,11 @@ class appLoaderController extends Controller {
 
                         case "delete":
                             $question = $this->getQuestion();
-                            $newExtra = str_replace($question, "", $rawApp['extra']);
-                            $newExtra = str_replace(',,', ',' , $newExtra);
-                            $newExtra= ltrim ($newExtra,',');
-                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));                          
+                            $newExtra = str_replace($question . "`", "", $rawApp['extra']);
+                            if($newExtra == $rawApp['extra']){
+                                $newExtra = str_replace($question, "", $rawApp['extra']);
+                            }
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
@@ -794,8 +795,10 @@ class appLoaderController extends Controller {
 
                         case "delete":
                             $question = $this->getQuestion();
-                            $newExtra = str_replace($question . ',', "", $rawApp['extra']);
-                            $newExtra = str_replace($question, "", $rawApp['extra']);
+                            $newExtra = str_replace($question . "`", "", $rawApp['extra']);
+                            if($newExtra == $rawApp['extra']){
+                                $newExtra = str_replace($question, "", $rawApp['extra']);
+                            }
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
