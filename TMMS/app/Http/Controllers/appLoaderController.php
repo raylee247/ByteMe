@@ -710,74 +710,90 @@ class appLoaderController extends Controller {
             $question = $this->getQuestion();
             if ($status == "student") {
                 $rawApp = \DB::table('studentapp')->where('year', $year)->first();
-                for ($i = 0; $i < count($operation); $i++) {
-                    //grab raw application for status provided
-                    switch ($operation) {
-                        case "add":
-                        // TODO: check if already existing tag, if so, echo failure
+
+                //grab raw application for status provided
+                switch ($operation) {
+                    case "add":
+                        //check the tag, if it fails send to failure page
+                        //failure page has a back button to send then back to edit page
+                        $splitQuestion = explode("|", $question);
+                        $questionTag = $splitQuestion[1];
+                        if(strpos($rawApp['extra'],$questionTag) !== false){
+                            $message = "Tag already exists, please choose another one.";
+                            return view('failure')->with('message', $message);
+                        }else {
                             $rawApp['extra'] .= $question;
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
-                            break;
+                        }
+                        break;
 
-                        case "delete":
-                            $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
-                            $newExtra = str_replace($question, "" , $rawApp['extra']);
-                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                            break;
+                    case "delete":
+                        $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
+                        $newExtra = str_replace($question, "" , $rawApp['extra']);
+                        $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                        break;
 
-                        case "update":
-                            $questionSplit = explode('|', $question);
-                            $splitRawApp = explode('`', $rawApp['extra']);
-                            for($m = 0; $m < count($splitRawApp); $m++){
-                                $extra = "";
-                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
-                                if ($pos !== false){
-                                    $splitRawApp[$m] = $question;
-                                }
-                                $extra .= $splitRawApp[$m];
-                                $newExtra = $extra;
+                    case "update":
+                        $questionSplit = explode('|', $question);
+                        $splitRawApp = explode('`', $rawApp['extra']);
+                        for($m = 0; $m < count($splitRawApp); $m++){
+                            $extra = "";
+                            $pos = strpos($splitRawApp[$m], $questionSplit[1]);
+                            if ($pos !== false){
+                                $splitRawApp[$m] = $question;
                             }
-                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                            break;
-                    }
+                            $extra .= $splitRawApp[$m];
+                            $newExtra = $extra;
+                        }
+                        $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                        break;
                 }
+
             } else {
                 $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
-                for ($i = 0; $i < count($operation); $i++) {
-                    //grab raw application for status provided
-                    switch ($operation) {
-                        case "add":
-                            // TODO: check if already existing tag, if so, echo failure
+
+                //grab raw application for status provided
+                switch ($operation) {
+                    case "add":
+                        $splitQuestion = explode("|", $question);
+                        $questionTag = $splitQuestion[1];
+                        if(strpos($rawApp['extra'],$questionTag) !== false){
+                            $message = "Tag already exists, please choose another one.";
+                            return view('failure')->with('message', $message);
+                        }else {
                             $rawApp['extra'] .= $question;
-                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
-                            break;
+                            $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
+                        }
+                        break;
 
-                        case "delete":
-                            $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
-                            $newExtra = str_replace($question, "" , $rawApp['extra']);
-                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                            break;
+                    case "delete":
+                        $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
+                        $newExtra = str_replace($question, "" , $rawApp['extra']);
+                        $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                        break;
 
-                        case "update":
-                            $questionSplit = explode('|', $question);
-                            $splitRawApp = explode('`', $rawApp['extra']);
-                            for($m = 0; $m < count($splitRawApp); $m++){
-                                $extra = "";
-                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
-                                if ($pos !== false){
-                                    $splitRawApp[$m] = $question;
-                                }
-                                $extra .= $splitRawApp[$m];
-                                $newExtra = $extra;
+                    case "update":
+                        $questionSplit = explode('|', $question);
+                        $splitRawApp = explode('`', $rawApp['extra']);
+                        for($m = 0; $m < count($splitRawApp); $m++){
+                            $extra = "";
+                            $pos = strpos($splitRawApp[$m], $questionSplit[1]);
+                            if ($pos !== false){
+                                $splitRawApp[$m] = $question;
                             }
-                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                            break;
-                    }
+                            $extra .= $splitRawApp[$m];
+                            $newExtra = $extra;
+                        }
+                        $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                        break;
                 }
             }
+
         }else{
             //TODO: ask for program and kickoff
+            $kickoff = "3000-12-30";
             if($status == 'student'){
+                $program = DB::table('studentapp')->select('program')->where('year', $year)->get();
                 $student_response = \DB::table('studentapp')->insertGetId(
                     ['program' => $program, 'kickoff' => $kickoff,
                      'year' => $year+1, 'deadline' => $deadline]);
