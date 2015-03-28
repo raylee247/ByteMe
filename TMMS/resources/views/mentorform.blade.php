@@ -4,7 +4,25 @@
 	<div class="panel-heading">
 		<b>Mentor Application Form</b>
 		<button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-7">Add new question</button>
-		<button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-8">Create new form</button>
+
+
+
+
+
+
+
+
+
+
+            <form action="editform" method="POST">
+		<!-- <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-8">Create new form</button> -->
+            <button type="submit" class="btn pull-right btn-xs btn-primary" >Create new form</button>
+            <input type="hidden" name="operation" value="new">
+            <input type="hidden" name="status" value="mentor">
+            <input type="hidden" name="year" value="2015">
+      </form>
+
+
             <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-9'><i class="glyphicon glyphicon-cog"></i> View past application forms</button>
             <!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
       </div>
@@ -552,37 +570,49 @@ function loadQuestion(){
 <div id="modal-8" class="modal fade" id="newform" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
    <div class="modal-dialog">
         <div class="modal-content">
-             <div class="modal-body">Creating a new form will replace the current application form. New questions will need to be added. Are you sure you want to continue?</div>
-             <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-success">Confirm</button> // TODO : clear application form from db
+            <form method="POST">
+             <div class="modal-body">
+                  Creating a new form will replace the current application form. New questions will need to be added. Are you sure you want to continue?
+                  <input type="hidden" name="operation" value="new">
+                  <input type="hidden" name="year" value="2015">
             </div>
-      </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-success">Confirm</button> // TODO : clear application form from db
+            </div>
+      </form>
+</div>
 </div>
 </div>
 
 <div id="modal-9" class="modal fade" id="pastforms" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
       <div class="modal-dialog">
             <div class="modal-content">
-                  <div class="modal-body">Specify a year: 
-                        <select name="formyears" form="carform">
-                            <option value="2015">2015</option>
+                <form method="POST">
+                  <div class="modal-body">Specify a year:  
+                        <?php
 
-<php
+                        echo '<select name="year" form="carform">';
 
+                        $count = count($years);
+                        echo $count;
+                        for($i = 0; $i < $count; $i++){
+                                // echo '<option id="year" value=" ' . $years[$i] . '"> ' . $years[$i] .'</option>';
 
+                          echo '<option value=" ' . $years[$i] . '"> ' . $years[$i] .'</option>';
+                          echo '<input type="hidden" name="status" value="mentor">';
+                          echo '<input type="hidden" name="year" value="' . $years[$i] . '">';
 
-
-?>
-
-
-                      </select>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary">Go!</button> 
-            </div>
+                    }
+                    ?>
+              </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Go!</button> 
       </div>
+</form>
+</div>
 </div>
 </div>
 
