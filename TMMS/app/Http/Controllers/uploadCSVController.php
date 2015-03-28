@@ -110,116 +110,133 @@ class uploadCSVController extends Controller {
     }
 
     public function parseNewCSV($type,$headers,$datas) {
-        //category holds type: ex./ mentors or student
-
-        //Headers is an array with all the headers from the file
-
-        //Datas is a 2d array with each element as the values for 1 person
-
-        // ******* Code for insert into participant *********
-        $part_columns = \Schema::getColumnListing('participant');
-        $name_index = array();
-        foreach($part_columns as $column_name) {
-            $c_index_in_h = array_search($column_name, $headers);
-            array_push($name_index, $c_index_in_h);
-        }
-        foreach($datas as $person) {
-            $insert_array = array();
-            $i = 0;
-            foreach($name_index as $nindex) {
-                $insert_array[$part_columns[$i]] = $person[$nindex];
-                $i = $i + 1;
-            }
-            \DB::table('participant')->insert(
-                $insert_array
-            );
-        }
-
-        // ******* Code for insert into parameter *********
-        // Only run insert if value for extra is not empty
-        $para_columns = \Schema::getColumnListing('parameter');
-        $name_index = array();
-        foreach($para_columns as $column_name) {
-            $c_index_in_h = array_search($column_name, $headers);
-            array_push($name_index, $c_index_in_h);
-        }
-        foreach($datas as $person) {
-            $insert_array = array();
-            $i = 0;
-            foreach($name_index as $nindex) {
-                $insert_array[$para_columns[$i]] = $person[$nindex];
-                $i = $i + 1;
-            }
-            if ($insert_array['extra'] != "") {
-                \DB::table('parameter')->insert(
-                    $insert_array
-                );
-            }
-        }
-
-
-        if ($type == 'mentor') {
-            //Insert into mentor table
-            $ment_columns = \Schema::getColumnListing('mentor');
+        //Check if category is report, else...
+        if ($type == 'report') {
+            // Code for insert into reports
+            $repo_columns = \Schema::getColumnListing('report');
             $name_index = array();
-            foreach($ment_columns as $column_name) {
+            foreach ($repo_columns as $column_name) {
                 $c_index_in_h = array_search($column_name, $headers);
                 array_push($name_index, $c_index_in_h);
             }
-            foreach($datas as $person) {
+            foreach ($datas as $person) {
                 $insert_array = array();
                 $i = 0;
-                foreach($name_index as $nindex) {
-                    $insert_array[$ment_columns[$i]] = $person[$nindex];
+                foreach ($name_index as $nindex) {
+                    $insert_array[$repo_columns[$i]] = $person[$nindex];
                     $i = $i + 1;
                 }
-                \DB::table('mentor')->insert(
+                \DB::table('report')->insert(
                     $insert_array
                 );
-
             }
         } else {
-            // Read 'courses' for 1 row
-            // Get header index for 'courses' from $headers
-            if ( array_search('jid', $headers) != FALSE ) {
-                // Insert to junior table
-                $juni_columns = \Schema::getColumnListing('junior');
+
+            // ******* Code for insert into participant *********
+            $part_columns = \Schema::getColumnListing('participant');
+            $name_index = array();
+            foreach ($part_columns as $column_name) {
+                $c_index_in_h = array_search($column_name, $headers);
+                array_push($name_index, $c_index_in_h);
+            }
+            foreach ($datas as $person) {
+                $insert_array = array();
+                $i = 0;
+                foreach ($name_index as $nindex) {
+                    $insert_array[$part_columns[$i]] = $person[$nindex];
+                    $i = $i + 1;
+                }
+                \DB::table('participant')->insert(
+                    $insert_array
+                );
+            }
+
+            // ******* Code for insert into parameter *********
+            // Only run insert if value for extra is not empty
+            $para_columns = \Schema::getColumnListing('parameter');
+            $name_index = array();
+            foreach ($para_columns as $column_name) {
+                $c_index_in_h = array_search($column_name, $headers);
+                array_push($name_index, $c_index_in_h);
+            }
+            foreach ($datas as $person) {
+                $insert_array = array();
+                $i = 0;
+                foreach ($name_index as $nindex) {
+                    $insert_array[$para_columns[$i]] = $person[$nindex];
+                    $i = $i + 1;
+                }
+                if ($insert_array['extra'] != "") {
+                    \DB::table('parameter')->insert(
+                        $insert_array
+                    );
+                }
+            }
+
+
+            if ($type == 'mentor') {
+                //Insert into mentor table
+                $ment_columns = \Schema::getColumnListing('mentor');
                 $name_index = array();
-                foreach($juni_columns as $column_name) {
+                foreach ($ment_columns as $column_name) {
                     $c_index_in_h = array_search($column_name, $headers);
                     array_push($name_index, $c_index_in_h);
                 }
-                foreach($datas as $person) {
+                foreach ($datas as $person) {
                     $insert_array = array();
                     $i = 0;
-                    foreach($name_index as $nindex) {
-                        $insert_array[$juni_columns[$i]] = $person[$nindex];
+                    foreach ($name_index as $nindex) {
+                        $insert_array[$ment_columns[$i]] = $person[$nindex];
                         $i = $i + 1;
                     }
-                    \DB::table('junior')->insert(
+                    \DB::table('mentor')->insert(
                         $insert_array
                     );
 
                 }
             } else {
-                // Insert to senior table
-                $seni_columns = \Schema::getColumnListing('senior');
-                $name_index = array();
-                foreach($seni_columns as $column_name) {
-                    $c_index_in_h = array_search($column_name, $headers);
-                    array_push($name_index, $c_index_in_h);
-                }
-                foreach($datas as $person) {
-                    $insert_array = array();
-                    $i = 0;
-                    foreach($name_index as $nindex) {
-                        $insert_array[$seni_columns[$i]] = $person[$nindex];
-                        $i = $i + 1;
+                // Read 'courses' for 1 row
+                // Get header index for 'courses' from $headers
+                if (array_search('jid', $headers) != FALSE) {
+                    // Insert to junior table
+                    $juni_columns = \Schema::getColumnListing('junior');
+                    $name_index = array();
+                    foreach ($juni_columns as $column_name) {
+                        $c_index_in_h = array_search($column_name, $headers);
+                        array_push($name_index, $c_index_in_h);
                     }
-                    \DB::table('senior')->insert(
-                        $insert_array
-                    );
+                    foreach ($datas as $person) {
+                        $insert_array = array();
+                        $i = 0;
+                        foreach ($name_index as $nindex) {
+                            $insert_array[$juni_columns[$i]] = $person[$nindex];
+                            $i = $i + 1;
+                        }
+                        \DB::table('junior')->insert(
+                            $insert_array
+                        );
 
+                    }
+                } else {
+                    // Insert to senior table
+                    $seni_columns = \Schema::getColumnListing('senior');
+                    $name_index = array();
+                    foreach ($seni_columns as $column_name) {
+                        $c_index_in_h = array_search($column_name, $headers);
+                        array_push($name_index, $c_index_in_h);
+                    }
+                    foreach ($datas as $person) {
+                        $insert_array = array();
+                        $i = 0;
+                        foreach ($name_index as $nindex) {
+                            $insert_array[$seni_columns[$i]] = $person[$nindex];
+                            $i = $i + 1;
+                        }
+                        \DB::table('senior')->insert(
+                            $insert_array
+                        );
+
+                    }
                 }
             }
         }
