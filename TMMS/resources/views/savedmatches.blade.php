@@ -24,7 +24,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<th>Gender prioritized</th>
+					<th>Gender prioritized<button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i></button></th>
 					<th>60%</th>
 					<th id="finalbutton"><center><button id="" class="btn btn-sm btn-primary">Set as Final Matching</button></center></th>
 				</tbody>
@@ -33,10 +33,24 @@
 
 		<style type="text/css">
 		#savedmatches {
-			width: auto;
+			width: 80%;
 		}
 		</style>
 	</div>
+</div>
+
+<div id="modal-1" class="modal fade" id="renamemodal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
+                  <div class="modal-body">Rename the match result:
+                        <input type="text" class="form-control" name="rename">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary">Confirm</button> 
+            </div>
+      </div>
+</div>
 </div>
 
 
