@@ -243,7 +243,7 @@ class appLoaderController extends Controller {
         //break into different elements to get the text for HTML
 
         //grabbing different years with applications
-        $test = \DB::table('studentapp')->select('year')->get();
+        $test = \DB::table('mentorapp')->select('year')->get();
         $listOfYear = [];
         for($i = 0;$i < count($test); $i++){
             array_push($listOfYear, $test[$i]['year']);
