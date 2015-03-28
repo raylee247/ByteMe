@@ -15,6 +15,9 @@ class MatchGenerator{
 	protected $seniors = array();
 	protected $juniors = array();
 
+	protected $mentors_id = array();
+	protected $seniors_id = array();
+	protected $juniors_id = array();
 	// param for generator
 	protected $mustList;
 	protected $priority;
@@ -64,51 +67,48 @@ class MatchGenerator{
 		print("********************* got into getParticipant *********************\n");
 
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
-                                                   ->select('participant.pid')
-                                                   ->where('participant.pid', '<', '3431')
-                                                   ->where('participant.pid', '>', '3424')
+												   ->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                                   ->where('participant.pid', '>', '3420')
+                                                   ->where('participant.pid', '<', '3426')
+                                                   ->where ('participant.year', '=', date("Y"))
                                                    ->get();
+        
         foreach ($response_mentor as $key => $value) {
-        	$this->mentors[] = $value['pid'];
+        	$this->mentors[$value['pid']] = $value;
         }
 
-		// print("***** mentor name *****\n");
-		// foreach($this->mentors as $parti){
-		// 	print($parti['First name']);
-		// 	print("\n");
-		// }
+        $this->mentors_id = array_keys($this->mentors);
+        
 
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
-                                                  	 ->select('participant.pid')
-                                                  	 ->where('participant.pid', '<', '3567')
-                                                  	 ->where('participant.pid', '>', '3560')
-                                                  	 ->get();
+                                                  	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                                     ->where('participant.pid', '>', '3535')
+                                                     ->where('participant.pid', '<', '3541')
+                                                     ->where ('participant.year', '=', date("Y"))
+                                                     ->get();
 
 		foreach ($response_seniors as $key => $value) {
-        	$this->seniors[] = $value['pid'];
+        	$this->seniors[$value['pid']] = $value;
         }
-		// print("***** senior student name *****\n");                                          
-		// foreach($this->seniors as $parti){
-		// 	print($parti['First name']);
-		// 	print("\n");
-		// }
+        $this->seniors_id = array_keys($this->seniors);
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
-                                                  	 ->select('participant.pid')
-                                                  	 ->where('participant.pid', '<', '3577')
-                                                  	 ->where('participant.pid', '>', '3572')
-                                                  	 ->get();
+                                                  	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                                     ->where('participant.pid', '>', '3538')
+                                                     ->where('participant.pid', '<', '3554')
+                                                     ->where ('participant.year', '=', date("Y"))
+                                                     ->get();
 		
 		foreach ($response_juniors as $key => $value) {
-        	$this->juniors[] = $value['pid'];
+        	$this->juniors[$value['pid']] = $value;
         }
-		// print("***** junior stuent name *****\n");
-		// foreach($this->juniors as $parti){
-		// 	print($parti['First name']);
-		// 	print("\n");
-		// }
+		$this->juniors_id = array_keys($this->juniors);
 
 		print("********************* getParticipant complete *********************\n\n");
+		// var_dump($this->mentors_id);
+		// var_dump($this->seniors_id);
+		// var_dump($this->juniors_id);
+
 	}
 
 
@@ -121,12 +121,12 @@ class MatchGenerator{
 	public function generate(){
 		// $this->test();
 		print("******************* in generate function *******************\n");
-		$this->generateTable();
+		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
 		print("\n\n\n\n\n\ngeneratetable done\n\n\n\n\n");
-		$result = $this->doTheMatch($this->mentors, $this->seniors, $this->juniors);
-		print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
+		// $result = $this->doTheMatch($this->mentors, $this->seniors, $this->juniors);
+		// print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
 		// $this->doBackTrack($this->mentors, $this->seniors, $this->juniors);
-		print("******************* end of genrate function *******************\n\n");
+		// print("******************* end of genrate function *******************\n\n");
 		return $result;
 	}
     
@@ -205,7 +205,7 @@ class MatchGenerator{
 		// print ("\n junior:");
 		// var_dump($juniors);
 
-		$target = array_values($mentors)[0];
+		$target = $mentors[0];
 		print ("\ntarget:");
 		print($target);
 		print("\n\n");
@@ -340,23 +340,25 @@ class MatchGenerator{
  	 * 							 "mentorB,seniorA,studentB" : satisfaction rate...)
 	 * @return Void
 	 */
-	public function generateTable(){
+	public function generateTable($mentors,$seniors,$juniors){
 		print("******************* in generateTable function *******************\n");
-		foreach ($this->mentors as $mentor) {
-			print("in loop level 1\n");
+		foreach ($mentors as $mentor) {
+			print("in loop level 1 matching for\n");
+			print($mentor);
+			print("\n");
 			$temp = array();
-			foreach ($this->seniors as $senior) {
-				print("in loop level 2\n");
-				foreach ($this->juniors as $junior) {
-					print("in loop level 3\n");
+			foreach ($seniors as $senior) {
+				// print("in loop level 2\n");
+				foreach ($juniors as $junior) {
+					// print("in loop level 3\n");
 					$key = $mentor . "," . $senior . "," . $junior;
-					print("in loop level 3\n");
+					// print("in loop level 3\n");
 					$satisfaction = $this->trioMatch($mentor,$senior,$junior);
-					print("in loop level 3\n");
+					// print("in loop level 3\n");
 					$temp[$key] = $satisfaction;
-					print("end of loop level 3\n");
+					// print("end of loop level 3\n");
 				}
-				print("end of loop level 2\n");
+				// print("end of loop level 2\n");
 			}
 			print("end of loop level 1\n");
 
@@ -463,22 +465,35 @@ class MatchGenerator{
 
 		//****************************************** everything below this in this function links to DB data ******************************************
 		
-		$junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
-												  ->where('pid', '=', $id)
-                                                  ->get();
+		// $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+		// 										  ->where('pid', '=', $id)
+  //                                                 ->get();
 
-        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
-                                                  ->where('pid', '=', $id)
-                                                  ->get();
+  //       $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+  //                                                 ->where('pid', '=', $id)
+  //                                                 ->get();
 
-       	$mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
-                                                  ->where('pid', '=', $id)
-                                                  ->get();
+  //      	$mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+  //                                                 ->where('pid', '=', $id)
+  //                                                 ->get();
 
-        $result = array_merge($junior_result, $senior_result, $mentor_result);
+  //       $result = array_merge($junior_result, $senior_result, $mentor_result);
 
-        print("************************** end of getPersonWithID ***********************\n\n");
-        return $result[0];
+        if(array_key_exists($id, $this->mentors)){
+        	// print("\n return this person\n");
+        	// var_dump($this->mentors[$id]);
+        	return $this->mentors[$id];
+        }elseif(array_key_exists($id, $this->seniors)){
+        	// print("\n return this person\n");
+        	// var_dump($this->seniors[$id]);
+        	return $this->seniors[$id];
+        }elseif(array_key_exists($id, $this->juniors)){
+        	// print("\n return this person\n");
+        	// var_dump($this->juniors[$id]);
+        	return $this->juniors[$id];
+        }else{
+        	return array();
+        }
 	}
 	/**
 	 * compute the satisfaction rate of two provided person 
@@ -501,7 +516,7 @@ class MatchGenerator{
 				case "KickOffAvailibility":
 					 if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
 						// print("in kick off if statement\n");
-						echo "here 0 ";
+						// echo "here 0 ";
 						return 0;
 					}else{
 						//for debugging purpose
