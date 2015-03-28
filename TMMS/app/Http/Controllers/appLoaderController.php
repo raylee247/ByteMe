@@ -776,14 +776,14 @@ class appLoaderController extends Controller {
                                 return view('failure')->with('message', $message);
                             } else {
                                 $rawApp['extra'] .= $question;
-                                $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
+                                $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
                             }
                             break;
 
                         case "delete":
                             $newExtra = str_replace($question . ',', "", $rawApp['extra']);
                             $newExtra = str_replace($question, "", $rawApp['extra']);
-                            $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
                         case "update":
@@ -798,7 +798,7 @@ class appLoaderController extends Controller {
                                 $extra .= $splitRawApp[$m];
                                 $newExtra = $extra;
                             }
-                            $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
                     return view('mentorform');
