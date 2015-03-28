@@ -18,16 +18,6 @@ class profileController extends Controller {
 	}
 
 	/**
-	 * Edit the participant information
-	 *
-	 * @return Response
-	 */
-	public function editParticipant()
-	{
-		//
-	}
-
-	/**
 	 * Remove participant from current year's tri-mentoring program
 	 *
 	 * @return Response
