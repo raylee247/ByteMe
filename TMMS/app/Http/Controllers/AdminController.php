@@ -204,9 +204,6 @@ class AdminController extends Controller {
 
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
-        // Append these 2 fields because there is only one kickoff column
-        $kickoff_data = $request['kickoff'].$request['kickoffcomments'];
-
         // UPDATE COLUMNS IN PARTICIPANT TABLE 
         \DB::table('participant')->where('pid', $pid)
                                  ->update(['First name'         => $request['firstname'],
@@ -216,7 +213,7 @@ class AdminController extends Controller {
                                            'birth year'         => $request['birthyear'],
                                            'phone'              => $request['phone'],
                                            'phone alt'          => $request['phonealt'],
-                                           'kickoff'            => $kickoff_data,
+                                           'kickoff'            => $request['kickoff'],
                                            'genderpref'         => $request['genderpref'],
                                            'past participation' => $request['pastparticipation'],
                                            'interest'           => $request['interest']
