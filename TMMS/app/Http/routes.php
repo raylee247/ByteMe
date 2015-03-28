@@ -86,6 +86,16 @@ Route::post('participant/{pid}', 'AdminController@editParticipant');
 
 //download participant report
 Route::post('downloadParticipant', 'profileController@downloadParticipant');
+
+//Move participant to waitlist pool
+//Route::get('success', 'profileController@toWaitlistPool');
+Route::post('toWaitlistPool', 'profileController@toWaitlistPool');
+//Route::get('success', 'profileController@toParticipantPool');
+Route::post('toParticipantPool', 'profileController@toParticipantPool');
+
+// Delete Participant
+Route::post('deleteParticipant', 'profileController@deleteParticipant');
+
 // match making
 
 // TODO current match + saved matches needs to be put in a controller

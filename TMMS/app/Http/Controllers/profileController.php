@@ -65,7 +65,7 @@ class profileController extends Controller {
 
         return response()->download($file_name, "Participant".$participant_result[0]['First name'].$participant_result[0]['Family name'].".txt", $headers);
     }
-    
+
 	/**
 	 * Remove participant from current year's tri-mentoring program
 	 *
@@ -74,7 +74,7 @@ class profileController extends Controller {
 	public function deleteParticipant()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-		$email = $_GET['email'];
+		$email = $_POST['delete_participant'];
         $year = date("Y");
         //$email = "willy504@gmail.com";
         //$year = "2014";
@@ -100,7 +100,7 @@ class profileController extends Controller {
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
         //$email = $_GET['email'];
         //$year = date("Y");
-        $email = $_POST('email');
+        $email = $_POST['participant_email_to_wl'];
         $year = date("Y");
         $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->update(array('waitlist'=> 1));
 
@@ -112,6 +112,9 @@ class profileController extends Controller {
         }else{
             $response = "Moved into waitlist pool";
         }
+
+        //placeholder redirect message
+        return \Redirect::back()->withMessage("hello");
 	}
 
 	/**
@@ -121,7 +124,7 @@ class profileController extends Controller {
 	 */
 	public function toParticipantPool()
 	{
-        $email = $_POST('email');
+        $email = $_POST['participant_email_to_pp'];
         $year = date("Y");
         $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->update(array('waitlist' => 0));
 
@@ -133,8 +136,10 @@ class profileController extends Controller {
         }else{
             $response = "Moved into participant pool";
         }
-	}
 
+        //placeholder redirect message
+        return \Redirect::back()->withMessage('Hello');
+    }
 	/**
 	 * View participant past record
 	 *

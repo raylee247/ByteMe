@@ -750,8 +750,13 @@ class appLoaderController extends Controller {
 
                         case "delete":
                             $question = $this->getQuestion();
-                            $newExtra = str_replace($question . ',', "", $rawApp['extra']);
-                            $newExtra = str_replace($question, "", $rawApp['extra']);
+                            $newExtra = str_replace($question . "`", "", $rawApp['extra']);
+                            if($newExtra == $rawApp['extra']) {
+                                $newExtra = str_replace("`" . $question, "", $rawApp['extra']);
+                            }
+                            if((str_replace($question . "`", "", $rawApp['extra']) ==  str_replace("`" . $question, "", $rawApp['extra']) ) && (strlen($newExtra = str_replace($question, "", $rawApp['extra'])) == 0) ) {
+                                $newExtra = "";
+                            }
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
 
@@ -793,8 +798,13 @@ class appLoaderController extends Controller {
 
                         case "delete":
                             $question = $this->getQuestion();
-                            $newExtra = str_replace($question . ',', "", $rawApp['extra']);
-                            $newExtra = str_replace($question, "", $rawApp['extra']);
+                            $newExtra = str_replace($question . "`", "", $rawApp['extra']);
+                            if($newExtra == $rawApp['extra']) {
+                                $newExtra = str_replace("`" . $question, "", $rawApp['extra']);
+                            }
+                            if((str_replace($question . "`", "", $rawApp['extra']) ==  str_replace("`" . $question, "", $rawApp['extra']) ) && (strlen($newExtra = str_replace($question, "", $rawApp['extra'])) == 0) ) {
+                                $newExtra = "";
+                            }
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
