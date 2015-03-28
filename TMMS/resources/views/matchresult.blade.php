@@ -205,7 +205,7 @@
 								<th>Tuet</th>
 								<th>m@blah.com</th>
 								<th>3</th>
-								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></button></center></th>
+								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button></center></th>
 							</tbody>
 						</table>
 					</div>
