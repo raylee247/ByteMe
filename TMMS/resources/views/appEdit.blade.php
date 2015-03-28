@@ -22,12 +22,8 @@
 
 //echo $parameter;
 
-foreach($test[0] as $t){
-    echo $t . "<br>";
-}
-echo $test[0]['pid'] . "<br>";
+echo $test[0];
 
-echo count($test);
 ?>
 
 {{--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--}}

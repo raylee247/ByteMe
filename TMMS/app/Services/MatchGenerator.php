@@ -122,11 +122,10 @@ class MatchGenerator{
 		// $this->test();
 		print("******************* in generate function *******************\n");
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
-		print("\n\n\n\n\n\ngeneratetable done\n\n\n\n\n");
-		// $result = $this->doTheMatch($this->mentors, $this->seniors, $this->juniors);
-		// print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
+		$result = $this->doTheMatch($this->mentors_id, $this->seniors_id, $this->juniors_id);
+		print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
 		// $this->doBackTrack($this->mentors, $this->seniors, $this->juniors);
-		// print("******************* end of genrate function *******************\n\n");
+		print("******************* end of genrate function *******************\n\n");
 		return $result;
 	}
     
@@ -173,6 +172,7 @@ class MatchGenerator{
 	 */
 	public function doTheMatch($mentors,$seniors,$juniors){
 		print("******************* in dothematch function *******************\n");
+		var_dump($mentors);
 		$key = implode(",", $mentors);
 		$key .= ",";
 		$key .= implode(",", $seniors);
@@ -198,14 +198,12 @@ class MatchGenerator{
 		// match a mentor each time
 		print("******************* in doTheMatch_compute function *******************\n");
 		// print ("\ndoTheMatch with parameter: ");
-		// print ("\nmentor:");
-		// var_dump($mentors);
 		// print ("\n senior:");
 		// var_dump($seniors);
 		// print ("\n junior:");
 		// var_dump($juniors);
 
-		$target = $mentors[0];
+		$target = array_values($mentors)[0];
 		print ("\ntarget:");
 		print($target);
 		print("\n\n");
@@ -384,12 +382,44 @@ class MatchGenerator{
 		$B = $this->getPersonWithID($personB);
 		$C = $this->getPersonWithID($personC);
 
+		$pair1 = $this->match($A,$B);
+		// var_dump($A);
+		// print("\n");
+		// print("this is the match for the trio of ");
+		// print($personA . ", " . $personB);
+		// print(": ");
+		// print($pair1);
+		// print("\n");
+		$pair2 = $this->match($B,$C);
+		// print("\n");
+		// print("this is the match for the trio of ");
+		// print($personB . ", " . $personC);
+		// print(": ");
+		// print($pair2);
+		// print("\n");
+		$pair3 = $this->match($A,$C);
+		// print("\n");
+		// print("this is the match for the trio of ");
+		// print($personA . ", " . $personC);
+		// print(": ");
+		// print($pair3);
+		// print("\n");
 
-		$total = $this->match($A,$B) + 
-				 $this->match($B,$C) +
-				 $this->match($A,$C);
-				 print("************************** end of trioMatch ***********************\n\n");
-		return $total / 3 ;
+		if($pair1 == 0 || $pair2 == 0 || $pair3 == 0){
+			return 0;
+		}
+
+		$total = $pair1 + $pair2 + $pair3;
+		// print("\n");
+		// print("this is the total for the trio of ");
+		// print($personA . ", " . $personB . ", " . $personC);
+		// print(": ");
+		// print($total);
+		// print("\n");
+
+
+		print("************************** end of trioMatch ***********************\n\n");
+		return $total/3 ;
 	}
 
 	/**
@@ -556,30 +586,38 @@ class MatchGenerator{
 		// print("\n");
 		$priorityResult = 0;
 
-		 print(("entering for loop with counter and shit\n"));
+		 print(("entering for loop with counter and stuff\n"));
+		 var_dump($personA);
 
 		// print($this->priority[0]);	
 		// print("\n");
 
 		for($counter = 0 ; $counter < $length; $counter++){
-			// print(("entered for loop\n"));
+			if($personA == 3425){
+				print("inside the loop with 3425");
+			}
+			// print("entered for loop\n");
 			$try = $this->priority[$counter];
 			$pAinterest = explode(",", $personA[$try]);
-			// print(("entered for loop\n"));
+			// print("got explode personA\n");
 			$pBinterest = explode(",", $personB[$try]);
-			// print(("entering for loop with counter and shit\n"));
+			// print("got explode personB\n");
 			$similiraity = $this->array_similarity($pAinterest,$pBinterest);
 			$priorityResult += $similiraity*$weighting;
 			$weighting--;
 			// print(("end of for loop\n"));
 		}
 
-		 print("quit for loop successfully and the value of final result will be: ");
-		// print(50+50*$priorityResult/$totalWeight);
-		// print("\n");
+		print("quit for loop successfully and the value of final result will be: ");
+		print(50+50*$priorityResult/$totalWeight);
+		print("\n");
 
 		$priorityResult = $priorityResult/$totalWeight;
 		$finalResult = 50 + 50*$priorityResult;
+
+		print("the value of finalresult: ");
+		print($finalResult);
+		print("\n");
 
 
 		// average the two and return
@@ -596,7 +634,8 @@ class MatchGenerator{
 	 * @return similarity rate
 	 */
 	public function array_similarity($a1, $a2){
-	
+		print("******************* in array_similarity function *******************\n");
+
 		$lengtha1 = count($a1);
 		$lengtha2 = count($a2);
 		$a1_local = array();
@@ -614,9 +653,14 @@ class MatchGenerator{
 			array_push($a2_local, $temp);
 		}
 		$commonStringCount = count(array_intersect($a1_local, $a2_local));
+		print("\n");
+		print("commonStringCount = ");
+		print($commonStringCount);
+		print("\n\n");
 		$similiraitya1 = $commonStringCount/$lengtha1;
 		$similiraitya2 = $commonStringCount/$lengtha2;
 
+		print("******************* end of array_similarity function *******************\n\n");
 		return ($similiraitya1 + $similiraitya2 )/2;
 
 	}

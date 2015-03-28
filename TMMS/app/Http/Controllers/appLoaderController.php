@@ -131,7 +131,11 @@ class appLoaderController extends Controller {
     public function grabStudentAppEdit()
     {
         //grab application form from DB for current year
-        $year = date("Y");
+        if(isset($_POST['year'])){
+            $year = $_POST['year'];
+        }else {
+            $year = date("Y");
+        }
         $rawApp = \DB::table('studentapp')->where('year', $year)->first();
 
         //return $rawApp;
@@ -144,6 +148,12 @@ class appLoaderController extends Controller {
 //        foreach($course as $c){
 //            echo $c . "<br>";
 //        }
+        //gets different years that have applications
+        $test = \DB::table('studentapp')->select('year')->get();
+        $listOfYear = [];
+        for($i = 0;$i < count($test); $i++){
+            array_push($listOfYear, $test[$i]['year']);
+        }
 
         //Current programs offered at UBC that have affiliation with CPSC
         $rawProgram =$rawApp["program"];
@@ -170,7 +180,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions) ->with('years', $listOfYear);
     }
 
     /**
@@ -221,12 +231,23 @@ class appLoaderController extends Controller {
     public function grabMentorAppEdit()
     {
         //grab application form from DB for current year
-        $year = date("Y");
+        if(isset($_POST['year'])){
+            $year = $_POST['year'];
+        }else {
+            $year = date("Y");
+        }
         $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
 
         //return $rawApp;
 
         //break into different elements to get the text for HTML
+
+        //grabbing different years with applications
+        $test = \DB::table('studentapp')->select('year')->get();
+        $listOfYear = [];
+        for($i = 0;$i < count($test); $i++){
+            array_push($listOfYear, $test[$i]['year']);
+        }
 
         //Current dates for planned Kickoff night
         $rawKickoff = $rawApp["kickoff"];
@@ -249,7 +270,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with ('years', $listOfYear);
     }
 
 
@@ -645,6 +666,8 @@ class appLoaderController extends Controller {
          *                                                                   (format|html name|question to be asked|message?|options?|answers?)
          *                                                                   follow that format depending on which they request for
          *
+         * year of editting application                 'year'              (YYYY)
+         *
          *
          * Everytime someone clicked ADD, DELETE, UPDATE you add that operation into 'operation[]', concurrently
          * the in 'question[]' please add what they edited/added so that means
@@ -654,18 +677,28 @@ class appLoaderController extends Controller {
          * operation[1] = add
          * question[1] = text|textTest|textQuestion
         */
-        $year = date("Y");
-        if(isset($_POST['status'])){
-            $status = $_POST['status'];
-        }
-        if(isset($_POST['kickoff'])){
+        $year = $_POST['year'];
+        $status = $_POST['status'];
+        if(isset($_POST['kickoff'])) {
             $kickoff = $_POST['kickoff'];
+            if ($status = 'student') {
+                $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('kickoff' => $kickoff));
+            } else {
+                $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('kickoff' => $kickoff));
+            }
         }
         if(isset($_POST['program'])){
             $program = $_POST['program'];
+                $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('program' => $program));
         }
         if(isset($_POST['deadline'])){
             $deadline = $_POST['deadline'];
+            if($status = 'student'){
+                $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('deadline' => $deadline));
+            }else{
+                $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('deadline' => $deadline));
+            }
+
         }
         if(isset($_POST['operation'])){
             $operation = $_POST['operation'];
@@ -819,8 +852,12 @@ class appLoaderController extends Controller {
     }
 
     public function test(){
-        $test = \DB::table('participant')->select('pid', 'year')->where('email', "bill.gates@hotmail.com")->get();
-        return view('appEdit')->with('test', $test);
+        $test = \DB::table('mentorapp')->select('year')->get();
+        $listOfYear = [];
+        for($i = 0;$i < count($test); $i++){
+            array_push($listOfYear, $test[$i]['year']);
+        }
+        return view('appEdit')->with('test', $listOfYear);
     }
 
 }
