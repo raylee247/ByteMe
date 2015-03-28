@@ -186,7 +186,8 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions) ->with('years', $listOfYear) ->with('deadline', $deadline);
+        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)
+            ->with('years', $listOfYear) ->with('deadline', $deadline)->with('year', $year);
     }
 
     /**
@@ -282,7 +283,8 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with ('years', $listOfYear)->with('deadline', $deadline);;
+        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)
+            ->with ('years', $listOfYear)->with('deadline', $deadline)->with('year', $year);
     }
 
 
