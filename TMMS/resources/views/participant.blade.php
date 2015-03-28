@@ -48,6 +48,7 @@ print_r($id_array);
         <a href="{{ url('/students') }}">Back</a> 
     <button>
     </button>
+    
     <!-- Student Information Table --> 
     <table class="table table-user-information">
         <tbody>
@@ -635,6 +636,14 @@ print_r($id_array);
         </div>
         </div>
 @endif
+
+
+<!-- View Past Report Button -->
+<form method="POST" action="pastreport">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    Year of report: <input type="text" name="year" id="year">
+    <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
+</form>
 
 <!-- move to app.css -->
 <style type="text/css">

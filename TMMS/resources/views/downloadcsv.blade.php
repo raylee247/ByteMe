@@ -6,7 +6,7 @@
         <div class="panel-heading"><b>Download Participant Data</b></div>
         <div class="panel-body">
 
-            I am downloading participant information from: //TODO: QUERY YEAR DATA FROM DB <br>
+            I am downloading participant information from:<br>
             <div class="col-md-4">
 
 
@@ -45,7 +45,7 @@
     <div class="panel panel-danger">
         <div class="panel-heading"><b>Delete Participant Data</b></div>
         <div class="panel-body">
-            I am deleting participant information from: //TODO: QUERY YEAR DATA FROM DB AND DROP TABLE<br>
+            I am deleting participant information from:<br>
             <div class="col-md-4">
                 <form>
                     <select class="form-control" name="year_csv" >

@@ -181,7 +181,6 @@ class AdminController extends Controller {
         $sid = \DB::table('senior')->where('sid', $pid)->pluck('sid');
         $mid = \DB::table('mentor')->where('mid', $pid)->pluck('mid');
 
-        // Array of the id's to get checked 
         $id_array = array($jid, $sid, $mid);
 
         // Gets all mentor senior and junior students possible data 
@@ -191,8 +190,6 @@ class AdminController extends Controller {
                                                   ->where('pid', $pid)->get();
         $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                                   ->where('pid',$pid)->get();
-
-
         $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                ->where('parameter.pid', $pid)->pluck('extra');
 
@@ -233,24 +230,24 @@ class AdminController extends Controller {
         if ($jid == $pid) 
         {
             \DB::table('junior')->where('jid', $pid)
-                                ->update(['studentNum'     => $request['studentnum'],
-                                          'yearStand'      => $request['yearstanding'],
+                                ->update(['studentNum' => $request['studentnum'],
+                                          'yearStand' => $request['yearstanding'],
                                           'programOfStudy' => $request['program'],
-                                          'courses'        => $request['courses'],
-                                          'csid'           => $request['csid'],
-                                          'coop'           => $request['coop']
+                                          'courses' => $request['courses'],
+                                          'csid' => $request['csid'],
+                                          'coop' => $request['coop']
                                           ]);
         }
         // UPDATE PARTICIPANT IF SENIOR STUDENT 
         else if ($sid == $pid)
         {
             \DB::table('mentor')->where('sid', $pid)
-                                ->update(['studentNum'     => $request['studentnum'],
-                                          'yearStand'      => $request['yearstanding'],
+                                ->update(['studentNum' => $request['studentnum'],
+                                          'yearStand' => $request['yearstanding'],
                                           'programOfStudy' => $request['program'],
-                                          'courses'        => $request['courses'],
-                                          'csid'           => $request['csid'],
-                                          'coop'           => $request['coop']
+                                          'courses' => $request['courses'],
+                                          'csid' => $request['csid'],
+                                          'coop' => $request['coop']
                                           ]);
         }
         // UPDATE PARTICIPANT IF MENTOR
@@ -294,9 +291,10 @@ class AdminController extends Controller {
 
         $encoded_extra_update = json_encode($extra_update);
 
-        // UPDATE EXTRAS COLUMN IN PARAMETER
         \DB::table('parameter')->where('pid', $pid) 
                                ->update(['extra' => $encoded_extra_update]);
+
+
 
         // Gets all mentor senior and junior students possible data
         $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
@@ -337,6 +335,51 @@ class AdminController extends Controller {
                 unlink($file);
             }
         }
+    }
+
+    public function viewPastReport(){
+      
+      $year = $_POST['year'];
+      $pid = $_POST['pid'];
+
+      $result = \DB::table('report')->where('report.year', '=', $year)
+                                    ->where('report.mentor', '=', $pid)
+                                    ->orWhere('report.senior', '=', $pid)
+                                    ->orWhere('report.junior', '=', $pid)
+                                    ->get();
+      //$result = $result[0];
+
+      if(empty($result)){
+        return "no report found for this participant in year ".$year. ".";
+      }else{
+        $result = $result[0];
+      }
+
+      // var_dump($result);
+      // print($result['mentor']);
+      // print($result['senior']);
+      // print($result['junior']); 
+
+      $mentor = \DB::table('participant')->where('participant.pid', '=', $result['mentor'])
+                                         ->get(); 
+      $mentor = $mentor[0];
+      // var_dump($mentor);
+
+      $senior = \DB::table('participant')->where('participant.pid', '=', $result['senior'])
+                                         ->get();                              
+      $senior = $senior[0];
+      //var_dump($senior);
+
+
+      $junior = \DB::table('participant')->where('participant.pid', '=', $result['junior'])
+                                         ->get();
+      $junior = $junior[0];
+      // var_dump($junior);
+
+      $echoline = "For year ".$result["year"]." the requested match's mentor is ".$mentor["First name"]." ".$mentor["Family name"]." with email address ".$mentor["email"].". Senior student is ".$senior["First name"]." ".$senior["Family name"]." with email address ".$senior["email"].". Junior student is ".$junior["First name"]." ".$junior["Family name"]." with email address ".$junior["email"].".";
+    
+      echo $echoline;
+
     }
 
     public function downloadCSVfile()
@@ -547,6 +590,45 @@ class AdminController extends Controller {
 
         //Close file
         fclose($mentor_file);
+
+        //*****************************************************************
+
+        // Create CSV/TXT file local FOR REPORTS
+        $reports_file_name = "downloadFiles/reportsCSV" . $year. ".txt";
+        $reports_file = fopen($reports_file_name, "a");
+
+        $reports = \DB::table('report')
+            ->where('report.year','=', $year)
+            ->get();
+
+        $single_report = $reports[0];
+        $key_array = array_keys($single_report);
+
+        // Write each heading to local file
+        foreach($key_array as $one_key) {
+            fwrite($reports_file, $one_key . ",");
+        }
+
+        // Write endline
+        fwrite($reports_file, "\r\n");
+
+
+        // Write values for each entry
+        foreach($reports as $one_report) {
+            // Get values for single_junior:
+            $one_report_values = array_values($one_report);
+            // Write each value to the junior file:
+            foreach($one_report_values as $one_report_value) {
+                fwrite($reports_file, "\"" . $one_report_value . "\"" . ",");
+            }
+            // Write endline
+            fwrite($reports_file, "\r\n");
+        }
+
+        //Close file
+        fclose($reports_file);
+
+        //*****************************************************************
 
         //Zip up all files in downloadFiles directory
         $download_file_zip = 'downloadFiles.zip';
