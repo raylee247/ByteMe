@@ -63,7 +63,8 @@ Route::get('mentors', 'AdminController@mentorsview');
 Route::get('waitlist', 'AdminController@waitlist');
 
 Route::get('downloadcsv', 'AdminController@downloadcsv');
-Route::get('downloadCSV', 'AdminController@downloadCSVfile');
+Route::post('downloadcsv2', 'AdminController@downloadcsv');
+Route::post('downloadCSV', 'AdminController@downloadCSVfile');
 
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadcsv_preview', 'uploadCSVController@preview');

@@ -319,21 +319,248 @@ class AdminController extends Controller {
 
     public function downloadcsv()
     {
-        return view('downloadcsv');
+        $range = \DB::table('participant')->select('year')->groupBy('year')->get();
+//        return view('downloadcsv');
+        $year = 2014;
+        if (isset($_POST['year_csv'])) {
+            $year = $_POST['year_csv'];
+        }
+        return \View::make('downloadcsv')->with('year', $year)->with('range',$range);
+    }
+
+    function recursiveRemoveDirectoryFiles($directory)
+    {
+        foreach(glob("{$directory}/*") as $file)
+        {
+            if(is_dir($file)) {
+                recursiveRemoveDirectoryFiles($file);
+            } else {
+                unlink($file);
+            }
+        }
     }
 
     public function downloadCSVfile()
     {
 
-        // TODO: Update this function to be able to specify the CSV that we want.
-        //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
-        //      For now just downloads TestingCSV.csv from public/
+//        // TODO: Update this function to be able to specify the CSV that we want.
+//        //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
+//        //      For now just downloads TestingCSV.csv from public/
+//
+//        $file= public_path(). "/TestingCSV.txt";
+//        $headers = array(
+//            'Content-Type: text/plain',
+//        );
+//        return response()->download($file, 'TestingCSV.txt', $headers);
 
-        $file= public_path(). "/TestingCSV.txt";
+
+        $year = $_POST['year_csv'];
+
+        $junior_pap = \DB::table('participant')
+            ->where('participant.year','=', $year)->join('junior', 'participant.pid', '=', 'junior.jid')
+            ->leftjoin('parameter', function($join) use ($year)
+            {
+                $join->on('participant.pid', '=', 'parameter.pid')
+                    ->where('parameter.year', '=', $year);
+            })->select(\DB::raw('participant.pid AS pid,
+                        `First name` AS `First name`,
+                        `Family name` AS `Family name`,
+                        gender AS gender,
+                        kickoff AS kickoff,
+                        email AS email,
+                        phone AS phone,
+                        `phone alt` AS `phone alt`,
+                        `birth year` AS `birth year`,
+                        genderpref AS genderpref,
+                        `past participation` AS `past participation`,
+                        waitlist AS waitlist,
+                        participant.year AS year,
+                        interest AS interest,
+                        jid AS jid,
+                        studentNum AS studentNum,
+                        yearStand AS yearStand,
+                        programOfStudy AS programOfStudy,
+                        courses AS courses,
+                        csid AS csid,
+                        coop AS coop,
+                        extra AS extra'))
+            ->get();
+        $senior_pap = \DB::table('participant')
+            ->where('participant.year','=', $year)->join('senior', 'participant.pid', '=', 'senior.sid')
+            ->leftjoin('parameter', function($join) use ($year)
+            {
+                $join->on('participant.pid', '=', 'parameter.pid')
+                    ->where('parameter.year', '=', $year);
+            })->select(\DB::raw('participant.pid AS pid,
+                        `First name` AS `First name`,
+                        `Family name` AS `Family name`,
+                        gender AS gender,
+                        kickoff AS kickoff,
+                        email AS email,
+                        phone AS phone,
+                        `phone alt` AS `phone alt`,
+                        `birth year` AS `birth year`,
+                        genderpref AS genderpref,
+                        `past participation` AS `past participation`,
+                        waitlist AS waitlist,
+                        participant.year AS year,
+                        interest AS interest,
+                        sid AS sid,
+                        studentNum AS studentNum,
+                        yearStand AS yearStand,
+                        programOfStudy AS programOfStudy,
+                        courses AS courses,
+                        csid AS csid,
+                        coop AS coop,
+                        extra AS extra'))
+            ->get();
+        $mentor_pap = \DB::table('participant')
+            ->where('participant.year','=', $year)->join('mentor', 'participant.pid', '=', 'mentor.mid')
+            ->leftjoin('parameter', function($join) use ($year)
+            {
+                $join->on('participant.pid', '=', 'parameter.pid')
+                    ->where('parameter.year', '=', $year);
+            })->select(\DB::raw('participant.pid AS pid,
+                        `First name` AS `First name`,
+                        `Family name` AS `Family name`,
+                        gender AS gender,
+                        kickoff AS kickoff,
+                        email AS email,
+                        phone AS phone,
+                        `phone alt` AS `phone alt`,
+                        `birth year` AS `birth year`,
+                        genderpref AS genderpref,
+                        `past participation` AS `past participation`,
+                        waitlist AS waitlist,
+                        participant.year AS year,
+                        interest AS interest,
+                        mid AS mid,
+                        job AS job,
+                        yearofcs AS yearofcs,
+                        edulvl AS edulvl,
+                        extra AS extra'))
+            ->get();
+
+        // TODO: Clean the local directory holding download csvs
+
+        $download_dir = "downloadFiles";
+        if (is_dir($download_dir)) {
+            $this->recursiveRemoveDirectoryFiles($download_dir);
+        } else {
+            mkdir($download_dir);
+        }
+
+        // TODO: Delete any possible download zip file from previous downloads
+        if (file_exists("downloadFiles.zip")) {
+            unlink("downloadFiles.zip");
+        }
+
+
+        //*****************************************************************
+
+        // Create CSV/TXT file local FOR JUNIOR
+        $junior_file_name = "downloadFiles/juniorCSV" . $year . ".txt";
+        $junior_file = fopen($junior_file_name, "a");
+
+        $single_pap = $junior_pap[0];
+        $key_array = array_keys($single_pap);
+
+        // Write each heading to local file
+        foreach($key_array as $one_key) {
+            fwrite($junior_file, $one_key . ",");
+        }
+        // Write endline
+        fwrite($junior_file, "\r\n");
+
+        // Write values for each entry
+        foreach($junior_pap as $single_junior) {
+            // Get values for single_junior:
+            $single_junior_values = array_values($single_junior);
+            // Write each value to the junior file:
+            foreach($single_junior_values as $single_junior_value) {
+                fwrite($junior_file, "\"" . $single_junior_value . "\"" . ",");
+            }
+            // Write endline
+            fwrite($junior_file, "\r\n");
+        }
+
+        //Close file
+        fclose($junior_file);
+
+        //*****************************************************************
+
+        // Create CSV/TXT file local FOR SENIOR
+        $senior_file_name = "downloadFiles/seniorCSV" . $year . ".txt";
+        $senior_file = fopen($senior_file_name, "a");
+
+        $single_pap = $senior_pap[0];
+        $key_array = array_keys($single_pap);
+
+        // Write each heading to local file
+        foreach($key_array as $one_key) {
+            fwrite($senior_file, $one_key . ",");
+        }
+        // Write endline
+        fwrite($senior_file, "\r\n");
+
+        // Write values for each entry
+        foreach($senior_pap as $single_senior) {
+            // Get values for single_junior:
+            $single_senior_values = array_values($single_senior);
+            // Write each value to the junior file:
+            foreach($single_senior_values as $single_senior_value) {
+                fwrite($senior_file, "\"" . $single_senior_value . "\"" . ",");
+            }
+            // Write endline
+            fwrite($senior_file, "\r\n");
+        }
+
+        //Close file
+        fclose($senior_file);
+
+        //*****************************************************************
+
+        // Create CSV/TXT file local FOR MENTOR
+        $mentor_file_name = "downloadFiles/mentorCSV" . $year . ".txt";
+        $mentor_file = fopen($mentor_file_name, "a");
+
+        $single_pap = $mentor_pap[0];
+        $key_array = array_keys($single_pap);
+
+        // Write each heading to local file
+        foreach($key_array as $one_key) {
+            fwrite($mentor_file, $one_key . ",");
+        }
+        // Write endline
+        fwrite($mentor_file, "\r\n");
+
+        // Write values for each entry
+        foreach($mentor_pap as $single_mentor) {
+            // Get values for single_junior:
+            $single_mentor_values = array_values($single_mentor);
+            // Write each value to the junior file:
+            foreach($single_mentor_values as $single_mentor_value) {
+                fwrite($mentor_file, "\"" . $single_mentor_value . "\"" . ",");
+            }
+            // Write endline
+            fwrite($mentor_file, "\r\n");
+        }
+
+        //Close file
+        fclose($mentor_file);
+
+        //Zip up all files in downloadFiles directory
+        $download_file_zip = 'downloadFiles.zip';
+        $files = glob('downloadFiles/*');
+        \Zipper::make($download_file_zip)->add($files);
+        \Zipper::close();
+
+        //Send file
         $headers = array(
-            'Content-Type: text/plain',
+            'Content-Type: application/zip'
         );
-        return response()->download($file, 'TestingCSV.txt', $headers);
+
+        return response()->download("downloadFiles.zip", "TMMSParticipant".$year.".zip", $headers);
     }
 
 }
