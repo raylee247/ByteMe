@@ -124,9 +124,6 @@
 			            </div><br>
 			            </div>
 			            </div>
-
-
-			            </div>
 			            <div class="modal-footer">
 			            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			            <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
@@ -330,14 +327,12 @@
 			            <input type="hidden" name="questiontype" value="select">
 			            <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
 			            <div class="form-inline">
-			            <label class="pull-left">Question:</label><div class="col-md-6"><div class="form-control" name="selectquest" value="" contenteditable>' . $questions[$x][2] . '</div>
+			            <label class="pull-left">Question:</label><div class="col-md-6"><input class="form-control" name="question" value="' . $questions[$x][2] . '">
 			            </div></div><br><br>
 			            <div class="form-inline">
-			            <label class="pull-left">Answer choices:</label><div class="col-md-6"><div class="form-control" name="selectans" value="" contenteditable>' . $questions[$x][3] . '</div></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+			            <label class="pull-left">Answers:</label><div class="col-md-6"><input class="form-control" name="answers" value="' . $questions[$x][3] . '"><br><i>Please enter possible choices as comma-seperated values.</i>
+			            </div></div><br><br>
 			            </div><br>
-			            </div>
-			            </div>
-			            </div>
 			            <div class="modal-footer">
 			            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			            <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
@@ -385,11 +380,10 @@
 			            <input type="hidden" name="questiontype" value="textarea">
 			            <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
 			            <div class="form-inline">
-			            <label class="pull-left">Question:</label><div class="col-md-6"><div class="form-control" name="textareaquest" value="" contenteditable>' . $questions[$x][2] . '</div>
+			            <label class="pull-left">Question:</label><div class="col-md-6"><input class="form-control" name="question" value="' . $questions[$x][2] . '">
 			            </div></div><br><br>
 			            <div class="form-inline">
 			            <label class="pull-left">Answer input:</label><div class="col-md-6"><textarea rows="4" cols="50" placeholder=" Applicants will type in here" readonly></textarea></div><br><br><br><br><br>
-			            </div>
 			            </div>
 			            </div>
 			            <div class="modal-footer">
@@ -465,42 +459,42 @@
                 $("#checkbox").show();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select).hide();
                 $("#textarea").hide();
             }
             if(type == "text"){
                 $("#checkbox").hide();
                 $("#text").show();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }
             if(type == "radio"){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").show();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }
-            if(type == "dropdown"){
+            if(type == "select"){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").show();
+                $("#select").show();
                 $("#textarea").hide();
             }
             if(type == "textarea"){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").show();
             }
             if(type == ""){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }}
         $(document).ready(function(){
@@ -509,42 +503,42 @@
                 $("#checkbox").show();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }
             if(type == "text"){
                 $("#checkbox").hide();
                 $("#text").show();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }
             if(type == "radio"){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").show();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }
-            if(type == "dropdown"){
+            if(type == "select"){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").show();
+                $("#select").show();
                 $("#textarea").hide();
             }
             if(type == "textarea"){
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").show();
             }
             else{
                 $("#checkbox").hide();
                 $("#text").hide();
                 $("#radio").hide();
-                $("#dropdown").hide();
+                $("#select").hide();
                 $("#textarea").hide();
             }
         });
@@ -567,7 +561,7 @@
                                             <option value="checkbox">Checkbox</option>
                                             <option value="text">Text input</option>
                                             <option value="radio">Radio button</option>
-                                            <option value="dropdown">Dropdown</option>
+                                            <option value="select">Dropdown</option>
                                             <option value="textarea">Text area</option>
                                         </select>
                                         <div id="checkbox">
@@ -587,7 +581,7 @@
                                             <p>Options:<input type="text" class="form-control" name="options"/></p>
                                             <p>Choices:<input type="text" class="form-control" name="choices"/></p>
                                         </div>
-                                        <div id="dropdown">
+                                        <div id="select">
                                             <p>DROPDOWN Tag name:<input type="text" class="form-control" name="tag[]"/></p>
                                             <p>Question:<input type="text" class="form-control" name="question[]"/></p>
                                             <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>

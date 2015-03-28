@@ -874,7 +874,7 @@ class appLoaderController extends Controller {
                     $options ."|" . $choices;
                 break;
 
-            case "dropdown":
+            case "select":
                 $tag = $_POST['tag'];
                 $question = $_POST['question'];
                 $answers = $_POST['answers'];
