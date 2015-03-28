@@ -80,6 +80,29 @@
                                   echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
                               }
                   
+                              //makes checkbox modal for delete
+                                echo '<div class="modal fade" id="modal-20' . ($x+2) . '4" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog">
+                                        <form action="editform" method="POST">
+                                            <div class="modal-content">
+                                                <div class="modal-body">Deleting the question will remove it from the application form. Are you sure you want to continue?
+                                               <input type="hidden" name="year" value="' . $year . '">
+                                               <input type="hidden" name="status" value="mentor">
+                                               <input type="hidden" name="operation" value="delete">
+                                               <input type="hidden" name="questiontype" value="checkbox">
+                                               <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
+                                               <input type="hidden" name="question" value="' . $questions[$x][2] . '">
+                                               <input type="hidden" name="answers" value="' . $questions[$x][3] . '">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger">Confirm</button> 
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>';
+
                               //makes checkbox modal
                               echo '<div id="modal-' . ($x+2) . '" class="modal" tabindex="-1" role="dialog">
                      <div class="modal-dialog">
@@ -139,6 +162,28 @@
                      <input type="text" class="form-control" name="' . $questions[$x][1] . '">
                      </div>';
                   
+                  //makes text delete modal
+                                echo '<div class="modal fade" id="modal-20' . ($x+2) . '4" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog">
+                                        <form action="editform" method="POST">
+                                            <div class="modal-content">
+                                                <div class="modal-body">Deleting the question will remove it from the application form. Are you sure you want to continue?
+                                               <input type="hidden" name="year" value="' . $year . '">
+                                               <input type="hidden" name="status" value="mentor">
+                                               <input type="hidden" name="operation" value="delete">
+                                               <input type="hidden" name="questiontype" value="text">
+                                               <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
+                                               <input type="hidden" name="question" value="' . $questions[$x][2] . '">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modal-20' . ($x+2) . '4" >Confirm</button> 
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>';
+
                               //makes text modal
                               echo '<div id="modal-' . ($x+2) . '" class="modal" tabindex="-1" role="dialog">
                      <div class="modal-dialog">
