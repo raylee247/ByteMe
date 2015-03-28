@@ -83,6 +83,8 @@ Route::post('{pid}/pastreport', 'AdminController@viewPastReport');
 Route::get('participant/{pid}', 'AdminController@showParticipant'); 
 Route::post('participant/{pid}', 'AdminController@editParticipant');
 
+//download participant report
+Route::post('downloadParticipant', 'profileController@downloadParticipant');
 // match making
 
 // TODO current match + saved matches needs to be put in a controller
