@@ -787,6 +787,7 @@ class appLoaderController extends Controller {
                             break;
 
                         case "update":
+<<<<<<< HEAD
                             $questionSplit = explode('|', $question);
                             $splitRawApp = explode('`', $rawApp['extra']);
                              $extra = "";
@@ -795,10 +796,20 @@ class appLoaderController extends Controller {
                                 $pos = strpos($splitRawApp[$m], $questionSplit[1]);
                                 if ($pos !== false) {
                                     $splitRawApp[$m] = $question;
+=======
+                            $questionSplit = explode('|', $question); //FORMAT|ID|QUESTION... => (FORMAT, ID, QUESTION, ...)
+                            $splitRawApp = explode('`', $rawApp['extra']); //Q1`Q2`Q3... => (Q1, Q2, Q3, ...)
+                            $extra = "";
+                            for ($m = 0; $m < count($splitRawApp); $m++) {
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]); //is ID in Qi
+                                if ($pos !== false) {  //true
+                                    $splitRawApp[$m] = $question;  //Qi = question
+>>>>>>> 75466b9138aa13c6d63e69c58f078604e0445178
                                 }
-                                $extra .= $splitRawApp[$m];
+                                $extra .= $splitRawApp[$m] . "`";
                                 $newExtra = $extra;
                             }
+                            $newExtra = substr($newExtra,0,-1);
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
