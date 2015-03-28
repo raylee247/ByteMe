@@ -318,7 +318,7 @@ class appLoaderController extends Controller {
 
         if(count > 0){
             if($pidYear[0]['year'] == $year){
-                $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
+                $participant_response = \DB::table('participant')->where('year', $year)->where('email', $email)
                     ->update(
                         ['First name' => $givenname, 'Family name' => $familyname,
                         'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
@@ -329,7 +329,7 @@ class appLoaderController extends Controller {
                 //update
             }else{
                 //grab PID and insert into table with new entry, but same PID
-                $participant_repsonse = \DB::table('participant')->insert(
+                $participant_response = \DB::table('participant')->insert(
                     ['pid' => $pidYear[0]['pid'], 'First name' => $givenname, 'Family name' => $familyname,
                     'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
                     'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
@@ -790,15 +790,16 @@ class appLoaderController extends Controller {
             }
 
         }else{
-            //TODO: ask for program and kickoff
+            //default kickoff night and program from last year loaded into new year student app
             $kickoff = "3000-12-30";
             if($status == 'student'){
-                $program = DB::table('studentapp')->select('program')->where('year', $year)->get();
+                $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
                 $student_response = \DB::table('studentapp')->insertGetId(
-                    ['program' => $program, 'kickoff' => $kickoff,
+                    ['program' => $program[0]['program'], 'kickoff' => $kickoff,
                      'year' => $year+1, 'deadline' => $deadline]);
             }else{
-                // TODO: ask for kickoff
+                //default kickoff night into new year mentor app
+                $kickoff = "3000-12-30";
                 $mentor_response = \DB::table('mentorapp')->insertGetId(
                     ['kickoff' => $kickoff, 'year' => $year+1, 'deadline' => $deadline]);
             }
@@ -868,12 +869,16 @@ class appLoaderController extends Controller {
     }
 
     public function test(){
-        $test = \DB::table('mentorapp')->select('year')->get();
-        $listOfYear = [];
-        for($i = 0;$i < count($test); $i++){
-            array_push($listOfYear, $test[$i]['year']);
-        }
-        return view('appEdit')->with('test', $listOfYear);
+        //passing years as a single array
+//        $test = \DB::table('mentorapp')->select('year')->get();
+//        $listOfYear = [];
+//        for($i = 0;$i < count($test); $i++){
+//            array_push($listOfYear, $test[$i]['year']);
+//        }
+
+        $year = date("Y");
+        $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
+        return view('appEdit')->with('test', $program);
     }
 
 }

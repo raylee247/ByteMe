@@ -22,7 +22,7 @@
 
 //echo $parameter;
 
-echo $test[0];
+echo $test[0]['program'];
 
 ?>
 
