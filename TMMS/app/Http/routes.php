@@ -68,6 +68,7 @@ Route::get('waitlist', 'AdminController@waitlist');
 Route::get('downloadcsv', 'AdminController@downloadcsv');
 Route::post('downloadcsv2', 'AdminController@downloadcsv');
 Route::post('downloadCSV', 'AdminController@downloadCSVfile');
+Route::post('downloadEmailAction', 'AdminController@downloadEmailZip');
 
 Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadcsv_preview', 'uploadCSVController@preview');

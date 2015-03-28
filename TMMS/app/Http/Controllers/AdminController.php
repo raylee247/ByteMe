@@ -382,19 +382,192 @@ class AdminController extends Controller {
 
     }
 
+    public function downloadEmailZip()
+    {
+
+        $year = $_POST['year_csv'];
+
+        // Clean up / Create Files
+        $download_dir = "downloadEmails";
+        if (is_dir($download_dir)) {
+            $this->recursiveRemoveDirectoryFiles($download_dir);
+        } else {
+            mkdir($download_dir);
+        }
+
+        // TODO: Delete any possible download zip file from previous downloads
+        if (file_exists("downloadEmails.zip")) {
+            unlink("downloadEmails.zip");
+        }
+
+        // In folder put each format of the lists Michelle wants as CSV
+        // Assumed that every list besides WAITING LIST is to hold ONLY PEOPLE NOT ON WAITING LIST
+
+        // FORMAT: MENTORS ONLY
+        // Select * FROM participant WHERE year = $year AND waitlist = 0
+        // Join on pid = mid
+        // Grab the name + emails from the result
+        $mentor_result = \DB::table('participant')
+            ->where('participant.year','=', $year)
+            ->where('participant.waitlist','=','0')
+            ->join('mentor', 'participant.pid', '=', 'mentor.mid')
+            ->select(\DB::raw('`First name` AS `First name`,
+                                `Family name` AS `Family name`,
+                                email AS email'))
+            ->get();
+        $mentor_file_name = "downloadEmails/mentorEmails" . $year . ".txt";
+        $mentor_file = fopen($mentor_file_name, "a");
+        fwrite($mentor_file, "First name, Last name, Email\r\n");
+        foreach($mentor_result as $single_mentor) {
+            $single_mentor_values = array_values($single_mentor);
+            foreach($single_mentor_values as $single_mentor_value) {
+                fwrite($mentor_file, "\"" . $single_mentor_value . "\"" . ",");
+            }
+            fwrite($mentor_file, "\r\n");
+        }
+        fclose($mentor_file);
+
+
+        // FORMAT: JUNIOR STUDENTS ONLY
+        // Select from junior where year = $year AND waitlist = 0
+        // Join on pid = jid
+        // Grab the name + emails from the result
+        $junior_result = \DB::table('participant')
+            ->where('participant.year','=', $year)
+            ->where('participant.waitlist','=','0')
+            ->join('junior', 'participant.pid', '=', 'junior.jid')
+            ->select(\DB::raw('`First name` AS `First name`,
+                                `Family name` AS `Family name`,
+                                email AS email'))
+            ->get();
+        $junior_file_name = "downloadEmails/juniorEmails" . $year . ".txt";
+        $junior_file = fopen($junior_file_name, "a");
+        fwrite($junior_file, "First name, Last name, Email\r\n");
+        foreach($junior_result as $single_junior) {
+            $single_junior_values = array_values($single_junior);
+            foreach($single_junior_values as $single_junior_value) {
+                fwrite($junior_file, "\"" . $single_junior_value . "\"" . ",");
+            }
+            fwrite($junior_file, "\r\n");
+        }
+        fclose($junior_file);
+
+        // FORMAT: SENIOR STUDENTS ONLY
+        // Select from senior where year = $year AND waitlist = 0
+        // Join on pid = sid
+        // Grab the name + emails from the result
+        $senior_result = \DB::table('participant')
+            ->where('participant.year','=', $year)
+            ->where('participant.waitlist','=','0')
+            ->join('senior', 'participant.pid', '=', 'senior.sid')
+            ->select(\DB::raw('`First name` AS `First name`,
+                                `Family name` AS `Family name`,
+                                email AS email'))
+            ->get();
+        $senior_file_name = "downloadEmails/seniorEmails" . $year . ".txt";
+        $senior_file = fopen($senior_file_name, "a");
+        fwrite($senior_file, "First name, Last name, Email\r\n");
+        foreach($senior_result as $single_senior) {
+            $single_senior_values = array_values($single_senior);
+            foreach($single_senior_values as $single_senior_value) {
+                fwrite($senior_file, "\"" . $single_senior_value . "\"" . ",");
+            }
+            fwrite($senior_file, "\r\n");
+        }
+        fclose($senior_file);
+
+        // FORMAT: WAITING LIST PERSONS ONLY (ALL)
+        // Select from senior where year = $year AND waitlist = 1
+        // Join on pid = sid
+        // Grab the name + emails from the result
+        $waitlist_junior_result = \DB::table('participant')
+            ->where('participant.year','=', $year)
+            ->where('participant.waitlist','=','1')
+            ->join('junior', 'participant.pid', '=', 'junior.jid')
+            ->select(\DB::raw('`First name` AS `First name`,
+                                `Family name` AS `Family name`,
+                                email AS email'))
+            ->get();
+        $waitlist_senior_result = \DB::table('participant')
+            ->where('participant.year','=', $year)
+            ->where('participant.waitlist','=','1')
+            ->join('senior', 'participant.pid', '=', 'senior.sid')
+            ->select(\DB::raw('`First name` AS `First name`,
+                                `Family name` AS `Family name`,
+                                email AS email'))
+            ->get();
+        $waitlist_mentor_result = \DB::table('participant')
+            ->where('participant.year','=', $year)
+            ->where('participant.waitlist','=','1')
+            ->join('mentor', 'participant.pid', '=', 'mentor.mid')
+            ->select(\DB::raw('`First name` AS `First name`,
+                                `Family name` AS `Family name`,
+                                email AS email'))
+            ->get();
+        $waitlisted_result = array_merge($waitlist_junior_result, $waitlist_senior_result, $waitlist_mentor_result);
+        $waitlisted_file_name = "downloadEmails/waitlistEmails" . $year . ".txt";
+        $waitlisted_file = fopen($waitlisted_file_name, "a");
+        fwrite($waitlisted_file, "First name, Last name, Email\r\n");
+        foreach($waitlisted_result as $single_waitlisted) {
+            $single_waitlisted_values = array_values($single_waitlisted);
+            foreach($single_waitlisted_values as $single_waitlisted_value) {
+                fwrite($waitlisted_file, "\"" . $single_waitlisted_value . "\"" . ",");
+            }
+            fwrite($waitlisted_file, "\r\n");
+        }
+        fclose($waitlisted_file);
+
+        // FORMAT: JUNIOR AND SENIOR STUDENTS
+        // JOIN name + email results from JUNIOR ONLY and SENIOR ONLY
+        $junior_senior_result = array_merge($junior_result, $senior_result);
+        $junior_senior_file_name = "downloadEmails/juniorSeniorEmails" . $year . ".txt";
+        $junior_senior_file = fopen($junior_senior_file_name, "a");
+        fwrite($junior_senior_file, "First name, Last name, Email\r\n");
+        foreach($junior_senior_result as $single_junior_senior) {
+            $single_junior_senior_values = array_values($single_junior_senior);
+            foreach($single_junior_senior_values as $single_junior_senior_value) {
+                fwrite($junior_senior_file, "\"" . $single_junior_senior_value . "\"" . ",");
+            }
+            fwrite($junior_senior_file, "\r\n");
+        }
+        fclose($junior_senior_file);
+
+        // FORMAT: JUNIOR STUDENTS, SENIOR STUDENTS, AND MENTORS
+        // JOIN name + email results from JUNIOR ONLY, SENIOR ONLY, AND MENTOR ONLY
+        $junior_senior_mentor_result = array_merge($junior_result, $senior_result, $mentor_result);
+        $junior_senior_mentor_file_name = "downloadEmails/juniorSeniorMentorEmails" . $year . ".txt";
+        $junior_senior_mentor_file = fopen($junior_senior_mentor_file_name, "a");
+        fwrite($junior_senior_mentor_file, "First name, Last name, Email\r\n");
+        foreach($junior_senior_mentor_result as $single_junior_senior_mentor) {
+            $single_junior_senior_mentor_values = array_values($single_junior_senior_mentor);
+            foreach($single_junior_senior_mentor_values as $single_junior_senior_mentor_value) {
+                fwrite($junior_senior_mentor_file, "\"" . $single_junior_senior_mentor_value . "\"" . ",");
+            }
+            fwrite($junior_senior_mentor_file, "\r\n");
+        }
+        fclose($junior_senior_mentor_file);
+
+        // ZIP THE FOLDER
+        $download_file_zip = 'downloadEmails.zip';
+        $files = glob('downloadEmails/*');
+        \Zipper::make($download_file_zip)->add($files);
+        \Zipper::close();
+
+        //Send file
+        $headers = array(
+            'Content-Type: application/zip'
+        );
+
+        return response()->download("downloadEmails.zip", "TMMSParticipantEmails".$year.".zip", $headers);
+
+
+        // RETURN DOWNLOAD RESPONSE
+    }
+
     public function downloadCSVfile()
     {
 
 //        // TODO: Update this function to be able to specify the CSV that we want.
-//        //      Probably after extracting data from table and creating a CSV we can decide on some concrete logic for this section.
-//        //      For now just downloads TestingCSV.csv from public/
-//
-//        $file= public_path(). "/TestingCSV.txt";
-//        $headers = array(
-//            'Content-Type: text/plain',
-//        );
-//        return response()->download($file, 'TestingCSV.txt', $headers);
-
 
         $year = $_POST['year_csv'];
 

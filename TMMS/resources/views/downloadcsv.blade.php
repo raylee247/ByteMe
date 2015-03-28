@@ -5,17 +5,8 @@
     <div class="panel panel-info">
         <div class="panel-heading"><b>Download Participant Data</b></div>
         <div class="panel-body">
-
             I am downloading participant information from:<br>
             <div class="col-md-4">
-
-
-                <!-- Test download button -->
-                {{--<form class="form-horizontal" role="form" method="POST" action="{{ url('downloadCSV') }}">--}}
-                {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-                {{--<li><a href={{url('downloadcsv')}}>Test.pdf</a></li>--}}
-                {{--</form>--}}
-
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadCSV') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     {{--<input type="file" name="Download Destination" id="fileToDownload">--}}
@@ -43,33 +34,14 @@
     </div>
 
     <div class="panel panel-info">
-        <div class="panel-heading"><b>Download Participant Email List</b></div>
+        <div class="panel-heading"><b>Download Participant Emails</b></div>
         <div class="panel-body">
-            <form method="POST">
-            I am downloading emails for:<br>
+            I am downloading participant emails from:<br>
             <div class="col-md-4">
-                <form >
-                    <select class="form-control" name="year_csv" >
-                            <option value="mentors">Industry/Faculty Mentors</option>
-                            <option value="juniors">Junior Students</option>
-                            <option value="seniors">Senior Students</option>
-                            <option value="waitinglist">Waiting List Students</option>
-                            <option value="junior_seniors">Junior and Senior Students</option>
-                            <option value="all">All participants</option>
-                    </select>
-                </form><br>
-                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download Email List</button> 
-            </div>
-        </form>
-        </div>
-    </div>
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadEmailAction') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    {{--<input type="file" name="Download Destination" id="fileToDownload">--}}
 
-    <div class="panel panel-danger">
-        <div class="panel-heading"><b>Delete Participant Data</b></div>
-        <div class="panel-body">
-            I am deleting participant information from:<br>
-            <div class="col-md-4">
-                <form>
                     <select class="form-control" name="year_csv" >
                         <?php
                         foreach($range as $range_index) {
@@ -77,28 +49,66 @@
                             echo "<option value=$option_year>$option_year</option>";
                         }
                         ?>
-                    </select>
-                </form><br>
-      <span class="input-group-btn">
-        <span class="btn btn-danger btn-file" data-toggle="modal" data-target="#delete">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          Delete
-        </span>
-      </span>
+                    </select><br>
+                   <span class="input-group-btn">
+          <span class="btn btn-primary btn-file">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+            Download Emails
+                  <input type="submit" value="Download Emails" name="Submit">
+            </span>
+          </span>
+                </form>
+                {{--<li> <a href={{url('download')}}>Test.pdf</a></li>--}}
+
             </div>
         </div>
     </div>
 
+    <div>
+    <form class="form-horizontal" role="form" method="POST" action="{{ url('deleteYear') }}">
+    <div class="panel panel-danger">
+            <div class="panel-heading"><b>Delete Participant Data</b></div>
+                <div class="panel-body">
+                    I am deleting participant information from:<br>
+                    <div class="col-md-4">
+                        <select class="form-control" name="year_csv" >
+                            <?php
+                            foreach($range as $range_index) {
+                                $option_year = $range_index['year'];
+                                echo "<option value=$option_year>$option_year</option>";
+                            }
+                            ?>
+                        </select>
+                    <br>
+                    <span class="input-group-btn">
+                        <span class="btn btn-danger btn-file" data-toggle="modal" data-target="#delete">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                Delete
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
+            <form method="POST">
             <div class="modal-content">
                 <div class="modal-body">Deleting the information will remove all associated data for that year within the system. Are you sure you want to continue?</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger">Confirm</button> // TODO : delete data from db
+                    <span class="btn btn-primary btn-file">
+                        <span class="glyphicon glyphicon-confirm" aria-hidden="true"></span>
+                        Confirm
+                        <input type="submit" value="Confirm Delete" name="Submit">
+                    </span>
+                    // TODO : delete data from db
                 </div>
             </div>
+            </form>
         </div>
+    </div>
+    </form>
     </div>
 
 @endsection
