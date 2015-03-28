@@ -70,23 +70,32 @@
                         <label class="pull-left">Question type:</label>
                         <div class="col-md-4">
                         <u>Checkbox</u>
+                        
                         </div>
                         <label class="pull-left">Tag name:</label>
                         <div class="col-md-4">
                         <u>' . $questions[$x][1] . '</u>
+           
                         </div>
                         </div>
                         </div>
                         </div><br>
-                        <form action="mentorform" method="POST">
+                        <form action="editform" method="POST">
                         <input type="hidden" name="year" value="' . $year . '">
                         <input type="hidden" name="status" value="mentor">
-                        <input type="hidden" name="operation" value="update">                        
+                        <input type="hidden" name="operation" value="update">         
+                        <input type="hidden" name="questiontype" value="checkbox">     
+                        <input type="hidden" name="tag" value="' . $questions[$x][1] . '">          
                         <div class="form-inline">
-                        <label class="pull-left">Question:</label><div class="col-md-6"><div class="form-control" name="checkboxquest" value="" contenteditable>' . $questions[$x][2] . '</div>
+                        <label class="pull-left">Question:</label><div class="col-md-6"><input class="form-control" name="question" value="' . $questions[$x][2] . '">
+
+
+                                                                                                      
+
+
                         </div></div><br><br>
                         <div class="form-inline">
-                        <label class="pull-left">Answer choices:</label><div class="col-md-6"><div class="form-control" name="checkboxans" value="" contenteditable>' . $questions[$x][3] . '</div></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+                        <label class="pull-left">Answer choices:</label><div class="col-md-6"><input class="form-control" name="answers" value="' . $questions[$x][3] . '"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
                         </div><br>
                         </div>
                         </div>
