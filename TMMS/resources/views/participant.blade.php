@@ -18,21 +18,53 @@
                         </div>
 @endif
 <?php
-print_r($id_array);
+
+
+// set current year 
+$current_year = date("Y");
 ?>
 <br>
 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <span class="input-group-btn">
-                        <span class="btn btn-primary btn-file">
-                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                                Download Participant Profile
-                                <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
-                                <input type="submit" value="Download CSV" name="download_report">
-                            </span>
-                    </span>
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                Download Participant Profile
+                <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
+                <input type="submit" value="Download CSV" name="download_report">
+            </span>
+    </span>
 </form>
+
+<!-- Button to move participant into participant pool -->
+@if ($participant_result[0]['waitlist'] == 1 && $participant_result[0]['year'] == $current_year) 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('toParticipantPool') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                Move to Participant Pool
+                <input type="hidden" name="participant_email_to_pp" value="<?= $participant_result[0]['email'] ?>">
+                <input type="submit" value="Move to Participant Pool" name="move_to_participant_pool">
+            </span>
+    </span>
+</form>
+
+<!-- Button to move participant into waitlist --> 
+@elseif ($participant_result[0]['waitlist'] == 0 && $participant_result[0]['year'] == $current_year) 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('toWaitlistPool') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                Move to Waitlist Pool
+                <input type="hidden" name="participant_email_to_wl" value="<?= $participant_result[0]['email'] ?>">
+                <input type="submit" value="Move to Waitlist Pool" name="move_to_waitlist_pool">
+            </span>
+    </span>
+</form>
+@endif
 
 @if (isset($id_array[0]) || isset($id_array[1]))
     
