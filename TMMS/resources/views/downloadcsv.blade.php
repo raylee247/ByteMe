@@ -42,6 +42,28 @@
         </div>
     </div>
 
+    <div class="panel panel-info">
+        <div class="panel-heading"><b>Download Participant Email List</b></div>
+        <div class="panel-body">
+            <form method="POST">
+            I am downloading emails for:<br>
+            <div class="col-md-4">
+                <form >
+                    <select class="form-control" name="year_csv" >
+                            <option value="mentors">Industry/Faculty Mentors</option>
+                            <option value="juniors">Junior Students</option>
+                            <option value="seniors">Senior Students</option>
+                            <option value="waitinglist">Waiting List Students</option>
+                            <option value="junior_seniors">Junior and Senior Students</option>
+                            <option value="all">All participants</option>
+                    </select>
+                </form><br>
+                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download Email List</button> 
+            </div>
+        </form>
+        </div>
+    </div>
+
     <div class="panel panel-danger">
         <div class="panel-heading"><b>Delete Participant Data</b></div>
         <div class="panel-body">
