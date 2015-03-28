@@ -50,5 +50,22 @@ class weightController extends Controller {
 
     }
 
+    public function matchresultindex()
+    {
+
+        return view('matchresult');
+    }
+
+    public function savedmatchesindex()
+    {
+
+        return view('savedmatches');
+    }
+// POST request to db to save match name 
+        public function savedmatchname()
+    {
+// TODO: SAVE NAME TO DB
+        return view('savedmatches');
+    }
 
 }

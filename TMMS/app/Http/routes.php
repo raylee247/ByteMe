@@ -79,13 +79,12 @@ Route::post('participant/{pid}', 'AdminController@editParticipant');
 
 // TODO current match + saved matches needs to be put in a controller
 //Route::get('currentmatch', '')
-//Route::get('savedmatches', '')
-Route::get('weight', 'weightController@index');
 
-// application form ROUTES
-//Route::get('studentform', '')
-//Route::get('mentorform', '')
-//////////////////////////////////
+Route::get('weight', 'weightController@index');
+Route::post('matchresult', 'weightController@matchresultindex');
+Route::get('savedmatches', 'weightController@savedmatchesindex');
+Route::post('savedmatches', 'weightController@savedmatchname');
+
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");

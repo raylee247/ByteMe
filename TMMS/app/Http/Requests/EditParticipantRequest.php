@@ -22,21 +22,7 @@ class EditParticipantRequest extends Request {
 	public function rules()
 	{
 		return [
-			'email'				=> 'required|email',
-			'studentnum'		=> 'required',
-			'csid'				=> 'required',
-			'phone'				=> 'required',
-			'phonealt'			=> 'required',
-			'gender'			=> 'required',
-			'birthyear'			=> 'required',
-			'kickoff'			=> 'required',
-			'kickoffcomments'	=> 'required',
-			'genderpref'		=> 'required',
-			'program'			=> 'required',
-			'yearstanding'		=> 'required',
-			'courses'			=> 'required',
-			'pastparticipation'	=> 'required',
-			'coop'				=> 'required'
+		
 		];
 	}
 
