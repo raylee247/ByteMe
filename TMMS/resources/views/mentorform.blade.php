@@ -258,16 +258,16 @@
 			            <input type="hidden" name="questiontype" value="radio">
 			            <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
 			            <div class="form-inline">
-			            <label class="pull-left">Question:</label><div class="col-md-6"><div class="form-control" name="radioquest" value="" contenteditable>' . $questions[$x][2] . '</div>
+			            <label class="pull-left">Question:</label><div class="col-md-6"><input class="form-control" name="question" value="' . $questions[$x][2] . '">
 			            </div></div><br><br>
 			            <div class="form-inline">
-			            <label class="pull-left">Additional message:</label><div class="col-md-6"><div class="form-control" name="radioans" value="" contenteditable>' . $questions[$x][3] . '</div>
+			            <label class="pull-left">Additional message:</label><div class="col-md-6"><input class="form-control" name="message" value="' . $questions[$x][3] . '">
 			            </div></div><br><br>
 			            <div class="form-inline">
-			            <label class="pull-left">Choices:</label><div class="col-md-6"><div class="form-control" name="radiochoices" value="" contenteditable>' . $questions[$x][5] . '</div>
+			            <label class="pull-left">Choices:</label><div class="col-md-6"><input class="form-control" name="choices" value="' . $questions[$x][5] . '">
 			            </div></div><br><br>
 			            <div class="form-inline">
-			            <label class="pull-left">Options:</label><div class="col-md-6"><div class="form-control" name="radiooptions" value="" contenteditable>' . $questions[$x][4] . '</div>
+			            <label class="pull-left">Options:</label><div class="col-md-6"><input class="form-control" name="options" value="' . $questions[$x][4] . '">
 			            </div></div><br><br>
 			            </div>
 			            </div>
