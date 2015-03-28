@@ -216,7 +216,7 @@ class uploadCSVController extends Controller {
                         $insert_array[$seni_columns[$i]] = $person[$nindex];
                         $i = $i + 1;
                     }
-                    \DB::table('seni')->insert(
+                    \DB::table('senior')->insert(
                         $insert_array
                     );
 
