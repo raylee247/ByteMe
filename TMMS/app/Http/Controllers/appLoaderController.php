@@ -107,6 +107,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -124,7 +127,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('studentapp')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('studentapp')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with('deadline', $deadline);;
 	}
 
 
@@ -163,6 +166,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -180,7 +186,8 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions) ->with('years', $listOfYear);
+        return View('studentform')-> with ('program', $program)-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)
+            ->with('years', $listOfYear) ->with('deadline', $deadline)->with('year', $year);
     }
 
     /**
@@ -202,6 +209,9 @@ class appLoaderController extends Controller {
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
 
+        //deadline
+        $deadline = $rawApp["deadline"];
+
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
         $newQuestions = [];
@@ -219,7 +229,7 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions);
+        return View('mentorapp')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with('deadline', $deadline);;
     }
 
 
@@ -243,7 +253,7 @@ class appLoaderController extends Controller {
         //break into different elements to get the text for HTML
 
         //grabbing different years with applications
-        $test = \DB::table('studentapp')->select('year')->get();
+        $test = \DB::table('mentorapp')->select('year')->get();
         $listOfYear = [];
         for($i = 0;$i < count($test); $i++){
             array_push($listOfYear, $test[$i]['year']);
@@ -252,6 +262,9 @@ class appLoaderController extends Controller {
         //Current dates for planned Kickoff night
         $rawKickoff = $rawApp["kickoff"];
         $kickoff = explode(",", $rawKickoff);
+
+        //deadline
+        $deadline = $rawApp["deadline"];
 
         //if element is a new question (contains |) then break it down into (format|id|question|answerA,answerB,answerC`format2|id2|question2|answer)
         //pass view HTML tags? or just variables?
@@ -270,7 +283,8 @@ class appLoaderController extends Controller {
             }
         }
 
-        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)->with ('years', $listOfYear);
+        return View('mentorform')-> with ('kickoff', $kickoff)-> with ('questions', $newQuestions)
+            ->with ('years', $listOfYear)->with('deadline', $deadline)->with('year', $year);
     }
 
 
@@ -318,7 +332,7 @@ class appLoaderController extends Controller {
 
         if(count > 0){
             if($pidYear[0]['year'] == $year){
-                $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
+                $participant_response = \DB::table('participant')->where('year', $year)->where('email', $email)
                     ->update(
                         ['First name' => $givenname, 'Family name' => $familyname,
                         'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
@@ -329,7 +343,7 @@ class appLoaderController extends Controller {
                 //update
             }else{
                 //grab PID and insert into table with new entry, but same PID
-                $participant_repsonse = \DB::table('participant')->insert(
+                $participant_response = \DB::table('participant')->insert(
                     ['pid' => $pidYear[0]['pid'], 'First name' => $givenname, 'Family name' => $familyname,
                     'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
                     'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
@@ -650,13 +664,13 @@ class appLoaderController extends Controller {
          *
          * deadline                                     'deadline'          (YYYY-MM-DD)
          *
-         * Determine which operation                    'operation[]'         (add, delete, update, new)
+         * Determine which operation                    'operation'         (add, delete, update, new)
          *                                                                   add    :   adding new question
          *                                                                   delete :   deleting existing question
          *                                                                   update :   updating a existing question
          *                                                                   new    :   new application form for the new year
          *
-         * actual fields of questions                   'question[]'        (checkbox|checkboxTest|CheckboxQuestion|A1,A2,A3       OR
+         * actual fields of questions                   'question'        (checkbox|checkboxTest|CheckboxQuestion|A1,A2,A3       OR
          *                                                                   text|textTest|textQuestion        OR
          *                                                                   radio|radioTest|radioQuestion|radioMessage|option1,option2,option3|B1,B2,B3    OR
          *                                                                   select|selectTest|selectQuestion|C1,C2,C3     OR
@@ -700,110 +714,126 @@ class appLoaderController extends Controller {
             }
 
         }
-        if(isset($_POST['operation'])){
+        if(isset($_POST['operation'])) {
             $operation = $_POST['operation'];
-        }
 
-        //check if creating new application form, else, grab current form and do operation
-        if ($operation != "new") {
-            //grab the question being added/changed
-            $question = $this->getQuestion();
-            if ($status == "student") {
-                $rawApp = \DB::table('studentapp')->where('year', $year)->first();
 
-                //grab raw application for status provided
-                switch ($operation) {
-                    case "add":
-                        //check the tag, if it fails send to failure page
-                        //failure page has a back button to send then back to edit page
-                        $splitQuestion = explode("|", $question);
-                        $questionTag = $splitQuestion[1];
-                        if(strpos($rawApp['extra'],$questionTag) !== false){
-                            $message = "Tag already exists, please choose another one.";
-                            return view('failure')->with('message', $message);
-                        }else {
-                            $rawApp['extra'] .= $question;
-                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
-                        }
-                        break;
+            //check if creating new application form, else, grab current form and do operation
+            if ($operation != "new") {
+                //grab the question being added/changed
+                $question = $this->getQuestion();
+                if ($status == "student") {
+                    $rawApp = \DB::table('studentapp')->where('year', $year)->first();
 
-                    case "delete":
-                        $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
-                        $newExtra = str_replace($question, "" , $rawApp['extra']);
-                        $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                        break;
-
-                    case "update":
-                        $questionSplit = explode('|', $question);
-                        $splitRawApp = explode('`', $rawApp['extra']);
-                        for($m = 0; $m < count($splitRawApp); $m++){
-                            $extra = "";
-                            $pos = strpos($splitRawApp[$m], $questionSplit[1]);
-                            if ($pos !== false){
-                                $splitRawApp[$m] = $question;
+                    //grab raw application for status provided
+                    switch ($operation) {
+                        case "add":
+                            //check the tag, if it fails send to failure page
+                            //failure page has a back button to send then back to edit page
+                            $splitQuestion = explode("|", $question);
+                            $questionTag = $splitQuestion[1];
+                            if (strpos($rawApp['extra'], $questionTag) !== false) {
+                                $message = "Tag already exists, please choose another one.";
+                                return view('failure')->with('message', $message);
+                            } else {
+                                $rawApp['extra'] .= $question;
+                                $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
                             }
-                            $extra .= $splitRawApp[$m];
-                            $newExtra = $extra;
-                        }
-                        $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                        break;
-                }
+                            break;
 
+                        case "delete":
+                            $newExtra = str_replace($question . ',', "", $rawApp['extra']);
+                            $newExtra = str_replace($question, "", $rawApp['extra']);
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                            break;
+
+                        case "update":
+                            $questionSplit = explode('|', $question);
+                            $splitRawApp = explode('`', $rawApp['extra']);
+                            for ($m = 0; $m < count($splitRawApp); $m++) {
+                                $extra = "";
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
+                                if ($pos !== false) {
+                                    $splitRawApp[$m] = $question;
+                                }
+                                $extra .= $splitRawApp[$m];
+                                $newExtra = $extra;
+                            }
+                            $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
+                            break;
+                    }
+                    return view('studentform');
+                } else {
+                    $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
+
+                    //grab raw application for status provided
+                    switch ($operation) {
+                        case "add":
+                            $splitQuestion = explode("|", $question);
+                            $questionTag = $splitQuestion[1];
+                            if (strpos($rawApp['extra'], $questionTag) !== false) {
+                                $message = "Tag already exists, please choose another one.";
+                                return view('failure')->with('message', $message);
+                            } else {
+                                $rawApp['extra'] .= $question;
+                                $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
+                            }
+                            break;
+
+                        case "delete":
+                            $newExtra = str_replace($question . ',', "", $rawApp['extra']);
+                            $newExtra = str_replace($question, "", $rawApp['extra']);
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
+                            break;
+
+                        case "update":
+<<<<<<< HEAD
+                            $questionSplit = explode('|', $question);
+                            $splitRawApp = explode('`', $rawApp['extra']);
+                             $extra = "";
+                            for ($m = 0; $m < count($splitRawApp); $m++) {
+                               
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
+                                if ($pos !== false) {
+                                    $splitRawApp[$m] = $question;
+=======
+                            $questionSplit = explode('|', $question); //FORMAT|ID|QUESTION... => (FORMAT, ID, QUESTION, ...)
+                            $splitRawApp = explode('`', $rawApp['extra']); //Q1`Q2`Q3... => (Q1, Q2, Q3, ...)
+                            $extra = "";
+                            for ($m = 0; $m < count($splitRawApp); $m++) {
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]); //is ID in Qi
+                                if ($pos !== false) {  //true
+                                    $splitRawApp[$m] = $question;  //Qi = question
+>>>>>>> 75466b9138aa13c6d63e69c58f078604e0445178
+                                }
+                                $extra .= $splitRawApp[$m] . "`";
+                                $newExtra = $extra;
+                            }
+                            $newExtra = substr($newExtra,0,-1);
+                            $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
+                            break;
+                    }
+                    return view('mentorform');
+                }
             } else {
-                $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
-
-                //grab raw application for status provided
-                switch ($operation) {
-                    case "add":
-                        $splitQuestion = explode("|", $question);
-                        $questionTag = $splitQuestion[1];
-                        if(strpos($rawApp['extra'],$questionTag) !== false){
-                            $message = "Tag already exists, please choose another one.";
-                            return view('failure')->with('message', $message);
-                        }else {
-                            $rawApp['extra'] .= $question;
-                            $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $rawApp['extra']));
-                        }
-                        break;
-
-                    case "delete":
-                        $newExtra = str_replace($question . ',', "" , $rawApp['extra']);
-                        $newExtra = str_replace($question, "" , $rawApp['extra']);
-                        $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                        break;
-
-                    case "update":
-                        $questionSplit = explode('|', $question);
-                        $splitRawApp = explode('`', $rawApp['extra']);
-                        for($m = 0; $m < count($splitRawApp); $m++){
-                            $extra = "";
-                            $pos = strpos($splitRawApp[$m], $questionSplit[1]);
-                            if ($pos !== false){
-                                $splitRawApp[$m] = $question;
-                            }
-                            $extra .= $splitRawApp[$m];
-                            $newExtra = $extra;
-                        }
-                        $response = \DB::table('mentorapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
-                        break;
+                //default kickoff night and program from last year loaded into new year student app
+                $kickoff = "3000-12-30";
+                $year = date("Y");
+                if ($status == 'student') {
+                    $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
+                    $student_response = \DB::table('studentapp')->insertGetId(
+                        ['program' => $program[0]['program'], 'kickoff' => $kickoff,
+                            'year' => $year + 1, 'deadline' => $kickoff]);
+                    return view('studentform');
+                } else {
+                    //default kickoff night into new year mentor app
+                    $kickoff = "3000-12-30";
+                    $mentor_response = \DB::table('mentorapp')->insertGetId(
+                        ['kickoff' => $kickoff, 'year' => $year + 1, 'deadline' => $kickoff]);
+                    return view('mentorform');
                 }
             }
-
-        }else{
-            //TODO: ask for program and kickoff
-            $kickoff = "3000-12-30";
-            if($status == 'student'){
-                $program = DB::table('studentapp')->select('program')->where('year', $year)->get();
-                $student_response = \DB::table('studentapp')->insertGetId(
-                    ['program' => $program, 'kickoff' => $kickoff,
-                     'year' => $year+1, 'deadline' => $deadline]);
-            }else{
-                // TODO: ask for kickoff
-                $mentor_response = \DB::table('mentorapp')->insertGetId(
-                    ['kickoff' => $kickoff, 'year' => $year+1, 'deadline' => $deadline]);
-            }
         }
-
 
         //want to be able to add more questions
 
@@ -811,7 +841,7 @@ class appLoaderController extends Controller {
 
         //want to remove already existing question
         // return view('studentform');
-        return view('mentorform');
+        //return view('mentorform');
     }
 
     public function getQuestion(){
@@ -868,12 +898,16 @@ class appLoaderController extends Controller {
     }
 
     public function test(){
-        $test = \DB::table('mentorapp')->select('year')->get();
-        $listOfYear = [];
-        for($i = 0;$i < count($test); $i++){
-            array_push($listOfYear, $test[$i]['year']);
-        }
-        return view('appEdit')->with('test', $listOfYear);
+        //passing years as a single array
+//        $test = \DB::table('mentorapp')->select('year')->get();
+//        $listOfYear = [];
+//        for($i = 0;$i < count($test); $i++){
+//            array_push($listOfYear, $test[$i]['year']);
+//        }
+
+        $year = date("Y");
+        $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
+        return view('appEdit')->with('test', $program);
     }
 
 }

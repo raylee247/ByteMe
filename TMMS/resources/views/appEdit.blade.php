@@ -22,8 +22,8 @@
 
 //echo $parameter;
 
-echo $test[0];
-
+//echo $test[0]['program'];
+echo "this is stupid";
 ?>
 
 {{--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--}}

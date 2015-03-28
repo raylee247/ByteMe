@@ -4,32 +4,50 @@
 	<div class="panel-heading">
 		<b>Mentor Application Form</b>
 		<button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-7">Add new question</button>
+
+
+
+
+
+
+
+
+
+
 		<button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-8">Create new form</button>
+
+
+
             <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-9'><i class="glyphicon glyphicon-cog"></i> View past application forms</button>
             <!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
       </div>
       <div class="panel-footer">
-          <h5>Application Submission Deadline: <b>September 25, 2015 at 11:59:59 PM //TODO: update this value</b>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-1'><i class="glyphicon glyphicon-calendar"></i> Set Deadline</button>
-      </h5>
+        <h5>Application Submission Deadline: <b>
+            <?php
+            echo $deadline;
+            ?>
+
+      </b>
+      <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-1'><i class="glyphicon glyphicon-calendar"></i> Set Deadline</button>
+</h5>
 </div>
 <div class="panel-body">
-    <?php
+  <?php
             //questions comes in as an array holding arrays
             //each array looks like the following [format2|id2|question2|answer]
-    for ($x = 0; $x < count($questions); $x++) {
+  for ($x = 0; $x < count($questions); $x++) {
                 //echo "NEW QUESTIONS ARE HERE";
-         echo '<legend></legend>';
+   echo '<legend></legend>';
                 // echo '<legend></legend><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
                 // <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>';
 
-         switch($questions[$x][0]){
+   switch($questions[$x][0]){
 
-              case "checkbox":
-              echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
-              <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>
-              <div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
-              echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
+    case "checkbox":
+    echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+    <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>
+    <div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
+    echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
                         $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                         $answer = explode("," , $rawAnswer);
                         $answerCount = count($answer);
@@ -52,22 +70,32 @@
                         <label class="pull-left">Question type:</label>
                         <div class="col-md-4">
                         <u>Checkbox</u>
+                        
                         </div>
                         <label class="pull-left">Tag name:</label>
                         <div class="col-md-4">
                         <u>' . $questions[$x][1] . '</u>
+           
                         </div>
                         </div>
                         </div>
                         </div><br>
-                        <form action="mentorform" method="POST">
+                        <form action="editform" method="POST">
+                        <input type="hidden" name="year" value="' . $year . '">
                         <input type="hidden" name="status" value="mentor">
-                        <input type="hidden" name="operation" value="update">                        
+                        <input type="hidden" name="operation" value="update">         
+                        <input type="hidden" name="questiontype" value="checkbox">     
+                        <input type="hidden" name="tag" value="' . $questions[$x][1] . '">          
                         <div class="form-inline">
-                        <label class="pull-left">Question:</label><div class="col-md-6"><div class="form-control" name="checkboxquest" value="" contenteditable>' . $questions[$x][2] . '</div>
+                        <label class="pull-left">Question:</label><div class="col-md-6"><input class="form-control" name="question" value="' . $questions[$x][2] . '">
+
+
+                                                                                                      
+
+
                         </div></div><br><br>
                         <div class="form-inline">
-                        <label class="pull-left">Answer choices:</label><div class="col-md-6"><div class="form-control" name="checkboxans" value="" contenteditable>' . $questions[$x][3] . '</div></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+                        <label class="pull-left">Answer choices:</label><div class="col-md-6"><input class="form-control" name="answers" value="' . $questions[$x][3] . '"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
                         </div><br>
                         </div>
                         </div>
@@ -347,41 +375,41 @@
 </div>
 <div id="modal-1" class="modal" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-        <div class="modal-content">
-             <form action="mentorform" method="POST">
-                  <div class="modal-body">
-                       <div class="panel panel-info">
-                            <div class="panel-heading">
-                                 <div class="panel-title" style="display:inline"><b>Set deadline for application submission</b></div>
-                           </div>
-                           <div class="panel-body">
-                                 <div class="row">
-                                      <div class="form-group">
-                                           <input type="hidden" name="deadline" value="<!-- grab date -->">
-                                           <label class="col-sm-3 control-label" for="date">Deadline Date</label>
-                                           <div class="col-sm-9">
-                                                <div class="row">
-                                                     <div class="col-xs-4">
-                                                          <input type="text" class="form-control" id="date" name="year" min="2015" max="2050" placeholder="YYYY">
-                                                    </div>
-                                                    <div class="col-xs-4">
-                                                          <input type="text" class="form-control" id="date" name="month" min="01" max="12" placeholder="MM">
-                                                    </div>
-                                                    <div class="col-xs-4">
-                                                          <input type="text" class="form-control" id="date" name="day" min="01" max="31" placeholder="DD">
-                                                    </div>
-                                              </div>
-                                        </div>
-                                  </div>
-                            </div>
-                      </div>
-                </div>
-          </div>
-          <div class="modal-footer">
-           //TODO:save to db
-           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-           <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
-     </div>
+    <div class="modal-content">
+     <form action="mentorform" method="POST">
+      <div class="modal-body">
+       <div class="panel panel-info">
+        <div class="panel-heading">
+         <div class="panel-title" style="display:inline"><b>Set deadline for application submission</b></div>
+   </div>
+   <div class="panel-body">
+         <div class="row">
+          <div class="form-group">
+           <input type="hidden" name="deadline" value="<!-- grab date -->">
+           <label class="col-sm-3 control-label" for="date">Deadline Date</label>
+           <div class="col-sm-9">
+            <div class="row">
+             <div class="col-xs-4">
+              <input type="text" class="form-control" id="date" name="year" min="2015" max="2050" placeholder="YYYY">
+        </div>
+        <div class="col-xs-4">
+              <input type="text" class="form-control" id="date" name="month" min="01" max="12" placeholder="MM">
+        </div>
+        <div class="col-xs-4">
+              <input type="text" class="form-control" id="date" name="day" min="01" max="31" placeholder="DD">
+        </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+ //TODO:save to db
+ <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+ <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+</div>
 </form>
 </div>
 </div>
@@ -393,204 +421,206 @@
 function loadQuestion(){
       var type = document.getElementById( "questiontype").value;
       if(type == "checkbox"){
-        $("#checkbox").show();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
-  if(type == "text"){
-        $("#checkbox").hide();
-        $("#text").show();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
-  if(type == "radio"){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").show();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
-  if(type == "dropdown"){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").show();
-        $("#textarea").hide();
-  }
-  if(type == "textarea"){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").show();
-  }
-  if(type == ""){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }}
-  $(document).ready(function(){
+          $("#checkbox").show();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
+    if(type == "text"){
+          $("#checkbox").hide();
+          $("#text").show();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
+    if(type == "radio"){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").show();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
+    if(type == "dropdown"){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").show();
+          $("#textarea").hide();
+    }
+    if(type == "textarea"){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").show();
+    }
+    if(type == ""){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }}
+    $(document).ready(function(){
       var type = document.getElementById( "questiontype").value;
       if(type == "checkbox"){
-        $("#checkbox").show();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
-  if(type == "text"){
-        $("#checkbox").hide();
-        $("#text").show();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
-  if(type == "radio"){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").show();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
-  if(type == "dropdown"){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").show();
-        $("#textarea").hide();
-  }
-  if(type == "textarea"){
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").show();
-  }
-  else{
-        $("#checkbox").hide();
-        $("#text").hide();
-        $("#radio").hide();
-        $("#dropdown").hide();
-        $("#textarea").hide();
-  }
+          $("#checkbox").show();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
+    if(type == "text"){
+          $("#checkbox").hide();
+          $("#text").show();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
+    if(type == "radio"){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").show();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
+    if(type == "dropdown"){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").show();
+          $("#textarea").hide();
+    }
+    if(type == "textarea"){
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").show();
+    }
+    else{
+          $("#checkbox").hide();
+          $("#text").hide();
+          $("#radio").hide();
+          $("#dropdown").hide();
+          $("#textarea").hide();
+    }
 });
 </script>
 
 <div id="modal-7" class="modal" tabindex="-1" role="dialog">
    <div class="modal-dialog">
-        <div class="modal-content">
-             <form action="mentorform" method="POST">
-                  <div class="modal-body">
-                       <div class="panel panel-info">
-                            <div class="panel-heading">
-                                 <div class="panel-title" style="display:inline"><b>Add new question</b></div>
-                           </div>
-                           <div class="panel-body">
-                                 <div class="row">
-                                      <div class="form-group">
-                                           <label class="col-sm-3 control-label" for="date">Question type:</label>
-                                           <select class="form-control" id="questiontype" name="questiontype" onchange="loadQuestion()">
-                                                <option value="">Select a question type:</option>
-                                                <option value="checkbox">Checkbox</option>
-                                                <option value="text">Text input</option>
-                                                <option value="radio">Radio button</option>
-                                                <option value="dropdown">Dropdown</option>
-                                                <option value="textarea">Text area</option>
-                                          </select>
+    <div class="modal-content">
+     <form action="mentorform" method="POST">
+      <div class="modal-body">
+       <div class="panel panel-info">
+        <div class="panel-heading">
+         <div class="panel-title" style="display:inline"><b>Add new question</b></div>
+   </div>
+   <div class="panel-body">
+         <div class="row">
+          <div class="form-group">
+           <label class="col-sm-3 control-label" for="date">Question type:</label>
+           <select class="form-control" id="questiontype" name="questiontype" onchange="loadQuestion()">
+            <option value="">Select a question type:</option>
+            <option value="checkbox">Checkbox</option>
+            <option value="text">Text input</option>
+            <option value="radio">Radio button</option>
+            <option value="dropdown">Dropdown</option>
+            <option value="textarea">Text area</option>
+      </select>
 
-                                          <div id="checkbox">
-                                                <p>CHECKBOX Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
-                                          </div>
+      <div id="checkbox">
+            <p>CHECKBOX Tag name:<input type="text" class="form-control" name="tag[]"/></p>
+            <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+            <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
+      </div>
 
-                                          <div id="text">
-                                                <p>TEXT Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p><input type="text" class="form-control" name="textans" value="" placeholder="Applicants will type in here" readonly></p>
-                                          </div>
+      <div id="text">
+            <p>TEXT Tag name:<input type="text" class="form-control" name="tag[]"/></p>
+            <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+            <p><input type="text" class="form-control" name="textans" value="" placeholder="Applicants will type in here" readonly></p>
+      </div>
 
-                                          <div id="radio">
-                                                <p>RADIO Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Additional message:<input type="text" class="form-control" name="message"/></p>
-                                                <p>Options:<input type="text" class="form-control" name="options"/></p>
-                                                <p>Choices:<input type="text" class="form-control" name="choices"/></p>
-                                          </div>
+      <div id="radio">
+            <p>RADIO Tag name:<input type="text" class="form-control" name="tag[]"/></p>
+            <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+            <p>Additional message:<input type="text" class="form-control" name="message"/></p>
+            <p>Options:<input type="text" class="form-control" name="options"/></p>
+            <p>Choices:<input type="text" class="form-control" name="choices"/></p>
+      </div>
 
-                                          <div id="dropdown">
-                                                <p>DROPDOWN Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
-                                          </div>
+      <div id="dropdown">
+            <p>DROPDOWN Tag name:<input type="text" class="form-control" name="tag[]"/></p>
+            <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+            <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
+      </div>
 
-                                          <div id="textarea">
-                                                <p>TEXTAREA Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p><textarea rows="4" cols="50" placeholder=" Applicants will type in here" readonly></textarea></p>
-                                          </div>
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-            </div>
-            <div class="modal-footer">
-                 //TODO:save to db
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                 <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
-           </div>
-     </form>
+      <div id="textarea">
+            <p>TEXTAREA Tag name:<input type="text" class="form-control" name="tag[]"/></p>
+            <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+            <p><textarea rows="4" cols="50" placeholder=" Applicants will type in here" readonly></textarea></p>
+      </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+ //TODO:save to db
+ <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+ <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+</div>
+</form>
 </div>
 </div>
 </div>
 
 <div id="modal-8" class="modal fade" id="newform" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
    <div class="modal-dialog">
-        <div class="modal-content">
-             <div class="modal-body">Creating a new form will replace the current application form. New questions will need to be added. Are you sure you want to continue?</div>
-             <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-success">Confirm</button> // TODO : clear application form from db
-            </div>
+    <div class="modal-content">
+      <form method="POST">
+           <div class="modal-body">
+            Creating a new form will replace the current application form. New questions will need to be added. Are you sure you want to continue?
+            <input type="hidden" name="operation" value="new">
+            <input type="hidden" name="year" value="2015">
       </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">Confirm</button> // TODO : clear application form from db
+      </div>
+</form>
+</div>
 </div>
 </div>
 
 <div id="modal-9" class="modal fade" id="pastforms" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
       <div class="modal-dialog">
             <div class="modal-content">
-                  <div class="modal-body">Specify a year: 
-                        <select name="formyears" form="carform">
-                            <option value="2015">2015</option>
-
-<php
-
-
-
-
-?>
-
-
-                      </select>
+              <form method="POST">
+                  <div class="modal-body">Specify a year:  
+                        <?php
+                        echo '<select name="year">';
+                        $count = count($years);
+                        for($i = 0; $i < $count; $i++){
+                            echo '<option value=" ' . $years[$i] . '"> ' . $years[$i] .'</option>';
+                      }
+                      echo '<input type="hidden" name="status" value="mentor">';
+                      echo '</select>';
+                      ?>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary">Go!</button> 
+                  <button type="submit" class="btn btn-primary">Go!</button> 
             </div>
-      </div>
+      </form>
+</div>
+</div>
+</div>
 </div>
 </div>
 
-
-
-
-</div>
-</div>
 <style type="text/css">
 .panel-info {
 	margin-right: 0px;
