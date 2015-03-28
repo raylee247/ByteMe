@@ -789,8 +789,9 @@ class appLoaderController extends Controller {
                         case "update":
                             $questionSplit = explode('|', $question);
                             $splitRawApp = explode('`', $rawApp['extra']);
+                             $extra = "";
                             for ($m = 0; $m < count($splitRawApp); $m++) {
-                                $extra = "";
+                               
                                 $pos = strpos($splitRawApp[$m], $questionSplit[1]);
                                 if ($pos !== false) {
                                     $splitRawApp[$m] = $question;
