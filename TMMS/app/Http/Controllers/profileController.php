@@ -17,6 +17,55 @@ class profileController extends Controller {
 
 	}
 
+    public function downloadParticipant()
+    {
+        $pid = $_POST['download_pid'];
+
+        // Query the 3 tables with PID 
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('pid', $pid)->get();
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', $pid)->get();
+        $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid', $pid)->get();
+
+        $participant_result = array_merge($junior_result, $senior_result, $mentor_result);
+
+        // Query parameter table with the correct PID 
+        $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
+                                               ->where('parameter.pid', $pid)->pluck('extra');
+
+        // Decode JSON object
+        $extra = json_decode($json_extra, true);
+        $extra_keys = array_keys($extra);
+
+
+        $key_array = array_keys($participant_result[0]);
+
+        // ACTUAL FILE WRITING STARTS HERE 
+        $file_name = "participant.txt";
+
+        $handle = fopen($file_name, "w");
+
+        foreach ($key_array as $key)
+        {
+            fwrite($handle, $key.": ".$participant_result[0][$key]."\r\n");
+        }
+
+        foreach ($extra_keys as $extra_key) 
+        {
+            fwrite($handle, $extra_key.": ".$extra[$extra_key]."\r\n");
+        }
+
+        fclose($handle);
+
+        $headers = array(
+            'Content-Type: text/plain',
+        );
+
+        return response()->download($file_name, "Participant".$participant_result[0]['First name'].$participant_result[0]['Family name'].".txt", $headers);
+    }
+    
 	/**
 	 * Remove participant from current year's tri-mentoring program
 	 *
