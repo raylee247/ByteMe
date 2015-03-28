@@ -318,7 +318,7 @@ class appLoaderController extends Controller {
 
         if(count > 0){
             if($pidYear[0]['year'] == $year){
-                $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
+                $participant_response = \DB::table('participant')->where('year', $year)->where('email', $email)
                     ->update(
                         ['First name' => $givenname, 'Family name' => $familyname,
                         'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
@@ -329,7 +329,7 @@ class appLoaderController extends Controller {
                 //update
             }else{
                 //grab PID and insert into table with new entry, but same PID
-                $participant_repsonse = \DB::table('participant')->insert(
+                $participant_response = \DB::table('participant')->insert(
                     ['pid' => $pidYear[0]['pid'], 'First name' => $givenname, 'Family name' => $familyname,
                     'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
                     'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
