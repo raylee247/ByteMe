@@ -19,12 +19,12 @@ class weightController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
+    public function index()
+    {
         $name = "bob";
 		//return view('weighting', compact('name'));
         return view('weighting', compact($name));
-	}
+    }
 
     /**
      * Converts weights string into a array of weight parameters
@@ -61,11 +61,23 @@ class weightController extends Controller {
 
         return view('savedmatches');
     }
+
+    public function currentmatchindex()
+    {
+        return view('currentmatch');
+    }
 // POST request to db to save match name 
-        public function savedmatchname()
+    public function savedmatchname()
     {
 // TODO: SAVE NAME TO DB
         return view('savedmatches');
+    }
+
+    // POST request to db to save maximum participants for kickoff 
+    public function savedmaxKickoff()
+    {
+// TODO: SAVE NUMBER TO DB
+        return view('kickoffmatches');
     }
 
 }

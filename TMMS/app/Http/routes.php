@@ -39,8 +39,9 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 Route::get('studentform', 'appLoaderController@grabStudentAppEdit');
 Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
 Route::post('mentorform', 'appLoaderController@editForm');
-Route::post('editform', 'appLoaderController@editForm');
 Route::post('mentorform', 'appLoaderController@grabMentorAppEdit');
+
+Route::post('editform', 'appLoaderController@editForm');
 
 Route::get('success', 'AdminController@downloadcsv');
 
@@ -74,7 +75,7 @@ Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
 Route::post('waitlist', 'AdminController@waitlistSearch');
 
-Route::post('viewpastreport', 'AdminController@viewPastReport');
+Route::post('{pid}/pastreport', 'AdminController@viewPastReport');
 
 //view individual participant profile
 Route::get('participant/{pid}', 'AdminController@showParticipant'); 
@@ -83,13 +84,14 @@ Route::post('participant/{pid}', 'AdminController@editParticipant');
 // match making
 
 // TODO current match + saved matches needs to be put in a controller
-//Route::get('currentmatch', '')
+
 
 Route::get('weight', 'weightController@index');
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 Route::post('savedmatches', 'weightController@savedmatchname');
-
+Route::post('kickoffmatches', 'weightController@savedmaxKickoff');
+Route::get('currentmatch', 'weightController@currentmatchindex');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
