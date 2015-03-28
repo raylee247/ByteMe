@@ -7,15 +7,17 @@ class MatchMakingTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	// public function testMatching()
-	// {
-	// 	$response = $this->action('GET', "MakeMatching@generateMatchTest");
+	public function testMatching()
+	{
+		print("\nstarted testMatching\n");
+		$response = $this->action('GET', "MakeMatching@generateMatchTest");
+		print("end of testMatching\n\n");
+		 echo $response;
+	}
+	// public function testUploadcsv(){
+	// 	print("what is this shit\n");
+	// 	$response = $this->action('GET', 'uploadCSVController@upload');
 	// 	// echo $response;
 	// }
-	public function testUploadcsv(){
-		print("what is this shit\n");
-		$response = $this->action('GET', 'uploadCSVController@upload');
-		// echo $response;
-	}
 
 }
