@@ -937,11 +937,11 @@ class appLoaderController extends Controller {
                 $test = $format . "|" . $tag[2] . "|" . $question[2] . "|" . $message . "|" .
                     $options ."|" . $choices;
                 break;
-            case "dropdown":
+            case "select":
                 $tag = $_POST['tag'];
                 $question = $_POST['question'];
                 $answers = $_POST['answers'];
-                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[3];
+                $test = $format . "|" . $tag[3] . "|" . $question[3] . "|" . $answers[2];
                 break;
             case "textarea":
                 $tag = $_POST['tag'];
