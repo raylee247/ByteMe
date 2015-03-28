@@ -789,27 +789,25 @@ class appLoaderController extends Controller {
                     }
                     return view('mentorform');
                 }
-            }
-        }
-        else{
-            //default kickoff night and program from last year loaded into new year student app
-            $kickoff = "3000-12-30";
-            $year = date("Y");
-            if($status == 'student'){
-                $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
-                $student_response = \DB::table('studentapp')->insertGetId(
-                    ['program' => $program[0]['program'], 'kickoff' => $kickoff,
-                     'year' => $year+1, 'deadline' => $kickoff]);
-                return view('studentform');
-            }else{
-                //default kickoff night into new year mentor app
+            } else {
+                //default kickoff night and program from last year loaded into new year student app
                 $kickoff = "3000-12-30";
-                $mentor_response = \DB::table('mentorapp')->insertGetId(
-                    ['kickoff' => $kickoff, 'year' => $year+1, 'deadline' => $kickoff]);
-                return view('mentorform');
+                $year = date("Y");
+                if ($status == 'student') {
+                    $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
+                    $student_response = \DB::table('studentapp')->insertGetId(
+                        ['program' => $program[0]['program'], 'kickoff' => $kickoff,
+                            'year' => $year + 1, 'deadline' => $kickoff]);
+                    return view('studentform');
+                } else {
+                    //default kickoff night into new year mentor app
+                    $kickoff = "3000-12-30";
+                    $mentor_response = \DB::table('mentorapp')->insertGetId(
+                        ['kickoff' => $kickoff, 'year' => $year + 1, 'deadline' => $kickoff]);
+                    return view('mentorform');
+                }
             }
         }
-
 
         //want to be able to add more questions
 
