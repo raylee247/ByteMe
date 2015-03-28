@@ -83,13 +83,14 @@ Route::post('participant/{pid}', 'AdminController@editParticipant');
 // match making
 
 // TODO current match + saved matches needs to be put in a controller
-//Route::get('currentmatch', '')
+
 
 Route::get('weight', 'weightController@index');
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 Route::post('savedmatches', 'weightController@savedmatchname');
-
+Route::post('kickoffmatches', 'weightController@savedmaxKickoff');
+Route::get('currentmatch', 'weightController@currentmatchindex');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
