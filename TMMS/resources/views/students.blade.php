@@ -89,11 +89,9 @@
             var myvar = <?php
                             echo json_encode($array);
                         ?>;
-
             window.location.href = "participant" + "/" + myvar[row];
             return false;
         });
-    });
 </script>
 
 @endsection

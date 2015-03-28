@@ -39,7 +39,9 @@ Route::post('studentapp', 'appLoaderController@studentToDB');
 Route::get('studentform', 'appLoaderController@grabStudentAppEdit');
 Route::get('mentorform', 'appLoaderController@grabMentorAppEdit');
 Route::post('mentorform', 'appLoaderController@editForm');
+Route::post('studentform', 'appLoaderController@editForm');
 Route::post('mentorform', 'appLoaderController@grabMentorAppEdit');
+Route::post('studentform', 'appLoaderController@grabStudentAppEdit');
 
 Route::post('editform', 'appLoaderController@editForm');
 
@@ -81,6 +83,8 @@ Route::post('{pid}/pastreport', 'AdminController@viewPastReport');
 Route::get('participant/{pid}', 'AdminController@showParticipant'); 
 Route::post('participant/{pid}', 'AdminController@editParticipant');
 
+//download participant report
+Route::post('downloadParticipant', 'profileController@downloadParticipant');
 // match making
 
 // TODO current match + saved matches needs to be put in a controller

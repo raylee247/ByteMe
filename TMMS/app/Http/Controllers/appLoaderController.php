@@ -736,8 +736,7 @@ class appLoaderController extends Controller {
                     //grab raw application for status provided
                     switch ($operation) {
                         case "add":
-                            //check the tag, if it fails send to failure page
-                            //failure page has a back button to send then back to edit page
+                            $question = $this->getAddQuestion();
                             $splitQuestion = explode("|", $question);
                             $questionTag = $splitQuestion[1];
                             if (strpos($rawApp['extra'], $questionTag) !== false) {
@@ -758,17 +757,18 @@ class appLoaderController extends Controller {
 
                         case "update":
                             $question = $this->getQuestion();
-                            $questionSplit = explode('|', $question);
-                            $splitRawApp = explode('`', $rawApp['extra']);
+                            $questionSplit = explode('|', $question); //FORMAT|ID|QUESTION... => (FORMAT, ID, QUESTION, ...)
+                            $splitRawApp = explode('`', $rawApp['extra']); //Q1`Q2`Q3... => (Q1, Q2, Q3, ...)
+                            $extra = "";
                             for ($m = 0; $m < count($splitRawApp); $m++) {
-                                $extra = "";
-                                $pos = strpos($splitRawApp[$m], $questionSplit[1]);
-                                if ($pos !== false) {
-                                    $splitRawApp[$m] = $question;
+                                $pos = strpos($splitRawApp[$m], $questionSplit[1]); //is ID in Qi
+                                if ($pos !== false) {  //true
+                                    $splitRawApp[$m] = $question;  //Qi = question
                                 }
-                                $extra .= $splitRawApp[$m];
+                                $extra .= $splitRawApp[$m] . "`";
                                 $newExtra = $extra;
                             }
+                            $newExtra = substr($newExtra,0,-1);
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
@@ -831,8 +831,8 @@ class appLoaderController extends Controller {
                         $student_response = \DB::table('studentapp')->insertGetId(
                             ['program' => $program[0]['program'], 'kickoff' => $kickoff,
                                 'year' => $year + 1, 'deadline' => $kickoff]);
+                        return $this->grabStudentAppEdit();
                     }
-                    return $this->grabStudentAppEdit();
                 } else {
                     //default kickoff night into new year mentor app
                     $made = \DB::table('mentorapp')->where('year', $year + 1)->get();

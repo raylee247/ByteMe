@@ -304,7 +304,6 @@ class AdminController extends Controller {
         $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                                   ->where('pid', $pid)->get();
 
-
         $json_extra = \DB::table('participant')->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                ->where('parameter.pid', $pid)->pluck('extra');
 

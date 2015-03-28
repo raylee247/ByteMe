@@ -64,7 +64,7 @@
                       echo '<legend></legend>';
                       // echo '<legend></legend><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
                       // <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-2"><i class="glyphicon glyphicon-pencil"></i></button>';
-                      echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right"><i class="glyphicon glyphicon-trash"></i></button>
+                      echo '<div class="form-inline"><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-20' . ($x+2) . '4" ><i class="glyphicon glyphicon-trash"></i></button>
                   <button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-' . ($x+2) . '"><i class="glyphicon glyphicon-pencil"></i></button>';
                   
                       switch($questions[$x][0]){
@@ -119,7 +119,7 @@
                      </div>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </form>
@@ -127,6 +127,8 @@
                      </div>
                      </div>
                      </div>';
+
+
                   
                               echo '</div><br><br><br>';
                               break;
@@ -176,7 +178,7 @@
                      </div>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </div>
@@ -269,7 +271,7 @@
                      
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </div>
@@ -332,7 +334,7 @@
                      </div><br>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </form>
                      </div>
@@ -385,7 +387,7 @@
                      </div><br>
                      <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                     <button type="submit" class="btn btn-primary">Save Changes</button>
                      </div>
                      </div>
                      </form>
@@ -439,7 +441,7 @@
                         <div class="modal-footer">
                               //TODO:save to db
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                              <button type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                   </form>
             </div>
@@ -596,7 +598,7 @@
                         <div class="modal-footer">
                               //TODO:save to db
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>
+                              <button type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                   </form>
             </div>
@@ -614,7 +616,7 @@
                         </div>
                         <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                              <button type="submit" class="btn btn-success">Confirm</button> // TODO : clear application form from db
+                              <button type="submit" class="btn btn-success">Confirm</button>
                         </div>
                   </form>
             </div>
