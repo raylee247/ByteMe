@@ -159,18 +159,39 @@ class MatchGenerator{
 		// $result = $this->doTheMatch($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		// print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
 		// $this->doBackTrack($this->mentors_id, $this->seniors_id, $this->juniors_id);
-		$this->doStableMatch();
+		$result = $this->doStableMatch();
 		print("\n******************* end of genrate function *******************\n\n");
 		// var_dump($this->mentors_id);
 		// var_dump($this->seniors_id);
 		// var_dump($this->juniors_id);
 
 
-		// STABLE MATCHING 
+		// 
+		// $result_name = array();
+		// foreach ($result as $key) {
+		// 	$match_array = explode(",", $key);
+		// 	$mid = $match_array[0];
+		// 	$sid = $match_array[1];
+		// 	$jid = $match_array[2];
+			
+		// 	$m = $this->getPersonWithID($mid);
+		// 	$s = $this->getPersonWithID($sid);
+		// 	$j = $this->getPersonWithID($jid);
+		// 	$m_name = $m['First name'] . " " . $m['Family name'];
+		// 	$s_name = $s['First name'] . " " . $s['Family name'];
+		// 	$j_name = $j['First name'] . " " . $j['Family name'];
+
+		// 	$match = $m_name . "," . $s_name . "," . $j_name;
+		// 	$result_name[] = $match;
+		// }
+		
 
 
-		// return $result;
-		return 0;
+		// $composite_result = array();
+		// $composite_result[] = $result;
+		// $composite_result[] = $result_name;
+		// // return $result;
+		// return $composite_result;
 	}
     
     public function doBackTrack($mentors,$seniors,$juniors){
@@ -333,39 +354,32 @@ class MatchGenerator{
     		}
 
     	}
-
-    	$arrayish = array();
+    	
+    	// $arrayish = array();
     	foreach (array_keys($result) as $key => $value) {
     	   	echo "<p>" . $value . " : ". $result[$value]  ."</p>";
     	   	$value_array = explode(",", $value);
     	   	$m = $value_array[0];
     	   	$s = $value_array[1];
     	   	$j = $value_array[2];
-    	   	\DB::table('trioMatching')->insert(
-                    ['mid' => $listOfID[$i],
-                      'job' => $mentor_values[1],
 
+    	   	\DB::table('trioMatching')->insert(
+                    ['wid' => $this->wid,
+                     'mentor' => $m,
+                     'senior' => $s,
+                     'junior' => $j
                     ]
                 );
-
-
-    	   	// $tmpish = explode(",", $value);
-    	   	// foreach($tmpish as $content)
-    	   	// {
-    	   	// 	array_push($arrayish, $content);
-    	   	// }
     	}
+    	return $result;
+    	//    	// $tmpish = explode(",", $value);
+    	//    	// foreach($tmpish as $content)
+    	//    	// {
+    	//    	// 	array_push($arrayish, $content);
+    	//    	// }
+    	
     	// print_r(array_count_values($arrayish));
 
-
-    	\DB::table('trioMatching')->insert(
-                    ['mid' => $listOfID[$i],
-                        'job' => $mentor_values[1],
-                        'yearofcs' => $mentor_values[2],
-                        'edulvl' => $mentor_values[3],
-                        'company' => $mentor_values[4]
-                    ]
-                );
     }
 
 
