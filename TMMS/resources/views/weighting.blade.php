@@ -9,7 +9,6 @@
     //TODO : NEED TO GRAB THE DIFFERENT PARAMETERS FROM DB, make heights same
     <h5>Required parameters that will be considered for the matching:</h5>
 
-    <form action="matchresult" method="POST">
     <div class="row">
         <ul id="sortable1" class="droptrue">
           <li class="ui-state-default" id="element_gender">Gender Preference</li>
@@ -27,7 +26,13 @@
       <ul id="sortable3" class="droptrue">
 
     </ul>
-    <button class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+
+   
+ <form method="POST" action="ray">
+
+
+
+    
     <!-- <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span> -->
     <br style="clear:both">
 <!-- 
@@ -44,11 +49,15 @@
 </div> -->
 
 <!-- div to display array or parameter order to pass to controller - can remove after-->
-<div id= 'test'></div>
-</div>
+
+<input type="hidden" name="myField" id="myField" value="" />
+<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+<!-- <input id="test" name="params">   -->
 </form>
 </div>
 </div>
+</div>
+
 
 <style type="text/css">
 #sortable3 {
@@ -72,7 +81,8 @@ $(document).ready(function() {
             var list1 = [];
             list1.push(info1);
             console.log(list1); //testing only
-            document.getElementById("test").innerHTML = info1;
+            // document.getElementById("test").value = info1;
+            document.getElementById('myField').value = info1;
         }
     });
 });

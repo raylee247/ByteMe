@@ -20,7 +20,7 @@
 //        echo "<br>";
 //    }
 
-echo $program;
+echo $myField;
 
 //echo $test[0]['program'];
 echo "this is stupid";
