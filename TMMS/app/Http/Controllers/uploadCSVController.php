@@ -360,7 +360,7 @@ class uploadCSVController extends Controller {
                 // var_dump($mentor_values);
                 $listOfMentor[] = $mentor_values;
                 // print("\n===============================\n");
-                $leftover = array_diff($person, $mentor_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
+                $leftover = array_diff($person, $mentor_values,$participant_values,array("First Choice","Second Choice","Third Choice","Not Avail."));
                 // var_dump($leftover);
                 $parameter_value = array();
                 $parameter_value[] = "";
@@ -448,7 +448,6 @@ class uploadCSVController extends Controller {
         // \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
         $listOfID = array();
         foreach ($listOfParticipant as $participant_values) {
-            print("here");
             $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $participant_values[1],
                     'Family name' => $participant_values[2],

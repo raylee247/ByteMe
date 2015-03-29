@@ -14,10 +14,25 @@ use App\Services\MatchGenerator;
 
 class MakeMatching extends Controller {
 
-	protected $participants = array();
+
 
 
 	public function generateMatchTest(){
+
+        //comes in as element[]=tag1&element[]=tag2
+
+
+        set_time_limit(3600);
+        $must = array("kickoff");
+        $priority = array("EmploymentStatus", "interest");
+        print("going into matchGenerator\n\n");
+        $generator = new MatchGenerator($must, $priority);
+        $generator->generate();
+        return 0;
+
+	}
+
+    public function generateMatch(){
 
         //comes in as element[]=tag1&element[]=tag2
         $rawMust = $_POST['mustList'];
@@ -35,15 +50,12 @@ class MakeMatching extends Controller {
         //TODO not sure what you are doing here!
 
         set_time_limit(3600);
-        $must = array("KickOffAvailibility");
-        $priority = array("interest");
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
-        //TODO ROUTE THIS SHIT YOURSELF WILLIAM
-        echo $generator->generate();
+        $generator->generate_all();
         return 0;
 
-	}
+    }
 	/**
 	 * Display a listing of the resource.
 	 *

@@ -21,6 +21,7 @@ class MatchGenerator{
 	// param for generator
 	protected $mustList;
 	protected $priority;
+	protected $wid;
 
 	//table for values
 	protected $MentorSatTable = array();
@@ -49,7 +50,7 @@ class MatchGenerator{
 		// $this->getParticipant();
 		
 		// mock up now
-		// $this->mentors = array(1,4);
+		// $this->mentors = array(1,4)	;
 		// $this->seniors = array(2,5);
 		// $this->juniors = array(3,6);
 
@@ -57,6 +58,13 @@ class MatchGenerator{
 		$this->getParticipant();
 		$this->mustList = $mustList;
 		$this->priority = $priority;
+		\DB::table('weighting')->insert(
+                    ['must' => implode(",", $mustList),
+                     'helpful' => implode(",", $priority)
+                    ]);
+		$this->wid = \DB::table('weighting')->where('must', implode(",", $mustList))
+											->where('helpful', implode(",", $priority))
+											->pluck('wid');
 	}
 	/**
 	 * get participants from db and init class field
@@ -68,7 +76,7 @@ class MatchGenerator{
 
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
 												   ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                   ->where('participant.pid', '>', '3420')
+                                                   // ->where('participant.pid', '>', '3420')
                                                    // ->where('participant.pid', '<', '3426')
                                                    ->where ('participant.year', '=', date("Y"))
                                                    ->get();
@@ -90,7 +98,7 @@ class MatchGenerator{
 
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                     ->where('participant.pid', '>', '3535')
+                                                     // ->where('participant.pid', '>', '3535')
                                                      // ->where('participant.pid', '<', '3560')
                                                      ->where ('participant.year', '=', date("Y"))
                                                      ->get();
@@ -110,7 +118,7 @@ class MatchGenerator{
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                     ->where('participant.pid', '>', '3538')
+                                                     // ->where('participant.pid', '>', '3538')
                                                      // ->where('participant.pid', '<', '3570')
                                                      ->where ('participant.year', '=', date("Y"))
                                                      ->get();
@@ -141,7 +149,7 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	
-	public function generate(){
+	public function generate_all(){
 		// $this->test();
 		print("******************* in generate function *******************\n");
 		ini_set('memory_limit', '1000M');
@@ -329,13 +337,35 @@ class MatchGenerator{
     	$arrayish = array();
     	foreach (array_keys($result) as $key => $value) {
     	   	echo "<p>" . $value . " : ". $result[$value]  ."</p>";
-    	   	$tmpish = explode(",", $value);
-    	   	foreach($tmpish as $content)
-    	   	{
-    	   		array_push($arrayish, $content);
-    	   	}
+    	   	$value_array = explode(",", $value);
+    	   	$m = $value_array[0];
+    	   	$s = $value_array[1];
+    	   	$j = $value_array[2];
+    	   	\DB::table('trioMatching')->insert(
+                    ['mid' => $listOfID[$i],
+                      'job' => $mentor_values[1],
+
+                    ]
+                );
+
+
+    	   	// $tmpish = explode(",", $value);
+    	   	// foreach($tmpish as $content)
+    	   	// {
+    	   	// 	array_push($arrayish, $content);
+    	   	// }
     	}
-    	print_r(array_count_values($arrayish));
+    	// print_r(array_count_values($arrayish));
+
+
+    	\DB::table('trioMatching')->insert(
+                    ['mid' => $listOfID[$i],
+                        'job' => $mentor_values[1],
+                        'yearofcs' => $mentor_values[2],
+                        'edulvl' => $mentor_values[3],
+                        'company' => $mentor_values[4]
+                    ]
+                );
     }
 
 
