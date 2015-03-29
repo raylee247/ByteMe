@@ -38,7 +38,7 @@
 
 
 
-                <form method="POST" action="makeMatching">
+                <form method="POST" action="ray">
 
 
 
@@ -68,8 +68,6 @@
             </div>
         </div>
     </div>
-
-
     <style type="text/css">
         #sortable3 {
             display: inline-table;
