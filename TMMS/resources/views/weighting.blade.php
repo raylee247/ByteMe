@@ -10,27 +10,27 @@
     <h5>Required parameters that will be considered for the matching:</h5>
 
     <div class="row">
+        Parameter Bank
         <ul id="sortable1" class="droptrue">
-          <li class="ui-state-default" id="element_gender">Gender Preference</li>
-          <li class="ui-state-default" id="element_date">Date Availability</li>
-          <li class="ui-state-default" id="element_program">Program of Study</li>
-          <li class="ui-state-default" id="element_course">Courses Completed</li>
-          <li class="ui-state-default" id="element_interests">CS-related Interests</li>
-          <li class="ui-state-default" id="element_interests">Hobbies and Interests</li>
-          <li class="ui-state-default" id="element_interests">Co-op Program</li>
+        <?php
+            $parameter = array_intersect($stuTag, $menTag);
+                for($i = 0; $i < count($parameter); $i++){
+                    echo '<li class="ui-state-default" id="' . $parameter[$i] . '">' . $parameter[$i] . '</li>';
+                }
+        ?>
       </ul>
 
         {{--TODO HEADER ON TOP OF EACH LIST--}}
-        {{--Must list--}}
+        Must List
       <ul id="sortable2" class="droptrue">
       </ul>
 
-        {{--Priority List--}}
+        Priority List
       <ul id="sortable3" class="droptrue">
     </ul>
 
    
- <form method="POST" action="ray">
+ <form method="POST" action="makeMatching">
 
 
 
@@ -52,8 +52,8 @@
 
 <!-- div to display array or parameter order to pass to controller - can remove after-->
 
-<input type="hidden" name="myField" id="myField" value="" />
-<input type="hidden" name="myField2" id="myField2" value="" />
+<input type="hidden" name="mustList" id="mustList" value="" />
+<input type="hidden" name="priorityList" id="priorityList" value="" />
 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
 <!-- <input id="test" name="params">   -->
 </form>
@@ -85,7 +85,7 @@ $(document).ready(function() {
             list1.push(info1);
             console.log(list1); //testing only
             // document.getElementById("test").value = info1;
-            document.getElementById('myField').value = info1;
+            document.getElementById('mustList').value = info1;
         }
     });
 });
@@ -99,7 +99,7 @@ $(document).ready(function() {
             list2.push(info2);
             console.log(list2); //testing only
             // document.getElementById("test").value = info1;
-            document.getElementById('myField2').value = info2;
+            document.getElementById('priorityList').value = info2;
         }
     });
 });
