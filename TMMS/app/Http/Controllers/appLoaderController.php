@@ -970,8 +970,8 @@ class appLoaderController extends Controller {
 //            array_push($listOfYear, $test[$i]['year']);
 //        }
 
-        $year = date("Y");
-        $program = \DB::table('studentapp')->select('program')->where('year', $year)->get();
+        // $year = date("Y");
+        $program = $_POST["params"];//\DB::table('studentapp')->select('program')->where('year', $year)->get();
         return view('appEdit')->with('test', $program);
     }
 

@@ -20,7 +20,7 @@
 //        echo "<br>";
 //    }
 
-//echo $parameter;
+echo $program;
 
 //echo $test[0]['program'];
 echo "this is stupid";
