@@ -281,17 +281,17 @@ class KickOffMatch{
 				}
 				$counter++;
 			}
-
+			
+			$counter = 1;
 			foreach($kickoff_senior as $senior_id){
 				//put all senior student into groups
-				$counter = 1;
 				array_push($resultofday[$counter%$num_of_groups], $senior_id);
 				$counter++;
 			}
 
+			$counter = 2;
 			foreach($kickoff_junior as $junior_id){
 				//put all senior student into groups
-				$counter = 2;
 				array_push($resultofday[$counter%$num_of_groups], $junior_id);
 				$counter++;
 			}

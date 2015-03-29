@@ -35,33 +35,33 @@
 
 
     {{--this is the page loading--}}
-    <style>
-        div#load_screen{
-            background: #000;
-            opacity: 0.5;
-            position: fixed;
-            z-index:10;
-            top: 0px;
-            width: 100%;
-            height: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            child-align: middle;
-        }
-        div#load_screen > div#loading{
-            color:#FFF;
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-    </style>
-    <script>
-        window.addEventListener("load", function(){
-            var load_screen = document.getElementById("load_screen");
-            document.body.removeChild(load_screen);
-        });
-    </script>
+    {{--<style>--}}
+        {{--div#load_screen{--}}
+            {{--background: #000;--}}
+            {{--opacity: 0.5;--}}
+            {{--position: fixed;--}}
+            {{--z-index:10;--}}
+            {{--top: 0px;--}}
+            {{--width: 100%;--}}
+            {{--height: 100%;--}}
+            {{--margin-left: auto;--}}
+            {{--margin-right: auto;--}}
+            {{--child-align: middle;--}}
+        {{--}--}}
+        {{--div#load_screen > div#loading{--}}
+            {{--color:#FFF;--}}
+            {{--width: 100%;--}}
+            {{--margin-left: auto;--}}
+            {{--margin-right: auto;--}}
+            {{--text-align: center;--}}
+        {{--}--}}
+    {{--</style>--}}
+    {{--<script>--}}
+        {{--window.addEventListener("load", function(){--}}
+            {{--var load_screen = document.getElementById("load_screen");--}}
+            {{--document.body.removeChild(load_screen);--}}
+        {{--});--}}
+    {{--</script>--}}
 
 
 
@@ -71,7 +71,7 @@
  <body>
 
  {{--loading screen--}}
- <div id="load_screen"><div id="loading"><img src="loading.gif" alt="Be patient..." /></div></div>
+ {{--<div id="load_screen"><div id="loading"><img src="loading.gif" alt="Be patient..." /></div></div>--}}
 
 
 
@@ -97,7 +97,7 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
         <li><a href="about">About</a></li>
-      </ul>   
+      </ul>
       <ul class="nav navbar-nav navbar-right">
 
         @if(Session::has('message'))

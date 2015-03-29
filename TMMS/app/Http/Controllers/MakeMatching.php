@@ -19,10 +19,6 @@ class MakeMatching extends Controller {
 
 
 	public function generateMatchTest(){
-
-        //comes in as element[]=tag1&element[]=tag2
-
-
         set_time_limit(3600);
         $must = array("kickoff");
         $priority = array("EmploymentStatus", "interest");
@@ -38,18 +34,20 @@ class MakeMatching extends Controller {
                                             'result_ids','result_names',
                                             '$result_unmatch'));
 
+
 	}
 
 	public function generateKickoff(){
 		//set_time_limit(3600);
 		$kickoffMax = 50;
-		$maxMentor = 3;
+		$maxMentor = 1;
 		$kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
 		$generator = new KickOffMatch($kickoffs, $kickoffMax, $maxMentor);
 		print("\n\ngoing into generate\n\n");
 		echo $generator->generate();
 		return 0;
 	}
+
 
     public function generateMatch(){
 
@@ -164,7 +162,6 @@ class MakeMatching extends Controller {
 
 		return view('weighting')->with('parameter', $parameter);
 	}
-
 
 
 }

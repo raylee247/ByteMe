@@ -66,8 +66,40 @@
     </div>
 </div>
 
-<!-- TODO -->
 <div class="panel panel-info">
+    <div class="panel-heading"><b>Download Participant Report</b></div>
+    <div class="panel-body">
+        I am downloading participant reports from:<br>
+        <div class="col-md-4">
+            <form class="form-horizontal" role="form" method="POST" action="{{ url('reportDownloading') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                {{--<input type="file" name="Download Destination" id="fileToDownload">--}}
+
+                <select class="form-control" name="year_report" >
+                    <?php
+                    foreach($range as $range_index) {
+                        $option_year = $range_index['year'];
+                        if ($option_year != 0) {
+                            echo "<option value=$option_year>$option_year</option>";
+                        }                        }
+                        ?>
+                    </select><br>
+                    <span class="input-group-btn">
+                      <span class="btn btn-primary btn-file">
+                        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                        Download Report
+                        <input type="submit" value="Download Report" name="Submit Report">
+                    </span>
+                </span>
+            </form>
+            {{--<li> <a href={{url('download')}}>Test.pdf</a></li>--}}
+
+        </div>
+    </div>
+</div>
+
+<!-- TODO -->
+<!-- <div class="panel panel-info">
     <div class="panel-heading"><b>Download Participant Reports</b></div>
     <div class="panel-body">
         I am downloading participant reports from:<br>
@@ -75,11 +107,11 @@
 
            <select class="form-control" name="year_csv" >
             <?php
-            foreach($range as $range_index) {
-                $option_year = $range_index['year'];
-                if ($option_year != 0) {
-                    echo "<option value=$option_year>$option_year</option>";
-                }                        }
+            // foreach($range as $range_index) {
+            //     $option_year = $range_index['year'];
+            //     if ($option_year != 0) {
+            //         echo "<option value=$option_year>$option_year</option>";
+            //     }                        }
                 ?>
             </select><br>
             <span class="btn btn-primary btn-file">
@@ -89,7 +121,7 @@
             </span>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <div>

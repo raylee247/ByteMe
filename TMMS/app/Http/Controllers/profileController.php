@@ -114,7 +114,9 @@ class profileController extends Controller {
         }
 
         //placeholder redirect message
-        return \Redirect::back()->withMessage("hello");
+         \Session::flash('flash_message', 'Successfully added participant into waitlist pool!');
+
+        return \Redirect::back();
 	}
 
 	/**
@@ -138,7 +140,9 @@ class profileController extends Controller {
         }
 
         //placeholder redirect message
-        return \Redirect::back()->withMessage('Hello');
+        \Session::flash('flash_message', 'Successfully added participant into participant pool!');
+
+        return \Redirect::back();
     }
 	/**
 	 * View participant past record
