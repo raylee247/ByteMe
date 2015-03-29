@@ -36,6 +36,71 @@ class AdminController extends Controller {
         return view('admin');
     }
 
+    public function reportdownload()
+    {
+      $year = $_POST['year_report'];
+
+      $download_dir = "downloadReport";
+        if (is_dir($download_dir)) {
+            $this->recursiveRemoveDirectoryFiles($download_dir);
+        } else {
+            mkdir($download_dir);
+        }
+
+      $reports = \DB::table('report')->where('year', '=', $year)->get();
+      $participants = \DB::table('participant')->where('year', '=', $year)->get();
+
+
+      $report_file_name = "downloadReport/report".$year.".txt";
+      $report_file = fopen($report_file_name, "a");
+
+      foreach($reports as $report){
+        $mentorname;
+        $seniorname;
+        $juniorname;
+
+        foreach($participants as $participant){
+          if($report["mentor"] == $participant["pid"]){
+            $mentorname = $participant["First name"]." ".$participant["Family name"];
+          }
+        }
+
+        foreach($participants as $participant){
+          if($report["senior"] == $participant["pid"]){
+            $seniorname = $participant["First name"]." ".$participant["Family name"];
+          }
+        }
+
+
+        foreach($participants as $participant){
+          if($report["junior"] == $participant["pid"]){
+            $juniorname = $participant["First name"]." ".$participant["Family name"];
+          }
+        }
+
+        $write_string = "Mentor ".$mentorname." was paired with senior student ".$seniorname." and junior student ".$juniorname." in year ".$year.".";
+
+        fwrite($report_file, $write_string);
+        fwrite($report_file, "\r\n");
+
+      }
+
+      fclose($report_file);
+
+      $download_file_zip = 'downloadReports.zip';
+        $files = glob('downloadReport/*');
+        \Zipper::make($download_file_zip)->add($files);
+        \Zipper::close();
+
+      //Send file
+        $headers = array(
+            'Content-Type: application/zip'
+        );
+
+        return response()->download("downloadReports.zip", "TMMSParticipantReports".$year.".zip", $headers);
+
+    }
+
     public function studentsview()
     {
         // Retrieve junior and senior students from database
