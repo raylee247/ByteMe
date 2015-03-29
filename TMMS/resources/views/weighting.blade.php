@@ -13,12 +13,12 @@
                     Parameter Bank
                     <ul id="sortable1" class="droptrue">
                         <li class="ui-state-default" id="element_gender">genderpref</li>
-                        <li class="ui-state-default" id="element_interests">interest</li>
+                        <li class="ui-state-default" id="element_interest">interest</li>
                         <li class="ui-state-default" id="element_kickoff">kickoff</li>
 
                         <?php
                         for($i = 0; $i < count($parameter); $i++){
-                            echo '<li class="ui-state-default" id=element_"' . $parameter[$i] . '">' . $parameter[$i] . '</li>';
+                            echo '<li class="ui-state-default" id=element_' . $parameter[$i] . '>' . $parameter[$i] . '</li>';
                         }
                         ?>
                     </ul>
@@ -62,14 +62,13 @@
 
                     <input type="hidden" name="mustList" id="mustList" value="" />
                     <input type="hidden" name="priorityList" id="priorityList" value="" />
-                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+                    <button id="wtf" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
                     <!-- <input id="test" name="params">   -->
+                    <div id="loading"></div>
                 </form>
             </div>
         </div>
     </div>
-
-
     <style type="text/css">
         #sortable3 {
             display: inline-table;
@@ -106,6 +105,26 @@
                     console.log(list2); //testing only
                     // document.getElementById("test").value = info1;
                     document.getElementById('priorityList').value = info2;
+                }
+            });
+        });
+
+        $('#wtf').click(function () {
+            // add loading image to div
+            $('#loading').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> loading...');
+
+            // run ajax request
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "https://api.github.com/users/jveldboom",
+                success: function (d) {
+                    // replace div's content with returned data
+                    // $('#loading').html('<img src="'+d.avatar_url+'"><br>'+d.login);
+                    // setTimeout added to show loading
+                    setTimeout(function () {
+                        $('#loading').html('<img src="' + d.avatar_url + '"><br>' + d.login);
+                    }, 2000);
                 }
             });
         });

@@ -746,6 +746,7 @@
                                 <div class="panel-title" style="display:inline"><b>Add new question</b></div>
                             </div>
                             <div class="panel-body">
+                                <i>Identify relations by assigning the same tag to the mentor question and corresponding student question.</i>
                                 <div class="row">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" for="date">Question type:</label>
@@ -793,7 +794,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        //TODO:save to db
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>

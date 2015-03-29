@@ -58,13 +58,7 @@ class MatchGenerator{
 		$this->getParticipant();
 		$this->mustList = $mustList;
 		$this->priority = $priority;
-		\DB::table('weighting')->insert(
-                    ['must' => implode(",", $mustList),
-                     'helpful' => implode(",", $priority)
-                    ]);
-		$this->wid = \DB::table('weighting')->where('must', implode(",", $mustList))
-											->where('helpful', implode(",", $priority))
-											->pluck('wid');
+		
 	}
 	/**
 	 * get participants from db and init class field
@@ -151,47 +145,22 @@ class MatchGenerator{
 	
 	public function generate_all(){
 		// $this->test();
-		print("******************* in generate function *******************\n");
+		// print("******************* in generate function *******************\n");
 		ini_set('memory_limit', '1000M');
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
-		echo "<p> done gen_table </p>";
+		// echo "<p> done gen_table </p>";
 		// DYNAMIC	PROGRAMMING
 		// $result = $this->doTheMatch($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		// print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
 		// $this->doBackTrack($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		$result = $this->doStableMatch();
-		print("\n******************* end of genrate function *******************\n\n");
+		// print("\n******************* end of genrate function *******************\n\n");
 		// var_dump($this->mentors_id);
 		// var_dump($this->seniors_id);
 		// var_dump($this->juniors_id);
 
+		return $result;
 
-		// 
-		// $result_name = array();
-		// foreach ($result as $key) {
-		// 	$match_array = explode(",", $key);
-		// 	$mid = $match_array[0];
-		// 	$sid = $match_array[1];
-		// 	$jid = $match_array[2];
-			
-		// 	$m = $this->getPersonWithID($mid);
-		// 	$s = $this->getPersonWithID($sid);
-		// 	$j = $this->getPersonWithID($jid);
-		// 	$m_name = $m['First name'] . " " . $m['Family name'];
-		// 	$s_name = $s['First name'] . " " . $s['Family name'];
-		// 	$j_name = $j['First name'] . " " . $j['Family name'];
-
-		// 	$match = $m_name . "," . $s_name . "," . $j_name;
-		// 	$result_name[] = $match;
-		// }
-		
-
-
-		// $composite_result = array();
-		// $composite_result[] = $result;
-		// $composite_result[] = $result_name;
-		// // return $result;
-		// return $composite_result;
 	}
     
     public function doBackTrack($mentors,$seniors,$juniors){
@@ -232,12 +201,6 @@ class MatchGenerator{
 		// }
     }
     
-
-
-
-
-
-
     public function doStableMatch(){
     	$mentors_queue = $this->mentors_id;
     	$seniors = $this->seniors_id;
@@ -248,13 +211,13 @@ class MatchGenerator{
     	while ((count($mentors_queue) > 0) && (count($seniors) > 0) && (count($juniors) > 0)) {
     		// cause index '0' will not exist the first time after i delete it, so i delete the first in values
     		
-    		echo "<p> vvvvvvvvvvvvvvvvvvv=====MENTORS=====vvvvvvvvvvvvv</p>";
-    		var_dump($mentors_queue); 
-    		echo "<p> vvvvvvvvvvvvvvvvvvv=====SENIORS=====vvvvvvvvvvvvv</p>";
-    		var_dump($seniors); 
-    		echo "<p> vvvvvvvvvvvvvvvvvvv=====JUNIORS=====vvvvvvvvvvvvv</p>";
-    		var_dump($juniors); 
-    		echo "<p> =================================================</p>";
+    		// echo "<p> vvvvvvvvvvvvvvvvvvv=====MENTORS=====vvvvvvvvvvvvv</p>";
+    		// var_dump($mentors_queue); 
+    		// echo "<p> vvvvvvvvvvvvvvvvvvv=====SENIORS=====vvvvvvvvvvvvv</p>";
+    		// var_dump($seniors); 
+    		// echo "<p> vvvvvvvvvvvvvvvvvvv=====JUNIORS=====vvvvvvvvvvvvv</p>";
+    		// var_dump($juniors); 
+    		// echo "<p> =================================================</p>";
 
 
 
@@ -265,7 +228,7 @@ class MatchGenerator{
     			// var_dump($seniors);
     			// var_dump($juniors);
     			 
-    			echo "<p> MAXTrio = " . $maxTrio . "</p>";
+    			// echo "<p> MAXTrio = " . $maxTrio . "</p>";
 				$result[$maxTrio] = $this->MentorSatTable[$target][$maxTrio];
     			$key = explode(",", $maxTrio);
     			$seniors = $this->array_without($seniors, $key[1]);
@@ -292,7 +255,7 @@ class MatchGenerator{
     										(strpos($swapTarget, array_values($diff)[0]) !== FALSE) && 
     										($satisfaction > $swapTarget_satisfaction)){
     										// free both other matches
-    										echo "<p> FREEING  " . $match . " and FREEING " . $swapTarget."</p>";
+    										// echo "<p> FREEING  " . $match . " and FREEING " . $swapTarget."</p>";
 				    						$swapTarget_array = explode(",", $swapTarget);
 				    						$mentors_queue[] = $swapTarget_array[0];
 				    						$seniors[] = $swapTarget_array[1];
@@ -320,7 +283,7 @@ class MatchGenerator{
     								}
     								break;
     							case 2:
-    								echo "<p> freeing  " . $match . " and INSERTING " . $trio."</p>";
+    								// echo "<p> freeing  " . $match . " and INSERTING " . $trio."</p>";
 		    						$mentors_queue[] = $match_array[0];
 		    						$seniors[] = $match_array[1];
 		    						$juniors[] = $match_array[2];
@@ -354,10 +317,89 @@ class MatchGenerator{
     		}
 
     	}
-    	
-    	// $arrayish = array();
+    	return $result;
+   
+    }
+    public function get_unmatches($result){
+    	$LoMid = array();
+    	$LoSid = array();
+    	$LoJid = array();
+    	foreach ($result as $key => $value) {
+    		$key_array = explode(",", $key);
+    		$LoMid[] = $key_array[0];
+    		$LoSid[] = $key_array[1];
+    		$LoJid[] = $key_array[2];
+    	}
+    	$m_diff = array_diff($LoMid,$this->mentors_id);
+    	$s_diff = array_diff($LoSid,$this->seniors_id);
+    	$j_diff = array_diff($LoJid,$this->juniors_id);
+    	$result = array();
+    	foreach ($m_diff as $key => $value) {
+    		$temp = array();
+    		$person = $this->getPersonWithID($value);
+    		$temp['type'] = "Mentor";
+    		$temp['FirstName'] = $person['First name'];
+    		$temp['LastName'] = $person['Family name'];
+    		$temp['email'] = $person['email'];
+    		$temp['pid'] = $person['pid'];
+    		$result[] = $temp;
+    	}
+    	foreach ($s_diff as $key => $value) {
+    		$temp = array();
+    		$person = $this->getPersonWithID($value);
+    		$temp['type'] = "Senior";
+    		$temp['FirstName'] = $person['First name'];
+    		$temp['LastName'] = $person['Family name'];
+    		$temp['email'] = $person['email'];
+    		$temp['pid'] = $person['pid'];
+    		$result[] = $temp;
+    	}
+    	foreach ($j_diff as $key => $value) {
+    		$temp = array();
+    		$person = $this->getPersonWithID($value);
+    		$temp['type'] = "Junior";
+    		$temp['FirstName'] = $person['First name'];
+    		$temp['LastName'] = $person['Family name'];
+    		$temp['email'] = $person['email'];
+    		$temp['pid'] = $person['pid'];
+    		$result[] = $temp;
+    	}
+
+    	return $result;
+
+    }
+    public function toName($result){
+    	$result_name = array();
+		foreach ($result as $key => $value) {
+			$match_array = explode(",", $key);
+			$mid = $match_array[0];
+			$sid = $match_array[1];
+			$jid = $match_array[2];
+			
+			$m = $this->ID_to_Name($mid);
+			$s = $this->ID_to_Name($sid);
+			$j = $this->ID_to_Name($jid);
+
+			$match = $m . "," . $s . "," . $j;
+			$result_name[$match] = $value;
+		}
+    	return $result_name;
+    }
+    public function ID_to_Name($id){
+    	$p = $this->getPersonWithID($id);
+    	return $p['First name'] . " " . $p['Family name'];
+    }
+
+    public function insert_result_to_DB($result){
+    	\DB::table('weighting')->insert(
+                    ['must' => implode(",", $this->mustList),
+                     'helpful' => implode(",", $this->priority)
+                    ]);
+		$this->wid = \DB::table('weighting')->where('must', implode(",", $mustList))
+											->where('helpful', implode(",", $priority))
+											->pluck('wid');
     	foreach (array_keys($result) as $key => $value) {
-    	   	echo "<p>" . $value . " : ". $result[$value]  ."</p>";
+    	   	// echo "<p>" . $value . " : ". $result[$value]  ."</p>";
     	   	$value_array = explode(",", $value);
     	   	$m = $value_array[0];
     	   	$s = $value_array[1];
@@ -371,18 +413,7 @@ class MatchGenerator{
                     ]
                 );
     	}
-    	return $result;
-    	//    	// $tmpish = explode(",", $value);
-    	//    	// foreach($tmpish as $content)
-    	//    	// {
-    	//    	// 	array_push($arrayish, $content);
-    	//    	// }
-    	
-    	// print_r(array_count_values($arrayish));
-
     }
-
-
     /**
 	 * DYNAMIC PROGRAMMING WOOOOOOHOOOOOOO
 	 * since mentor is the primary constraint on the program, 

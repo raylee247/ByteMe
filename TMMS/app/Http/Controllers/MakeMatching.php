@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\MatchGenerator;
+use App\Services\KickOffMatch;
 
 //start_session();
 //to get the priority array from weighted parameters page
@@ -18,19 +19,35 @@ class MakeMatching extends Controller {
 
 
 	public function generateMatchTest(){
-
-        //comes in as element[]=tag1&element[]=tag2
-
-
         set_time_limit(3600);
         $must = array("kickoff");
         $priority = array("EmploymentStatus", "interest");
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
         $generator->generate_all();
-        return 0;
+        $avgSat = array_sum($result_ids)/count($result_ids);
+        $median = array_median($result_ids);
+        $result_names = $generator->toName($result_ids);
+        $result_unmatch = $generator->get_unmatches($result_id);
+
+        return view('matchresult', compact('must','priority','avgSat', 'median',
+                                            'result_ids','result_names',
+                                            '$result_unmatch'));
+
 
 	}
+
+	public function generateKickoff(){
+		//set_time_limit(3600);
+		$kickoffMax = 50;
+		$maxMentor = 1;
+		$kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
+		$generator = new KickOffMatch($kickoffs, $kickoffMax, $maxMentor);
+		print("\n\ngoing into generate\n\n");
+		echo $generator->generate();
+		return 0;
+	}
+
 
     public function generateMatch(){
 
@@ -45,19 +62,23 @@ class MakeMatching extends Controller {
         //array(tag,tag)
         $must = explode('&', $eleMust);
         $priority = explode('&',$elePriority);
-        var_dump($must);
+        // var_dump($must);
 
         //TODO not sure what you are doing here!
 
         set_time_limit(3600);
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
-        $result =  $generator->generate_all();
+        $result_ids =  $generator->generate_all();
         // result with [ match => satisfaction]
-        // $avgSat = array_sum($result)/count($result);
-        // $median = array_median($result);
+        $avgSat = array_sum($result_ids)/count($result_ids);
+        $median = $this->array_median($result_ids);
+        $result_names = $generator->toName($result_ids);
+        $result_unmatch = $generator->get_unmatches($result_ids);
 
-        return view('matchresult', compact('must','priority'));
+        return view('matchresult', compact('must','priority','avgSat', 'median',
+                                            'result_ids','result_names',
+                                            '$result_unmatch'));
 
     }
 
@@ -141,7 +162,6 @@ class MakeMatching extends Controller {
 
 		return view('weighting')->with('parameter', $parameter);
 	}
-
 
 
 }

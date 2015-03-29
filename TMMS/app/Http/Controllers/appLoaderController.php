@@ -971,8 +971,8 @@ class appLoaderController extends Controller {
 //        }
 
         // $year = date("Y");
-        $program = $_POST["myField"];//\DB::table('studentapp')->select('program')->where('year', $year)->get();
-        $program2 = $_POST["myField2"];
+        $program = $_POST["mustList"];//\DB::table('studentapp')->select('program')->where('year', $year)->get();
+        $program2 = $_POST["priorityList"];
         return view('appEdit')->with('myField', $program)->with('myField2', $program2);
     }
 
