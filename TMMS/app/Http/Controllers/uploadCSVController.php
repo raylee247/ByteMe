@@ -99,7 +99,7 @@ class uploadCSVController extends Controller {
         // determine the version
         if(array_search("IP Address", $header)!==false){
             //parse with old way
-            // $this->parseOldCSV($_POST['category'], $header, $data);
+            $this->parseOldCSV($_POST['category'], $header, $data);
         }else{
             //parse with new way
             $this->parseNewCSV($_POST['category'], $header, $data);
@@ -442,6 +442,7 @@ class uploadCSVController extends Controller {
         // \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
         $listOfID = array();
         foreach ($listOfParticipant as $participant_values) {
+            print("here");
             $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $participant_values[1],
                     'Family name' => $participant_values[2],

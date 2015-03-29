@@ -18,6 +18,7 @@ class MakeMatching extends Controller {
 
 
 	public function generateMatchTest(){
+		set_time_limit(3600);
 		$must = array("KickOffAvailibility");
 		$priority = array("interest");
 		print("going into matchGenerator\n\n");
