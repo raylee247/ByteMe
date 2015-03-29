@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\MatchGenerator;
+use App\Services\KickOffMatch;
 
 //start_session();
 //to get the priority array from weighted parameters page
@@ -23,6 +24,17 @@ class MakeMatching extends Controller {
 		$priority = array("interest");
 		print("going into matchGenerator\n\n");
 		$generator = new MatchGenerator($must,$priority);
+		echo $generator->generate();
+		return 0;
+	}
+
+	public function generateKickoff(){
+		//set_time_limit(3600);
+		$kickoffMax = 50;
+		$maxMentor = 3;
+		$kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
+		$generator = new KickOffMatch($kickoffs, $kickoffMax, $maxMentor);
+		print("\n\ngoing into generate\n\n");
 		echo $generator->generate();
 		return 0;
 	}
