@@ -1,0 +1,14 @@
+.label {
+  width:100px;
+  text-align:right;
+  float:right;
+  padding-right:10px;
+  font-weight:bold;
+}
+#studentapp label.error {
+  float:right;
+  display: inline-block;
+  margin-left: 20px;
+  color:#FB3A3A;
+  font-weight:bold;
+}
