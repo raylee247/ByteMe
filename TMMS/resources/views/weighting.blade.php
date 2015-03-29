@@ -9,31 +9,35 @@
     //TODO : NEED TO GRAB THE DIFFERENT PARAMETERS FROM DB, make heights same
     <h5>Required parameters that will be considered for the matching:</h5>
 
-    <form action="matchresult" method="POST">
     <div class="row">
+        Parameter Bank
         <ul id="sortable1" class="droptrue">
-          <li class="ui-state-default" id="element_gender">Gender Preference</li>
-          <li class="ui-state-default" id="element_date">Date Availability</li>
-          <li class="ui-state-default" id="element_program">Program of Study</li>
-          <li class="ui-state-default" id="element_course">Courses Completed</li>
-          <li class="ui-state-default" id="element_interests">CS-related Interests</li>
-          <li class="ui-state-default" id="element_interests">Hobbies and Interests</li>
-          <li class="ui-state-default" id="element_interests">Co-op Program</li>
+            <li class="ui-state-default" id="$parameter[$i]">genderpref</li>
+            <li class="ui-state-default" id="$parameter[$i]">interest</li>
+            <li class="ui-state-default" id="$parameter[$i]">kickoff</li>
+
+        <?php
+            for($i = 0; $i < count($parameter); $i++){
+                echo '<li class="ui-state-default" id="' . $parameter[$i] . '">' . $parameter[$i] . '</li>';
+            }
+        ?>
       </ul>
 
+        {{--TODO HEADER ON TOP OF EACH LIST--}}
+        Must List
       <ul id="sortable2" class="droptrue">
       </ul>
 
-      <ul id="sortable3">
-        <b>Specify the priority of the parameters for the matching:</b>
-        <li class="ui-state-default" id="element_1"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-        <li class="ui-state-default" id="element_2"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-        <li class="ui-state-default" id="element_3"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-        <li class="ui-state-default" id="element_4"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-        <li class="ui-state-default" id="element_5"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-        <li class="ui-state-default" id="element_6"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+        Priority List
+      <ul id="sortable3" class="droptrue">
     </ul>
-    <button class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+
+   
+ <form method="POST" action="makeMatching">
+
+
+
+    
     <!-- <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span> -->
     <br style="clear:both">
 <!-- 
@@ -50,11 +54,16 @@
 </div> -->
 
 <!-- div to display array or parameter order to pass to controller - can remove after-->
-<div id= 'test'></div>
-</div>
+
+<input type="hidden" name="mustList" id="mustList" value="" />
+<input type="hidden" name="priorityList" id="priorityList" value="" />
+<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+<!-- <input id="test" name="params">   -->
 </form>
 </div>
 </div>
+</div>
+
 
 <style type="text/css">
 #sortable3 {
@@ -78,12 +87,12 @@ $(document).ready(function() {
             var list1 = [];
             list1.push(info1);
             console.log(list1); //testing only
-            document.getElementById("test").innerHTML = info1;
+            // document.getElementById("test").value = info1;
+            document.getElementById('mustList').value = info1;
         }
     });
 });
-</script>
-<script type="text/javascript">
+
 $(document).ready(function() {
     $("#sortable3").sortable({
         opacity: 0.6,
@@ -92,12 +101,14 @@ $(document).ready(function() {
             var list2 = [];
             list2.push(info2);
             console.log(list2); //testing only
-            document.getElementById("test").innerHTML = info2;
+            // document.getElementById("test").value = info1;
+            document.getElementById('priorityList').value = info2;
         }
     });
 });
 
 
 </script>
+
 
 @endsection

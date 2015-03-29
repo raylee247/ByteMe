@@ -99,7 +99,7 @@ class uploadCSVController extends Controller {
         // determine the version
         if(array_search("IP Address", $header)!==false){
             //parse with old way
-            // $this->parseOldCSV($_POST['category'], $header, $data);
+            $this->parseOldCSV($_POST['category'], $header, $data);
         }else{
             //parse with new way
             $this->parseNewCSV($_POST['category'], $header, $data);
@@ -305,7 +305,8 @@ class uploadCSVController extends Controller {
         $mentor_target_keywords = array("---", // mid
             "title", // job title
             "Years of CS", // year of CS
-            "level of education" //edu lv
+            "level of education", //edu lv
+            "Current employer"
         );
         $student_target_keywords = array("---",
             "Student number",// student num
@@ -335,7 +336,8 @@ class uploadCSVController extends Controller {
                 for ($i=0; $i < count($headers_clone)-1; $i++) {
                     $header = $headers_clone[$i];
                     if (strpos($header, $keyword) !== FALSE){
-                        $value = $person[$i];
+                        $text = preg_replace("/[\r\n]+/", " ", $person[$i]);
+                        $value = $text;
                         break;
                     }elseif ($keyword == "date"){
                         $temp = array();
@@ -389,7 +391,8 @@ class uploadCSVController extends Controller {
                     for ($i=0; $i < count($headers_clone)-1; $i++) {
                         $header = $headers_clone[$i];
                         if (strpos($header, $keyword) !== FALSE){
-                            $value = $person[$i];
+                            $text = preg_replace("/[\r\n]+/", " ", $person[$i]);
+                            $value = $text;
                             break;
                         }
                     }
@@ -407,13 +410,14 @@ class uploadCSVController extends Controller {
                 $extra = "{";
                 foreach ($leftover as $key => $value) {
                     $title = $headers[$key];
-                    if ($value == "X" && $title != "CS Alumni/ae"){
+                    $text = preg_replace("/[\r\n]+/", " ", $value);
+                    if (($value == "X" || $value == "x") && $title != "CS Alumni/ae"){
                         $empStat[] = $title;
                     }else{
-                        $extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
+                        $extra .= '"' . $title .'"' . ":" . '"' . $text .'"' . ",";
                     }
                 }
-                $extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
+                $extra .= '"EmploymentStatus" :' . '"' . implode(",", $empStat) . '"}';
                 $parameter_value[] = $extra;
                 $listOfParameter[] = $parameter_value;
 
@@ -426,7 +430,8 @@ class uploadCSVController extends Controller {
                     for ($i=0; $i < count($headers_clone)-1; $i++) {
                         $header = $headers_clone[$i];
                         if (strpos($header, $keyword) !== FALSE){
-                            $value = $person[$i];
+                            $text = preg_replace("/[\r\n]+/", " ", $person[$i]);
+                            $value = $text;
                             break;
                         }
                     }
@@ -443,13 +448,14 @@ class uploadCSVController extends Controller {
                 $extra = "{";
                 foreach ($leftover as $key => $value) {
                     $title = $headers[$key];
-                    if ($value == "X" && $title != "CS Alumni/ae"){
+                    $text = preg_replace("/[\r\n]+/", " ", $value);
+                    if (($value == "X" || $value == "x") && $title != "CS Alumni/ae"){
                         $empStat[] = $title;
                     }else{
-                        $extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
+                        $extra .= '"' . $title .'"' . ":" . '"' . $text .'"' . ",";
                     }
                 }
-                $extra .= '"Employment Status" :' . '"' . implode(",", $empStat) . '"}';
+                $extra .= '"EmploymentStatus" :' . '"' . implode(",", $empStat) . '"}';
                 $parameter_value[] = $extra;
                 // var_dump($student_values);
                 // var_dump($parameter_value);
@@ -483,6 +489,7 @@ class uploadCSVController extends Controller {
         // \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
         $listOfID = array();
         foreach ($listOfParticipant as $participant_values) {
+            print("here");
             $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $participant_values[1],
                     'Family name' => $participant_values[2],
@@ -513,7 +520,8 @@ class uploadCSVController extends Controller {
                     ['mid' => $listOfID[$i],
                         'job' => $mentor_values[1],
                         'yearofcs' => $mentor_values[2],
-                        'edulvl' => $mentor_values[3]
+                        'edulvl' => $mentor_values[3],
+                        'company' => $mentor_values[4]
                     ]
                 );
                 $i++;
