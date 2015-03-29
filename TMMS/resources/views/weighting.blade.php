@@ -51,6 +51,7 @@
 <!-- div to display array or parameter order to pass to controller - can remove after-->
 
 <input type="hidden" name="myField" id="myField" value="" />
+<input type="hidden" name="myField2" id="myField2" value="" />
 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
 <!-- <input id="test" name="params">   -->
 </form>
@@ -74,7 +75,7 @@
 <!-- move to app.js after data passing is successful // only here for convenience -->
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#sortable2, #sortable3").sortable({
+    $("#sortable2").sortable({
         opacity: 0.6,
         update: function(event, ui) {
             var info1 = $(this).sortable("serialize");
@@ -86,6 +87,22 @@ $(document).ready(function() {
         }
     });
 });
+
+$(document).ready(function() {
+    $("#sortable3").sortable({
+        opacity: 0.6,
+        update: function(event, ui) {
+            var info2 = $(this).sortable("serialize");
+            var list2 = [];
+            list2.push(info2);
+            console.log(list2); //testing only
+            // document.getElementById("test").value = info1;
+            document.getElementById('myField2').value = info2;
+        }
+    });
+});
+
+
 </script>
 
 

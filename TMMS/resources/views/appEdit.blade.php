@@ -20,7 +20,9 @@
 //        echo "<br>";
 //    }
 
-echo $myField;
+echo $myField .'<br>';
+echo $myField2;
+// element[]=gender&element[]=date
 
 //echo $test[0]['program'];
 echo "this is stupid";
