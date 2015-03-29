@@ -194,12 +194,28 @@ class MatchGenerator{
     	
     	// while there is still mentor to be match 
     	while ((count($mentors_queue) > 0) && (count($seniors) > 0) && (count($juniors) > 0)) {
-    		// cause index '0' will not exist the first time after i delete it, so i delete the first in values 
+    		// cause index '0' will not exist the first time after i delete it, so i delete the first in values
+    		
+    		echo "<p> vvvvvvvvvvvvvvvvvvv=====MENTORS=====vvvvvvvvvvvvv</p>";
+    		var_dump($mentors_queue); 
+    		echo "<p> vvvvvvvvvvvvvvvvvvv=====SENIORS=====vvvvvvvvvvvvv</p>";
+    		var_dump($seniors); 
+    		echo "<p> vvvvvvvvvvvvvvvvvvv=====JUNIORS=====vvvvvvvvvvvvv</p>";
+    		var_dump($juniors); 
+    		echo "<p> =================================================</p>";
+
+
+
     		$target = array_values($mentors_queue)[0];
-    		$trio = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]);
-    		if($trio != ""){
-				$result[$trio] = $this->MentorSatTable[$target][$trio];
-    			$key = explode(",", $trio);
+    		$maxTrio = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]);
+    		if($maxTrio != ""){
+    			// echo "<p>" . "" . "</p>";
+    			// var_dump($seniors);
+    			// var_dump($juniors);
+    			 
+    			echo "<p> MAXTrio = " . $maxTrio . "</p>";
+				$result[$maxTrio] = $this->MentorSatTable[$target][$maxTrio];
+    			$key = explode(",", $maxTrio);
     			$seniors = $this->array_without($seniors, $key[1]);
     			$juniors = $this->array_without($juniors, $key[2]);
     			$mentors_queue = $this->array_without($mentors_queue, $target);
@@ -211,22 +227,67 @@ class MatchGenerator{
     				foreach ($this->MentorSatTable[$target] as $trio => $satisfaction) {
     					$trio_array = explode(",", $trio);
     					$intersect = array_intersect(array($match_array[1],$match_array[2]), array($trio_array[1],$trio_array[2]));
-    					if ((count($intersect) > 0) && ($satisfaction > $result_satisfaction)){
-    						// free the not good enough match
-    						$mentors_queue[] = $match_array[0];
-    						$seniors[] = $match_array[1];
-    						$juniors[] = $match_array[2];
-    						unset($result[$match]);
+    					if ($satisfaction > $result_satisfaction){
+    						switch (count($intersect)) {
+    							case 0:
+    								// no intersect, do nothing 
+    								break;
+    							case 1:
+    								// 1 intersection, try crazy stuff
+    								$diff = array_diff(array($match_array[1],$match_array[2]), array($trio_array[1],$trio_array[2]));
+    								foreach ($result as $swapTarget=> $swapTarget_satisfaction) {
+    									if (($swapTarget != $match) &&
+    										(strpos($swapTarget, array_values($diff)[0]) !== FALSE) && 
+    										($satisfaction > $swapTarget_satisfaction)){
+    										// free both other matches
+    										echo "<p> FREEING  " . $match . " and FREEING " . $swapTarget."</p>";
+				    						$swapTarget_array = explode(",", $swapTarget);
+				    						$mentors_queue[] = $swapTarget_array[0];
+				    						$seniors[] = $swapTarget_array[1];
+				    						$juniors[] = $swapTarget_array[2];
+				    						unset($result[$swapTarget]);
 
-    						// add the better match into result
-    						$result[$trio] = $satisfaction;
 
-    						$mentors_queue = $this->array_without($mentors_queue, $trio_array[0]);
-    						$seniors = $this->array_without($seniors, $trio_array[1]);
-    						$juniors = $this->array_without($juniors, $trio_array[2]);
-    						
-    						$swap = 1;
-    						break;
+				    						$mentors_queue[] = $match_array[0];
+				    						$seniors[] = $match_array[1];
+				    						$juniors[] = $match_array[2];
+				    						unset($result[$match]);
+
+
+
+				    						// add the better match into result
+				    						$result[$trio] = $satisfaction;
+
+				    						$mentors_queue = $this->array_without($mentors_queue, $trio_array[0]);
+				    						$seniors = $this->array_without($seniors, $trio_array[1]);
+				    						$juniors = $this->array_without($juniors, $trio_array[2]);
+				    						
+				    						$swap = 1;		
+				    						break;
+    									}
+    								}
+    								break;
+    							case 2:
+    								echo "<p> freeing  " . $match . " and INSERTING " . $trio."</p>";
+		    						$mentors_queue[] = $match_array[0];
+		    						$seniors[] = $match_array[1];
+		    						$juniors[] = $match_array[2];
+		    						unset($result[$match]);
+
+		    						// add the better match into result
+		    						$result[$trio] = $satisfaction;
+
+		    						$mentors_queue = $this->array_without($mentors_queue, $trio_array[0]);
+		    						$seniors = $this->array_without($seniors, $trio_array[1]);
+		    						$juniors = $this->array_without($juniors, $trio_array[2]);
+		    						
+		    						$swap = 1;
+    								break;
+    							
+    						}
+    						if ($swap){
+		    					break;
+		    				}
     					}
     				}
     				if ($swap){
