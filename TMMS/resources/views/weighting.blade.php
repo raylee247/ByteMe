@@ -9,16 +9,16 @@
     //TODO : NEED TO GRAB THE DIFFERENT PARAMETERS FROM DB, make heights same
     <h5>Required parameters that will be considered for the matching:</h5>
 
-
+    <form action="matchresult" method="POST">
     <div class="row">
         <ul id="sortable1" class="droptrue">
-          <li class="ui-state-default" name="element_gender">Gender Preference</li>
-          <li class="ui-state-default" name="element_date">Date Availability</li>
-          <li class="ui-state-default" name="element_program">Program of Study</li>
-          <li class="ui-state-default" name="element_course">Courses Completed</li>
-          <li class="ui-state-default" name="element_interests">CS-related Interests</li>
-          <li class="ui-state-default" name="element_interests">Hobbies and Interests</li>
-          <li class="ui-state-default" name="element_interests">Co-op Program</li>
+          <li class="ui-state-default" id="element_gender">Gender Preference</li>
+          <li class="ui-state-default" id="element_date">Date Availability</li>
+          <li class="ui-state-default" id="element_program">Program of Study</li>
+          <li class="ui-state-default" id="element_course">Courses Completed</li>
+          <li class="ui-state-default" id="element_interests">CS-related Interests</li>
+          <li class="ui-state-default" id="element_interests">Hobbies and Interests</li>
+          <li class="ui-state-default" id="element_interests">Co-op Program</li>
       </ul>
 
       <ul id="sortable2" class="droptrue">
@@ -27,7 +27,7 @@
       <ul id="sortable3" class="droptrue">
 
     </ul>
-
+    <button class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
     <!-- <span class="btn btn-primary" data-toggle="modal" data-target="#makematch"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span> -->
     <br style="clear:both">
 <!-- 
@@ -42,13 +42,11 @@
         </div>
     </div>
 </div> -->
-    <form action="ray" method="POST">
-<!-- div to display array or parameter order to pass to controller - can remove after-->
-<div id="test" style="display: none" name="params"></div>   
-<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
-</form>
-</div>
 
+<!-- div to display array or parameter order to pass to controller - can remove after-->
+<div id= 'test'></div>
+</div>
+</form>
 </div>
 </div>
 
