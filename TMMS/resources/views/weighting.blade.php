@@ -12,11 +12,14 @@
     <div class="row">
         Parameter Bank
         <ul id="sortable1" class="droptrue">
+            <li class="ui-state-default" id="$parameter[$i]">genderpref</li>
+            <li class="ui-state-default" id="$parameter[$i]">interest</li>
+            <li class="ui-state-default" id="$parameter[$i]">kickoff</li>
+
         <?php
-            $parameter = array_intersect($stuTag, $menTag);
-                for($i = 0; $i < count($parameter); $i++){
-                    echo '<li class="ui-state-default" id="' . $parameter[$i] . '">' . $parameter[$i] . '</li>';
-                }
+            for($i = 0; $i < count($parameter); $i++){
+                echo '<li class="ui-state-default" id="' . $parameter[$i] . '">' . $parameter[$i] . '</li>';
+            }
         ?>
       </ul>
 

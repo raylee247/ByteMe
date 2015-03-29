@@ -68,7 +68,43 @@ class MakeMatching extends Controller {
             $menExtra = explode('|', $MenCombineExtra[$i]);
             array_push($menTag, $menExtra[1]);
         }
-		return view('weighting')->with('stuTag', $stuTag)->with('menTag', $menTag);
+
+        $formParameters = array_intersect($stuTag, $menTag);
+
+
+        $csvParameterStudent= \DB::table('senior')
+                            ->join('participant', 'senior.sid', '=', 'participant.pid')
+                            ->join('parameter', 'senior.sid', '=', 'parameter.pid')->where('participant.year',$year)
+                            ->select('extra')->first();
+
+        $csvParameterMentor= \DB::table('mentor')
+                            ->join('participant', 'mentor.mid', '=', 'participant.pid')
+                            ->join('parameter', 'mentor.mid', '=', 'parameter.pid')->where('participant.year',$year)
+                            ->select('extra')->first();
+
+        $student = json_decode($csvParameterStudent['extra']);
+        $mentor = json_decode($csvParameterMentor['extra']);
+
+        $studentTag = [];
+        $mentorTag = [];
+
+        foreach($student as $skey => $svalue){
+            if(($skey != "SID") && ($skey != "Time") && ($skey != "Draft")) {
+                array_push($studentTag, $skey);
+            }
+        }
+
+        foreach($mentor as $mkey => $mvalue){
+            if(($mkey != "SID") && ($mkey != "Time") && ($mkey != "Draft")) {
+                array_push($mentorTag, $mkey);
+            }
+        }
+
+        $csvParameters = array_intersect($studentTag, $mentorTag);
+
+        $parameter = array_merge($formParameters, $csvParameters);
+
+		return view('weighting')->with('parameter', $parameter);
 	}
 
 
