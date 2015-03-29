@@ -93,9 +93,14 @@
                      </div>';
 
             //generate the program of study section of application form
+
+
+
+
+
             echo '<div class="form-inline">
-						<label class="control-label col-sm-3">Program of study:</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-104"><i class="glyphicon glyphicon-pencil"></i></button><br>
-						<select class="form-control" name="programofstudy" >';
+						<div class="col-sm-1"></div><label class="control-label pull-left">Program of study:</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-104"><i class="glyphicon glyphicon-pencil"></i></button>						
+                        <select class="form-control" name="programofstudy" >';
 
             $programCount = count($program);
             for($i = 0; $i < $programCount; $i++){
@@ -316,7 +321,7 @@
                         break;
 
                     case "radio":
-                        echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-md-9">' .
+                        echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-sm-1"></div><div class="col-md-9">' .
                                 $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
 
                         $rawOptions = $questions[$x][4];
@@ -336,7 +341,7 @@
                         for($i = 0; $i < $answerCount; $i++){
                             echo '<tr><td><center>' . $answer[$i] . '</center></td>';
                             //generate each row
-                            for($j = 0; $j < $answerCount; $j++){
+                            for($j = 0; $j < $optionsCount; $j++){
                                 echo '<td><center><input type="radio" name="' . $questions[$i][1] . '"';
                                 if(isset($day1) && $day1 == $answer[$i]){
                                     echo "checked";

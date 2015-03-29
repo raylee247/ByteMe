@@ -70,8 +70,11 @@
       <div class="modal-dialog">
       	<form action="kickoffmatches" method="POST">
             <div class="modal-content">
-                  <div class="modal-body"><u>Kickoff night matching will now be generated. </u><br><br> Please specify the maximum number of participants for the kickoff nights: <br>
-                        <input type="text" class="form-control" name="maxparticipants">
+                  <div class="modal-body"><u>Kickoff night matching will now be generated. </u><br><br> 
+                  	Please specify the maximum number of participants for the kickoff nights: <br>
+                        <input type="text" class="form-control" name="maxparticipants"><br>
+                        Please specify the number of mentors per kickoff night group:<br>
+                        <input type="text" class="form-control" name="nummentors"><br>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -16,38 +16,38 @@
                 </div>
                 <div class="panel-body">
                     // TODO : SET UP REQUIRED FIELDS , validation, fix "other" fields
-                    <form class="form-horizontal" role="form" action="mentorapp" method="POST" >
+                    <form class="form-horizontal" role="form" id="mentorapp" action="mentorapp" method="POST" >
                         <div class="form-group">
                             <label class="control-label col-sm-3">Email address:</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="email">
+                                <input type="email" class="form-control" name="email" required>
                             </div>
-                            <br><br>
+                            <br><br><br><br>
                             <label class="control-label col-sm-3">Given name:</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="givenname">
+                                <input type="text" class="form-control" name="givenname" minlength="2" required>
                             </div>
                             <br><br>
                             <label class="control-label col-sm-3">Family name:</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="familyname">
+                                <input type="text" class="form-control" name="familyname" minlength="2" required>
                             </div>
                             <br><br>
                             <label class="control-label col-sm-3">Phone:</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="phone">
+                                <input type="digit" class="form-control" minlength="10" maxlength="10" name="phone" required>
                             </div>
                             <br><br>
                             <label class="control-label col-sm-3">Phone (alternate):</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="phonealt">
+                                <input type="text" class="form-control" minlength="10" maxlength="10" name="phonealt">
                             </div>
                             <br><br>
                             <div class="gender">
                                 <label class="control-label col-sm-3">Gender:</label>
-                                <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male</label>
-                                <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Identify as female</label>
-                                <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other (please specify)//TODO</label>
+                                <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male" required>Identify as male</label>
+                                <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female" required>Identify as female</label>
+                                <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other" required>Other (please specify)//TODO</label>
                                 <div class="genderother" id="otherfield">
                                     <label class="control-label col-sm-3">Gender (please specify):</label> //TODO : FIX ALIGNMENT
                                     <div class="col-md-6 panel-collapse collapse in">
@@ -89,7 +89,7 @@
                                     if(isset($day1) && $day1 == $kickoff[$i]){
                                         echo "checked";
                                     }
-                                    $value = 'value="' . $kickoff[$i] . '"></center>';
+                                    $value = 'value="' . $kickoff[$i] . '" required></center>';
                                     echo $value;
                                 }
                                 echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
@@ -113,7 +113,8 @@
                                 <div class="col-sm-1"></div>
                                 <label class="pull-left">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
                                 <div class="col-md-4">
-                                    <select class="form-control" name="participation" >
+                                    <select class="form-control" name="participation" required>
+                                        <option value="">Please specify</option>
                                         <option id="previousmatched_no">No, I have not participated before</option>
                                         <option id="previousmatched_junior">Yes, as a junior student</option>
                                         <option id="previousmatched_senior">Yes, as a senior student</option>
@@ -125,7 +126,8 @@
                             <div class="col-sm-1"></div>
                             <label class="pull-left">Preference of student mentee gender:</label>
                             <div class="col-md-4">
-                                <select class="form-control" name="studentgenderpref">
+                                <select class="form-control" name="studentgenderpref" required>
+                                    <option value="">Please specify</option>
                                     <option id="nopref">No preference</option>
                                     <option id="femalepref">Match with female students only</option>
                                     <option id="malepref">Match with male students only</option>
@@ -134,7 +136,7 @@
                             <br><br><br>
 
                             <div class="form-inline">
-                                <div class="col-sm-1"></div><label class="control-label pull-left">Current Position At Work</label>
+                                <div class="col-sm-1"></div><label class="control-label pull-left">Current position At work (optional)</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="position">
                                 </div>
@@ -226,7 +228,7 @@
                                         for($i = 0; $i < $answerCount; $i++){
                                             echo '<tr><td><center>' . $answer[$i] . '</center></td>';
                                             //generate each row
-                                            for($j = 0; $j < $answerCount; $j++){
+                                            for($j = 0; $j < $optionsCount; $j++){
                                                 echo '<td><center><input type="radio" name="' . $questions[$i][1] . '"';
                                                 if(isset($day1) && $day1 == $answer[$i]){
                                                     echo "checked";
@@ -267,8 +269,8 @@
                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Are you a UBC alumnae/alumnus?</label>
                             <div class="col-md-4">
-                                <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_yes") echo "checked";?> value="alumnus_yes">Yes</label>
-                                <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_no") echo "checked";?> value="alumnus_no">No</label>
+                                <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_yes") echo "checked";?> value="alumnus_yes" required>Yes</label>
+                                <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_no") echo "checked";?> value="alumnus_no" required>No</label>
                             </div>
                             <br><br>
                             <div class="col-sm-1"></div>
@@ -291,4 +293,15 @@
                     </form>
                 </div>
             </div>
+
+            <script type="text/javascript">
+            $("#mentorapp").validate({
+                rules: {
+                    phone: {
+                        required: true,
+                        digits: true
+                    }
+                }
+            });
+            </script>
 @endsection
