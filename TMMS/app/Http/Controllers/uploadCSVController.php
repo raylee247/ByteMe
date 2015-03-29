@@ -131,6 +131,16 @@ class uploadCSVController extends Controller {
                 );
             }
         } else {
+            // Grab all pid's where year = 0
+            $zero_pid_parts = \DB::table('participant')
+                                ->where('year', '0')
+                                ->get();
+
+            // Extract pid and email from zero_pid list Array(PID=>EMAIL)
+            $pidEmailMap = Array();
+            foreach($zero_pid_parts as $one_zero) {
+                $pidEmailMap[$one_zero['pid']] = $one_zero['email'];
+            }
 
             // ******* Code for insert into participant *********
             $part_columns = \Schema::getColumnListing('participant');
@@ -140,15 +150,28 @@ class uploadCSVController extends Controller {
                 array_push($name_index, $c_index_in_h);
             }
             foreach ($datas as $person) {
-                $insert_array = array();
-                $i = 0;
-                foreach ($name_index as $nindex) {
-                    $insert_array[$part_columns[$i]] = $person[$nindex];
-                    $i = $i + 1;
+                // Check if $person's pid is a key in $pidEmailMap
+                // If it is then just update year
+                if (array_key_exists($person[0], $pidEmailMap)) {
+                    // Check if email matches csv
+                    if ($person[5] == $pidEmailMap[$person[0]]) {
+                        // Exists, only update year in participant
+                        \DB::table('participant')
+                            ->where('pid', $person[0])
+                            ->update(['year' => $person[12]]);
+                    }
+                } else {
+                    // Does not exist. Do full insert.
+                    $insert_array = array();
+                    $i = 0;
+                    foreach ($name_index as $nindex) {
+                        $insert_array[$part_columns[$i]] = $person[$nindex];
+                        $i = $i + 1;
+                    }
+                    \DB::table('participant')->insert(
+                        $insert_array
+                    );
                 }
-                \DB::table('participant')->insert(
-                    $insert_array
-                );
             }
 
             // ******* Code for insert into parameter *********
@@ -160,17 +183,29 @@ class uploadCSVController extends Controller {
                 array_push($name_index, $c_index_in_h);
             }
             foreach ($datas as $person) {
-                $insert_array = array();
-                $i = 0;
-                foreach ($name_index as $nindex) {
-                    $insert_array[$para_columns[$i]] = $person[$nindex];
-                    $i = $i + 1;
-                }
-                if ($insert_array['extra'] != "") {
-                    \DB::table('parameter')->insert(
-                        $insert_array
-                    );
-                }
+                if (array_key_exists($person[0], $pidEmailMap)) {
+                    // Person already exists in the database
+                    // Check if extra is empty.
+                    if ($person[19] != "") {
+                        // Exists, only update year in parameter
+                        \DB::table('parameter')
+                            ->where('pid', $person[0])
+                            ->update(['year' => $person[12]]);
+                    }
+                } else {
+                    // Person does not exist in the database. Do entry
+                        $insert_array = array();
+                        $i = 0;
+                        foreach ($name_index as $nindex) {
+                            $insert_array[$para_columns[$i]] = $person[$nindex];
+                            $i = $i + 1;
+                        }
+                        if ($insert_array['extra'] != "") {
+                            \DB::table('parameter')->insert(
+                                $insert_array
+                            );
+                        }
+                    }
             }
 
 
@@ -183,16 +218,18 @@ class uploadCSVController extends Controller {
                     array_push($name_index, $c_index_in_h);
                 }
                 foreach ($datas as $person) {
-                    $insert_array = array();
-                    $i = 0;
-                    foreach ($name_index as $nindex) {
-                        $insert_array[$ment_columns[$i]] = $person[$nindex];
-                        $i = $i + 1;
+                    if (!array_key_exists($person[0], $pidEmailMap)) {
+                        // Person does not exist in the database. Do entry, else no action.
+                        $insert_array = array();
+                        $i = 0;
+                        foreach ($name_index as $nindex) {
+                            $insert_array[$ment_columns[$i]] = $person[$nindex];
+                            $i = $i + 1;
+                        }
+                        \DB::table('mentor')->insert(
+                            $insert_array
+                        );
                     }
-                    \DB::table('mentor')->insert(
-                        $insert_array
-                    );
-
                 }
             } else {
                 // Read 'courses' for 1 row
@@ -206,16 +243,18 @@ class uploadCSVController extends Controller {
                         array_push($name_index, $c_index_in_h);
                     }
                     foreach ($datas as $person) {
-                        $insert_array = array();
-                        $i = 0;
-                        foreach ($name_index as $nindex) {
-                            $insert_array[$juni_columns[$i]] = $person[$nindex];
-                            $i = $i + 1;
+                        if (!array_key_exists($person[0], $pidEmailMap)) {
+                            // Person does not exist in the database. Do entry, else no action.
+                            $insert_array = array();
+                            $i = 0;
+                            foreach ($name_index as $nindex) {
+                                $insert_array[$juni_columns[$i]] = $person[$nindex];
+                                $i = $i + 1;
+                            }
+                            \DB::table('junior')->insert(
+                                $insert_array
+                            );
                         }
-                        \DB::table('junior')->insert(
-                            $insert_array
-                        );
-
                     }
                 } else {
                     // Insert to senior table
@@ -226,16 +265,18 @@ class uploadCSVController extends Controller {
                         array_push($name_index, $c_index_in_h);
                     }
                     foreach ($datas as $person) {
-                        $insert_array = array();
-                        $i = 0;
-                        foreach ($name_index as $nindex) {
-                            $insert_array[$seni_columns[$i]] = $person[$nindex];
-                            $i = $i + 1;
+                        if (!array_key_exists($person[0], $pidEmailMap)) {
+                            // Person does not exist in the database. Do entry, else no action.
+                            $insert_array = array();
+                            $i = 0;
+                            foreach ($name_index as $nindex) {
+                                $insert_array[$seni_columns[$i]] = $person[$nindex];
+                                $i = $i + 1;
+                            }
+                            \DB::table('senior')->insert(
+                                $insert_array
+                            );
                         }
-                        \DB::table('senior')->insert(
-                            $insert_array
-                        );
-
                     }
                 }
             }
@@ -264,7 +305,8 @@ class uploadCSVController extends Controller {
         $mentor_target_keywords = array("---", // mid
             "title", // job title
             "Years of CS", // year of CS
-            "level of education" //edu lv
+            "level of education", //edu lv
+            "Current employer"
         );
         $student_target_keywords = array("---",
             "Student number",// student num
@@ -294,7 +336,8 @@ class uploadCSVController extends Controller {
                 for ($i=0; $i < count($headers_clone)-1; $i++) {
                     $header = $headers_clone[$i];
                     if (strpos($header, $keyword) !== FALSE){
-                        $value = $person[$i];
+                        $text = preg_replace("/[\r\n]+/", " ", $person[$i]);
+                        $value = $text;
                         break;
                     }elseif ($keyword == "date"){
                         $temp = array();
@@ -348,7 +391,8 @@ class uploadCSVController extends Controller {
                     for ($i=0; $i < count($headers_clone)-1; $i++) {
                         $header = $headers_clone[$i];
                         if (strpos($header, $keyword) !== FALSE){
-                            $value = $person[$i];
+                            $text = preg_replace("/[\r\n]+/", " ", $person[$i]);
+                            $value = $text;
                             break;
                         }
                     }
@@ -357,7 +401,7 @@ class uploadCSVController extends Controller {
                 // var_dump($mentor_values);
                 $listOfMentor[] = $mentor_values;
                 // print("\n===============================\n");
-                $leftover = array_diff($person, $mentor_values,$participant_values,array("First Choice","Second Choice","Third Choice"));
+                $leftover = array_diff($person, $mentor_values,$participant_values,array("First Choice","Second Choice","Third Choice","Not Avail."));
                 // var_dump($leftover);
                 $parameter_value = array();
                 $parameter_value[] = "";
@@ -366,13 +410,14 @@ class uploadCSVController extends Controller {
                 $extra = "{";
                 foreach ($leftover as $key => $value) {
                     $title = $headers[$key];
-                    if ($value == "X" && $title != "CS Alumni/ae"){
+                    $text = preg_replace("/[\r\n]+/", " ", $value);
+                    if (($value == "X" || $value == "x") && $title != "CS Alumni/ae"){
                         $empStat[] = $title;
                     }else{
-                        $extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
+                        $extra .= '"' . $title .'"' . ":" . '"' . $text .'"' . ",";
                     }
                 }
-                $extra .= '"EmpolymentStatus" :' . '"' . implode(",", $empStat) . '"}';
+                $extra .= '"EmploymentStatus" :' . '"' . implode(",", $empStat) . '"}';
                 $parameter_value[] = $extra;
                 $listOfParameter[] = $parameter_value;
 
@@ -385,7 +430,8 @@ class uploadCSVController extends Controller {
                     for ($i=0; $i < count($headers_clone)-1; $i++) {
                         $header = $headers_clone[$i];
                         if (strpos($header, $keyword) !== FALSE){
-                            $value = $person[$i];
+                            $text = preg_replace("/[\r\n]+/", " ", $person[$i]);
+                            $value = $text;
                             break;
                         }
                     }
@@ -402,13 +448,14 @@ class uploadCSVController extends Controller {
                 $extra = "{";
                 foreach ($leftover as $key => $value) {
                     $title = $headers[$key];
-                    if ($value == "X" && $title != "CS Alumni/ae"){
+                    $text = preg_replace("/[\r\n]+/", " ", $value);
+                    if (($value == "X" || $value == "x") && $title != "CS Alumni/ae"){
                         $empStat[] = $title;
                     }else{
-                        $extra .= '"' . $title .'"' . ":" . '"' . $value .'"' . ",";
+                        $extra .= '"' . $title .'"' . ":" . '"' . $text .'"' . ",";
                     }
                 }
-                $extra .= '"Employment Status" :' . '"' . implode(",", $empStat) . '"}';
+                $extra .= '"EmploymentStatus" :' . '"' . implode(",", $empStat) . '"}';
                 $parameter_value[] = $extra;
                 // var_dump($student_values);
                 // var_dump($parameter_value);
@@ -442,7 +489,6 @@ class uploadCSVController extends Controller {
         // \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
         $listOfID = array();
         foreach ($listOfParticipant as $participant_values) {
-            print("here");
             $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $participant_values[1],
                     'Family name' => $participant_values[2],
@@ -473,7 +519,8 @@ class uploadCSVController extends Controller {
                     ['mid' => $listOfID[$i],
                         'job' => $mentor_values[1],
                         'yearofcs' => $mentor_values[2],
-                        'edulvl' => $mentor_values[3]
+                        'edulvl' => $mentor_values[3],
+                        'company' => $mentor_values[4]
                     ]
                 );
                 $i++;

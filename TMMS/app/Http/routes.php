@@ -74,6 +74,8 @@ Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadcsv_preview', 'uploadCSVController@preview');
 Route::post('uploadcsv_uploaded', 'uploadCSVController@upload');
 
+Route::post('deleteYear', 'AdminController@deleteYear');
+
 Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
 Route::post('waitlist', 'AdminController@waitlistSearch');
@@ -101,10 +103,14 @@ Route::post('deleteParticipant', 'profileController@deleteParticipant');
 // TODO current match + saved matches needs to be put in a controller
 
 
-Route::get('weight', 'weightController@index');
+Route::get('weight', 'MakeMatching@loadParameters');
+Route::post('makeMatching', 'MakeMatching@generateMatch');
+
+
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 Route::post('savedmatches', 'weightController@savedmatchname');
+Route::get('kickoffmatches', 'weightController@kickoffindex');
 Route::post('kickoffmatches', 'weightController@savedmaxKickoff');
 Route::get('currentmatch', 'weightController@currentmatchindex');
 

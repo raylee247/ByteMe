@@ -31,8 +31,51 @@
     <script src="{{ asset('/js/sortable.js') }}"></script>
 
    <!-- Latest compiled and minified JavaScript -->
+
+
+
+    {{--this is the page loading--}}
+    <style>
+        div#load_screen{
+            background: #000;
+            opacity: 0.5;
+            position: fixed;
+            z-index:10;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            child-align: middle;
+        }
+        div#load_screen > div#loading{
+            color:#FFF;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", function(){
+            var load_screen = document.getElementById("load_screen");
+            document.body.removeChild(load_screen);
+        });
+    </script>
+
+
+
+
+
  </head>
  <body>
+
+ {{--loading screen--}}
+ <div id="load_screen"><div id="loading"><img src="loading.gif" alt="Be patient..." /></div></div>
+
+
+
+
 
   <nav class="navbar navbar-default" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -97,7 +140,11 @@
         </ul></li>
         <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Match Making<span class="caret"></span></a>
           <ul>
-            <li><a href="{{ url('/currentmatch') }}">Current Selection</a></li>
+            <li><a href="#">Current Selection<span class="caret"></span></a></li>
+            <ul>
+              <li><a href="{{ url('/currentmatch') }}">Tri-Mentoring Matches</a></li>
+              <li><a href="{{ url('/kickoffmatches') }}">Kickoff Night Matches</a></li>
+            </ul>
             <li><a href="{{ url('/weight') }}">Adjust Weighting</a></li>
             <li><a href="{{ url('/savedmatches') }}">Saved Matches</a></li>
           </ul></li>

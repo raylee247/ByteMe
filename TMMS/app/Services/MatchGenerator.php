@@ -21,6 +21,7 @@ class MatchGenerator{
 	// param for generator
 	protected $mustList;
 	protected $priority;
+	protected $wid;
 
 	//table for values
 	protected $MentorSatTable = array();
@@ -49,7 +50,7 @@ class MatchGenerator{
 		// $this->getParticipant();
 		
 		// mock up now
-		// $this->mentors = array(1,4);
+		// $this->mentors = array(1,4)	;
 		// $this->seniors = array(2,5);
 		// $this->juniors = array(3,6);
 
@@ -57,6 +58,13 @@ class MatchGenerator{
 		$this->getParticipant();
 		$this->mustList = $mustList;
 		$this->priority = $priority;
+		\DB::table('weighting')->insert(
+                    ['must' => implode(",", $mustList),
+                     'helpful' => implode(",", $priority)
+                    ]);
+		$this->wid = \DB::table('weighting')->where('must', implode(",", $mustList))
+											->where('helpful', implode(",", $priority))
+											->pluck('wid');
 	}
 	/**
 	 * get participants from db and init class field
@@ -74,9 +82,17 @@ class MatchGenerator{
                                                    ->get();
         
         foreach ($response_mentor as $key => $value) {
+        	if (!$json = json_decode($value['extra'],TRUE)){
+        		echo "<p> PID " . $value['pid'] . " fucked up json </p>";
+        	}
+    		
+    		foreach ($json as $jkey => $jvalue) {
+    			$value[$jkey] = $jvalue;
+    		}	
+    		unset($value['extra']);
         	$this->mentors[$value['pid']] = $value;
         }
-
+        // var_dump($this->mentors);
         $this->mentors_id = array_keys($this->mentors);
         
 
@@ -88,8 +104,16 @@ class MatchGenerator{
                                                      ->get();
 
 		foreach ($response_seniors as $key => $value) {
+			if (!$json = json_decode($value['extra'],TRUE)){
+        		echo "<p> PID " . $value['pid'] . " fucked up json </p>";
+        	}
+    		foreach ($json as $jkey => $jvalue) {
+    			$value[$jkey] = $jvalue;
+    		}	
+    		unset($value['extra']);
         	$this->seniors[$value['pid']] = $value;
         }
+        // var_dump($this->seniors);
         $this->seniors_id = array_keys($this->seniors);
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
@@ -100,6 +124,13 @@ class MatchGenerator{
                                                      ->get();
 		
 		foreach ($response_juniors as $key => $value) {
+			if (!$json = json_decode($value['extra'],TRUE)){
+        		echo "<p> PID " . $value['pid'] . " fucked up json </p>";
+        	}
+    		foreach ($json as $jkey => $jvalue) {
+    			$value[$jkey] = $jvalue;
+    		}	
+    		unset($value['extra']);
         	$this->juniors[$value['pid']] = $value;
         }
 		$this->juniors_id = array_keys($this->juniors);
@@ -118,7 +149,7 @@ class MatchGenerator{
 	 * @return result of the matching in format of array {[mid, sid, jid]}
 	 */
 	
-	public function generate(){
+	public function generate_all(){
 		// $this->test();
 		print("******************* in generate function *******************\n");
 		ini_set('memory_limit', '1000M');
@@ -128,18 +159,39 @@ class MatchGenerator{
 		// $result = $this->doTheMatch($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		// print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
 		// $this->doBackTrack($this->mentors_id, $this->seniors_id, $this->juniors_id);
-		$this->doStableMatch();
+		$result = $this->doStableMatch();
 		print("\n******************* end of genrate function *******************\n\n");
 		// var_dump($this->mentors_id);
 		// var_dump($this->seniors_id);
 		// var_dump($this->juniors_id);
 
 
-		// STABLE MATCHING 
+		// 
+		// $result_name = array();
+		// foreach ($result as $key) {
+		// 	$match_array = explode(",", $key);
+		// 	$mid = $match_array[0];
+		// 	$sid = $match_array[1];
+		// 	$jid = $match_array[2];
+			
+		// 	$m = $this->getPersonWithID($mid);
+		// 	$s = $this->getPersonWithID($sid);
+		// 	$j = $this->getPersonWithID($jid);
+		// 	$m_name = $m['First name'] . " " . $m['Family name'];
+		// 	$s_name = $s['First name'] . " " . $s['Family name'];
+		// 	$j_name = $j['First name'] . " " . $j['Family name'];
+
+		// 	$match = $m_name . "," . $s_name . "," . $j_name;
+		// 	$result_name[] = $match;
+		// }
+		
 
 
-		// return $result;
-		return 0;
+		// $composite_result = array();
+		// $composite_result[] = $result;
+		// $composite_result[] = $result_name;
+		// // return $result;
+		// return $composite_result;
 	}
     
     public function doBackTrack($mentors,$seniors,$juniors){
@@ -302,17 +354,32 @@ class MatchGenerator{
     		}
 
     	}
-
-    	$arrayish = array();
+    	
+    	// $arrayish = array();
     	foreach (array_keys($result) as $key => $value) {
     	   	echo "<p>" . $value . " : ". $result[$value]  ."</p>";
-    	   	$tmpish = explode(",", $value);
-    	   	foreach($tmpish as $content)
-    	   	{
-    	   		array_push($arrayish, $content);
-    	   	}
+    	   	$value_array = explode(",", $value);
+    	   	$m = $value_array[0];
+    	   	$s = $value_array[1];
+    	   	$j = $value_array[2];
+
+    	   	\DB::table('trioMatching')->insert(
+                    ['wid' => $this->wid,
+                     'mentor' => $m,
+                     'senior' => $s,
+                     'junior' => $j
+                    ]
+                );
     	}
-    	print_r(array_count_values($arrayish));
+    	return $result;
+    	//    	// $tmpish = explode(",", $value);
+    	//    	// foreach($tmpish as $content)
+    	//    	// {
+    	//    	// 	array_push($arrayish, $content);
+    	//    	// }
+    	
+    	// print_r(array_count_values($arrayish));
+
     }
 
 
@@ -654,14 +721,14 @@ class MatchGenerator{
 			// print("\n");
 
 			switch ($m){
-				case "KickOffAvailibility":
-					 if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
-						// print("in kick off if statement\n");
-						// echo "here 0 ";
+				case "kickoff":
+					if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
 						return 0;
-					}else{
-						//for debugging purpose
-						// print("in kick off if statement's else clause\n");
+					}
+					break;
+				case "genderpref":
+					if(!$this->genderprefCheck($personA['genderpref'],$personB['genderpref'])){
+						return 0;
 					}
 					break;
 				default :
@@ -705,13 +772,42 @@ class MatchGenerator{
 
 		for($counter = 0 ; $counter < $length; $counter++){
 			// print("entered for loop\n");
-			$try = $this->priority[$counter];
-			$pAinterest = explode(",", $personA[$try]);
-			// print("got explode personA\n");
-			$pBinterest = explode(",", $personB[$try]);
-			// print("got explode personB\n");
-			$similiraity = $this->array_similarity($pAinterest,$pBinterest);
-			$priorityResult += $similiraity*$weighting;
+			$tag = $this->priority[$counter];
+			switch ($tag) {
+				case 'kickoff':
+					if ($this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
+						$tag_result = 1;
+					}else{
+						$tag_result = 0;
+					}
+					break;
+				case 'genderpref':
+					if ($this->genderprefCheck($personA,$personB)){
+						$tag_result = 1;
+					}else{
+						$tag_result = 0;
+					}
+					break;
+				default:
+					if(in_array($tag, $personA)){
+						$pA_value = explode(",", $personA[$tag]);
+					}else{
+						$pA_value = array();
+					}
+					if(in_array($tag, $personB)){
+						$pB_value = explode(",", $personB[$tag]);
+					}else{
+						$pB_value = array();
+					}
+					
+					// print("got explode personA\n");
+					// $pB_value = explode(",", $personB[$tag]);
+					// print("got explode personB\n");
+					$tag_result = $this->array_similarity($pA_value,$pB_value);
+					break;
+			}
+
+			$priorityResult += $tag_result*$weighting;
 			$weighting--;
 			// print(("end of for loop\n"));
 		}
@@ -797,4 +893,29 @@ class MatchGenerator{
 			return false;
 		}
 	}
+
+
+	public function genderprefCheck($personA,$personB){
+		$AGender = $personA['gender'];
+		$APref = $personA['genderpref'];
+
+		$BGender = $personB['gender'];
+		$BPref = $personB['genderpref'];
+
+		if((strpos($AGender,"male")!== FALSE) && ((strpos($BPref, "male")!== FALSE)||(strpos($BPref, "No")!== FALSE))){
+			return TRUE;
+		}
+		if((strpos($AGender,"female")!== FALSE) && ((strpos($BPref, "male")!== FALSE)||(strpos($BPref, "No")!== FALSE))){
+			return TRUE;
+		}
+		if((strpos($BGender,"male")!== FALSE) && ((strpos($APref, "male")!== FALSE)||(strpos($APref, "No")!== FALSE))){
+			return TRUE;
+		}
+		if((strpos($BGender,"female")!== FALSE) && ((strpos($APref, "male")!== FALSE)||(strpos($APref, "No")!== FALSE))){
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 }

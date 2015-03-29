@@ -64,7 +64,24 @@ class weightController extends Controller {
 
     public function currentmatchindex()
     {
-        return view('currentmatch');
+        $year = date("Y");
+        $message = "fail";
+        $rawApp = \DB::table("report")->where("year",$year)->get();
+        if (count($rawApp)){
+            $message = "success";
+        }
+        return view('currentmatch')->with('message', $message);
+    }
+
+    public function kickoffindex()
+    {
+        $year = date("Y");
+        $message = "fail";
+        $rawApp = \DB::table("report")->where("year",$year)->get();
+        if (count($rawApp)){
+            $message = "success";
+        }
+        return view('kickoffmatches')->with('message', $message);
     }
 // POST request to db to save match name 
     public function savedmatchname()
