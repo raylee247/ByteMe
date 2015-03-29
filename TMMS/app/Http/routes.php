@@ -65,6 +65,9 @@ Route::get('students', 'AdminController@studentsview');
 Route::get('mentors', 'AdminController@mentorsview');
 Route::get('waitlist', 'AdminController@waitlist');
 
+
+Route::post('reportDownloading', 'AdminController@reportdownload');
+
 Route::get('downloadcsv', 'AdminController@downloadcsv');
 Route::post('downloadcsv2', 'AdminController@downloadcsv');
 Route::post('downloadCSV', 'AdminController@downloadCSVfile');
@@ -116,6 +119,7 @@ Route::get('currentmatch', 'weightController@currentmatchindex');
 
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
+Route::get("test", "MakeMatching@generateKickoff");
 Route::get('ray', 'appLoaderController@test');
 Route::post('ray', 'appLoaderController@test');
 //====
