@@ -42,6 +42,7 @@ class MakeMatching extends Controller {
         //TODO ROUTE THIS SHIT YOURSELF WILLIAM
         echo $generator->generate();
         return 0;
+
 	}
 	/**
 	 * Display a listing of the resource.
