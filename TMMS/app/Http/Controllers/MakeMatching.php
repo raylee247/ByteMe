@@ -18,13 +18,31 @@ class MakeMatching extends Controller {
 
 
 	public function generateMatchTest(){
-		set_time_limit(3600);
-		$must = array("KickOffAvailibility");
-		$priority = array("interest");
-		print("going into matchGenerator\n\n");
-		$generator = new MatchGenerator($must,$priority);
-		echo $generator->generate();
-		return 0;
+
+        //comes in as element[]=tag1&element[]=tag2
+        $rawMust = $_POST['mustList'];
+        $rawPriority = $_POST['priorityList'];
+
+        //turns into tag&tag
+        $eleMust = str_replace("element[]=", "", $rawMust);
+        $elePriority = str_replace("element[]=", "", $rawPriority);
+
+        //array(tag,tag)
+        $must = explode('&', $eleMust);
+        $priority = explode('&',$elePriority);
+
+
+        //TODO not sure what you are doing here!
+
+        set_time_limit(3600);
+        $must = array("KickOffAvailibility");
+        $priority = array("interest");
+        print("going into matchGenerator\n\n");
+        $generator = new MatchGenerator($must, $priority);
+        //TODO ROUTE THIS SHIT YOURSELF WILLIAM
+        echo $generator->generate();
+        return 0;
+
 	}
 	/**
 	 * Display a listing of the resource.
@@ -43,79 +61,17 @@ class MakeMatching extends Controller {
         $stuCombineExtra = explode("`",$rawStuApp['extra']);
         for($i = 0; $i < count($stuCombineExtra); $i++){
             $stuExtra = explode('|', $stuCombineExtra[$i]);
-            array_push($stuTag, $stuExtra);
+            array_push($stuTag, $stuExtra[1]);
         }
 
         $MenCombineExtra = explode("`",$rawMenApp['extra']);
         for($i = 0; $i < count($MenCombineExtra); $i++){
             $menExtra = explode('|', $MenCombineExtra[$i]);
-            array_push($menTag, $menExtra);
+            array_push($menTag, $menExtra[1]);
         }
 		return view('weighting')->with('stuTag', $stuTag)->with('menTag', $menTag);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
 
 }
