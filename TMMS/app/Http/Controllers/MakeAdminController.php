@@ -36,6 +36,8 @@ class MakeAdminController extends Controller {
             'password' => bcrypt($request['password']),
         ]);
 
+        \Session::flash('flash_message', 'Successfully created admin!');
+
         return redirect('makeadmin'); 
     }
 }
