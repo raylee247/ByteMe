@@ -26,7 +26,7 @@ Route::get('hello_world', 'WelcomeController@hello');
 Route::get('home', 'HomeController@index');
 
 Route::get('about', 'aboutController@index');
-
+Route::post('about', 'aboutController@index');
 //application forms
 
 Route::get('studentapp', 'appLoaderController@grabStudentApp');
