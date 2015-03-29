@@ -20,11 +20,13 @@
           <li class="ui-state-default" id="element_interests">Co-op Program</li>
       </ul>
 
+        {{--TODO HEADER ON TOP OF EACH LIST--}}
+        {{--Must list--}}
       <ul id="sortable2" class="droptrue">
       </ul>
 
+        {{--Priority List--}}
       <ul id="sortable3" class="droptrue">
-
     </ul>
 
    

@@ -101,7 +101,7 @@ Route::post('deleteParticipant', 'profileController@deleteParticipant');
 // TODO current match + saved matches needs to be put in a controller
 
 
-Route::get('weight', 'weightController@index');
+Route::get('weight', 'MakeMatching@loadParameters');
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 Route::post('savedmatches', 'weightController@savedmatchname');

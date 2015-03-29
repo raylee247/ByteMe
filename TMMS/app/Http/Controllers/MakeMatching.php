@@ -31,9 +31,27 @@ class MakeMatching extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function loadParameters()
 	{
-		//
+        $year = date("Y");
+        $rawStuApp = \DB::table('studentapp')->where('year', $year)->first();
+        $rawMenApp = \DB::table('mentorapp')->where('year', $year)->first();
+
+        $stuTag = [];
+        $menTag = [];
+
+        $stuCombineExtra = explode("`",$rawStuApp['extra']);
+        for($i = 0; $i < count($stuCombineExtra); $i++){
+            $stuExtra = explode('|', $stuCombineExtra[$i]);
+            array_push($stuTag, $stuExtra);
+        }
+
+        $MenCombineExtra = explode("`",$rawMenApp['extra']);
+        for($i = 0; $i < count($MenCombineExtra); $i++){
+            $menExtra = explode('|', $MenCombineExtra[$i]);
+            array_push($menTag, $menExtra);
+        }
+		return view('weighting')->with('stuTag', $stuTag)->with('menTag', $menTag);
 	}
 
 	/**
