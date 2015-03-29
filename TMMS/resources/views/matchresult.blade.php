@@ -113,7 +113,7 @@
 				</tr>
 			</tbody>
 		</table>
-
+<form method="POST">
 		<table id="unmatchedlist" class="table table-striped table-bordered table-hover" width="100%">
 			<caption>Viewing Unmatched Participants</caption>
 			<thead>
@@ -122,6 +122,7 @@
 					<th>First Name</th>
 					<th>Last Name</th>
 			        <th>Email</th>
+			        <th>Move to Waitlist  <button type="submit" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-ok-sign"></span></span></button></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -130,22 +131,25 @@
 					<td>First</td> 
 					<td>Last</td>
 					<td>mentor@mentor.com</td>
+					<td><button type="submit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-flag"></span></span></button></td>
 				</tr>
 				<tr>
 					<td>Senior</td>
 					<td>First</td> 
 					<td>Last</td>
 					<td>senior@senior.com</td>
+					<td><button type="submit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-flag"></span></span></button></td>
 				</tr>
 				<tr>
 					<td>Junior</td>
 					<td>First</td> 
 					<td>Last</td>
 					<td>junior@junior.com</td>
+					<td><button type="submit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-flag"></span></span></button></td>
 				</tr>
 			</tbody>
 		</table>
-
+</form>
 
 	</div>
 </div>
@@ -296,5 +300,48 @@
 		</div>
 	</div>
 </div>
+</div>
+
+
+<div class="modal fade" id="waitlistone" tabindex="-1" role="dialog" aria-labelledby="waitlistoneLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Waitlist Participant</h3>
+					</div>
+					<div class="panel-body">
+						Are you sure you want to move this participant to the waitlist? Click "Confirm" to continue or "Cancel" to return to the page.
+					</div>
+					<div class="panel-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Confirm</button>
+					</div>
+				</div>
+			</div>        
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="waitlistall" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Waitlist All Participants</h3>
+					</div>
+					<div class="panel-body">
+						Are you sure you want to move ALL participants to the waitlist? Click "Confirm" to continue or "Cancel" to return to the page.			
+					</div>
+					<div class="panel-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Confirm</button></center>
+					</div>
+				</div>
+			</div>        
+		</div>
+	</div>
 </div>
 @endsection
