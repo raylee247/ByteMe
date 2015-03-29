@@ -817,4 +817,28 @@ class AdminController extends Controller {
         return response()->download("downloadFiles.zip", "TMMSParticipant".$year.".zip", $headers);
     }
 
+    public function deleteYear()
+    {
+        $year = $_POST['year_csv'];
+        // Update participant where year = $_POST['year_csv']
+        // Set year to 0
+        \DB::table('participant')
+            ->where('year', $year)
+            ->update(['year' => 0]);
+
+        // Update parameter where year = $_POST['year_csv']
+        // Set year to 0
+        \DB::table('parameter')
+            ->where('year', $year)
+            ->update(['year' => 0]);
+
+        // Don't touch Junior/Senior/Mentor (No year data)
+        // Don't touch Report
+
+        // Return view success?
+
+        return \View::make('success')->with('year', $year)
+            ->with('message',"Successfully deleted year data");
+    }
+
 }

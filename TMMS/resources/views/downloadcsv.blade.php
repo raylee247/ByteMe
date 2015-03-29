@@ -15,8 +15,9 @@
                         <?php
                         foreach($range as $range_index) {
                             $option_year = $range_index['year'];
-                            echo "<option value=$option_year>$option_year</option>";
-                        }
+                            if ($option_year != 0) {
+                                echo "<option value=$option_year>$option_year</option>";
+                            }                        }
                         ?>
                     </select><br>
                    <span class="input-group-btn">
@@ -46,8 +47,9 @@
                         <?php
                         foreach($range as $range_index) {
                             $option_year = $range_index['year'];
-                            echo "<option value=$option_year>$option_year</option>";
-                        }
+                            if ($option_year != 0) {
+                                echo "<option value=$option_year>$option_year</option>";
+                            }                        }
                         ?>
                     </select><br>
                    <span class="input-group-btn">
@@ -65,7 +67,6 @@
     </div>
 
     <div>
-    <form class="form-horizontal" role="form" method="POST" action="{{ url('deleteYear') }}">
     <div class="panel panel-danger">
             <div class="panel-heading"><b>Delete Participant Data</b></div>
                 <div class="panel-body">
@@ -75,7 +76,9 @@
                             <?php
                             foreach($range as $range_index) {
                                 $option_year = $range_index['year'];
-                                echo "<option value=$option_year>$option_year</option>";
+                                if ($option_year != 0) {
+                                    echo "<option value=$option_year>$option_year</option>";
+                                }
                             }
                             ?>
                         </select>
@@ -92,23 +95,35 @@
 
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST">
             <div class="modal-content">
                 <div class="modal-body">Deleting the information will remove all associated data for that year within the system. Are you sure you want to continue?</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <p align="left">Please confirm the year that you are deleting:</p>
+                    <form class="form-horizontal" method="POST" role="form" action="{{ url('deleteYear') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <select class="form-control" name="year_csv" >
+                                <?php
+                                foreach($range as $range_index) {
+                                    $option_year = $range_index['year'];
+                                    if ($option_year != 0) {
+                                        echo "<option value=$option_year>$option_year</option>";
+                                    }                                }
+                                ?>
+                            </select>
+                            <br>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <span class="btn btn-primary btn-file">
                         <span class="glyphicon glyphicon-confirm" aria-hidden="true"></span>
                         Confirm
                         <input type="submit" value="Confirm Delete" name="Submit">
                     </span>
+                    </form>
+
                     // TODO : delete data from db
                 </div>
             </div>
-            </form>
         </div>
     </div>
-    </form>
     </div>
 
 @endsection
