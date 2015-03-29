@@ -13,12 +13,12 @@
                     Parameter Bank
                     <ul id="sortable1" class="droptrue">
                         <li class="ui-state-default" id="element_gender">genderpref</li>
-                        <li class="ui-state-default" id="element_interests">interest</li>
+                        <li class="ui-state-default" id="element_interest">interest</li>
                         <li class="ui-state-default" id="element_kickoff">kickoff</li>
 
                         <?php
                         for($i = 0; $i < count($parameter); $i++){
-                            echo '<li class="ui-state-default" id=element_"' . $parameter[$i] . '">' . $parameter[$i] . '</li>';
+                            echo '<li class="ui-state-default" id=element_' . $parameter[$i] . '>' . $parameter[$i] . '</li>';
                         }
                         ?>
                     </ul>
@@ -38,7 +38,7 @@
 
 
 
-                <form method="POST" action="ray">
+                <form method="POST" action="makeMatching">
 
 
 

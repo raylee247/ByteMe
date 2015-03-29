@@ -22,8 +22,8 @@
 				</div></div><br><br>
 				<b>Parameters Required:</b> <?php foreach ($must as $key) {echo $key;} ?><br>
 				<b>Parameter Priority:</b> <?php foreach ($priority as $key) {echo $key . ",";} ?><br>
-				<b>Average Satisfaction:</b> $$$$$<br>
-				<b>Median:</b> $$$$$
+				<b>Average Satisfaction:</b> {{$avgSat}}br>
+				<b>Median:</b> {{$median}}
 			</form>
 			</h5>
 		</legend>
@@ -99,18 +99,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>First Last</td>
-					<td>First Last</td> 
-					<td>First Last</td>
-					<td>%</td>
-				</tr>
-				<tr>
-					<td>First Last</td>
-					<td>First Last</td> 
-					<td>First Last</td>
-					<td>%</td>
-				</tr>
+				<?php
+				if(isset($result_names) && isset($result_ids)){
+					foreach ($result_names as $key => $value) {
+						echo "<tr>";
+						$key_array = explode(',', $key);
+						foreach ($key_array as $index => $names) {
+							echo "<td>".$names."</td>";
+						}
+						echo "<td>".$value."%</td>";
+						echo "</tr>";
+					}
+				} 
+				?>
 			</tbody>
 		</table>
 <form method="POST">

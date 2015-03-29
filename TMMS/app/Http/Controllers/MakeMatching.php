@@ -29,7 +29,14 @@ class MakeMatching extends Controller {
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
         $generator->generate_all();
-        return 0;
+        $avgSat = array_sum($result_ids)/count($result_ids);
+        $median = array_median($result_ids);
+        $result_names = $generator->toName($result_ids);
+        $result_unmatch = $generator->get_unmatches($result_id);
+
+        return view('matchresult', compact('must','priority','avgSat', 'median',
+                                            'result_ids','result_names',
+                                            '$result_unmatch'));
 
 	}
 
@@ -57,19 +64,23 @@ class MakeMatching extends Controller {
         //array(tag,tag)
         $must = explode('&', $eleMust);
         $priority = explode('&',$elePriority);
-        var_dump($must);
+        // var_dump($must);
 
         //TODO not sure what you are doing here!
 
         set_time_limit(3600);
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
-        $result =  $generator->generate_all();
+        $result_ids =  $generator->generate_all();
         // result with [ match => satisfaction]
-        // $avgSat = array_sum($result)/count($result);
-        // $median = array_median($result);
+        $avgSat = array_sum($result_ids)/count($result_ids);
+        $median = $this->array_median($result_ids);
+        $result_names = $generator->toName($result_ids);
+        $result_unmatch = $generator->get_unmatches($result_ids);
 
-        return view('matchresult', compact('must','priority'));
+        return view('matchresult', compact('must','priority','avgSat', 'median',
+                                            'result_ids','result_names',
+                                            '$result_unmatch'));
 
     }
 
