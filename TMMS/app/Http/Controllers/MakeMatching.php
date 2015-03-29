@@ -14,10 +14,25 @@ use App\Services\MatchGenerator;
 
 class MakeMatching extends Controller {
 
-	protected $participants = array();
+
 
 
 	public function generateMatchTest(){
+
+        //comes in as element[]=tag1&element[]=tag2
+
+
+        set_time_limit(3600);
+        $must = array("kickoff");
+        $priority = array("EmploymentStatus", "interest");
+        print("going into matchGenerator\n\n");
+        $generator = new MatchGenerator($must, $priority);
+        $generator->generate_all();
+        return 0;
+
+	}
+
+    public function generateMatch(){
 
         //comes in as element[]=tag1&element[]=tag2
         $rawMust = $_POST['mustList'];
@@ -30,20 +45,39 @@ class MakeMatching extends Controller {
         //array(tag,tag)
         $must = explode('&', $eleMust);
         $priority = explode('&',$elePriority);
-
+        var_dump($must);
 
         //TODO not sure what you are doing here!
 
         set_time_limit(3600);
-        $must = array("KickOffAvailibility");
-        $priority = array("interest");
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
-        //TODO ROUTE THIS SHIT YOURSELF WILLIAM
-        echo $generator->generate();
-        return 0;
+        $result =  $generator->generate_all();
+        // result with [ match => satisfaction]
+        // $avgSat = array_sum($result)/count($result);
+        // $median = array_median($result);
 
-	}
+        return view('matchresult', compact('must','priority'));
+
+    }
+
+    public function array_median($array) {
+      // perhaps all non numeric values should filtered out of $array here?
+      $iCount = count($array);
+      if ($iCount == 0) {
+        throw new DomainException('Median of an empty array is undefined');
+      }
+      // if we're down here it must mean $array
+      // has at least 1 item in the array.
+      $middle_index = floor($iCount / 2);
+      sort($array, SORT_NUMERIC);
+      $median = $array[$middle_index]; // assume an odd # of items
+      // Handle the even case by averaging the middle 2 items
+      if ($iCount % 2 == 0) {
+        $median = ($median + $array[$middle_index - 1]) / 2;
+      }
+      return $median;
+    }
 	/**
 	 * Display a listing of the resource.
 	 *

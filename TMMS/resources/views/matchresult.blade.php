@@ -20,8 +20,8 @@
 					<label for="usr">Name of Matching:</label>
 					<input type="text" class="form-control" id="matchname" required>
 				</div></div><br><br>
-				<b>Parameters Required:</b> $$$$$<br>
-				<b>Parameter Priority:</b> $$$$$<br>
+				<b>Parameters Required:</b> <?php foreach ($must as $key) {echo $key;} ?><br>
+				<b>Parameter Priority:</b> <?php foreach ($priority as $key) {echo $key . ",";} ?><br>
 				<b>Average Satisfaction:</b> $$$$$<br>
 				<b>Median:</b> $$$$$
 			</form>
