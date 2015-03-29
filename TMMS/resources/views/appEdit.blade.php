@@ -20,7 +20,13 @@
 //        echo "<br>";
 //    }
 
-//echo $parameter;
+echo $myField .'<br>';
+echo $myField2;
+// element[]=gender&element[]=date
+$first = explode('&', $myField);
+echo $first[0] . "<br>";
+$noelement = str_replace("element[]=", "", $myField);
+echo $noelement . "<br>";
 
 //echo $test[0]['program'];
 echo "this is stupid";

@@ -89,6 +89,7 @@
 
 
 		<table id="matchresult" class="table table-striped table-bordered table-hover" width="100%">
+			<caption>Viewing Match Results</caption>
 			<thead>
 				<tr>
 					<th>Industry Mentor</th>
@@ -109,6 +110,38 @@
 					<td>First Last</td> 
 					<td>First Last</td>
 					<td>%</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table id="unmatchedlist" class="table table-striped table-bordered table-hover" width="100%">
+			<caption>Viewing Unmatched Participants</caption>
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+			        <th>Email</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Mentor</td>
+					<td>First</td> 
+					<td>Last</td>
+					<td>mentor@mentor.com</td>
+				</tr>
+				<tr>
+					<td>Senior</td>
+					<td>First</td> 
+					<td>Last</td>
+					<td>senior@senior.com</td>
+				</tr>
+				<tr>
+					<td>Junior</td>
+					<td>First</td> 
+					<td>Last</td>
+					<td>junior@junior.com</td>
 				</tr>
 			</tbody>
 		</table>

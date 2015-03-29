@@ -101,7 +101,10 @@ Route::post('deleteParticipant', 'profileController@deleteParticipant');
 // TODO current match + saved matches needs to be put in a controller
 
 
-Route::get('weight', 'weightController@index');
+Route::get('weight', 'MakeMatching@loadParameters');
+Route::post('makeMaking', 'MakeMatching@generateMatch');
+
+
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 Route::post('savedmatches', 'weightController@savedmatchname');
@@ -111,6 +114,7 @@ Route::get('currentmatch', 'weightController@currentmatchindex');
 //==== for unit testing purpose 
 Route::get("test", "MakeMatching@generateMatchTest");
 Route::get('ray', 'appLoaderController@test');
+Route::post('ray', 'appLoaderController@test');
 //====
 
 Route::controllers([

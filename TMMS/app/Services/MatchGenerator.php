@@ -326,9 +326,16 @@ class MatchGenerator{
 
     	}
 
+    	$arrayish = array();
     	foreach (array_keys($result) as $key => $value) {
     	   	echo "<p>" . $value . " : ". $result[$value]  ."</p>";
+    	   	$tmpish = explode(",", $value);
+    	   	foreach($tmpish as $content)
+    	   	{
+    	   		array_push($arrayish, $content);
+    	   	}
     	}
+    	print_r(array_count_values($arrayish));
     }
 
 
@@ -831,9 +838,9 @@ class MatchGenerator{
 		if(($a1 == "")||($a2 == "")){
 			return false;
 		}
-		$william = explode(",", $a1);
-		$黃麗玲 = explode(",", $a2);
-		$result = array_intersect($william, $黃麗玲);
+		$array1 = explode(",", $a1);
+		$array2 = explode(",", $a2);
+		$result = array_intersect($array1, $array2);
 		if (is_array($result) && (count($result)>0)){
 			//print("******************* end of dataAvailability true *******************\n\n");
 			return true;
