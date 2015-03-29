@@ -43,7 +43,7 @@ class MakeMatching extends Controller {
 		echo $generator->generate();
 		return 0;
 	}
-	
+
     public function generateMatch(){
 
         //comes in as element[]=tag1&element[]=tag2
@@ -90,7 +90,6 @@ class MakeMatching extends Controller {
       }
       return $median;
     }
->>>>>>> a8b076949733244168552e2cd18fd23543ed900e
 	/**
 	 * Display a listing of the resource.
 	 *
