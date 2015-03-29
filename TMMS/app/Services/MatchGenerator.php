@@ -68,38 +68,61 @@ class MatchGenerator{
 
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
 												   ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                   // ->where('participant.pid', '>', '3420')
+                                                   ->where('participant.pid', '>', '3420')
                                                    // ->where('participant.pid', '<', '3426')
                                                    ->where ('participant.year', '=', date("Y"))
                                                    ->get();
         
         foreach ($response_mentor as $key => $value) {
+        	if (!$json = json_decode($value['extra'],TRUE)){
+        		echo "<p> PID " . $value['pid'] . " fucked up json </p>";
+        	}
+    		
+    		foreach ($json as $jkey => $jvalue) {
+    			$value[$jkey] = $jvalue;
+    		}	
+    		unset($value['extra']);
         	$this->mentors[$value['pid']] = $value;
         }
-
+        // var_dump($this->mentors);
         $this->mentors_id = array_keys($this->mentors);
         
 
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                     // ->where('participant.pid', '>', '3535')
+                                                     ->where('participant.pid', '>', '3535')
                                                      // ->where('participant.pid', '<', '3560')
                                                      ->where ('participant.year', '=', date("Y"))
                                                      ->get();
 
 		foreach ($response_seniors as $key => $value) {
+			if (!$json = json_decode($value['extra'],TRUE)){
+        		echo "<p> PID " . $value['pid'] . " fucked up json </p>";
+        	}
+    		foreach ($json as $jkey => $jvalue) {
+    			$value[$jkey] = $jvalue;
+    		}	
+    		unset($value['extra']);
         	$this->seniors[$value['pid']] = $value;
         }
+        // var_dump($this->seniors);
         $this->seniors_id = array_keys($this->seniors);
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                     // ->where('participant.pid', '>', '3538')
+                                                     ->where('participant.pid', '>', '3538')
                                                      // ->where('participant.pid', '<', '3570')
                                                      ->where ('participant.year', '=', date("Y"))
                                                      ->get();
 		
 		foreach ($response_juniors as $key => $value) {
+			if (!$json = json_decode($value['extra'],TRUE)){
+        		echo "<p> PID " . $value['pid'] . " fucked up json </p>";
+        	}
+    		foreach ($json as $jkey => $jvalue) {
+    			$value[$jkey] = $jvalue;
+    		}	
+    		unset($value['extra']);
         	$this->juniors[$value['pid']] = $value;
         }
 		$this->juniors_id = array_keys($this->juniors);
@@ -647,14 +670,14 @@ class MatchGenerator{
 			// print("\n");
 
 			switch ($m){
-				case "KickOffAvailibility":
-					 if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
-						// print("in kick off if statement\n");
-						// echo "here 0 ";
+				case "kickoff":
+					if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
 						return 0;
-					}else{
-						//for debugging purpose
-						// print("in kick off if statement's else clause\n");
+					}
+					break;
+				case "genderpref":
+					if(!$this->genderprefCheck($personA['genderpref'],$personB['genderpref'])){
+						return 0;
 					}
 					break;
 				default :
@@ -698,13 +721,42 @@ class MatchGenerator{
 
 		for($counter = 0 ; $counter < $length; $counter++){
 			// print("entered for loop\n");
-			$try = $this->priority[$counter];
-			$pAinterest = explode(",", $personA[$try]);
-			// print("got explode personA\n");
-			$pBinterest = explode(",", $personB[$try]);
-			// print("got explode personB\n");
-			$similiraity = $this->array_similarity($pAinterest,$pBinterest);
-			$priorityResult += $similiraity*$weighting;
+			$tag = $this->priority[$counter];
+			switch ($tag) {
+				case 'kickoff':
+					if ($this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
+						$tag_result = 1;
+					}else{
+						$tag_result = 0;
+					}
+					break;
+				case 'genderpref':
+					if ($this->genderprefCheck($personA,$personB)){
+						$tag_result = 1;
+					}else{
+						$tag_result = 0;
+					}
+					break;
+				default:
+					if(in_array($tag, $personA)){
+						$pA_value = explode(",", $personA[$tag]);
+					}else{
+						$pA_value = array();
+					}
+					if(in_array($tag, $personB)){
+						$pB_value = explode(",", $personB[$tag]);
+					}else{
+						$pB_value = array();
+					}
+					
+					// print("got explode personA\n");
+					// $pB_value = explode(",", $personB[$tag]);
+					// print("got explode personB\n");
+					$tag_result = $this->array_similarity($pA_value,$pB_value);
+					break;
+			}
+
+			$priorityResult += $tag_result*$weighting;
 			$weighting--;
 			// print(("end of for loop\n"));
 		}
@@ -790,4 +842,29 @@ class MatchGenerator{
 			return false;
 		}
 	}
+
+
+	public function genderprefCheck($personA,$personB){
+		$AGender = $personA['gender'];
+		$APref = $personA['genderpref'];
+
+		$BGender = $personB['gender'];
+		$BPref = $personB['genderpref'];
+
+		if((strpos($AGender,"male")!== FALSE) && ((strpos($BPref, "male")!== FALSE)||(strpos($BPref, "No")!== FALSE))){
+			return TRUE;
+		}
+		if((strpos($AGender,"female")!== FALSE) && ((strpos($BPref, "male")!== FALSE)||(strpos($BPref, "No")!== FALSE))){
+			return TRUE;
+		}
+		if((strpos($BGender,"male")!== FALSE) && ((strpos($APref, "male")!== FALSE)||(strpos($APref, "No")!== FALSE))){
+			return TRUE;
+		}
+		if((strpos($BGender,"female")!== FALSE) && ((strpos($APref, "male")!== FALSE)||(strpos($APref, "No")!== FALSE))){
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 }
