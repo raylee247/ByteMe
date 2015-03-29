@@ -8,6 +8,8 @@
 }
 </style>
 
+
+
 <div class="panel panel-info">
 	<div class="panel-heading"><b>Viewing Current Match Results</b></div>
 	<div class="panel-body">
@@ -20,7 +22,7 @@
 				<b>Median:</b> $$$$$
 			</h5>
 		</legend>
-		<button id="viewmatch" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button><br><br>
+		<button id="viewmatch" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button><br><br>
 		<div id="matchpanel" class="panel panel-default">
 			<div class="panel-heading">Manual Matches: </div>
 			<div class="panel-body">
@@ -33,7 +35,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+<!-- 						<tr>
 							<td>First Last</td>
 							<td>First Last</td> 
 							<td>First Last</td>
@@ -42,7 +44,7 @@
 							<td>First Last</td>
 							<td>First Last</td> 
 							<td>First Last</td>
-						</tr>
+						</tr> -->
 					</tbody>
 				</table>
 			</div>
@@ -59,7 +61,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+<!-- 				<tr>
 					<td>First Last</td>
 					<td>First Last</td> 
 					<td>First Last</td>
@@ -70,22 +72,49 @@
 					<td>First Last</td> 
 					<td>First Last</td>
 					<td>%</td>
-				</tr>
+				</tr> -->
 			</tbody>
 		</table>
-
 	</div>
 </div>
+
+<?php
+
+if ($message == 'fail'){
+	echo '<div class="modal fade in" id="noresult" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<h3 class="panel-title">No Match Results</h3>
+					</div>
+					<div class="panel-body">
+						There are currently no match results. Please run the matching before attempting to view this page.			
+					</div>
+					<div class="panel-footer">
+						<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
+					</div>
+				</div>
+			</div>        
+		</div>
+	</div>
+</div>';
+
+}
+?>
+<script type="text/javascript">
+$(window).load(function(){
+	$('#noresult').modal('show');
+});
+</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	$( "#matchpanel" ).hide();
-  // $( "#manual" ).hide();
-
-  $( "#viewmatch" ).click(function() {
-  	$( "#matchpanel" ).slideToggle();
-  });
-
+	$( "#viewmatch" ).click(function() {
+		$( "#matchpanel" ).slideToggle();
+	});
 });
 </script>
 
