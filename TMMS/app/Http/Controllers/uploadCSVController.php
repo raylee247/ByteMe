@@ -131,6 +131,16 @@ class uploadCSVController extends Controller {
                 );
             }
         } else {
+            // Grab all pid's where year = 0
+            $zero_pid_parts = \DB::table('participant')
+                                ->where('year', '0')
+                                ->get();
+
+            // Extract pid and email from zero_pid list Array(PID=>EMAIL)
+            $pidEmailMap = Array();
+            foreach($zero_pid_parts as $one_zero) {
+                $pidEmailMap[$one_zero['pid']] = $one_zero['email'];
+            }
 
             // ******* Code for insert into participant *********
             $part_columns = \Schema::getColumnListing('participant');
@@ -140,15 +150,28 @@ class uploadCSVController extends Controller {
                 array_push($name_index, $c_index_in_h);
             }
             foreach ($datas as $person) {
-                $insert_array = array();
-                $i = 0;
-                foreach ($name_index as $nindex) {
-                    $insert_array[$part_columns[$i]] = $person[$nindex];
-                    $i = $i + 1;
+                // Check if $person's pid is a key in $pidEmailMap
+                // If it is then just update year
+                if (array_key_exists($person[0], $pidEmailMap)) {
+                    // Check if email matches csv
+                    if ($person[5] == $pidEmailMap[$person[0]]) {
+                        // Exists, only update year in participant
+                        \DB::table('participant')
+                            ->where('pid', $person[0])
+                            ->update(['year' => $person[12]]);
+                    }
+                } else {
+                    // Does not exist. Do full insert.
+                    $insert_array = array();
+                    $i = 0;
+                    foreach ($name_index as $nindex) {
+                        $insert_array[$part_columns[$i]] = $person[$nindex];
+                        $i = $i + 1;
+                    }
+                    \DB::table('participant')->insert(
+                        $insert_array
+                    );
                 }
-                \DB::table('participant')->insert(
-                    $insert_array
-                );
             }
 
             // ******* Code for insert into parameter *********
@@ -160,17 +183,29 @@ class uploadCSVController extends Controller {
                 array_push($name_index, $c_index_in_h);
             }
             foreach ($datas as $person) {
-                $insert_array = array();
-                $i = 0;
-                foreach ($name_index as $nindex) {
-                    $insert_array[$para_columns[$i]] = $person[$nindex];
-                    $i = $i + 1;
-                }
-                if ($insert_array['extra'] != "") {
-                    \DB::table('parameter')->insert(
-                        $insert_array
-                    );
-                }
+                if (array_key_exists($person[0], $pidEmailMap)) {
+                    // Person already exists in the database
+                    // Check if extra is empty.
+                    if ($person[19] != "") {
+                        // Exists, only update year in parameter
+                        \DB::table('parameter')
+                            ->where('pid', $person[0])
+                            ->update(['year' => $person[12]]);
+                    }
+                } else {
+                    // Person does not exist in the database. Do entry
+                        $insert_array = array();
+                        $i = 0;
+                        foreach ($name_index as $nindex) {
+                            $insert_array[$para_columns[$i]] = $person[$nindex];
+                            $i = $i + 1;
+                        }
+                        if ($insert_array['extra'] != "") {
+                            \DB::table('parameter')->insert(
+                                $insert_array
+                            );
+                        }
+                    }
             }
 
 
@@ -183,16 +218,18 @@ class uploadCSVController extends Controller {
                     array_push($name_index, $c_index_in_h);
                 }
                 foreach ($datas as $person) {
-                    $insert_array = array();
-                    $i = 0;
-                    foreach ($name_index as $nindex) {
-                        $insert_array[$ment_columns[$i]] = $person[$nindex];
-                        $i = $i + 1;
+                    if (!array_key_exists($person[0], $pidEmailMap)) {
+                        // Person does not exist in the database. Do entry, else no action.
+                        $insert_array = array();
+                        $i = 0;
+                        foreach ($name_index as $nindex) {
+                            $insert_array[$ment_columns[$i]] = $person[$nindex];
+                            $i = $i + 1;
+                        }
+                        \DB::table('mentor')->insert(
+                            $insert_array
+                        );
                     }
-                    \DB::table('mentor')->insert(
-                        $insert_array
-                    );
-
                 }
             } else {
                 // Read 'courses' for 1 row
@@ -206,16 +243,18 @@ class uploadCSVController extends Controller {
                         array_push($name_index, $c_index_in_h);
                     }
                     foreach ($datas as $person) {
-                        $insert_array = array();
-                        $i = 0;
-                        foreach ($name_index as $nindex) {
-                            $insert_array[$juni_columns[$i]] = $person[$nindex];
-                            $i = $i + 1;
+                        if (!array_key_exists($person[0], $pidEmailMap)) {
+                            // Person does not exist in the database. Do entry, else no action.
+                            $insert_array = array();
+                            $i = 0;
+                            foreach ($name_index as $nindex) {
+                                $insert_array[$juni_columns[$i]] = $person[$nindex];
+                                $i = $i + 1;
+                            }
+                            \DB::table('junior')->insert(
+                                $insert_array
+                            );
                         }
-                        \DB::table('junior')->insert(
-                            $insert_array
-                        );
-
                     }
                 } else {
                     // Insert to senior table
@@ -226,16 +265,18 @@ class uploadCSVController extends Controller {
                         array_push($name_index, $c_index_in_h);
                     }
                     foreach ($datas as $person) {
-                        $insert_array = array();
-                        $i = 0;
-                        foreach ($name_index as $nindex) {
-                            $insert_array[$seni_columns[$i]] = $person[$nindex];
-                            $i = $i + 1;
+                        if (!array_key_exists($person[0], $pidEmailMap)) {
+                            // Person does not exist in the database. Do entry, else no action.
+                            $insert_array = array();
+                            $i = 0;
+                            foreach ($name_index as $nindex) {
+                                $insert_array[$seni_columns[$i]] = $person[$nindex];
+                                $i = $i + 1;
+                            }
+                            \DB::table('senior')->insert(
+                                $insert_array
+                            );
                         }
-                        \DB::table('senior')->insert(
-                            $insert_array
-                        );
-
                     }
                 }
             }

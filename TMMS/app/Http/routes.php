@@ -74,6 +74,8 @@ Route::get('uploadcsv', 'uploadCSVController@index');
 Route::post('uploadcsv_preview', 'uploadCSVController@preview');
 Route::post('uploadcsv_uploaded', 'uploadCSVController@upload');
 
+Route::post('deleteYear', 'AdminController@deleteYear');
+
 Route::post('students', 'AdminController@studentSearch');
 Route::post('mentors', 'AdminController@mentorSearch');
 Route::post('waitlist', 'AdminController@waitlistSearch');
