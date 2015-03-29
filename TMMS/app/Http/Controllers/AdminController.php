@@ -125,6 +125,11 @@ class AdminController extends Controller {
         $date = date("Y");
         $result = \DB::table('participant')->where('waitlist', 1)->where('year', $date)->get();
         
+        // to persist search result 
+        if(\Session::has('current_search')) {
+          \Session::forget('current_search');
+        }
+
         return \View::make('waitlist')->with('result', $result);
     }
 
@@ -230,11 +235,21 @@ class AdminController extends Controller {
     public function waitlistSearch()
     {
         $text = $_POST['text'];
+        $date = date("Y");
 
-        $result = \DB::table('participant')->where('First name', 'LIKE', '%'.$text.'%')
-                                           ->orWhere('Family name', 'LIKE', '%'.$text.'%')
-                                           ->orWhere('email', 'LIKE', '%'.$text.'%')
+        \Session::put('current_search', $text);
+
+        $result = \DB::table('participant')->where('waitlist', 1)
+                                           ->where('year', $date)
+                                           ->where(function($query)
+                                           {
+                                              $query->where('First name', 'LIKE', '%'.\SESSION::get('current_search').'%')
+                                                    ->orWhere('Family name', 'LIKE', '%'.\SESSION::get('current_search').'%')
+                                                    ->orWhere('email', 'LIKE', '%'.\SESSION::get('current_search').'%');
+                                           })
                                            ->get();
+
+        // to persist search result
 
         return \View::make('waitlist')->with('result', $result);
     }
