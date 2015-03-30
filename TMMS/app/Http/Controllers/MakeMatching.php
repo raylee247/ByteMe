@@ -28,11 +28,12 @@ class MakeMatching extends Controller {
         $avgSat = array_sum($result_ids)/count($result_ids);
         $median = array_median($result_ids);
         $result_names = $generator->toName($result_ids);
-        $result_unmatch = $generator->get_unmatches($result_id);
+        $result_unmatch = $generator->get_unmatches($result_ids);
+        var_dump($result_unmatch);
 
         return view('matchresult', compact('must','priority','avgSat', 'median',
                                             'result_ids','result_names',
-                                            '$result_unmatch'));
+                                            'result_unmatch'));
 
 
 	}
@@ -47,6 +48,30 @@ class MakeMatching extends Controller {
 		echo $generator->generate();
 		return 0;
 	}
+
+    public function refresh(){
+        $must = unserialize(base64_decode($_POST['must']));
+        $priority = unserialize(base64_decode($_POST['priority'])) ;
+        $avgSat = unserialize(base64_decode($_POST['avgSat']));
+        $median = unserialize(base64_decode($_POST['median']));
+        $result_ids = unserialize(base64_decode($_POST['result_ids']));
+        $result_names = unserialize(base64_decode($_POST['result_names']));
+        $result_unmatch = unserialize(base64_decode($_POST['result_unmatch']));
+
+        if(isset($_POST['pidToWaitList'])){
+            \DB::table('participant')
+                ->where('pid', $_POST['pidToWaitList'])
+                ->update(array('waitlist' => 1));
+            foreach ($result_unmatch as $key => $value) {
+                if($value['pid'] == $_POST['pidToWaitList']){
+                    $value['waitlist'] = 1;
+                }
+            }
+        }
+        return view('matchresult', compact('must','priority','avgSat', 'median',
+                                            'result_ids','result_names',
+                                            'result_unmatch'));
+    }
 
 
     public function generateMatch(){
@@ -76,9 +101,14 @@ class MakeMatching extends Controller {
         $result_names = $generator->toName($result_ids);
         $result_unmatch = $generator->get_unmatches($result_ids);
 
-        return view('matchresult', compact('must','priority','avgSat', 'median',
+        $mentors = $generator->getAvalMentors();
+        $seniors = $generator->getAvalSeniors();
+        $juniors = $generator->getAvalJuniors();
+
+        return view('matchresult', compact( 'mentors', 'seniors', 'juniors',
+                                            'must','priority','avgSat', 'median',
                                             'result_ids','result_names',
-                                            '$result_unmatch'));
+                                            'result_unmatch'));
 
     }
 
