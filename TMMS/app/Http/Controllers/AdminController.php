@@ -145,6 +145,11 @@ class AdminController extends Controller {
     {
         // Make select call to log table
         $retrieveAmount = $_POST["numRetrieve"];
+        if (is_numeric($retrieveAmount)) {
+            if ($retrieveAmount < 0) {
+                $retrieveAmount = 10;
+            }
+        } else {$retrieveAmount = 10;}
         $result = \DB::table('log')->take($retrieveAmount)->orderBy('logID','desc')->get();
         // Return view with log array
         return \View::make('log')->with('result',$result);

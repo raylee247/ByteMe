@@ -12,7 +12,9 @@
                 <div class="panel-heading">Experimenting on view log</div>
                 <br>
 
-                <strong>Select number of log records to retrieve:</strong>
+                <strong>Select number of log records to retrieve</strong>
+                <i>Retrieves 10 by default, enter 0 to retrieve all</i>
+                <strong>:</strong>
                 <br>
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/log') }}">
