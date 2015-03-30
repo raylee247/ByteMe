@@ -21,8 +21,8 @@
             <?php
                   $count = count($kickoff);
                   
-                  echo '<label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br>
-                  <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
+                  echo '<div class="col-sm-1"></div><label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br><br>
+                  <div class="col-sm-1"></div><div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
                   student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
                   same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
                   indicate your availability for the following dates:
@@ -273,7 +273,7 @@
                               break;
                   
                           case "radio":
-                              echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-md-9">' .
+                              echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-sm-1"></div><div class="col-md-9">' .
                                       $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
                   
                               $rawOptions = $questions[$x][4];
@@ -547,6 +547,97 @@
                      </div>
                      </div>';
                               break;
+
+                          case "singleRadio":
+                              echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><table class="table table-hover" style="width:90%"><tr><th></th>';
+
+                              $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                              $answer = explode("," , $rawAnswer);
+                              $answerCount = count($answer);
+                              for ($i = 0; $i < $answerCount; $i++){
+                                  echo '<label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
+                                  if(isset($questions[$x][1]) && $questions[$x][1]==$answer[$i]){
+                                      echo "checked";
+                                  }
+                                  echo ' value="' . $answer[$i] . '" required>' . $answer[$i] . '</label><br>';
+                              }
+
+
+
+                              echo '<div class="modal fade" id="modal-20' . ($x+2) . '4" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog">
+                                            <form action="editform" method="POST">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">Deleting the question will remove it from the application form. Are you sure you want to continue?
+                                                   <input type="hidden" name="year" value="' . $year . '">
+                                                   <input type="hidden" name="status" value="mentor">
+                                                   <input type="hidden" name="operation" value="delete">
+                                                   <input type="hidden" name="questiontype" value="singleRadio">
+                                                   <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
+                                                   <input type="hidden" name="question" value="' . $questions[$x][2] . '">
+                                                   <input type="hidden" name="answers" value="' . $questions[$x][3] . '">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-danger">Confirm</button>
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>';
+
+                              //makes radio modal
+                              echo '<div id="modal-' . ($x+2) . '" class="modal" tabindex="-1" role="dialog">
+                         <div class="modal-dialog">
+                         <div class="modal-content">
+                         <div class="modal-body">
+                         <div class="panel panel-info">
+                         <div class="panel-heading">
+                         <div class="panel-title" style="display:inline">Editing Question...</div>
+                         </div>
+                         <div class="panel-body">
+                         <div class="row">
+                         <div class=" col-md-12">
+                         <div class="form-inline">
+                         <label class="pull-left">Question type:</label>
+                         <div class="col-md-4">
+                         <u>Radio button</u>
+                         </div>
+                         <label class="pull-left">Tag name:</label>
+                         <div class="col-md-4">
+                         <u>' . $questions[$x][1] . '</u>
+                         </div>
+                         </div>
+                         </div>
+                         </div><br>
+                         <form action="editform" method="POST">
+                         <input type="hidden" name="year" value="' . $year . '">
+                         <input type="hidden" name="status" value="mentor">
+                         <input type="hidden" name="operation" value="update">
+                         <input type="hidden" name="questiontype" value="singleRadio">
+                         <input type="hidden" name="tag" value="' . $questions[$x][1] . '">
+                         <div class="form-inline">
+                         <label class="pull-left">Question:</label><div class="col-md-6"><input class="form-control" name="question" value="' . $questions[$x][2] . '">
+                         </div></div><br><br>
+                         <div class="form-inline">
+                         <label class="pull-left">Answers:</label><div class="col-md-6"><input class="form-control" name="answers" value="' . $questions[$x][3] . '"><br><i>Please enter possible choices as comma-seperated values.</i>
+                         </div></div><br><br>
+                         </div>
+
+
+                         <div class="modal-footer">
+                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                         <button type="submit" class="btn btn-primary">Save Changes</button>
+                         </div>
+                         </div>
+                         </div>
+                         </form>
+                         </div>
+                         </div>
+                         </div>
+                         </div>
+                         </div>';
+                              break;
                       }
                       echo '<br>';
                   }
@@ -607,6 +698,7 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "text"){
               $("#checkbox").hide();
@@ -614,6 +706,7 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "radio"){
               $("#checkbox").hide();
@@ -621,6 +714,7 @@
               $("#radio").show();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "select"){
               $("#checkbox").hide();
@@ -628,6 +722,7 @@
               $("#radio").hide();
               $("#select").show();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "textarea"){
               $("#checkbox").hide();
@@ -635,6 +730,15 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").show();
+              $("#singleRadio").hide();
+          }
+          if(type == "singleRadio"){
+              $("#checkbox").hide();
+              $("#text").hide();
+              $("#radio").hide();
+              $("#select").hide();
+              $("#textarea").hide();
+              $("#singleRadio").show();
           }
           if(type == ""){
               $("#checkbox").hide();
@@ -642,6 +746,7 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }}
       $(document).ready(function(){
           var type = document.getElementById( "questiontype").value;
@@ -651,6 +756,7 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "text"){
               $("#checkbox").hide();
@@ -658,6 +764,7 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "radio"){
               $("#checkbox").hide();
@@ -665,6 +772,7 @@
               $("#radio").show();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "select"){
               $("#checkbox").hide();
@@ -672,6 +780,7 @@
               $("#radio").hide();
               $("#select").show();
               $("#textarea").hide();
+              $("#singleRadio").hide();
           }
           if(type == "textarea"){
               $("#checkbox").hide();
@@ -679,13 +788,23 @@
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").show();
+              $("#singleRadio").hide();
           }
-          else{
+          if(type == "singleRadio"){
               $("#checkbox").hide();
               $("#text").hide();
               $("#radio").hide();
               $("#select").hide();
               $("#textarea").hide();
+              $("#singleRadio").show();
+          }
+          if(type == ""){
+              $("#checkbox").hide();
+              $("#text").hide();
+              $("#radio").hide();
+              $("#select").hide();
+              $("#textarea").hide();
+              $("#singleRadio").hide();
           }
       });
 </script>
@@ -710,6 +829,7 @@
                                                             <option value="radio">Radio button</option>
                                                             <option value="select">Dropdown</option>
                                                             <option value="textarea">Text area</option>
+                                                          <option value="singleRadio">Single row Radio button</option>
                                                           <input type="hidden" name="operation" value="add">
                                                           <input type="hidden" name="year" value=" <?php echo $year ?> ">
                                                           <input type="hidden" name="status" value="mentor">
@@ -741,6 +861,11 @@
                                                             <p>Question:<input type="text" class="form-control" name="question[]"/></p>
                                                             <p><textarea rows="4" cols="50" placeholder=" Applicants will type in here" readonly></textarea></p>
                                                       </div>
+                                                    <div id="singleRadio">
+                                                        <p>RADIO Tag name:<input type="text" class="form-control" name="tag[]"/></p>
+                                                        <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+                                                        <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
+                                                    </div>
                                                 </div>
                                           </div>
                                     </div>

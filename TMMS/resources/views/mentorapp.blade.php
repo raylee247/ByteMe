@@ -65,7 +65,7 @@
                             //generate kickoff section on application form
                             $count = count($kickoff);
 
-                            echo '<label class="control-label col-sm-3">Kickoff event availability</label><br><br>
+                            echo '<label class="control-label col-sm-3">Kickoff event availability</label><br><br><div class="col-sm-1"></div>
 					   <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
 					   student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
 					   same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
@@ -102,19 +102,19 @@
 
                             echo '</table>';
                             ?>
-                            <div>
+<!--                             <div>
                                 <div class="col-sm-1"></div>
                                 <label class="pull-left">Additional comments regarding availability?</label><br><br>
                                 <div class="col-sm-1"></div>
                                 <textarea name="additionalcomments_avail" rows="5" cols="130"></textarea>
-                            </div>
+                            </div> -->
                             <br>
                             <div class="form-inline">
                                 <div class="col-sm-1"></div>
                                 <label class="pull-left">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
                                 <div class="col-md-4">
                                     <select class="form-control" name="participation" required>
-                                        <option value="">Please specify</option>
+                                        <option value="">Select...</option>
                                         <option id="previousmatched_no">No, I have not participated before</option>
                                         <option id="previousmatched_junior">Yes, as a junior student</option>
                                         <option id="previousmatched_senior">Yes, as a senior student</option>
@@ -127,7 +127,7 @@
                             <label class="pull-left">Preference of student mentee gender:</label>
                             <div class="col-md-4">
                                 <select class="form-control" name="studentgenderpref" required>
-                                    <option value="">Please specify</option>
+                                    <option value="">Select...</option>
                                     <option id="nopref">No preference</option>
                                     <option id="femalepref">Match with female students only</option>
                                     <option id="malepref">Match with male students only</option>
@@ -136,13 +136,20 @@
                             <br><br><br>
 
                             <div class="form-inline">
-                                <div class="col-sm-1"></div><label class="control-label pull-left">Current position At work (optional)</label>
+                                <div class="col-sm-1"></div><label class="control-label pull-left">Current company (optional)</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="company">
+                                </div>
+                            </div>
+                            <br><br><br>
+                            <div class="form-inline">
+                                <div class="col-sm-1"></div><label class="control-label pull-left">Current position at work (optional)</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="position">
                                 </div>
-                            <br><br>
-
-                            <div class="col-sm-1"></div>
+                            </div>
+                            <br><br><br>
+<!--                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Current employment status (check all that apply):</label>
                             <div class="col-md-4">
                                 <input type="checkbox" name="employmentstatus[]" value="industry">Working in industry<br>
@@ -152,12 +159,13 @@
                                 <input type="checkbox" name="employmentstatus[]" value="retired">Retired<br>
                                 <input type="checkbox" name="employmentstatus[]" value="other_employment">Other (please specify) //TODO <br>
                             </div>
-                            <br><br><br><br><br><br><br>
+                            <br><br><br><br><br><br><br> -->
                             <div class="form-inline">
                                 <div class="col-sm-1"></div>
                                 <label class="pull-left">Years of CS-related work experience:</label>
                                 <div class="col-md-6">
-                                    <select class="form-control" name="yearsofcswork">
+                                    <select class="form-control" name="yearsofcswork" required>
+                                        <option value="">Select...</option>
                                         <option id="0-2years">0-2 years</option>
                                         <option id="3-5years">3-5 years</option>
                                         <option id="6-10years">6-10 years</option>
@@ -172,7 +180,8 @@
                                 <div class="col-sm-1"></div>
                                 <label class="pull-left">Highest level of education:</label>
                                 <div class="col-md-6">
-                                    <select class="form-control" name="levelofeducation">
+                                    <select class="form-control" name="levelofeducation" required>
+                                        <option value="">Select...</option>
                                         <option id="0-2years">Bachelor's</option>
                                         <option id="3-5years">Master's</option>
                                         <option id="6-10years">PhD</option>
@@ -261,6 +270,20 @@
                                                 $questions[$x][1] .  '" id="' . $questions[$x][1] .'"></textarea><br><br>';
                                         break;
 
+                                    case "singleRadio":
+                                        echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><table class="table table-hover" style="width:90%"><tr><th></th>';
+
+                                        $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                                        $answer = explode("," , $rawAnswer);
+                                        $answerCount = count($answer);
+                                        for ($i = 0; $i < $answerCount; $i++){
+                                            echo '<label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
+                                            if(isset($questions[$x][1]) && $questions[$x][1]==$answer[$i]){
+                                                echo "checked";
+                                            }
+                                            echo ' value="' . $answer[$i] . '" required>' . $answer[$i] . '</label><br>';
+                                        }
+
                                 }
                                 echo '<br>';
                             }
@@ -276,18 +299,9 @@
                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
                             <div class="col-sm-1"></div>
-                            <textarea rows="5" cols="130" name="cs_areasofinterest" id="cs_areasofinterest"></textarea>
+                            <textarea rows="5" cols="130" name="cs_areasofinterest" id="cs_areasofinterest" required></textarea>
                             <br><br>
-                            <div class="col-sm-1"></div>
-                            <label class="pull-left">Hobbies and interests (please enter as comma-separated list):</label><br><br>
-                            <div class="col-sm-1"></div>
-                            <textarea rows="5" cols="130" name="hobbies_interest" id="hobbies_interest"></textarea>
-                            <br><br>
-                            <div class="col-sm-1"></div>
-                            <label class="pull-left">Additional questions or comments?</label><br><br>
-                            <div class="col-sm-1"></div>
-                            <textarea rows="5" cols="130" name="additionalcomments_questions" id="additionalcomments_questions"></textarea>
-                            <br><br>
+                            
                             <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
                         </div>
                     </form>

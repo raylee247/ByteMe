@@ -22,8 +22,10 @@
 				</div></div><br><br>
 				<b>Parameters Required:</b> <?php foreach ($must as $key) {echo $key;} ?><br>
 				<b>Parameter Priority:</b> <?php foreach ($priority as $key) {echo $key . ",";} ?><br>
-				<b>Average Satisfaction:</b> {{$avgSat}}br>
-				<b>Median:</b> {{$median}}
+				<b>Average Satisfaction:</b> {{$avgSat}}<br>
+				<b>Median:</b> {{$median}}<br>
+				<b>Matched Trios: </b> {{$trioCount}} <?php echo '('.$trioCount*3 . " participants)<br>"?>
+				<b>UnMatched Participants:</b> {{$unmatchCount}}<br>
 			</form>
 			</h5>
 		</legend>
@@ -71,7 +73,7 @@
 		</div>
 
 		<script type="text/javascript">
-		$(document).ready(function(){
+$(document).ready(function(){
 			$( "#matchpanel" ).hide();
   // $( "#manual" ).hide();
 
@@ -84,6 +86,55 @@
   	$( "addanothermatch").hide();
   });
 
+	$("#search").on("keyup", function() {
+	    var value = $(this).val();
+
+	    $("#mentorTable tr").each(function(index) {
+	        if (index !== 0) {
+
+	            $row = $(this);
+	    
+	            var id = $row.find("td:eq(0)").text();
+	            var id1 = $row.find("td:eq(1)").text();
+	            var id2 = $row.find("td:eq(2)").text();
+	            var id3 = $row.find("td:eq(3)").text();
+	            
+	            if (id.indexOf(value) !== 0) {
+	            	if(id1.indexOf(value) !== 0) {
+	            		if(id2.indexOf(value) !== 0) {
+	            			if(id3.indexOf(value) !== 0) {
+	            				$row.hide();
+	            			}
+	            			else {
+	            				$row.show();
+	            			}
+	            		}
+	            		else {
+	            			$row.show();
+	            		}
+	            	}
+	            	else {
+	            		$row.show();
+	            	}
+	            }
+	            else {
+	                $row.show();
+	            }
+	        }
+	    });
+	});
+
+	$('#testingtest tr').click(function(){
+            // index of row clicked 
+            var row = ($(this).index());
+
+            var elem = document.getElementById("industry_mentor_input");
+            elem.value
+
+            // actual pid of the participant 
+            
+            return false;
+        });
 });
 		</script>
 
@@ -114,12 +165,13 @@
 				?>
 			</tbody>
 		</table>
-<form method="POST">
+<form method="POST" action="makeMatching_refresh">
 		<table id="unmatchedlist" class="table table-striped table-bordered table-hover" width="100%">
 			<caption>Viewing Unmatched Participants</caption>
 			<thead>
 				<tr>
 					<th>Type</th>
+					<th>Pid</th>
 					<th>First Name</th>
 					<th>Last Name</th>
 			        <th>Email</th>
@@ -127,28 +179,45 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>Mentor</td>
-					<td>First</td> 
-					<td>Last</td>
-					<td>mentor@mentor.com</td>
-					<td><button type="submit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-flag"></span></span></button></td>
-				</tr>
-				<tr>
-					<td>Senior</td>
-					<td>First</td> 
-					<td>Last</td>
-					<td>senior@senior.com</td>
-					<td><button type="submit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-flag"></span></span></button></td>
-				</tr>
-				<tr>
-					<td>Junior</td>
-					<td>First</td> 
-					<td>Last</td>
-					<td>junior@junior.com</td>
-					<td><button type="submit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-flag"></span></span></button></td>
-				</tr>
+				<?php
+				if(isset($result_unmatch)){
+					foreach ($result_unmatch as $key => $value) {
+						echo "<tr>";
+						echo "<td>".$value['type']."</td>";
+						echo "<td>".$value['pid']."</td>";
+						echo "<td>".$value['FirstName']."</td>";
+						echo "<td>".$value['LastName']."</td>";
+						echo "<td>".$value['email']."</td>";
+						echo '<input type="hidden" name="must" value="'. base64_encode(serialize($must)) . '">
+							  <input type="hidden" name="priority" value= "'. base64_encode(serialize($priority)) . '" >
+							  <input type="hidden" name="avgSat" value= "'. base64_encode(serialize($avgSat)) . '">
+							  <input type="hidden" name="median" value= "'. base64_encode(serialize($median)) . '" >
+							  <input type="hidden" name="result_ids" value= "'. base64_encode(serialize($result_ids)) . '" >
+							  <input type="hidden" name="result_names" value= "'. base64_encode(serialize($result_names)) . '">
+							  <input type="hidden" name="result_unmatch" value= "'. base64_encode(serialize($result_unmatch)) . '" >
+							  <input type="hidden" name="mentors" value= "'. base64_encode(serialize($mentors)) . '" >
+							  <input type="hidden" name="seniors" value= "'. base64_encode(serialize($seniors)) . '" >
+							  <input type="hidden" name="juniors" value= "'. base64_encode(serialize($juniors)) . '" >
+							  <input type="hidden" name="trioCount" value= "'. base64_encode(serialize($trioCount)) . '" >
+							  <input type="hidden" name="unmatchCount" value= "'. base64_encode(serialize($unmatchCount)) . '" >';
+						if (!$value['waitlist']){
+							echo '<td><button type="submit" class="btn btn-sm btn-primary"
+							  name= "pidToWaitList" value = "' . $value['pid'] .  '">
+							  <span class="glyphicon glyphicon-flag"></span></span></button></td>';
+						}else{
+							echo '<td><button type="submit" class="btn btn-sm btn-primary btn-danger" 
+							  name= "Undo" value = "' . $value['pid'] .  '" >
+							  <span class="glyphicon glyphicon-remove"></span></span> UNDO</button></td>';
+						}
+						
+
+						echo "</tr>";
+						
+					}
+				}
+				?>
 			</tbody>
+			
 		</table>
 </form>
 
@@ -165,37 +234,38 @@
 					<div class="panel-body">
 						<div>    
 							<div class="col-xs-8 col-xs-offset-2">
-								<form action="mentors" method="post">
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
-									<div class="input-group">
-										<input type="hidden" name="search_param" value="all" id="search_param">         
-										<input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
-										<span class="input-group-btn">
-											<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-										</span>
-									</div>
-								</form>
+								<div class="col-xs-8 col-xs-offset-2">
+									<input type="text" id="mentor_search" placeholder="live search"></input>
+								</div>
 							</div>
 						</div>
 						<br><br><br>
-						<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+						<table id="mentorTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr> 
+									<th>pid</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Email</th>
-									<th>Job</th>
 									<th>Select</th>
 								</tr>
 							</thead>
 							<tbody>
 								<!-- fill table data here with first, last name, email, job for MENTORS-->
-								<th>Whoever</th>
-								<th>Bleh</th>
-								<th>w@blah.com</th>
-								<th>Not Google Q.Q</th>
-								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></button></center></th>
-
+								<?php 
+								if (isset($mentors)){
+									foreach ($mentors as $key => $value) {
+										echo "<tr>";
+										foreach ($value as $title => $info) {
+											echo "<td>".$info."</td>";
+										}
+										echo '<td><center>
+											  <button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+											  </button></center></td>';
+										echo "</tr>";
+									}
+								}
+								?>
 							</tbody>
 						</table>
 					</div>
@@ -230,20 +300,28 @@
 						<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr> 
+									<th>pid</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Email</th>
-									<th>Year Standing</th>
 									<th>Select</th>
 								</tr>
 							</thead>
 							<tbody>
 								<!-- fill table data here with first, last name, email, yearstanding for SENIORS-->
-								<th>Miranda</th>
-								<th>Tuet</th>
-								<th>m@blah.com</th>
-								<th>3</th>
-								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button></center></th>
+								<?php 
+								if (isset($seniors)){
+									foreach ($seniors as $key => $value) {
+										foreach ($value as $title => $info) {
+											echo "<td>".$info."</td>";
+										}
+										echo '<td><center>
+											  <button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+											  </button></center></td>';
+										echo "</tr>";
+									}
+								}
+								?>
 							</tbody>
 						</table>
 					</div>
@@ -279,20 +357,28 @@
 						<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr> 
+									<th>pid</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Email</th>
-									<th>Year Standing</th>
 									<th>Select</th>
 								</tr>
 							</thead>
 							<tbody>
 								<!-- fill table data here with first, last name, email, yearstanding for JUNIORS-->
-								<th>Whatever</th>
-								<th>Blah</th>
-								<th>blah@blah.com</th>
-								<th>1</th>
-								<th><center><button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></button></center></th>
+								<?php 
+								if (isset($juniors)){
+									foreach ($juniors as $key => $value) {
+										foreach ($value as $title => $info) {
+											echo "<td>".$info."</td>";
+										}
+										echo '<td><center>
+											  <button id="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+											  </button></center></td>';
+										echo "</tr>";
+									}
+								}
+								?>
 							</tbody>
 						</tbody>
 					</table>
@@ -301,28 +387,6 @@
 		</div>
 	</div>
 </div>
-</div>
-
-
-<div class="modal fade" id="waitlistone" tabindex="-1" role="dialog" aria-labelledby="waitlistoneLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Waitlist Participant</h3>
-					</div>
-					<div class="panel-body">
-						Are you sure you want to move this participant to the waitlist? Click "Confirm" to continue or "Cancel" to return to the page.
-					</div>
-					<div class="panel-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-primary">Confirm</button>
-					</div>
-				</div>
-			</div>        
-		</div>
-	</div>
 </div>
 
 <div class="modal fade" id="waitlistall" tabindex="-1" role="dialog">

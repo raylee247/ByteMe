@@ -88,7 +88,7 @@
                         for($i = 0; $i < $count; $i++){
                             echo '<th><center>CHOICE ' . ($i+1) . '</center></th>';
                         }
-                        echo '<th><center>NOT AVAIL.</th></center></tr>';
+                        echo '<th><center>NOT AVAIL.</center></th></tr>';
                         
                         //display kickoff dates and radio buttons
                         for($i = 0; $i < $count; $i++){
@@ -99,14 +99,14 @@
                                 if(isset($day1) && $day1 == $kickoff[$i]){
                                     echo "checked";
                                 }
-                                $value = 'value="' . $kickoff[$i] . '" required></center>';
+                                $value = 'value="' . $kickoff[$i] . '" required></center></td>';
                                 echo $value;
                             }
                             echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
                             if (isset($day1) && $day1== $kickoff[$i]) {
                                 echo "checked";
                             }
-                            echo $value = 'value="null"></center>';
+                            echo $value = 'value="null"></center></td>';
                             echo "</tr>";
                         }
                         
@@ -222,7 +222,9 @@
                                     break;
                         
                                 case "radio":
-                                    echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-sm-1"></div><div class="col-md-9">' .
+                                    echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br>
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-md-9">' .
                                             $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
                         
                                     $rawOptions = $questions[$x][4];
@@ -260,7 +262,7 @@
                                     }
                         
                         
-                                    echo '</table></div><br>';
+                                    echo '</table><br>';
                                     break;
                         
                                 case "select": //this is dropdown
@@ -283,6 +285,20 @@
                         <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'" required></textarea><br>
                         <br>';
                                     break;
+
+                                case "singleRadio":
+                                    echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><table class="table table-hover" style="width:90%"><tr><th></th>';
+
+                                    $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
+                                    $answer = explode("," , $rawAnswer);
+                                    $answerCount = count($answer);
+                                    for ($i = 0; $i < $answerCount; $i++){
+                                        echo '<label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
+                                        if(isset($questions[$x][1]) && $questions[$x][1]==$answer[$i]){
+                                            echo "checked";
+                                        }
+                                        echo ' value="' . $answer[$i] . '" required>' . $answer[$i] . '</label><br>';
+                                    }
                         
                             }
                             echo '<br>';
@@ -296,6 +312,8 @@
         </div>
         </form>
     </div>
+</div>
+</div>
 </div>
 <script type="text/javascript">
     $("#studentapp").validate({

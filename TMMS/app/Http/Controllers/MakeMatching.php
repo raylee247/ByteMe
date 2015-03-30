@@ -28,11 +28,12 @@ class MakeMatching extends Controller {
         $avgSat = array_sum($result_ids)/count($result_ids);
         $median = array_median($result_ids);
         $result_names = $generator->toName($result_ids);
-        $result_unmatch = $generator->get_unmatches($result_id);
+        $result_unmatch = $generator->get_unmatches($result_ids);
+        var_dump($result_unmatch);
 
         return view('matchresult', compact('must','priority','avgSat', 'median',
                                             'result_ids','result_names',
-                                            '$result_unmatch'));
+                                            'result_unmatch'));
 
 
 	}
@@ -47,6 +48,57 @@ class MakeMatching extends Controller {
 		echo $generator->generate();
 		return 0;
 	}
+
+    public function refresh(){
+        $must = unserialize(base64_decode($_POST['must']));
+        $priority = unserialize(base64_decode($_POST['priority'])) ;
+        $avgSat = unserialize(base64_decode($_POST['avgSat']));
+        $median = unserialize(base64_decode($_POST['median']));
+        $result_ids = unserialize(base64_decode($_POST['result_ids']));
+        $result_names = unserialize(base64_decode($_POST['result_names']));
+        $result_unmatch = unserialize(base64_decode($_POST['result_unmatch']));
+
+        $mentors = unserialize(base64_decode($_POST['mentors']));
+        $seniors = unserialize(base64_decode($_POST['seniors']));
+        $juniors = unserialize(base64_decode($_POST['juniors']));
+
+        $trioCount = unserialize(base64_decode($_POST['trioCount']));
+        $unmatchCount = unserialize(base64_decode($_POST['unmatchCount']));
+
+        if(isset($_POST['pidToWaitList'])){
+            \DB::table('participant')
+                ->where('pid', $_POST['pidToWaitList'])
+                ->update(array('waitlist' => 1));
+            $temp = array();
+            foreach ($result_unmatch as $key => $value) {
+                $value_clone = $value; 
+                if($value_clone['pid'] == $_POST['pidToWaitList']){
+                    $value_clone['waitlist'] = 1;
+                }
+                $temp[$key] = $value_clone;
+            }
+
+            $result_unmatch = $temp;
+        }elseif(isset($_POST['Undo'])){
+            \DB::table('participant')
+                ->where('pid', $_POST['Undo'])
+                ->update(array('waitlist' => 0));
+            $temp =array();
+            foreach ($result_unmatch as $key => $value) {
+                $value_clone = $value; 
+                if($value['pid'] == $_POST['Undo']){
+                    $value_clone['waitlist'] = 0;
+                }
+                $temp[$key] = $value_clone;
+            }
+            $result_unmatch = $temp;
+        }
+
+        return view('matchresult', compact( 'mentors', 'seniors', 'juniors',
+                                            'must','priority','avgSat', 'median','trioCount', 'unmatchCount',
+                                            'result_ids','result_names',
+                                            'result_unmatch'));
+    }
 
 
     public function generateMatch(){
@@ -75,10 +127,17 @@ class MakeMatching extends Controller {
         $median = $this->array_median($result_ids);
         $result_names = $generator->toName($result_ids);
         $result_unmatch = $generator->get_unmatches($result_ids);
+        $trioCount = count($result_ids);
+        $unmatchCount = count($result_unmatch);
 
-        return view('matchresult', compact('must','priority','avgSat', 'median',
+        $mentors = $generator->getAvalMentors();
+        $seniors = $generator->getAvalSeniors();
+        $juniors = $generator->getAvalJuniors();
+
+         return view('matchresult', compact( 'mentors', 'seniors', 'juniors',
+                                            'must','priority','avgSat', 'median','trioCount', 'unmatchCount',
                                             'result_ids','result_names',
-                                            '$result_unmatch'));
+                                            'result_unmatch'));
 
     }
 
