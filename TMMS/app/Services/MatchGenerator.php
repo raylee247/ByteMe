@@ -60,13 +60,49 @@ class MatchGenerator{
 		$this->priority = $priority;
 		
 	}
+	public function getAvalMentors(){
+		$result = array();
+		foreach ($this->mentors as $pid => $info) {
+			$temp = array();
+			$temp['pid'] = $info['pid'];
+			$temp['First name'] = $info['First name'];
+			$temp['Family name'] = $info['Family name'];
+			$temp['email'] = $info['email'];
+			$result[] = $temp;
+		}
+		return $result;
+	}
+	public function getAvalSeniors(){
+		$result = array();
+		foreach ($this->seniors as $pid => $info) {
+			$temp = array();
+			$temp['pid'] = $info['pid'];
+			$temp['First name'] = $info['First name'];
+			$temp['Family name'] = $info['Family name'];
+			$temp['email'] = $info['email'];
+			$result[] = $temp;
+		}
+		return $result;
+	}
+	public function getAvalJuniors(){
+		$result = array();
+		foreach ($this->juniors as $pid => $info) {
+			$temp = array();
+			$temp['pid'] = $info['pid'];
+			$temp['First name'] = $info['First name'];
+			$temp['Family name'] = $info['Family name'];
+			$temp['email'] = $info['email'];
+			$result[] = $temp;
+		}
+		return $result;
+	}
 	/**
 	 * get participants from db and init class field
 	 * 
 	 * @Void
 	 */
 	public function getParticipant(){
-		print("********************* got into getParticipant *********************\n");
+		// print("********************* got into getParticipant *********************\n");
 
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
 												   ->join('parameter', 'participant.pid', '=', 'parameter.pid')
@@ -87,7 +123,7 @@ class MatchGenerator{
         	$this->mentors[$value['pid']] = $value;
         }
         // var_dump($this->mentors);
-        $this->mentors_id = array_keys($this->mentors);
+        
         
 
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
@@ -108,7 +144,7 @@ class MatchGenerator{
         	$this->seniors[$value['pid']] = $value;
         }
         // var_dump($this->seniors);
-        $this->seniors_id = array_keys($this->seniors);
+        
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
@@ -127,7 +163,7 @@ class MatchGenerator{
     		unset($value['extra']);
         	$this->juniors[$value['pid']] = $value;
         }
-		$this->juniors_id = array_keys($this->juniors);
+		
 
 		//print("********************* getParticipant complete *********************\n\n");
 		// var_dump($this->mentors_id);
@@ -147,6 +183,9 @@ class MatchGenerator{
 		// $this->test();
 		// print("******************* in generate function *******************\n");
 		ini_set('memory_limit', '1000M');
+		$this->mentors_id = array_keys($this->mentors);
+		$this->seniors_id = array_keys($this->seniors);
+		$this->juniors_id = array_keys($this->juniors);
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
 		// echo "<p> done gen_table </p>";
 		// DYNAMIC	PROGRAMMING
@@ -161,6 +200,15 @@ class MatchGenerator{
 
 		return $result;
 
+	}
+
+	public function generate_without($without_m,$without_s,$without_j){
+		$this->mentors_id = $this->array_without(array_keys($this->mentors),$without_m);
+		$this->seniors_id = $this->array_without(array_keys($this->seniors),$without_s);
+		$this->juniors_id = $this->array_without(array_keys($this->juniors),$without_j);
+		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
+		$result = $this->doStableMatch();
+		return $result;
 	}
     
     public function doBackTrack($mentors,$seniors,$juniors){
@@ -324,16 +372,22 @@ class MatchGenerator{
     	$LoMid = array();
     	$LoSid = array();
     	$LoJid = array();
+    	// var_dump($result); 
     	foreach ($result as $key => $value) {
     		$key_array = explode(",", $key);
     		$LoMid[] = $key_array[0];
     		$LoSid[] = $key_array[1];
     		$LoJid[] = $key_array[2];
     	}
-    	$m_diff = array_diff($LoMid,$this->mentors_id);
-    	$s_diff = array_diff($LoSid,$this->seniors_id);
-    	$j_diff = array_diff($LoJid,$this->juniors_id);
-    	$result = array();
+
+    	$m_diff = array_diff($this->mentors_id,$LoMid);
+    	$s_diff = array_diff($this->seniors_id,$LoSid);
+    	$j_diff = array_diff($this->juniors_id,$LoJid);
+    	// var_dump($m_diff);
+    	// var_dump($s_diff);
+    	// var_dump($j_diff);
+
+    	$result_unmatches = array();
     	foreach ($m_diff as $key => $value) {
     		$temp = array();
     		$person = $this->getPersonWithID($value);
@@ -342,7 +396,8 @@ class MatchGenerator{
     		$temp['LastName'] = $person['Family name'];
     		$temp['email'] = $person['email'];
     		$temp['pid'] = $person['pid'];
-    		$result[] = $temp;
+    		$temp['waitlist'] = $person['waitlist'];
+    		$result_unmatches[] = $temp;
     	}
     	foreach ($s_diff as $key => $value) {
     		$temp = array();
@@ -352,7 +407,8 @@ class MatchGenerator{
     		$temp['LastName'] = $person['Family name'];
     		$temp['email'] = $person['email'];
     		$temp['pid'] = $person['pid'];
-    		$result[] = $temp;
+    		$temp['waitlist'] = $person['waitlist'];
+    		$result_unmatches[] = $temp;
     	}
     	foreach ($j_diff as $key => $value) {
     		$temp = array();
@@ -362,10 +418,11 @@ class MatchGenerator{
     		$temp['LastName'] = $person['Family name'];
     		$temp['email'] = $person['email'];
     		$temp['pid'] = $person['pid'];
-    		$result[] = $temp;
+    		$temp['waitlist'] = $person['waitlist'];
+    		$result_unmatches[] = $temp;
     	}
-
-    	return $result;
+    	// var_dump($result_unmatches);
+    	return $result_unmatches;
 
     }
     public function toName($result){
@@ -745,38 +802,42 @@ class MatchGenerator{
 	public function match($personA,$personB){
 		//print("******************* in match function *******************\n");
 		// do must
-		foreach ($this->mustList as $m){
-			// print("in for loop level 1\n");
-			// print("the value of m: ");
-			// print($m);
-			// print("\n");
-
-			switch ($m){
-				case "kickoff":
-					if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
-						return 0;
-					}
-					break;
-				case "genderpref":
-					if(!$this->genderprefCheck($personA['genderpref'],$personB['genderpref'])){
-						return 0;
-					}
-					break;
-				default :
-					// print("in default case of switch in match function\n");	
-					if (is_array($personA[$m])){
-						$length = $personA[$m];
-						if ((count(array_intersect($personA[$m], $personB[$m]))/$length) != 1){
+		if (count($this->mustList)){
+			foreach ($this->mustList as $m){
+				// print("in for loop level 1\n");
+				// print("the value of m: ");
+				// print($m);
+				// print("\n");
+				switch ($m){
+					case "kickoff":
+						if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
 							return 0;
 						}
-					}else{
-						if($personA[$m] != $personB[$m]){
+						break;
+					case "genderpref":
+						if(!$this->genderprefCheck($personA['genderpref'],$personB['genderpref'])){
 							return 0;
 						}
-					}
-					break;
+						break;
+					default :
+						// print("in default case of switch in match function\n");	
+						if(array_key_exists($m,$personA) && array_key_exists($m,$personB)){
+							if (is_array($personA[$m])){
+								$length = $personA[$m];
+								if ((count(array_intersect($personA[$m], $personB[$m]))/$length) != 1){
+									return 0;
+								}
+							}else{
+								if($personA[$m] != $personB[$m]){
+									return 0;
+								}
+							}
+						}
+						break;
+				}
 			}
 		}
+
 
 		// print("done for loop; starting priority list shit\n");
 
@@ -820,12 +881,12 @@ class MatchGenerator{
 					}
 					break;
 				default:
-					if(in_array($tag, $personA)){
+					if(array_key_exists($tag, $personA)){
 						$pA_value = explode(",", $personA[$tag]);
 					}else{
 						$pA_value = array();
 					}
-					if(in_array($tag, $personB)){
+					if(array_key_exists($tag, $personB)){
 						$pB_value = explode(",", $personB[$tag]);
 					}else{
 						$pB_value = array();
@@ -873,6 +934,9 @@ class MatchGenerator{
 
 		$lengtha1 = count($a1);
 		$lengtha2 = count($a2);
+		if(($lengtha1 < 1) || ($lengtha2 <1)){
+			return 0;
+		}
 		$a1_local = array();
 		$a2_local = array();
 

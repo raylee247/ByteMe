@@ -504,7 +504,10 @@ class appLoaderController extends Controller {
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $phonealt = $_POST['phonealt'];
-        $birthyear = $_POST['birthyear'];
+        $birthyear = "";
+        if(isset($_POST['birthyear'])){
+            $birthyear = $_POST['birthyear'];
+        }
         $studentgenderpref = $_POST['studentgenderpref'];
         $participation = $_POST['participation'];
         $year = date("Y"); //2015
@@ -565,10 +568,14 @@ class appLoaderController extends Controller {
         $position = $_POST['position']; //array
         $yearsofcswork = $_POST['yearsofcswork'];
         $levelofeducation = $_POST['levelofeducation'];
+        $company = "";
+        if(isset($_POST['company'])){
+            $company = $_POST['company'];
+        }
 
         $mentor_response = \DB::table('mentor')->insert(
                 ['mid' => $participant_id, 'job' => $position, 'yearofcs' => $yearsofcswork,
-                'edulvl' => $levelofeducation]
+                'edulvl' => $levelofeducation, 'company' => $company]
         );
 
         //extra questions
@@ -915,6 +922,14 @@ class appLoaderController extends Controller {
 
                 $test = $format . "|" . $tag . "|" . $question;
                 break;
+
+            case "singleRadio":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $answers = $_POST['answers'];
+
+                $test = $format . "|" . $tag . "|" . $question . "|" . $answers;
+                break;
         }
 
         return $test;
@@ -958,6 +973,11 @@ class appLoaderController extends Controller {
                 $question = $_POST['question'];
                 $test = $format . "|" . $tag[4] . "|" . $question[4];
                 break;
+            case "singleRadio":
+                $tag = $_POST['tag'];
+                $question = $_POST['question'];
+                $answers = $_POST['answers'];
+                $test = $format . "|" . $tag[5] . "|" . $question[5] . "|" . $answers[3];
         }
         return $test;
     }
