@@ -37,8 +37,7 @@
 <br>
 <table id="example" class="table table-striped table-bordered table-hover" width="100%">
     <thead>
-        <tr> <br>TODO // PARTICIPANT INFO PROFILE<br>
-           TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality
+        <tr> <br>
            <th>First Name</th>
            <th>Last name</th>
            <th>Student Number</th>

@@ -184,9 +184,9 @@ echo "this is stupid";
                     {{--</div>--}}
                 {{--</div>--}}
                 {{--<div class="modal-footer">--}}
-                    {{--//TODO:save to db--}}
+
                     {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
-                    {{--<button type="submit" class="btn btn-primary">Save Changes//todo: implement functionality</button>--}}
+                    {{--<button type="submit" class="btn btn-primary">Save Changes</button>--}}
                 {{--</div>--}}
             {{--</form>--}}
         {{--</div>--}}
