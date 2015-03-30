@@ -49,7 +49,70 @@ class MakeMatching extends Controller {
 		return 0;
 	}
 
-    public function refresh(){
+    public function insert_result_to_DB(){
+        $must = unserialize(base64_decode($_POST['must']));
+        $priority = unserialize(base64_decode($_POST['priority'])) ;
+        $avgSat = unserialize(base64_decode($_POST['avgSat']));
+        $median = unserialize(base64_decode($_POST['median']));
+        $result_ids = unserialize(base64_decode($_POST['result_ids']));
+        $result_names = unserialize(base64_decode($_POST['result_names']));
+        $result_unmatch = unserialize(base64_decode($_POST['result_unmatch']));
+
+        $mentors = unserialize(base64_decode($_POST['mentors']));
+        $seniors = unserialize(base64_decode($_POST['seniors']));
+        $juniors = unserialize(base64_decode($_POST['juniors']));
+
+        $trioCount = unserialize(base64_decode($_POST['trioCount']));
+        $unmatchCount = unserialize(base64_decode($_POST['unmatchCount']));
+        $matchname = $_POST['matchname'];
+
+        \DB::table('weighting')->insert(
+                    ['must' => implode(",", $must),
+                     'helpful' => implode(",", $priority),
+                     'name' => $matchname,
+                     'avgSat' => $avgSat,
+                     'median' => $median
+                    ]);
+        $wid = \DB::table('weighting')->where('must', implode(",", $must))
+                                            ->where('helpful', implode(",", $priority))
+                                            ->where('name' , $matchname)
+                                            ->pluck('wid');
+        
+        foreach (array_keys($result_ids) as $key => $value) {
+            // echo "<p>" . $value . " : ". $result[$value]  ."</p>";
+            $value_array = explode(",", $value);
+            $m = $value_array[0];
+            $s = $value_array[1];
+            $j = $value_array[2];
+
+            \DB::table('trioMatching')->insert(
+                    ['wid' => $wid,
+                     'mentor' => $m,
+                     'senior' => $s,
+                     'junior' => $j,
+                    ]
+                );
+        }
+
+
+        $Response =  \DB::table('weighting')->get();
+
+        return view('savedmatches', compact('Response'));
+    }
+    public function refreshSavedMatches(){
+        // if(isset($_POST['wid']) && isset($_POST['rename'])){
+        \DB::table('weighting')
+            ->where('wid', $_POST['wid'])
+            ->update(array('name' => $_POST['rename']));
+               
+            
+        // }
+        $Response =  \DB::table('weighting')->get();
+
+        return view('savedmatches', compact('Response'));
+    }
+
+    public function refreshMakeMatching(){
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
         $avgSat = unserialize(base64_decode($_POST['avgSat']));

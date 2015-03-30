@@ -108,13 +108,13 @@ Route::post('deleteParticipant', 'profileController@deleteParticipant');
 
 Route::get('weight', 'MakeMatching@loadParameters');
 Route::post('makeMatching', 'MakeMatching@generateMatch');
-Route::post('makeMatching_refresh', 'MakeMatching@refresh');
-
+Route::post('makeMatching_refresh', 'MakeMatching@refreshMakeMatching');
+Route::post('savedmatches', 'MakeMatching@insert_result_to_DB');
+Route::post('savedmatches_refresh', 'MakeMatching@refreshSavedMatches');
 
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
-Route::post('savedmatches', 'weightController@savedmatchname');
-Route::get('kickoffmatches', 'weightController@kickoffindex');
+
 Route::post('kickoffmatches', 'weightController@savedmaxKickoff');
 Route::get('currentmatch', 'weightController@currentmatchindex');
 
