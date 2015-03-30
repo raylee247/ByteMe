@@ -6,7 +6,10 @@
     <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
 @endif
 
-<div class="panel panel-default">
+<div class="panel panel-info">
+    <div class="panel-heading">
+        Viewing Waitlisted Participants
+    </div>
   <div class="panel-body">
     <div>    
         <div class="col-xs-8 col-xs-offset-2">
@@ -22,10 +25,10 @@
     </div>
 </div>
 
-<br>
-<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+<br><br><br>
+<table id="example" class="table table-striped table-bordered" cellspacing="0">
         <thead>
-            <tr> TODO // implement MOVE TO PARTICIPANT function + SEARCH FUNCTION + FILL IN DATATABLE + IMPLEMENT DB QUERY <br> + PARTICIPANT INFO PROFILE (figure out whether participant is mentor/student and displaying accordingly)
+            <tr> 
                 <th>First Name</th>
                 <th>Last name</th>
                 <th>Email</th>               
@@ -45,19 +48,11 @@
                     echo "<td>"; 
                     print_r($single_result['email']);
                     echo "</td>";
-                    // echo "<td><p data-placement='top' data-toggle='tooltip' title='Move to Participants'><button class='btn btn-danger btn-xs' data-title='Move' data-toggle='modal' data-target='#move' ><span class='glyphicon glyphicon-flag'></span></button></p></td>";             
-               
                     echo "<td>";
                     echo "<form method='post' action='toParticipantPool'>";
                     echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
-                    echo "<span class='input-group-btn'>";
-                    echo "<span class='btn btn-primary btn-file'>";
-                    echo "<span class='glyphicon glyphicon-flag' aria-hidden='true'></span>";
                     echo "<input type='hidden' name='participant_email_to_pp' value=".$single_result['email'].">";
-                    echo "<input type='submit' value='Move to Participant Pool' name='move_to_participant_pool'>";
-                    echo "</span>";
-                    echo "</span>";
-                    echo "</div>";
+                    echo "<button type='submit' class='btn btn-xs btn-danger' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span></button>";
                     echo "</form>";
                     echo "</td>";
                     echo "</tr>";
@@ -65,7 +60,6 @@
             ?>
         </tbody>
     </table>
-
 </div>
 </div>
 
