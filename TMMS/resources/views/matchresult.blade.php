@@ -132,7 +132,7 @@
 				?>
 			</tbody>
 		</table>
-<form method="POST" action"makeMatching_refresh">
+<form method="POST" action="makeMatching_refresh">
 		<table id="unmatchedlist" class="table table-striped table-bordered table-hover" width="100%">
 			<caption>Viewing Unmatched Participants</caption>
 			<thead>
