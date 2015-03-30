@@ -90,6 +90,7 @@ class MakeMatching extends Controller {
                      'mentor' => $m,
                      'senior' => $s,
                      'junior' => $j,
+                     'satisfaction' => $result_ids[$value]
                     ]
                 );
         }
@@ -181,12 +182,17 @@ class MakeMatching extends Controller {
 
         //TODO not sure what you are doing here!
 
-        set_time_limit(3600);
+        // set_time_limit(3600);
         print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
         $result_ids =  $generator->generate_all();
         // result with [ match => satisfaction]
-        $avgSat = array_sum($result_ids)/count($result_ids);
+        if(count($result_ids) > 0){
+            $avgSat = array_sum($result_ids)/count($result_ids);
+        }else{
+            $avgSat = 0;
+        }
+        
         $median = $this->array_median($result_ids);
         $result_names = $generator->toName($result_ids);
         $result_unmatch = $generator->get_unmatches($result_ids);

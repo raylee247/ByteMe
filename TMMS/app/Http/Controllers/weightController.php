@@ -73,7 +73,9 @@ class weightController extends Controller {
         if (count($rawApp)){
             $message = "success";
         }
-        return view('currentmatch')->with('message', $message);
+
+
+        return view('currentmatch',compact('message','rawApp'));
     }
 
     public function kickoffindex()
@@ -111,6 +113,7 @@ class weightController extends Controller {
                     ['mentor' => $match['mentor'],
                      'senior' => $match['senior'],
                      'junior' => $match['junior'],
+                     'satisfaction' => $match['satisfaction'],
                      'year' => date("Y")
                     ]
                 );
