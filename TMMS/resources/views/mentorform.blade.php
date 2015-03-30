@@ -555,7 +555,7 @@
                               $answer = explode("," , $rawAnswer);
                               $answerCount = count($answer);
                               for ($i = 0; $i < $answerCount; $i++){
-                                  echo '<label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
+                                  echo '<div class="col-sm-1"></div><label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
                                   if(isset($questions[$x][1]) && $questions[$x][1]==$answer[$i]){
                                       echo "checked";
                                   }

@@ -15,7 +15,6 @@
                     </h4>
                 </div>
                 <div class="panel-body">
-                    // TODO : SET UP REQUIRED FIELDS , validation, fix "other" fields
                     <form class="form-horizontal" role="form" id="mentorapp" action="mentorapp" method="POST" >
                         <div class="form-group">
                             <label class="control-label col-sm-3">Email address:</label>
@@ -47,9 +46,9 @@
                                 <label class="control-label col-sm-3">Gender:</label>
                                 <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male" required>Identify as male</label>
                                 <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female" required>Identify as female</label>
-                                <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other" required>Other (please specify)//TODO</label>
+                                <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other" required>Other (please specify)</label>
                                 <div class="genderother" id="otherfield">
-                                    <label class="control-label col-sm-3">Gender (please specify):</label> //TODO : FIX ALIGNMENT
+                                    <label class="control-label col-sm-3">Gender (please specify):</label> 
                                     <div class="col-md-6 panel-collapse collapse in">
                                         <input type="text" class="form-control" name="genderother" value="otherfield">
                                     </div>
@@ -157,7 +156,7 @@
                                 <input type="checkbox" name="employmentstatus[]" value="startup">Working for a startup<br>
                                 <input type="checkbox" name="employmentstatus[]" value="selfemployed">Self-employed<br>
                                 <input type="checkbox" name="employmentstatus[]" value="retired">Retired<br>
-                                <input type="checkbox" name="employmentstatus[]" value="other_employment">Other (please specify) //TODO <br>
+                                <input type="checkbox" name="employmentstatus[]" value="other_employment">Other (please specify)<br>
                             </div>
                             <br><br><br><br><br><br><br> -->
                             <div class="form-inline">
@@ -186,7 +185,6 @@
                                         <option id="3-5years">Master's</option>
                                         <option id="6-10years">PhD</option>
                                         <option id="11-15years">Other (please specify)</option>
-                                        // TODO
                                     </select>
                                 </div>
                             </div>
@@ -208,7 +206,7 @@
                                         for ($i = 0; $i < $answerCount; $i++){
                                             echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
                                         }
-                                        echo '</div><br><br><br>';
+                                        echo '</div><br><br><br><br><br><br>';
                                         break;
 
                                     case "text":
@@ -217,7 +215,7 @@
                                         break;
 
                                     case "radio":
-                                        echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-md-9">' .
+                                        echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-sm-1"></div><div class="col-md-9">' .
                                                 $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
 
                                         $rawOptions = $questions[$x][4];
@@ -277,7 +275,7 @@
                                         $answer = explode("," , $rawAnswer);
                                         $answerCount = count($answer);
                                         for ($i = 0; $i < $answerCount; $i++){
-                                            echo '<label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
+                                            echo '<div class="col-sm-1"></div><label class="radio-inline"><input type="radio" name="' . $questions[$x][1] . '"';
                                             if(isset($questions[$x][1]) && $questions[$x][1]==$answer[$i]){
                                                 echo "checked";
                                             }
@@ -307,6 +305,8 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
 
             <script type="text/javascript">
             $("#mentorapp").validate({
