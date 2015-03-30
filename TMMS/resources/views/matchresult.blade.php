@@ -73,38 +73,69 @@
 		</div>
 
 		<script type="text/javascript">
+$(document).ready(function(){
+			$( "#matchpanel" ).hide();
+  // $( "#manual" ).hide();
 
-		$("#search").on("keyup", function() {
-	    	var value = $(this).val();
+  $( "#addmatch" ).click(function() {
+  	$( "#matchpanel" ).slideToggle();
+  });
 
-		    $("#mentorTable tr").each(function(index) {
-		        if (index !== 0) {
+  $( "#addanothermatch" ).click(function() {
+  	$( "#manual" ).clone().appendTo("#additional");
+  	$( "addanothermatch").hide();
+  });
 
-		            $row = $(this);
-		    
-		            var id = $row.find("td:eq(0)").text();
-		            var id1 = $row.find("td:eq(1)").text();
-		            var id2 = $row.find("td:eq(2)").text();
+	$("#search").on("keyup", function() {
+	    var value = $(this).val();
 
-		            if (id.indexOf(value) !== 0) {
-		            	if(id1.indexOf(value) !== 0) {
-		            		if(id2.indexOf(value) !== 0) {
-		            			$row.hide();
-		            		}
-		            		else {
-		            			$row.show();
-		            		}
-		            	}
-		            	else {
-		            		$row.show();
-		            	}
-		            }
-		            else {
-		                $row.show();
-		            }
-		        }
-		    });
-		});
+	    $("#mentorTable tr").each(function(index) {
+	        if (index !== 0) {
+
+	            $row = $(this);
+	    
+	            var id = $row.find("td:eq(0)").text();
+	            var id1 = $row.find("td:eq(1)").text();
+	            var id2 = $row.find("td:eq(2)").text();
+	            var id3 = $row.find("td:eq(3)").text();
+	            
+	            if (id.indexOf(value) !== 0) {
+	            	if(id1.indexOf(value) !== 0) {
+	            		if(id2.indexOf(value) !== 0) {
+	            			if(id3.indexOf(value) !== 0) {
+	            				$row.hide();
+	            			}
+	            			else {
+	            				$row.show();
+	            			}
+	            		}
+	            		else {
+	            			$row.show();
+	            		}
+	            	}
+	            	else {
+	            		$row.show();
+	            	}
+	            }
+	            else {
+	                $row.show();
+	            }
+	        }
+	    });
+	});
+
+	$('#testingtest tr').click(function(){
+            // index of row clicked 
+            var row = ($(this).index());
+
+            var elem = document.getElementById("industry_mentor_input");
+            elem.value
+
+            // actual pid of the participant 
+            
+            return false;
+        });
+});
 		</script>
 
 
@@ -204,7 +235,7 @@
 						<div>    
 							<div class="col-xs-8 col-xs-offset-2">
 								<div class="col-xs-8 col-xs-offset-2">
-									<input type="text" id="search" placeholder="live search"></input>
+									<input type="text" id="mentor_search" placeholder="live search"></input>
 								</div>
 							</div>
 						</div>
@@ -224,6 +255,7 @@
 								<?php 
 								if (isset($mentors)){
 									foreach ($mentors as $key => $value) {
+										echo "<tr>";
 										foreach ($value as $title => $info) {
 											echo "<td>".$info."</td>";
 										}
