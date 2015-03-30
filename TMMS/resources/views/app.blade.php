@@ -8,6 +8,7 @@
 
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/adminhome.css') }}" rel="stylesheet">
+  <link href="{{ asset('/css/jqueryvalidate.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('/css/bootstrap.css') }}">
 <!--   <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}"> -->
   <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
@@ -24,7 +25,9 @@
     // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <![endif]-->
     <script src="{{ asset('/js/jquery-1.10.2.js') }}"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js"></script>
     <script src="{{ asset('/js/adminhome.js') }}"></script>
+    <script src="{{ asset('/js/pattern.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
     <script src="{{ asset('/js/jquery-ui.js') }}"></script>

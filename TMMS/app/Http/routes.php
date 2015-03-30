@@ -114,7 +114,7 @@ Route::post('makeMatching_refresh', 'MakeMatching@refresh');
 Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 Route::post('savedmatches', 'weightController@savedmatchname');
-Route::get('kickoffmatches', 'weightController@kickoffindex');
+// Route::get('kickoffmatches', 'weightController@kickoffindex');
 Route::post('kickoffmatches', 'weightController@savedmaxKickoff');
 Route::get('currentmatch', 'weightController@currentmatchindex');
 

@@ -293,7 +293,7 @@
                               for($i = 0; $i < $answerCount; $i++){
                                   echo '<tr><td><center>' . $answer[$i] . '</center></td>';
                                   //generate each row
-                                  for($j = 0; $j < $answerCount; $j++){
+                                  for($j = 0; $j < $optionsCount; $j++){
                                       echo '<td><center><input type="radio" name="' . $questions[$i][1] . '"';
                                       if(isset($day1) && $day1 == $answer[$i]){
                                           echo "checked";
