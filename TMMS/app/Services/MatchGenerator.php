@@ -447,30 +447,7 @@ class MatchGenerator{
     	return $p['First name'] . " " . $p['Family name'];
     }
 
-    public function insert_result_to_DB($result){
-    	\DB::table('weighting')->insert(
-                    ['must' => implode(",", $this->mustList),
-                     'helpful' => implode(",", $this->priority)
-                    ]);
-		$this->wid = \DB::table('weighting')->where('must', implode(",", $mustList))
-											->where('helpful', implode(",", $priority))
-											->pluck('wid');
-    	foreach (array_keys($result) as $key => $value) {
-    	   	// echo "<p>" . $value . " : ". $result[$value]  ."</p>";
-    	   	$value_array = explode(",", $value);
-    	   	$m = $value_array[0];
-    	   	$s = $value_array[1];
-    	   	$j = $value_array[2];
-
-    	   	\DB::table('trioMatching')->insert(
-                    ['wid' => $this->wid,
-                     'mentor' => $m,
-                     'senior' => $s,
-                     'junior' => $j
-                    ]
-                );
-    	}
-    }
+    
     /**
 	 * DYNAMIC PROGRAMMING WOOOOOOHOOOOOOO
 	 * since mentor is the primary constraint on the program, 
