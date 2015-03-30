@@ -97,7 +97,24 @@ class weightController extends Controller {
     public function savedmaxKickoff()
     {
         // do db operation  of pushing the selcted result into result table
-        $selected_result = $_POST['target_wid'];
+        $check = \DB::table('report')->where ('year', '=', date("Y"))->get();
+        if (count($check) > 0){
+           \DB::table('report')->where('year', '=', date("Y"))->delete();
+        }
+
+        
+        $selected_result = \DB::table('trioMatching')->where ('wid', '=', $_POST['target_wid'])
+                                                     ->get();
+
+        foreach ($selected_result as $index => $match) {
+            \DB::table('report')->insert(
+                    ['mentor' => $match['mentor'],
+                     'senior' => $match['senior'],
+                     'junior' => $match['junior'],
+                     'year' => date("Y")
+                    ]
+                );
+        }
         
 // TODO: SAVE NUMBER TO DB
         $mentor_per_group = $_POST["nummentors"];
