@@ -109,7 +109,7 @@ input[readonly] {
 #sortable2, #sortable3 {
   height: 45%;
 }
-#sortable1 li, #sortable2 li { 
+#sortable1 li, #sortable2 li, #sortable3 li{ 
   margin: 5px; 
   padding: 5px; 
   font-size: 1.2em; 
