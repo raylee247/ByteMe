@@ -60,7 +60,9 @@ class weightController extends Controller {
     public function savedmatchesindex()
     {
 
-        return view('savedmatches');
+        $Response =  \DB::table('weighting')->get();
+
+        return view('savedmatches', compact('Response'));
     }
 
     public function currentmatchindex()
@@ -94,6 +96,9 @@ class weightController extends Controller {
     // POST request to db to save maximum participants for kickoff 
     public function savedmaxKickoff()
     {
+        // do db operation  of pushing the selcted result into result table
+        $selected_result = $_POST['target_wid'];
+        
 // TODO: SAVE NUMBER TO DB
         $mentor_per_group = $_POST["nummentors"];
         $participants_per_night = $_POST["maxparticipants"];

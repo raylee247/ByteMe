@@ -100,16 +100,13 @@ class MakeMatching extends Controller {
         return view('savedmatches', compact('Response'));
     }
     public function refreshSavedMatches(){
-        if(isset($_POST)){
-            foreach ($_POST as $key => $value) {
-               if (strpos($key, "rename")){
-                    $target_wid = $value;
-                    \DB::table('weighting')
-                        ->where('wid', $value)
-                        ->update(array('name' => $_POST['rename']));
-               }
-            }
-        }
+        // if(isset($_POST['wid']) && isset($_POST['rename'])){
+        \DB::table('weighting')
+            ->where('wid', $_POST['wid'])
+            ->update(array('name' => $_POST['rename']));
+               
+            
+        // }
         $Response =  \DB::table('weighting')->get();
 
         return view('savedmatches', compact('Response'));
