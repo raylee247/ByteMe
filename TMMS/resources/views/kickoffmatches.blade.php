@@ -68,7 +68,31 @@
 	</div>
 </div>
 
+<?php
 
+// if ($message == 'fail'){
+// 	echo '<div class="modal fade in" id="noresult" tabindex="-1" role="dialog">
+// 	<div class="modal-dialog">
+// 		<div class="modal-content">
+// 			<div class="modal-body">
+// 				<div class="panel panel-danger">
+// 					<div class="panel-heading">
+// 						<h3 class="panel-title">No Match Results</h3>
+// 					</div>
+// 					<div class="panel-body">
+// 						There are currently no match results. Please run the matching before attempting to view this page.			
+// 					</div>
+// 					<div class="panel-footer">
+// 						<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
+// 					</div>
+// 				</div>
+// 			</div>        
+// 		</div>
+// 	</div>
+// </div>';
+
+// }
+?>
 <script type="text/javascript">
 $(window).load(function(){
 	$('#noresult').modal('show');

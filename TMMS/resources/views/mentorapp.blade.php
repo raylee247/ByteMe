@@ -289,12 +289,12 @@
                             }
 
                             ?>
-                            <div class="col-sm-1"></div>
+                           <!--  <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Are you a UBC alumnae/alumnus?</label>
                             <div class="col-md-4">
                                 <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_yes") echo "checked";?> value="alumnus_yes" required>Yes</label>
                                 <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_no") echo "checked";?> value="alumnus_no" required>No</label>
-                            </div>
+                            </div> -->
                             <br><br>
                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
