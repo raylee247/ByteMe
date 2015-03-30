@@ -244,7 +244,7 @@ $current_year = date("Y");
         </tbody>
     </table>
 
-    <!-- Editing Modal -->
+    <!-- Student Editing Modal -->
     <div id="student-modal" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -541,7 +541,7 @@ $current_year = date("Y");
         </tbody>
     </table>
 
-    <!-- Editing Modal -->
+    <!-- Mentor Editing Modal -->
     <div id="mentor-modal" class="modal" tabindex="-1" role="dialog">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -557,7 +557,7 @@ $current_year = date("Y");
                   <div class="panel-body">
                       <div class="row">
                           <div class=" col-md-12"> 
-                            <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
+                            <form method="POST" action="<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <!-- Flag for EditParticipantRequest.php -->
