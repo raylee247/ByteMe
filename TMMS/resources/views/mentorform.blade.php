@@ -21,8 +21,8 @@
             <?php
                   $count = count($kickoff);
                   
-                  echo '<label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br>
-                  <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
+                  echo '<div class="col-sm-1"></div><label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br><br>
+                  <div class="col-sm-1"></div><div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
                   student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
                   same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
                   indicate your availability for the following dates:
@@ -273,7 +273,7 @@
                               break;
                   
                           case "radio":
-                              echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-md-9">' .
+                              echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><div class="col-sm-1"></div><div class="col-md-9">' .
                                       $questions[$x][3] . '</div><table class="table table-hover" style="width:90%"><tr><th></th>';
                   
                               $rawOptions = $questions[$x][4];
