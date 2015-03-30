@@ -23,7 +23,9 @@
 				<b>Parameters Required:</b> <?php foreach ($must as $key) {echo $key;} ?><br>
 				<b>Parameter Priority:</b> <?php foreach ($priority as $key) {echo $key . ",";} ?><br>
 				<b>Average Satisfaction:</b> {{$avgSat}}<br>
-				<b>Median:</b> {{$median}}
+				<b>Median:</b> {{$median}}<br>
+				<b>Matched Trios: </b> {{$trioCount}} <?php echo '('.$trioCount*3 . " participants)<br>"?>
+				<b>UnMatched Participants:</b> {{$unmatchCount}}<br>
 			</form>
 			</h5>
 		</legend>
@@ -161,7 +163,12 @@
 							  <input type="hidden" name="median" value= "'. base64_encode(serialize($median)) . '" >
 							  <input type="hidden" name="result_ids" value= "'. base64_encode(serialize($result_ids)) . '" >
 							  <input type="hidden" name="result_names" value= "'. base64_encode(serialize($result_names)) . '">
-							  <input type="hidden" name="result_unmatch" value= "'. base64_encode(serialize($result_unmatch)) . '" >';
+							  <input type="hidden" name="result_unmatch" value= "'. base64_encode(serialize($result_unmatch)) . '" >
+							  <input type="hidden" name="mentors" value= "'. base64_encode(serialize($mentors)) . '" >
+							  <input type="hidden" name="seniors" value= "'. base64_encode(serialize($seniors)) . '" >
+							  <input type="hidden" name="juniors" value= "'. base64_encode(serialize($juniors)) . '" >
+							  <input type="hidden" name="trioCount" value= "'. base64_encode(serialize($trioCount)) . '" >
+							  <input type="hidden" name="unmatchCount" value= "'. base64_encode(serialize($unmatchCount)) . '" >';
 						if (!$value['waitlist']){
 							echo '<td><button type="submit" class="btn btn-sm btn-primary"
 							  name= "pidToWaitList" value = "' . $value['pid'] .  '">

@@ -934,6 +934,9 @@ class MatchGenerator{
 
 		$lengtha1 = count($a1);
 		$lengtha2 = count($a2);
+		if(($lengtha1 < 1) || ($lengtha2 <1)){
+			return 0;
+		}
 		$a1_local = array();
 		$a2_local = array();
 
