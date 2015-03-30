@@ -27,14 +27,67 @@ class KickOffMatch{
 	 * @param priority list for this generator
 	 * @return void
 	 */
-	public function __construct($kickoffnights, $max, $mentor_per_group)
+	public function __construct($max, $mentor_per_group)
 	{
+		// print("********************* in constructor **********************\n");
 		$this->current_matches  = \DB::table('report')->where('report.year', '=', date('Y'))->get();
-		$this->kick_off_nights = $kickoffnights;
 		$this->max_participant = $max;
-		$this->num_of_nights = count($this->kick_off_nights);
 		$this->mentorsInGroup = $mentor_per_group;
 		$this->fullMentorTable= \DB::table('mentor')->get();
+
+		$kickoffnights = array();
+		$allparticipant = \DB::table('participant')->where('participant.year', '=', date('Y'))->get();
+		$participantkickoff;
+
+		foreach($allparticipant as $participant){
+			if(empty($participantkickoff)){
+				$participantkickoff = $participant["kickoff"];
+			}else{
+				$participantkickoff = $participantkickoff.",".$participant["kickoff"];
+			}
+
+		}
+
+		$kickoffnights = array_unique(explode(",", $participantkickoff));
+
+		// print("printing kickoffnight");
+		// var_dump($kickoffnights);
+
+		foreach ($kickoffnights as $key => $value){
+			if(strcmp($value, "1111") == 0){
+				unset($kickoffnights[$key]);
+			}else{
+				if(strcmp($value, "Kickoff Date") == 0){
+					unset($kickoffnights[$key]);
+				}else{
+					if(strcmp($value, "09-09-9282") == 0){
+						unset($kickoffnights[$key]);
+					}else{
+						if(strcmp($value, "") == 0){
+						unset($kickoffnights[$key]);
+					}
+					}
+				}
+			}
+		}
+
+		// print("\n");
+		// print("printing kickoffnight");
+		// var_dump($kickoffnights);
+		// print("\n");
+
+		foreach ($kickoffnights as $value) {
+			array_push($this->kick_off_nights, $value);
+		}
+
+		// print("\n");
+		// print("printing kickoffnight");
+		// var_dump($this->kick_off_nights);
+		// print("\n");
+
+		$this->num_of_nights = count($this->kick_off_nights);
+
+		// var_dump($kickoffnights);
 
 		for($i = 0; $i < $this->num_of_nights; $i++){
 			array_push($this->ppl_p_night, $this->max_participant);
@@ -42,6 +95,8 @@ class KickOffMatch{
 			$this->ppl_p_night[$newkey] = $this->ppl_p_night[$i];
 			unset($this->ppl_p_night[$i]);
 		}
+
+		// print("********************* end of constructor **********************\n");
 
 		// var_dump($this->current_matches);
 		// print("\n");
@@ -66,13 +121,13 @@ class KickOffMatch{
 	
 	public function generate(){
 		// $this->test();
-		print("********************* in generate function **********************\n");
+		// print("********************* in generate function **********************\n");
 		ini_set('memory_limit', '1000M');
 		$this->setKickOffDay();
 		$response = $this->setGroup();
-		var_dump($response);
-		print("******************* end of genrate function *******************\n\n");
-		return 0;
+		// var_dump($response);
+		// print("******************* end of genrate function *******************\n\n");
+		return $response;
 	}
 
 	/**
@@ -82,11 +137,11 @@ class KickOffMatch{
 	 */
 	public function setKickOffDay()
 	{
-		print("********************* in setKickOffDay function **********************\n");
+		// print("********************* in setKickOffDay function **********************\n");
 		$this->addAvailableDayToTrio();
 		$this->pickday();
 		//$this->getSpaceLeft();
-		print("\n******************* end of setKickOffDay function *******************\n\n");
+		// print("\n******************* end of setKickOffDay function *******************\n\n");
 	}
 
 	/**
@@ -96,7 +151,7 @@ class KickOffMatch{
 	 */
 	public function addAvailableDayToTrio()
 	{
-		print("********************* in addAvailableDayToTrio function **********************\n");
+		// print("********************* in addAvailableDayToTrio function **********************\n");
 		$temp_array = array();
 
 		foreach($this->current_matches as $element){
@@ -127,7 +182,7 @@ class KickOffMatch{
 		}
 
 		$this->current_matches = $temp_array;
-		print("********************* end of addAvailableDayToTrio function **********************\n\n");
+		// print("********************* end of addAvailableDayToTrio function **********************\n\n");
 	}
 
 	/**
@@ -137,22 +192,22 @@ class KickOffMatch{
 	 */
 	public function pickday()
 	{
-		print("********************* in pickday function **********************\n");
+		// print("********************* in pickday function **********************\n");
 		for ($i = 0; $i<count($this->current_matches); $i++) {
 			$element = $this->current_matches[$i];
 			$dates = array_slice($element, 5);
-			var_dump($dates);
+			// var_dump($dates);
 			if(count($dates)==1){
 				$this->ppl_p_night[$dates[0]] = $this->ppl_p_night[$dates[0]]-3;
 			}else{
 					$day = $this->findBestDay($element);
 					$element = array_slice($element, 0, 5);
 					array_push($element, $day);
-					var_dump($element);
+					// var_dump($element);
 					$this->current_matches[$i] = $element;
 				}
 			}
-		print("********************* end of pickday function **********************\n\n");
+		// print("********************* end of pickday function **********************\n\n");
 	}
 
 	/**
@@ -162,7 +217,7 @@ class KickOffMatch{
 	 */
 	public function findBestDay($element)
 	{
-		print("********************* in findBestDay function **********************\n");
+		// print("********************* in findBestDay function **********************\n");
 		//find the night with the least members
 		$dates = array_slice($element, 5);
 		$night;
@@ -179,48 +234,9 @@ class KickOffMatch{
 		// print($night);
 		// print(" quota = ");
 		// print($this->ppl_p_night[$night]);
-		print("********************* end of findBestDay function **********************\n\n");
+		// print("********************* end of findBestDay function **********************\n\n");
 		return $night;
 	}
-
-	// /**
-	//  * prints the number of people in each kickoff day
-	//  * 
-	//  * just prints those specified values
-	//  */
-	// public function getSpaceLeft()
-	// {
-	// 	print("********************* in getSpaceLeft function **********************\n");
-	// 	var_dump($this->kick_off_nights);
-	// 	foreach($this->kick_off_nights as $night){
-	// 		// var_dump($this->ppl_p_night);
-	// 		$quota = $this->ppl_p_night[$night];	
-	// 		$value = 50 - $quota;
-	// 		$value = strval($value);
-	// 		$printString = "Kickoff Night on ".$night." have ".$value." people.\n";
-	// 		print("\n\n");
-	// 		print($printString);
-	// 		print("\n\n");
-	// 	}
-	// 	print("********************* end of getSpaceLeft function **********************\n\n");
-	// }
-
-	// /**
-	//  * prints all the groups with mentors and students in each group
-	//  * 
-	//  * just prints those specified values
-	//  */
-	// public function printAllNights()
-	// {
-	// 	print("********************* in getSpaceLeft function **********************\n");
-	// 	foreach($kick_off_nights as $nights => $values){
-	// 		$printString = "Kickoff Night on ".$nights." have ".$values." people.\n";
-	// 		print("\n");
-	// 		print($printString);
-	// 		print("\n");
-	// 	}
-	// 	print("********************* end of getSpaceLeft function **********************\n\n");
-	// }
 
 	/**
 	 * populates All groups with its night as its key
@@ -229,7 +245,7 @@ class KickOffMatch{
 	 */
 	public function setGroup()
 	{
-		print("********************* in setGroup function **********************\n");
+		// print("********************* in setGroup function **********************\n");
 		$result = array();
 		$count = 0;
 		foreach($this->kick_off_nights as $night){
@@ -303,13 +319,13 @@ class KickOffMatch{
 			$count++;
 		}
 
-		print("********************* end of setGroup function **********************\n\n");
+		// print("********************* end of setGroup function **********************\n\n");
 
 		return $result;
 	}
 
 	public function is_valid($mentor1, $mentor2){
-		print("*********************  in is_valid function **********************\n\n");
+		// print("*********************  in is_valid function **********************\n\n");
 
 		$m1_company;
 		$m1_job;
@@ -334,16 +350,16 @@ class KickOffMatch{
 		$rating = ($c1+$c2)/2;
 
 		if($rating > 50 || strcmp($m1_company, $m2_company)==0){
-			print("********************* end of is_valid function **********************\n\n");
+			// print("********************* end of is_valid function **********************\n\n");
 			return false;
 		}else{
-			print("********************* end of is_valid function **********************\n\n");
+			// print("********************* end of is_valid function **********************\n\n");
 			return true;
 		}
 	}
 
 	public function putIntoGroup($curr_num, $group_total, $curr_group){
-		print("********************* in putIntoGroup function **********************\n\n");
+		// print("********************* in putIntoGroup function **********************\n\n");
 		$groups_tested = 1;
 		for($i=$curr_num; $groups_tested < $group_total; $i++){
 			$validity = true;
@@ -352,11 +368,11 @@ class KickOffMatch{
 			}
 
 			if($validity){
-				print("********************* end of putIntoGroup function **********************\n\n");
+				// print("********************* end of putIntoGroup function **********************\n\n");
 				return $i;
 			}
 		}
-		print("********************* end of putIntoGroup function **********************\n\n");
+		// print("********************* end of putIntoGroup function **********************\n\n");
 		return $curr_num;
 	}
     

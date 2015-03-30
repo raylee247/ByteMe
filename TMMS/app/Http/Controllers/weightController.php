@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\KickOffMatch;
 
 use Illuminate\Http\Request;
 
@@ -73,16 +74,16 @@ class weightController extends Controller {
         return view('currentmatch')->with('message', $message);
     }
 
-    // public function kickoffindex()
-    // {
-    //     $year = date("Y");
-    //     $message = "fail";
-    //     $rawApp = \DB::table("report")->where("year",$year)->get();
-    //     if (count($rawApp)){
-    //         $message = "success";
-    //     }
-    //     return view('kickoffmatches')->with('message', $message);
-    // }
+    public function kickoffindex()
+    {
+        $year = date("Y");
+        $message = "fail";
+        $rawApp = \DB::table("report")->where("year",$year)->get();
+        if (count($rawApp)){
+            $message = "success";
+        }
+        return view('kickoffmatches')->with('message', $message);
+    }
 // POST request to db to save match name 
     public function savedmatchname()
     {
@@ -94,7 +95,13 @@ class weightController extends Controller {
     public function savedmaxKickoff()
     {
 // TODO: SAVE NUMBER TO DB
-        return view('kickoffmatches');
+        $mentor_per_group = $_POST["nummentors"];
+        $participants_per_night = $_POST["maxparticipants"];
+        $matcher = new KickOffMatch($participants_per_night, $mentor_per_group);
+        $response = $matcher->generate();
+
+        // var_dump($response);
+        return view('kickoffmatches')->with('kickoffmatchings', $response);
     }
 
 }
