@@ -108,6 +108,7 @@ Route::post('deleteParticipant', 'profileController@deleteParticipant');
 
 Route::get('weight', 'MakeMatching@loadParameters');
 Route::post('makeMatching', 'MakeMatching@generateMatch');
+Route::post('makeMatching_refresh', 'MakeMatching@refresh');
 
 
 Route::post('matchresult', 'weightController@matchresultindex');
