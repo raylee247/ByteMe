@@ -42,7 +42,7 @@ class MakeMatching extends Controller {
 		$kickoffMax = 50;
 		$maxMentor = 1;
 		$kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
-		$generator = new KickOffMatch($kickoffs, $kickoffMax, $maxMentor);
+		$generator = new KickOffMatch($kickoffMax, $maxMentor);
 		print("\n\ngoing into generate\n\n");
 		echo $generator->generate();
 		return 0;
