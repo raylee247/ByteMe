@@ -4,6 +4,8 @@
 		
 		<link href='//fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 
+		    <link rel="stylesheet" href="{{ asset('/css/bootstrap.css') }}">
+
 		<style>
 			body {
 				margin: 0;
@@ -20,6 +22,7 @@
 				text-align: center;
 				display: table-cell;
 				vertical-align: middle;
+				top: 25px;
 			}
 
 			.content {
@@ -40,11 +43,18 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">TMMS</div>
-				<a href="{{ url('/mentorapp') }}"><button type="button">Apply As Mentor</button></a>
-				<a href="{{ url('/studentapp') }}"><button type="button">Apply As Student</button></a>
-				<a href="{{ url('home') }}"><button type="button">Admin Login</button></a>
-				<div class="quote">{{ Inspiring::quote() }}</div>
+
+
+
+
+
+	{!! HTML::image('images/Mentorship_560x312.jpg', "Logo",array('height'=>'350','width'=>'750')) !!};
+
+				<div class="title"><b>TMMS</b></div><br>
+				<a href="{{ url('/mentorapp') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Apply As Mentor</button></a>
+				<a href="{{ url('/studentapp') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Apply As Student</button></a>
+				<a href="{{ url('home') }}"><button type="button"class="btn btn-primary"><span class="glyphicon glyphicon-wrench"></span>Admin Login</button></a><br><br>
+				Brought to you by: {!! HTML::image('images/Logo.jpg', "Logo", array('height'=>'90','width'=>'100')) !!};
 			</div>
 		</div>
 	</body>

@@ -75,11 +75,6 @@
 
  {{--loading screen--}}
  {{--<div id="load_screen"><div id="loading"><img src="loading.gif" alt="Be patient..." /></div></div>--}}
-
-
-
-
-
   <nav class="navbar navbar-default" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -94,6 +89,11 @@
        @else
       <a class="navbar-brand" href="{{ url('/home') }}">TMMS</a>
       @endif
+
+<body>
+
+</body>
+
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -101,6 +101,18 @@
       <ul class="nav navbar-nav">
         <li><a href="about">About</a></li>
       </ul>
+
+      
+      <ul class="nav navbar-nav">
+        <li><a onclick="goBack()">Go Back</a></li>
+      </ul>
+      <script>
+      function goBack() {
+          window.history.back();
+          }
+      </script>
+
+
       <ul class="nav navbar-nav navbar-right">
 
         @if(Session::has('message'))
