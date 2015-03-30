@@ -101,13 +101,14 @@ class MakeMatching extends Controller {
         return view('savedmatches', compact('Response'));
     }
     public function refreshSavedMatches(){
-        // if(isset($_POST['wid']) && isset($_POST['rename'])){
-        \DB::table('weighting')
-            ->where('wid', $_POST['wid'])
-            ->update(array('name' => $_POST['rename']));
-               
-            
-        // }
+        if(isset($_POST['wid']) && isset($_POST['rename'])){
+            \DB::table('weighting')
+                ->where('wid', $_POST['wid'])
+                ->update(array('name' => $_POST['rename']));       
+        }elseif(isset($_POST['Deletewid'])){
+            \DB::table('weighting')->where('wid', '=', $_POST['Deletewid'])->delete();
+            \DB::table('trioMatching')->where('wid', '=', $_POST['Deletewid'])->delete();         
+        }
         $Response =  \DB::table('weighting')->get();
 
         return view('savedmatches', compact('Response'));

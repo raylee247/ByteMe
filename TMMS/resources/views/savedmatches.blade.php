@@ -35,6 +35,7 @@
               echo "<td>" . $result['helpful'] . "</td>";
               echo "<td>" . $result['avgSat'] . "</td>";
               echo '<td id="finalbutton"><center><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#final-'.$result['wid'].'">Set as Final Matching</button></center></th>';
+              echo '<td id="deletebutton"><center><button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-'.$result['wid'].'">Delete this Matching</button></center></th>';
               echo "</tr>";
             }
             
@@ -64,7 +65,20 @@
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                          <button type="submit" class="btn btn-primary" name ="wid"' . $result['wid'] .' value = ' . $result['wid'] .'">Confirm</button> 
+                          <button type="submit" class="btn btn-primary" name ="wid" value = ' . $result['wid'] .'">Confirm</button> 
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div id="remove-'.$result['wid'].'" class="modal fade" id="renamemodal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="POST" action="savedmatches_refresh">
+                      <div class="modal-body"> You are about to delete the selected Matching PERMANENTLY</div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-primary" name ="Deletewid" value = ' . $result['wid'] .'">Confirm</button> 
                       </div>
                     </form>
                   </div>
