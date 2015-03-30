@@ -61,6 +61,18 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php 
+					if(isset($rawApp)){
+						foreach ($rawApp as $key => $match) {
+							echo '<tr>
+									<td>'.$match['mentor'].'</td>
+									<td>'.$match['senior'].'</td> 
+									<td>'.$match['junior'].'</td>
+									<td>'.$match['junior'].'%</td>
+								  </tr>';
+						}
+					}
+				?>
 <!-- 				<tr>
 					<td>First Last</td>
 					<td>First Last</td> 

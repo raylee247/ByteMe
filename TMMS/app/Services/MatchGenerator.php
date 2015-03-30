@@ -14,6 +14,7 @@ class MatchGenerator{
 	protected $mentors = array();
 	protected $seniors = array();
 	protected $juniors = array();
+	protected $report = array();
 
 	protected $mentors_id = array();
 	protected $seniors_id = array();
@@ -163,6 +164,14 @@ class MatchGenerator{
     		unset($value['extra']);
         	$this->juniors[$value['pid']] = $value;
         }
+
+        $response_report = \DB::table('report')->get();
+        if(count($response_report)){
+        	foreach ($response_report as $key => $value) {
+        		$this->report[] = implode(",", array($value['mentor'], $value['senior'],$value['junior']));
+        	}
+        }
+
 		
 
 		//print("********************* getParticipant complete *********************\n\n");
@@ -183,6 +192,7 @@ class MatchGenerator{
 		// $this->test();
 		// print("******************* in generate function *******************\n");
 		ini_set('memory_limit', '1000M');
+		set_time_limit(3600);
 		$this->mentors_id = array_keys($this->mentors);
 		$this->seniors_id = array_keys($this->seniors);
 		$this->juniors_id = array_keys($this->juniors);
@@ -203,6 +213,8 @@ class MatchGenerator{
 	}
 
 	public function generate_without($without_m,$without_s,$without_j){
+		set_time_limit(3600);
+		ini_set('memory_limit', '1000M');
 		$this->mentors_id = $this->array_without(array_keys($this->mentors),$without_m);
 		$this->seniors_id = $this->array_without(array_keys($this->seniors),$without_s);
 		$this->juniors_id = $this->array_without(array_keys($this->juniors),$without_j);
@@ -669,7 +681,7 @@ class MatchGenerator{
 					// print("in loop level 3\n");
 					$satisfaction = $this->trioMatch($mentor,$senior,$junior);
 					// print("in loop level 3\n");
-					if( $satisfaction > 50){
+					if( $satisfaction > 50 && $this->checkReport($key)){
 						$temp[$key] = $satisfaction;
 					}
 					
@@ -684,6 +696,10 @@ class MatchGenerator{
 		// print ("done generateTable with table:\n");
 		//print("******************* end of generateTable function *******************\n\n");
 		// var_dump($this->MentorSatTable);
+	}
+
+	public function checkReport($match){
+		return !array_key_exists($match, $this->report);
 	}
 
 	/**

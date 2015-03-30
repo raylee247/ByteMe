@@ -27,8 +27,7 @@
 <br>
 <table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
-        <tr> TODO // SEARCH FUNCTION + FILL IN DATATABLE + IMPLEMENT DB QUERY + PARTICIPANT INFO PROFILE<br>
-            TODO// participant info - implement jquery to display row data when selected and DB query, implement buttons functionality, fix table width
+        <tr> 
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
