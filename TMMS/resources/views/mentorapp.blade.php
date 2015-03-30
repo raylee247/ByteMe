@@ -102,12 +102,12 @@
 
                             echo '</table>';
                             ?>
-                            <div>
+<!--                             <div>
                                 <div class="col-sm-1"></div>
                                 <label class="pull-left">Additional comments regarding availability?</label><br><br>
                                 <div class="col-sm-1"></div>
                                 <textarea name="additionalcomments_avail" rows="5" cols="130"></textarea>
-                            </div>
+                            </div> -->
                             <br>
                             <div class="form-inline">
                                 <div class="col-sm-1"></div>
@@ -148,7 +148,7 @@
                                     <input type="text" class="form-control" name="position">
                                 </div>
                             </div>
-                            <br><br><br><br><br>
+                            <br><br><br>
 <!--                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Current employment status (check all that apply):</label>
                             <div class="col-md-4">
