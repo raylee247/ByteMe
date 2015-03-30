@@ -138,7 +138,7 @@ class weightController extends Controller {
     // POST request to db to save maximum participants for kickoff 
     public function savedmaxKickoff()
     {
-        do db operation  of pushing the selcted result into result table
+        //do db operation  of pushing the selcted result into result table
         $check = \DB::table('report')->where ('year', '=', date("Y"))->get();
         if (count($check) > 0){
            \DB::table('report')->where('year', '=', date("Y"))->delete();
