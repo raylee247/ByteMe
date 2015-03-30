@@ -78,11 +78,51 @@ class weightController extends Controller {
     {
         $year = date("Y");
         $message = "fail";
+        $all_groups = \DB::table('kickoffgroup')->join('kickoffresult', 'kickoffgroup.kgid', '=', 'kickoffresult.kid')->get();
+
+        $response = array();
+        $date = array();
+        //grab the date with group
+        $group_with_date = array();
+        foreach($all_groups as $value){
+            array_push($group_with_date, $value['date'].":".$value['grouping']);
+            array_push($response, $value['kid']);
+            array_push($date, $value['date']);
+        }
+
+        $response = array_unique($response);
+        $date = array_unique($date);
+        $date = array_values($date);
+
+        $index = 0;
+
+        foreach ($response as $key => $value) {
+            $response[$date[$index]] = $response[$key];
+            unset($response[$key]);
+            $response[$date[$index]] = array();
+        }
+
+
+        $groups;
+
+        foreach($all_groups as $value){
+            $groups = array();
+            $groups = explode(",", $value['grouping']);
+            //var_dump($groups);
+            var_dump($response[$value['date']]);
+            array_push($response[$value['date']], $groups);
+        }
+
+
+
         $rawApp = \DB::table("report")->where("year",$year)->get();
         if (count($rawApp)){
             $message = "success";
         }
-        return view('kickoffmatches')->with('message', $message);
+
+        var_dump($response);
+
+        return view('kickoffmatches');//->with('kickoffmatchings', $response);
     }
 // POST request to db to save match name 
     public function savedmatchname()
@@ -99,6 +139,25 @@ class weightController extends Controller {
         $participants_per_night = $_POST["maxparticipants"];
         $matcher = new KickOffMatch($participants_per_night, $mentor_per_group);
         $response = $matcher->generate();
+
+        foreach($response as $date => $groups){
+            \DB::table('kickoffresult')->insert(
+                ['date' => $date]
+                );
+        }
+
+        foreach($response as $date => $groups){
+            $id = \DB::table('kickoffresult')->where('date', '=', $date)->get();
+            $id = $id[0];
+            // var_dump($id);
+            foreach ($groups as $value) {
+                \DB::table('kickoffgroup')->insert(
+                ['kgid' => $id['kid'], 'grouping' => implode(",", $value)]
+                );
+            }
+        }
+
+        var_dump($response);
 
         // var_dump($response);
         return view('kickoffmatches')->with('kickoffmatchings', $response);
