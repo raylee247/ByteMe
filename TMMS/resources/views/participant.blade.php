@@ -400,10 +400,6 @@ $current_year = date("Y");
             </div>
         </div> 
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
-    </div>
     </div>
     </div>
     </div>
@@ -522,7 +518,6 @@ $current_year = date("Y");
                     if ($key == "SID" || $key == "Time")
                     {
                         //do nothing and continue iteration
-                        // TODO
                     }
 
                     else
@@ -671,16 +666,12 @@ $current_year = date("Y");
                                 <div class="form-group">
                                     {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
                                 </div>
-                                <input data-dismiss="modal" type="reset" value="Reset!">
+                                <input data-dismiss="modal" type="reset" value="Close!">
                             {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
             </div> 
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
         </div>
         </div>
         </div>
