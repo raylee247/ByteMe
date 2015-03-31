@@ -126,7 +126,7 @@ class weightController extends Controller {
 
         var_dump($response);
 
-        return view('kickoffmatches');//->with('kickoffmatchings', $response);
+        return view('kickoffmatches')->with('kickoffmatchings', $response);
     }
 // POST request to db to save match name 
     public function savedmatchname()
@@ -138,7 +138,7 @@ class weightController extends Controller {
     // POST request to db to save maximum participants for kickoff 
     public function savedmaxKickoff()
     {
-        //do db operation  of pushing the selcted result into result table
+        // do db operation  of pushing the selcted result into result table
         $check = \DB::table('report')->where ('year', '=', date("Y"))->get();
         if (count($check) > 0){
            \DB::table('report')->where('year', '=', date("Y"))->delete();
@@ -165,6 +165,16 @@ class weightController extends Controller {
         $matcher = new KickOffMatch($participants_per_night, $mentor_per_group);
         $response = $matcher->generate();
 
+        $check = \DB::table('kickoffresult')->get();
+        if (count($check) > 0){
+           \DB::table('kickoffresult')->delete();
+        }
+
+        $check = \DB::table('kickoffgroup')->get();
+        if (count($check) > 0){
+           \DB::table('kickoffgroup')->delete();
+        }
+
         foreach($response as $date => $groups){
             \DB::table('kickoffresult')->insert(
                 ['date' => $date]
@@ -182,9 +192,8 @@ class weightController extends Controller {
             }
         }
 
-        var_dump($response);
-
         // var_dump($response);
+
         return view('kickoffmatches')->with('kickoffmatchings', $response);
     }
 

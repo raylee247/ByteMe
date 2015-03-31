@@ -33,15 +33,18 @@ class KickOffMatch{
 		// print("********************* in constructor **********************\n");
 		$this->current_matches  = \DB::table('report')->where('report.year', '=', date('Y'))->get();
 		$this->max_participant = $max;
+
 		$this->mentorsInGroup = $mentor_per_group;
 		$this->fullMentorTable = \DB::table('mentor')->get();
-		$this->participantTable = \DB::table('participant')->get();
+		$this->participantTable = \DB::table('participant')->where('participant.year', '=', date('Y'))->get();
 
 		$kickoffnights = array();
-		$allparticipant = \DB::table('participant')->where('participant.year', '=', date('Y'))->get();
 		$participantkickoff;
 
-		foreach($allparticipant as $participant){
+		// print("\n\nhere\n\n");
+		//append all kcikoff night of all participant this year
+
+		foreach($this->participantTable as $participant){
 			if(empty($participantkickoff)){
 				$participantkickoff = $participant["kickoff"];
 			}else{
@@ -50,23 +53,34 @@ class KickOffMatch{
 
 		}
 
+		//put them into a unique array which reemoves the duplicates
 		$kickoffnights = array_unique(explode(",", $participantkickoff));
 
 		// print("printing kickoffnight");
 		// var_dump($kickoffnights);
 
+		//remove the qeird kickoff night cases that we put as dummy cases
 		foreach ($kickoffnights as $key => $value){
 			if(strcmp($value, "1111") == 0){
 				unset($kickoffnights[$key]);
+				// print("\n\nhere1\n\n");
 			}else{
 				if(strcmp($value, "Kickoff Date") == 0){
 					unset($kickoffnights[$key]);
+					// print("\n\nhere2\n\n");
 				}else{
 					if(strcmp($value, "09-09-9282") == 0){
 						unset($kickoffnights[$key]);
+						// print("\n\nhere3\n\n");
 					}else{
 						if(strcmp($value, "") == 0){
 						unset($kickoffnights[$key]);
+						// print("\n\nhere4\n\n");
+					}else{
+						if(strcmp($value, "hahaha") == 0){
+							unset($kickoffnights[$key]);
+
+						}
 					}
 					}
 				}
@@ -78,9 +92,12 @@ class KickOffMatch{
 		// var_dump($kickoffnights);
 		// print("\n");
 
+		//push found kickoff night to global kick off night
 		foreach ($kickoffnights as $value) {
 			array_push($this->kick_off_nights, $value);
 		}
+
+		// print("\n\nhere\n\n");
 
 		// print("\n");
 		// print("printing kickoffnight");
@@ -91,12 +108,15 @@ class KickOffMatch{
 
 		// var_dump($kickoffnights);
 
+		//add the quota for people per night for each date to global
 		for($i = 0; $i < $this->num_of_nights; $i++){
 			array_push($this->ppl_p_night, $this->max_participant);
 			$newkey = $this->kick_off_nights[$i];
 			$this->ppl_p_night[$newkey] = $this->ppl_p_night[$i];
 			unset($this->ppl_p_night[$i]);
 		}
+
+		// var_dump($this->kick_off_nights);
 
 		// print("********************* end of constructor **********************\n");
 
@@ -125,7 +145,7 @@ class KickOffMatch{
 		// $this->test();
 		// print("********************* in generate function **********************\n");
 		ini_set('memory_limit', '1000M');
-		set_time_limit(3600);
+		// set_time_limit(3600);
 		$this->setKickOffDay();
 		$response = $this->setGroup();
 		// var_dump($response);
@@ -210,6 +230,10 @@ class KickOffMatch{
 	public function pickday()
 	{
 		// print("********************* in pickday function **********************\n");
+		// print("\n\n");
+		// print("number of matches = ");
+		// print(count($this->current_matches));
+		// print("\n\n");
 		for ($i = 0; $i<count($this->current_matches); $i++) {
 			$element = $this->current_matches[$i];
 			$dates = array_slice($element, 6);
@@ -238,7 +262,7 @@ class KickOffMatch{
 		//find the night with the least members
 		$dates = array_slice($element, 6);
 		$night;
-		$max = -1;
+		$max = -9999;
 		foreach($dates as $date){
 			if($this->ppl_p_night[$date] > $max){
 				$max = $this->ppl_p_night[$date];
@@ -248,13 +272,29 @@ class KickOffMatch{
 		// var_dump($element);
 		// array_push($element, $night);
 		// var_dump($element);
-		if($max == -1){
+		// var_dump($this->ppl_p_night);
+		// print("\n\n");
+		// print($max);
+		// print("\n\n");
+
+		if($max == -9999){
 			foreach($this->ppl_p_night as $key => $value){
+				// var_dump($this->ppl_p_night);
+				// print("\n\n");
+				// print("value = ");
+				// print($value);
+				// print("\n\n");
 				if($value > $max){
 					$max = $value;
 					print($key);
 					$night = $key;
 				}
+				// print("max = ");
+				// print($max);
+				// print("\n\n");
+				// print("night = ");
+				// print($night);
+				// print("\n\n");
 			}
 		}
 		$this->ppl_p_night[$night] = $this->ppl_p_night[$night]-3;
@@ -311,9 +351,21 @@ class KickOffMatch{
 					array_push($group, $mentor_id);
 					array_push($resultofday, $group);
 				}else{
-					$validity = true;
+					$validity = 1;
 					foreach($group as $group_member){
-						$validity = $validity && $this->is_valid($mentor_id, $group_member);
+						$validity = $this->is_valid($mentor_id, $group_member);
+					
+
+						if($validity == -1){
+							break;
+						}
+
+						// if(empty($validity)){
+						// 	print("empty");
+						// }else{
+						// 	print($validity);
+						// }
+						// print("\n\n");
 					}
 
 					if($validity){
@@ -361,6 +413,8 @@ class KickOffMatch{
 		$m2_company = "";
 		$m2_job = "";
 
+		$return = -1;
+
 		foreach($this->fullMentorTable as $data){
 			if($data["mid"] == $mentor1){
 				$m1_job = $data["job"];
@@ -381,7 +435,7 @@ class KickOffMatch{
 		if(!empty($m1_job)){
 			str_replace(" ", "", $m1_job);
 			$m1_job = strtolower($m1_job);
-		}
+		} 
 
 		if(!empty($m2_company)){
 			str_replace(" ", "", $m2_company);
@@ -393,25 +447,40 @@ class KickOffMatch{
 			$m2_job = strtolower($m2_job);
 		}
 
+		// print($m1_company);
+		// print("\n");
+		// print($m2_company);
+		// print("\n");
+		// print($m1_job);
+		// print("\n");
+		// print($m2_job);
+		// print("\n\n");
 
 
 
-		if(($m1_job == $m2_job) || ($m1_company == $m1_company)){
+		if((strcmp($m1_job, $m2_job) == 0) || (strcmp($m1_company, $m2_company) == 0)){
 			// print("********************* end of is_valid function **********************\n\n");
-			return false;
+			$return = -1;
+			return $return;
 		}else{
 			// print("********************* end of is_valid function **********************\n\n");
-			return true;
+			$return = 1;
+			return $return;
 		}
 	}
 
 	public function putIntoGroup($curr_num, $group_total, $curr_group, $mentor_id){
 		// print("********************* in putIntoGroup function **********************\n\n");
-		$groups_tested = 1;
+		$groups_tested = 0;
 		for($i=$curr_num; $groups_tested < $group_total; $i++){
-			$validity = true;
+			$groups_tested++;
+			$validity = 1;
 			foreach($curr_group as $group_member){
-				$validity = $validity && $this->is_valid($mentor_id, $group_member);
+				$validity = $this->is_valid($mentor_id, $group_member);
+
+				if($validity == -1){
+					break;
+				}
 			}
 
 			if($validity){
