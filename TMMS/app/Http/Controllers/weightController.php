@@ -73,9 +73,46 @@ class weightController extends Controller {
         if (count($rawApp)){
             $message = "success";
         }
+        
+        $participants = array();
+        $response_participant= \DB::table('participant')->where ('year', '=', date("Y"))
+                                                        ->get();
+        
 
+        foreach ($response_participant as $key => $value) {
+            $participants[$value['pid']] = $value;
+        }
+        // var_dump($participants);
+        $names = array();
+        foreach ($rawApp as $key => $match) {
+            if (array_key_exists($match['mentor'], $participants)){
+                $names[$match['mentor']] = $participants[$match['mentor']]['First name'] . " " . 
+                                           $participants[$match['mentor']]['Family name'];
+            }
+            if(array_key_exists($match['senior'], $participants)){
+                $names[$match['senior']] = $participants[$match['senior']]['First name'] . " " . 
+                                           $participants[$match['senior']]['Family name'];
+            }
+            if(array_key_exists($match['junior'], $participants)){
+                $names[$match['junior']] = $participants[$match['junior']]['First name'] . " " . 
+                                           $participants[$match['junior']]['Family name'];
+            }
+            if(!isset($names[$match['mentor']])){
+                $names[$match['mentor']] = "First Last mentor";
+            }
+            if(!isset($names[$match['senior']])){
+                $names[$match['senior']] = "First Last senior";
+            }
+            if(!isset($names[$match['junior']])){
+                $names[$match['junior']] = "First Last junior";
+            }
+            
+    
+        }
 
-        return view('currentmatch',compact('message','rawApp'));
+        // var_dump($names);
+
+        return view('currentmatch',compact('message','rawApp','names'));
     }
 
     public function kickoffindex()
@@ -154,7 +191,10 @@ class weightController extends Controller {
                      'senior' => $match['senior'],
                      'junior' => $match['junior'],
                      'satisfaction' => $match['satisfaction'],
-                     'year' => date("Y")
+                     'year' => date("Y"),
+                     // 'mentor_name' => $match['mentor_name'],
+                     // 'senior_name' => $match['senior_name'],
+                     // 'junior_name' => $match['junior_name'],
                     ]
                 );
         }
