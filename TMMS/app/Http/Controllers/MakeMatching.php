@@ -1,24 +1,16 @@
 <?php namespace App\Http\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Services\MatchGenerator;
 use App\Services\KickOffMatch;
-
 //start_session();
 //to get the priority array from weighted parameters page
 // $weight = $_SESSION['weight'];
 //to get the must array from weghted parameters page
 //$must = $_SESSION['must'];
-
 class MakeMatching extends Controller {
-
-
-
-
-	public function generateMatchTest(){
+    public function generateMatchTest(){
         set_time_limit(3600);
         $must = array("kickoff");
         $priority = array("EmploymentStatus", "interest");
@@ -30,25 +22,20 @@ class MakeMatching extends Controller {
         $result_names = $generator->toName($result_ids);
         $result_unmatch = $generator->get_unmatches($result_ids);
         var_dump($result_unmatch);
-
         return view('matchresult', compact('must','priority','avgSat', 'median',
                                             'result_ids','result_names',
                                             'result_unmatch'));
-
-
-	}
-
-	public function generateKickoff(){
-		//set_time_limit(3600);
-		$kickoffMax = 50;
-		$maxMentor = 1;
-		$kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
-		$generator = new KickOffMatch($kickoffMax, $maxMentor);
-		print("\n\ngoing into generate\n\n");
-		echo $generator->generate();
-		return 0;
-	}
-
+    }
+    public function generateKickoff(){
+        //set_time_limit(3600);
+        $kickoffMax = 150;
+        $maxMentor = 3;
+        $kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
+        $generator = new KickOffMatch($kickoffMax, $maxMentor);
+        print("\n\ngoing into generate\n\n");
+        echo $generator->generate();
+        return 0;
+    }
     public function insert_result_to_DB(){
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
@@ -57,15 +44,12 @@ class MakeMatching extends Controller {
         $result_ids = unserialize(base64_decode($_POST['result_ids']));
         $result_names = unserialize(base64_decode($_POST['result_names']));
         $result_unmatch = unserialize(base64_decode($_POST['result_unmatch']));
-
         $mentors = unserialize(base64_decode($_POST['mentors']));
         $seniors = unserialize(base64_decode($_POST['seniors']));
         $juniors = unserialize(base64_decode($_POST['juniors']));
-
         $trioCount = unserialize(base64_decode($_POST['trioCount']));
         $unmatchCount = unserialize(base64_decode($_POST['unmatchCount']));
         $matchname = $_POST['matchname'];
-
         \DB::table('weighting')->insert(
                     ['must' => implode(",", $must),
                      'helpful' => implode(",", $priority),
@@ -90,7 +74,6 @@ class MakeMatching extends Controller {
             $m = $value_array[0];
             $s = $value_array[1];
             $j = $value_array[2];
-
             \DB::table('trioMatching')->insert(
                     ['wid' => $wid,
                      'mentor' => $m,
@@ -103,10 +86,7 @@ class MakeMatching extends Controller {
                     ]
                 );
         }
-
-
         $Response =  \DB::table('weighting')->get();
-
         return view('savedmatches', compact('Response'));
     }
     public function refreshSavedMatches(){
@@ -119,10 +99,8 @@ class MakeMatching extends Controller {
             \DB::table('trioMatching')->where('wid', '=', $_POST['Deletewid'])->delete();         
         }
         $Response =  \DB::table('weighting')->get();
-
         return view('savedmatches', compact('Response'));
     }
-
     public function refreshMakeMatching(){
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
@@ -131,14 +109,11 @@ class MakeMatching extends Controller {
         $result_ids = unserialize(base64_decode($_POST['result_ids']));
         $result_names = unserialize(base64_decode($_POST['result_names']));
         $result_unmatch = unserialize(base64_decode($_POST['result_unmatch']));
-
         $mentors = unserialize(base64_decode($_POST['mentors']));
         $seniors = unserialize(base64_decode($_POST['seniors']));
         $juniors = unserialize(base64_decode($_POST['juniors']));
-
         $trioCount = unserialize(base64_decode($_POST['trioCount']));
         $unmatchCount = unserialize(base64_decode($_POST['unmatchCount']));
-
         if(isset($_POST['pidToWaitList'])){
             \DB::table('participant')
                 ->where('pid', $_POST['pidToWaitList'])
@@ -151,7 +126,6 @@ class MakeMatching extends Controller {
                 }
                 $temp[$key] = $value_clone;
             }
-
             $result_unmatch = $temp;
         }elseif(isset($_POST['Undo'])){
             \DB::table('participant')
@@ -167,31 +141,23 @@ class MakeMatching extends Controller {
             }
             $result_unmatch = $temp;
         }
-
         return view('matchresult', compact( 'mentors', 'seniors', 'juniors',
                                             'must','priority','avgSat', 'median','trioCount', 'unmatchCount',
                                             'result_ids','result_names',
                                             'result_unmatch'));
     }
-
-
     public function generateMatch(){
-
         //comes in as element[]=tag1&element[]=tag2
         $rawMust = $_POST['mustList'];
         $rawPriority = $_POST['priorityList'];
-
         //turns into tag&tag
         $eleMust = str_replace("element[]=", "", $rawMust);
         $elePriority = str_replace("element[]=", "", $rawPriority);
-
         //array(tag,tag)
         $must = explode('&', $eleMust);
         $priority = explode('&',$elePriority);
         // var_dump($must);
-
         //TODO not sure what you are doing here!
-
         // set_time_limit(3600);
         // print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
@@ -208,18 +174,14 @@ class MakeMatching extends Controller {
         $result_unmatch = $generator->get_unmatches($result_ids);
         $trioCount = count($result_ids);
         $unmatchCount = count($result_unmatch);
-
         $mentors = $generator->getAvalMentors();
         $seniors = $generator->getAvalSeniors();
         $juniors = $generator->getAvalJuniors();
-
          return view('matchresult', compact( 'mentors', 'seniors', 'juniors',
                                             'must','priority','avgSat', 'median','trioCount', 'unmatchCount',
                                             'result_ids','result_names',
                                             'result_unmatch'));
-
     }
-
     public function array_median($array) {
       // perhaps all non numeric values should filtered out of $array here?
       $iCount = count($array);
@@ -237,69 +199,53 @@ class MakeMatching extends Controller {
       }
       return $median;
     }
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function loadParameters()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function loadParameters()
+    {
         $year = date("Y");
         $rawStuApp = \DB::table('studentapp')->where('year', $year)->first();
         $rawMenApp = \DB::table('mentorapp')->where('year', $year)->first();
-
         $stuTag = [];
         $menTag = [];
-
         $stuCombineExtra = explode("`",$rawStuApp['extra']);
         for($i = 0; $i < count($stuCombineExtra); $i++){
             $stuExtra = explode('|', $stuCombineExtra[$i]);
             array_push($stuTag, $stuExtra[1]);
         }
-
         $MenCombineExtra = explode("`",$rawMenApp['extra']);
         for($i = 0; $i < count($MenCombineExtra); $i++){
             $menExtra = explode('|', $MenCombineExtra[$i]);
             array_push($menTag, $menExtra[1]);
         }
-
         $formParameters = array_intersect($stuTag, $menTag);
-
-
         $csvParameterStudent= \DB::table('senior')
                             ->join('participant', 'senior.sid', '=', 'participant.pid')
                             ->join('parameter', 'senior.sid', '=', 'parameter.pid')->where('participant.year',$year)
                             ->select('extra')->first();
-
         $csvParameterMentor= \DB::table('mentor')
                             ->join('participant', 'mentor.mid', '=', 'participant.pid')
                             ->join('parameter', 'mentor.mid', '=', 'parameter.pid')->where('participant.year',$year)
                             ->select('extra')->first();
-
         $student = json_decode($csvParameterStudent['extra']);
         $mentor = json_decode($csvParameterMentor['extra']);
-
         $studentTag = [];
         $mentorTag = [];
-
         foreach($student as $skey => $svalue){
             if(($skey != "SID") && ($skey != "Time") && ($skey != "Draft")) {
                 array_push($studentTag, $skey);
             }
         }
-
         foreach($mentor as $mkey => $mvalue){
             if(($mkey != "SID") && ($mkey != "Time") && ($mkey != "Draft")) {
                 array_push($mentorTag, $mkey);
             }
         }
-
         $csvParameters = array_intersect($studentTag, $mentorTag);
-
         $parameter = array_merge($formParameters, $csvParameters);
-
-		return view('weighting')->with('parameter', $parameter);
-	}
-
-
+        return view('weighting')->with('parameter', $parameter);
+    }
 }
