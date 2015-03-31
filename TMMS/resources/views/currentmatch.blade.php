@@ -21,7 +21,10 @@
 						if ($length>0){
 							$total = 0;
 							foreach ($rawApp as $key => $match) {
-							 	$total += $match['satisfaction'];	  
+								if(!is_null($match['satisfaction'])){
+									$total += $match['satisfaction'];	
+								}
+							 		  
 							}
 							$avg = $total/$length;
 							echo '<b>Average Satisfaction:</b>'.$avg.'<br>';
@@ -49,7 +52,20 @@
 						</tr>
 					</thead>
 					<tbody>
-
+						<?php 
+							if(isset($rawApp) && isset($names)){
+								foreach ($rawApp as $key => $match) {
+									if (is_null($match['satisfaction'])){
+										echo '<tr>
+												<td>'.$names[$match['mentor']].'</td>
+												<td>'.$names[$match['senior']].'</td> 
+												<td>'.$names[$match['junior']].'</td>
+									  		  </tr>';
+									}
+									
+								}
+							}
+						?>
 					</tbody>
 				</table>
 			</div>
@@ -69,12 +85,15 @@
 				<?php 
 					if(isset($rawApp) && isset($names)){
 						foreach ($rawApp as $key => $match) {
-							echo '<tr>
-									<td>'.$names[$match['mentor']].'</td>
-									<td>'.$names[$match['senior']].'</td> 
-									<td>'.$names[$match['junior']].'</td>
-									<td>'.$match['satisfaction'].'%</td>
-								  </tr>';
+							if (!is_null($match['satisfaction'])){
+								echo '<tr>
+										<td>'.$names[$match['mentor']].'</td>
+										<td>'.$names[$match['senior']].'</td> 
+										<td>'.$names[$match['junior']].'</td>
+										<td>'.$match['satisfaction'].'%</td>
+									  </tr>';
+							}
+							
 						}
 					}
 				?>
