@@ -798,20 +798,50 @@ class appLoaderController extends Controller {
                                 $message = "Tag already exists, please choose another one.";
                                 return view('failure')->with('message', $message);
                             } else {
-                                $rawApp['extra'] .= "`" . $question;
+                                if(strlen($rawApp['extra']) > 1) {
+                                    $rawApp['extra'] .= "`" . $question;
+                                } else{
+                                    $rawApp['extra'] .= $question;
+                                }
                                 $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $rawApp['extra']));
                             }
                             break;
 
                         case "delete":
                             $question = $this->getQuestion();
-                            $newExtra = str_replace($question . "`", "", $rawApp['extra']);
-                            if(strlen($newExtra) == strlen($rawApp['extra'])) {
-                                $newExtra = str_replace("`" . $question, "", $rawApp['extra']);
-                            }
-                            elseif(strlen((str_replace($question . "`", "", $rawApp['extra'])) ==  strlen(str_replace("`" . $question, "", $rawApp['extra']))) && (strlen($newExtra = str_replace($question, "", $rawApp['extra'])) == 0) ) {
+
+                            $questionFirst = $question . "`";
+                            $questionLast = "`" . $question;
+
+
+                            /*
+                             * q
+                             *
+                             * q`
+                             * `q
+                             *
+                             * q``e
+                             *
+                             *
+                             */
+
+                            if(strlen(str_replace($questionFirst, "", $rawApp['extra'])) < strlen($rawApp['extra'])){
+                                $newExtra = str_replace($questionFirst, "", $rawApp['extra']);
+                            } elseif (strlen(str_replace($questionLast, "", $rawApp['extra'])) < strlen($rawApp['extra'])) {
+                                $newExtra = str_replace($questionLast, "", $rawApp['extra']);
+                            } else{
                                 $newExtra = "";
                             }
+
+
+//
+//                            $newExtra = str_replace($question . "`", "", $rawApp['extra']);
+//                            if(strlen($newExtra) == strlen($rawApp['extra'])) {
+//                                $newExtra = str_replace("`" . $question, "", $rawApp['extra']);
+//                            }
+//                            elseif(strlen((str_replace($question . "`", "", $rawApp['extra'])) ==  strlen(str_replace("`" . $question, "", $rawApp['extra']))) && (strlen($newExtra = str_replace($question, "", $rawApp['extra'])) == 0) ) {
+//                                $newExtra = "";
+//                            }
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
 
