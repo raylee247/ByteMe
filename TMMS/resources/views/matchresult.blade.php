@@ -189,7 +189,7 @@ $(document).ready(function(){
 					<th>First Name</th>
 					<th>Last Name</th>
 			        <th>Email</th>
-			        <th>Move to Waitlist  <button type="submit" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#waitlistone"><span class="glyphicon glyphicon-ok-sign"></span></span></button></th>
+			        <th>Move to Waitlist  </th>
 				</tr>
 			</thead>
 			<tbody>

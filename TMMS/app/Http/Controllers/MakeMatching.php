@@ -29,7 +29,7 @@ class MakeMatching extends Controller {
     public function generateKickoff(){
         //set_time_limit(3600);
         $kickoffMax = 150;
-        $maxMentor = 3;
+        $maxMentor = 5;
         $kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
         $generator = new KickOffMatch($kickoffMax, $maxMentor);
         print("\n\ngoing into generate\n\n");
@@ -64,11 +64,6 @@ class MakeMatching extends Controller {
         
         foreach (array_keys($result_ids) as $key => $value) {
             // echo "<p>" . $value . " : ". $result[$value]  ."</p>";
-            $name_value = $result_names[$key];
-            $name_value_array = explode(",", $name_value);
-            $m_name = $name_value_array[0];
-            $s_name = $name_value_array[1];
-            $j_name = $name_value_array[2];
 
             $value_array = explode(",", $value);
             $m = $value_array[0];
@@ -79,10 +74,7 @@ class MakeMatching extends Controller {
                      'mentor' => $m,
                      'senior' => $s,
                      'junior' => $j,
-                     'satisfaction' => $result_ids[$value],
-                     'mentor_name' => $m_name,
-                     'senior_name' => $s_name,
-                     'junior_name' => $j_name
+                     'satisfaction' => $result_ids[$value]
                     ]
                 );
         }
