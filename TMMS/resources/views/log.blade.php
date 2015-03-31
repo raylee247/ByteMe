@@ -6,13 +6,12 @@
 
 
 
-    <div class="row">
+    <div class="panel">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Experimenting on view log</div>
-                <br>
-
+            <div class="panel panel-info">
+                <div class="panel-heading">Database Audit Log</div>
                 <strong>Select number of log records to retrieve</strong>
+                <br>
                 <i>Retrieves 10 by default, enter 0 to retrieve all</i>
                 <strong>:</strong>
                 <br>
