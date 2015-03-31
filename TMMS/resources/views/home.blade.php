@@ -2,48 +2,66 @@
 
 @section('content')
 
+<div class="jumbotron">
+  <h1>Welcome to TMMS</h1><br>
+  <h3>Tri-Mentoring Matching System</h3>
+  <p></p>
+</div>
+
 <div class="row">
-  <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 bhoechie-tab-container">
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
-      <div class="list-group">
-        <a href="#" class="list-group-item text-center">
-          <h3 class="glyphicon glyphicon-user"><br><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-user"></span></h3><br/>Participant Management
-        </a>
-        <a href="#" class="list-group-item text-center">
-          <h2 class="glyphicon glyphicon-road"></h2><br/>Match Making
-        </a>
-        <a href="#" class="list-group-item text-center">
-          <h2 class="glyphicon glyphicon-pencil"><span class="glyphicon glyphicon-file"></span></h2><br/>Application Form
-        </a>
-      </div>
-    </div>
-    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-      <!-- Participant Management -->        
-      <div class="bhoechie-tab-content active">
-        <center>
-          <h1 class="glyphicon glyphicon-user" style="font-size:14em;color:#55518a"></h1>
-          <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
-          <h3 style="margin-top: 0;color:#55518a">Participant Management</h3>
-        </center>
-      </div>
-      <!-- Run Match Making -->
-      <div class="bhoechie-tab-content">
-        <center>
-          <h1 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h1>
-          <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
-          <h3 style="margin-top: 0;color:#55518a">Match Making</h3>
-        </center>
-      </div>
-      <!-- Application Form -->
-      <div class="bhoechie-tab-content">
-        <center>
-          <h1 class="glyphicon glyphicon-pencil" style="font-size:12em;color:#55518a"><span class="glyphicon glyphicon-file"></span></h1>
-          <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
-          <h3 style="margin-top: 0;color:#55518a">Application Form</h3>
-        </center>
+  <a href="#">
+   <div class="col-xs-6 col-md-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div><h3>Participant Management</h3></div><br>
+        <p>View, manage and organize participant information, upload and download participant data</p>
+        <div class="panel-heading"></div>
       </div>
     </div>
   </div>
+</a>
+
+<a href="#">
+<div class="col-xs-6 col-md-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div><h3>Match Making</h3></div><br>
+      <p>Adjust parameters to generate optimal match results, view and compare generated results</p>
+      <div class="panel-heading"></div>
+    </div>
+  </div>
 </div>
+</a>
+
+<a href="#">
+<div class="col-xs-6 col-md-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div><h3>Application Form</h3></div><br>
+      <p>View, manage, and customize current and previous application forms for students and mentors</p>
+      <div class="panel-heading"></div>
+    </div>
+  </div>
+</div>
+</a>
+</div>
+
+<style type="text/css">
+.col-xs-6 {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.row{
+  margin-right: 15px;
+}
+
+.jumbotron {
+  margin-right: 15px;
+  background-color: #99A2A2;
+  color:#FFF;
+}
+
+</style>
 
 @endsection
