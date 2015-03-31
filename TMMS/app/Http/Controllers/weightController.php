@@ -117,55 +117,44 @@ class weightController extends Controller {
 
     public function kickoffindex()
     {
-        $year = date("Y");
-        $message = "fail";
-        $kickoffresult = \DB::table('kickoffresult')->get();
-        $kickoffgroup = \DB::table('kickoffgroup')->get();
+        // $year = date("Y");
+        // $message = "fail";
+        $all_groups = \DB::table('kickoffgroup')->join('kickoffresult', 'kickoffresult.kid', '=', 'kickoffgroup.kgid')->get();
 
         $response = array();
-        $date = array();
-        //grab the date with group
-        $group_with_date = array();
-
-
+        $unique_dates = array();
 
         foreach($all_groups as $value){
-            array_push($group_with_date, $value['date'].":".$value['grouping']);
-            array_push($response, $value['kid']);
-            array_push($date, $value['date']);
+            array_push($unique_dates, $value['date']);
         }
 
-        $response = array_unique($response);
-        $date = array_unique($date);
-        $date = array_values($date);
+        $unique_dates = array_unique($unique_dates);
 
-        $index = 0;
-
-        foreach ($response as $key => $value) {
-            $response[$date[$index]] = $response[$key];
-            unset($response[$key]);
-            $response[$date[$index]] = array();
+        $i = 0;
+        foreach ($unique_dates as $value) {
+            array_push($response, array());
+            $response[$value] = $response[$i];
+            unset($response[$i]);
+            $i++;
         }
 
-
-        $groups;
-
-        foreach($all_groups as $value){
-            $groups = array();
-            $groups = explode(",", $value['grouping']);
-            //var_dump($groups);
-            var_dump($response[$value['date']]);
-            array_push($response[$value['date']], $groups);
+        foreach ($unique_dates as $date) {
+            $groups;
+            foreach($all_groups as $value) {
+                $groups = array();
+                if(strcmp($value['date'], $date) == 0){
+                    $group_array = explode(",", $value['grouping']);
+                    array_push($response[$date], $group_array);
+                }
+            }
         }
 
+        // $rawApp = \DB::table("report")->where("year",$year)->get();
+        // if (count($rawApp)){
+        //     $message = "success";
+        // }
 
-
-        $rawApp = \DB::table("report")->where("year",$year)->get();
-        if (count($rawApp)){
-            $message = "success";
-        }
-
-        var_dump($response);
+        // var_dump($groups);
 
         return view('kickoffmatches')->with('kickoffmatchings', $response);
     }
