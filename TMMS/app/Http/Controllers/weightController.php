@@ -82,12 +82,16 @@ class weightController extends Controller {
     {
         $year = date("Y");
         $message = "fail";
-        $all_groups = \DB::table('kickoffgroup')->join('kickoffresult', 'kickoffgroup.kgid', '=', 'kickoffresult.kid')->get();
+        $kickoffresult = \DB::table('kickoffresult')->get();
+        $kickoffgroup = \DB::table('kickoffgroup')->get();
 
         $response = array();
         $date = array();
         //grab the date with group
         $group_with_date = array();
+
+
+
         foreach($all_groups as $value){
             array_push($group_with_date, $value['date'].":".$value['grouping']);
             array_push($response, $value['kid']);

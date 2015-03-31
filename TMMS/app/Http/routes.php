@@ -116,6 +116,7 @@ Route::post('matchresult', 'weightController@matchresultindex');
 Route::get('savedmatches', 'weightController@savedmatchesindex');
 
 Route::post('kickoffmatches', 'weightController@savedmaxKickoff');
+Route::get('kickoffmatches', 'weightController@Kickoffindex');
 Route::get('currentmatch', 'weightController@currentmatchindex');
 
 //==== for unit testing purpose 
