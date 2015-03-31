@@ -64,6 +64,12 @@ class MakeMatching extends Controller {
         
         foreach (array_keys($result_ids) as $key => $value) {
             // echo "<p>" . $value . " : ". $result[$value]  ."</p>";
+            $name_value = $result_names[$key];
+            $name_value_array = explode(",", $name_value);
+            $m_name = $name_value_array[0];
+            $s_name = $name_value_array[1];
+            $j_name = $name_value_array[2];
+
             $value_array = explode(",", $value);
             $m = $value_array[0];
             $s = $value_array[1];
@@ -73,7 +79,10 @@ class MakeMatching extends Controller {
                      'mentor' => $m,
                      'senior' => $s,
                      'junior' => $j,
-                     'satisfaction' => $result_ids[$value]
+                     'satisfaction' => $result_ids[$value],
+                     'mentor_name' => $m_name,
+                     'senior_name' => $s_name,
+                     'junior_name' => $j_name
                     ]
                 );
         }
@@ -150,7 +159,7 @@ class MakeMatching extends Controller {
         // var_dump($must);
         //TODO not sure what you are doing here!
         // set_time_limit(3600);
-        print("going into matchGenerator\n\n");
+        // print("going into matchGenerator\n\n");
         $generator = new MatchGenerator($must, $priority);
         $result_ids =  $generator->generate_all();
         // result with [ match => satisfaction]
@@ -177,7 +186,7 @@ class MakeMatching extends Controller {
       // perhaps all non numeric values should filtered out of $array here?
       $iCount = count($array);
       if ($iCount == 0) {
-        throw new DomainException('Median of an empty array is undefined');
+        return 0;
       }
       // if we're down here it must mean $array
       // has at least 1 item in the array.

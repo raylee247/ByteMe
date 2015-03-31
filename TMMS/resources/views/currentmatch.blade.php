@@ -15,11 +15,22 @@
 	<div class="panel-body">
 		<legend>
 			<h5>
-				<b>Name of Matching:</b> $$$$$<br>
+			<?php
+				if(isset($rawApp)){
+						$length = count($rawApp);
+						$total = 0;
+						foreach ($rawApp as $key => $match) {
+						 	$total += $match['satisfaction'];	  
+						}
+						$avg = $total/$length;
+						echo '<b>Average Satisfaction:</b>'.$avg.'<br>';
+					}
+			?>
+				<!-- <b>Name of Matching:</b> $$$$$<br>
 				<b>Parameters Required:</b> $$$$$<br>
 				<b>Parameter Priority:</b> $$$$$<br>
-				<b>Average Satisfaction:</b> $$$$$<br>
-				<b>Median:</b> $$$$$
+				
+				<b>Median:</b> $$$$$ -->
 			</h5>
 		</legend>
 		<button id="viewmatch" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button><br><br>
@@ -35,16 +46,7 @@
 						</tr>
 					</thead>
 					<tbody>
-<!-- 						<tr>
-							<td>First Last</td>
-							<td>First Last</td> 
-							<td>First Last</td>
-						</tr>
-						<tr>
-							<td>First Last</td>
-							<td>First Last</td> 
-							<td>First Last</td>
-						</tr> -->
+
 					</tbody>
 				</table>
 			</div>
@@ -62,29 +64,17 @@
 			</thead>
 			<tbody>
 				<?php 
-					if(isset($rawApp)){
+					if(isset($rawApp) && isset($names)){
 						foreach ($rawApp as $key => $match) {
 							echo '<tr>
-									<td>'.$match['mentor'].'</td>
-									<td>'.$match['senior'].'</td> 
-									<td>'.$match['junior'].'</td>
-									<td>'.$match['junior'].'%</td>
+									<td>'.$names[$match['mentor']].'</td>
+									<td>'.$names[$match['senior']].'</td> 
+									<td>'.$names[$match['junior']].'</td>
+									<td>'.$match['satisfaction'].'%</td>
 								  </tr>';
 						}
 					}
 				?>
-<!-- 				<tr>
-					<td>First Last</td>
-					<td>First Last</td> 
-					<td>First Last</td>
-					<td>%</td>
-				</tr>
-				<tr>
-					<td>First Last</td>
-					<td>First Last</td> 
-					<td>First Last</td>
-					<td>%</td>
-				</tr> -->
 			</tbody>
 		</table>
 	</div>
