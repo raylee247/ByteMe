@@ -236,7 +236,7 @@ class KickOffMatch{
 		// print("\n\n");
 		for ($i = 0; $i<count($this->current_matches); $i++) {
 			$element = $this->current_matches[$i];
-			$dates = array_slice($element, 6);
+			$dates = array_slice($element, 6	);
 			// var_dump($dates);
 			if(count($dates)==1){
 				$this->ppl_p_night[$dates[0]] = $this->ppl_p_night[$dates[0]]-3;
@@ -336,9 +336,10 @@ class KickOffMatch{
 
 			$resultofday = array();
 
+			$counter = 0;
+
 			foreach($kickoff_mentor as $mentor_id){
 				//put all the mentors into groups
-				$counter = 0;
 				$group;
 
 				if(count($resultofday) == $num_of_groups){
@@ -427,25 +428,25 @@ class KickOffMatch{
 			}
 		}
 
-		if(!empty($m1_company)){
-			str_replace(" ", "", $m1_company);
-			$m1_company = strtolower($m1_company);
-		}
+		// if(!empty($m1_company)){
+		// 	str_replace(" ", "", $m1_company);
+		// 	$m1_company = strtolower($m1_company);
+		// }
 
-		if(!empty($m1_job)){
-			str_replace(" ", "", $m1_job);
-			$m1_job = strtolower($m1_job);
-		} 
+		// if(!empty($m1_job)){
+		// 	str_replace(" ", "", $m1_job);
+		// 	$m1_job = strtolower($m1_job);
+		// } 
 
-		if(!empty($m2_company)){
-			str_replace(" ", "", $m2_company);
-			$m2_company = strtolower($m2_company);
-		}
+		// if(!empty($m2_company)){
+		// 	str_replace(" ", "", $m2_company);
+		// 	$m2_company = strtolower($m2_company);
+		// }
 
-		if(!empty($m2_job)){
-			str_replace(" ", "", $m2_job);
-			$m2_job = strtolower($m2_job);
-		}
+		// if(!empty($m2_job)){
+		// 	str_replace(" ", "", $m2_job);
+		// 	$m2_job = strtolower($m2_job);
+		// }
 
 		// print($m1_company);
 		// print("\n");
@@ -456,9 +457,13 @@ class KickOffMatch{
 		// print($m2_job);
 		// print("\n\n");
 
+		similar_text($m1_job, $m2_job, $m1_m2_job);
+		similar_text($m2_job, $m1_job, $m2_m1_job);
+		similar_text($m1_company, $m2_company, $m1_m2_company);
+		similar_text($m2_company, $m1_company, $m2_m1_company);
 
 
-		if((strcmp($m1_job, $m2_job) == 0) || (strcmp($m1_company, $m2_company) == 0)){
+		if(($m1_m2_job > 80) || ($m2_m1_job > 80) || ($m1_m2_company > 80) || ($m2_m1_company > 80)){
 			// print("********************* end of is_valid function **********************\n\n");
 			$return = -1;
 			return $return;
