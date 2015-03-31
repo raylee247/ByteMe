@@ -18,12 +18,15 @@
 			<?php
 				if(isset($rawApp)){
 						$length = count($rawApp);
-						$total = 0;
-						foreach ($rawApp as $key => $match) {
-						 	$total += $match['satisfaction'];	  
+						if ($length>0){
+							$total = 0;
+							foreach ($rawApp as $key => $match) {
+							 	$total += $match['satisfaction'];	  
+							}
+							$avg = $total/$length;
+							echo '<b>Average Satisfaction:</b>'.$avg.'<br>';
 						}
-						$avg = $total/$length;
-						echo '<b>Average Satisfaction:</b>'.$avg.'<br>';
+						
 					}
 			?>
 				<!-- <b>Name of Matching:</b> $$$$$<br>
