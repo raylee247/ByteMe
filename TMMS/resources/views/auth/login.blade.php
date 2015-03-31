@@ -4,9 +4,10 @@
 <div class="container">
 <div class="container-fluid">
 	<div class="row">
+		<br><br>
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
+				<div class="panel-heading">Administrator Login</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -61,4 +62,13 @@
 	</div>
 </div>
 </div>
+
+<style type="text/css">
+		body{
+		background:     
+		url('../images/welcome_background.jpg');
+		background-size: cover;
+		}
+
+</style>
 @endsection
