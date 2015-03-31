@@ -20,6 +20,7 @@ class KickOffMatch{
 	protected $allgroups = array();
 	protected $fullMentorTable = array();
 	protected $participantTable = array();
+	protected $num_of_col;
 
 	/**
 	 * Create a new controller instance.
@@ -32,6 +33,9 @@ class KickOffMatch{
 	{
 		// print("********************* in constructor **********************\n");
 		$this->current_matches  = \DB::table('report')->where('report.year', '=', date('Y'))->get();
+
+		$this->num_of_col = count($this->current_matches[0]);
+
 		$this->max_participant = $max;
 
 		$this->mentorsInGroup = $mentor_per_group;
@@ -236,13 +240,13 @@ class KickOffMatch{
 		// print("\n\n");
 		for ($i = 0; $i<count($this->current_matches); $i++) {
 			$element = $this->current_matches[$i];
-			$dates = array_slice($element, 6	);
+			$dates = array_slice($element, $this->num_of_col);
 			// var_dump($dates);
 			if(count($dates)==1){
 				$this->ppl_p_night[$dates[0]] = $this->ppl_p_night[$dates[0]]-3;
 			}else{
 					$day = $this->findBestDay($element);
-					$element = array_slice($element, 0, 5);
+					$element = array_slice($element, 0, ($this->num_of_col-1));
 					array_push($element, $day);
 					// var_dump($element);
 					$this->current_matches[$i] = $element;
@@ -260,24 +264,31 @@ class KickOffMatch{
 	{
 		// print("********************* in findBestDay function **********************\n");
 		//find the night with the least members
-		$dates = array_slice($element, 6);
-		$night;
+		$dates = array_slice($element, $this->num_of_col);
+		$night = "";
 		$max = -9999;
 		foreach($dates as $date){
 			if($this->ppl_p_night[$date] > $max){
 				$max = $this->ppl_p_night[$date];
 				$night = $date;
+				// print("date = ");
+				// print($date);
+				// print("\n");
+				// print("max = ");
+				// print($max);
+				// print("\n");
+				// print("night = ");
+				// print($night);
+				// print("\n\n");
 			}
-		}
-		// var_dump($element);
-		// array_push($element, $night);
+		}		// array_push($element, $night);
 		// var_dump($element);
 		// var_dump($this->ppl_p_night);
 		// print("\n\n");
 		// print($max);
 		// print("\n\n");
 
-		if($max == -9999){
+		if(empty($night)){
 			foreach($this->ppl_p_night as $key => $value){
 				// var_dump($this->ppl_p_night);
 				// print("\n\n");
@@ -286,15 +297,19 @@ class KickOffMatch{
 				// print("\n\n");
 				if($value > $max){
 					$max = $value;
-					print($key);
+					//print($key);
 					$night = $key;
 				}
+				// print("date = ");
+				// print($key);
+				// print("\n");
 				// print("max = ");
 				// print($max);
-				// print("\n\n");
+				// print("\n");
 				// print("night = ");
 				// print($night);
 				// print("\n\n");
+
 			}
 		}
 		$this->ppl_p_night[$night] = $this->ppl_p_night[$night]-3;
