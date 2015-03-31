@@ -74,8 +74,8 @@
                         //generate kickoff section on application form
                         $count = count($kickoff);
                         
-                        echo '<label class="control-label col-sm-3">Kickoff event availability</label><br><br>
-                        <div class="col-sm-1"></div><div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
+                        echo '<label class="control-label col-sm-3">Kickoff event availability</label>
+                        <div class="col-sm-4"></div><div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
                         student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
                         same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
                         indicate your availability for the following dates:
@@ -111,11 +111,11 @@
                         
                         echo '</table>';
                         ?>
+
                     <div>
-                        <div class="col-sm-1"></div>
-                        <label class="pull-left">Additional comments regarding availability?</label><br><br>
-                        <div class="col-sm-1"></div>
-                        <textarea name="additionalcomments_avail" rows="5" cols="130"></textarea>
+                        <div class="col-sm-2"></div>
+                        <label class="control-label">Additional comments regarding availability?</label><br><br>
+                        <center><textarea name="additionalcomments_avail" rows="5" cols="125"></textarea></center>  
                     </div>
                     <br>
                     <div class="form-inline">
@@ -160,18 +160,16 @@
                         </select>
                     </div>
                     <br>
-                    <div class="form-inline">
-                        <div class="col-sm-1"></div>
-                        <label class="control-label">Which of the following courses have you completed?</label>
+
+                        <label class="control-label col-sm-3">Which of the following courses have you completed?</label><br>
                         <input type="checkbox" name="course[]" value="" checked="checked" style="display:none" ><label class="checkbox-inline"></label>
                         <input type="checkbox" name="course[]" value="210">CPSC 210<label class="checkbox-inline"></label>
                         <input type="checkbox" name="course[]" value="213">CPSC 213<label class="checkbox-inline"></label>
                         <input type="checkbox" name="course[]" value="221">CPSC 221<label class="checkbox-inline"></label>
-                    </div>
-                    <br>
+                    <br><br>
+
                     <div class="form-inline">
-                        <div class="col-sm-1"></div>
-                        <label class="control-label">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?</label>
+                        <label class="control-label col-sm-3">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?</label><br>
                         <select class="form-control" name="participation" required>
                             <option value="">Select...</option>
                             <option id="previousmatched_no">No, I have not participated before</option>
@@ -180,10 +178,10 @@
                             <option id="previousmatched_both">Both junior and senior student</option>
                         </select>
                     </div>
-                    <br>
+                    <br><br>
+
                     <div class="form-inline">
-                        <div class="col-sm-1"></div>
-                        <label class="control-label">Co-op status:</label>
+                        <label class="control-label col-sm-3">Co-op status:</label>
                         <select class="form-control" name="coop" required>
                             <option value="">Select...</option>
                             <option value="coop_alltermscompleted">Have completed all co-op terms</option>
@@ -192,7 +190,7 @@
                             <option value="coop_notacoopstudent">Not a co-op student</option>
                         </select>
                     </div>
-                    <br>
+                    <br><br>
                     {{--this is the extra questions part--}}
                     <?php
                         //questions comes in as an array holding arrays
@@ -202,15 +200,19 @@
                             switch($questions[$x][0]){
                         
                                 case "checkbox":
-                                    echo '<div class="form-inline"><div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><div class="col-md-6">';
-                                    echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none" required>';
+
+
+                        echo'<label class="control-label col-sm-3">' . $questions[$x][2] . '</label><br>
+                        <div class="col-md-6"><input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none" required>';
                                     $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                                     $answer = explode("," , $rawAnswer);
                                     $answerCount = count($answer);
                                     for ($i = 0; $i < $answerCount; $i++){
-                                        echo '<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
-                                    }
-                                    echo '</div></div><br><br><br><br><br><br><br>';
+
+                        echo'<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
+                    }
+                       
+                   echo' </div><br><br><br><br><br><br><br>';
                                     break;
                         
                                 case "text":
@@ -278,10 +280,19 @@
                                     break;
                         
                                 case "textarea":
-                                    echo '<div class="col-sm-1"></div>
-                        <label class="pull-left">' . $questions[$x][2] . '</label><br><br>
-                        <div class="col-sm-1"></div>
-                        <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'" required></textarea><br>
+
+
+
+
+
+
+
+
+                                    echo '<div class="col-sm-2"></div>
+                        <label class="pull-left">' . $questions[$x][2] . '</label><br>
+                        <center>
+                        <textarea rows="5" cols="130" name="' . $questions[$x][1] .  '" id="' . $questions[$x][1] .'" required></textarea>
+                        </center>
                         <br>';
                                     break;
 

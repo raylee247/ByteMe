@@ -5,7 +5,7 @@
             <b>Student Application Form</b>
             <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-100">Add new question</button>
             <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-101">Create new form</button>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-102'><i class="glyphicon glyphicon-cog"></i> View past application forms</button>
+            <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-102'><i class="glyphicon glyphicon-cog"></i> Load application forms</button>
             <!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
         </div>
         <div class="panel-footer">
@@ -947,7 +947,7 @@
     <div id="modal-102" class="modal fade" id="pastforms" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST">
+                <form action="studentform" method="POST">
                     <div class="modal-body">Specify a year:
                         <?php
                         echo '<select name="year">';
