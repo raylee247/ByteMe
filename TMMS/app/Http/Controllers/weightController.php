@@ -73,7 +73,9 @@ class weightController extends Controller {
         if (count($rawApp)){
             $message = "success";
         }
-        return view('currentmatch')->with('message', $message);
+
+
+        return view('currentmatch',compact('message','rawApp'));
     }
 
     public function kickoffindex()
@@ -136,7 +138,7 @@ class weightController extends Controller {
     // POST request to db to save maximum participants for kickoff 
     public function savedmaxKickoff()
     {
-        // do db operation  of pushing the selcted result into result table
+        //do db operation  of pushing the selcted result into result table
         $check = \DB::table('report')->where ('year', '=', date("Y"))->get();
         if (count($check) > 0){
            \DB::table('report')->where('year', '=', date("Y"))->delete();
@@ -151,6 +153,7 @@ class weightController extends Controller {
                     ['mentor' => $match['mentor'],
                      'senior' => $match['senior'],
                      'junior' => $match['junior'],
+                     'satisfaction' => $match['satisfaction'],
                      'year' => date("Y")
                     ]
                 );

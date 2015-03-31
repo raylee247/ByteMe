@@ -244,7 +244,7 @@ $current_year = date("Y");
         </tbody>
     </table>
 
-    <!-- Editing Modal -->
+    <!-- Student Editing Modal -->
     <div id="student-modal" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -400,10 +400,6 @@ $current_year = date("Y");
             </div>
         </div> 
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
-    </div>
     </div>
     </div>
     </div>
@@ -522,7 +518,6 @@ $current_year = date("Y");
                     if ($key == "SID" || $key == "Time")
                     {
                         //do nothing and continue iteration
-                        // TODO
                     }
 
                     else
@@ -541,7 +536,7 @@ $current_year = date("Y");
         </tbody>
     </table>
 
-    <!-- Editing Modal -->
+    <!-- Mentor Editing Modal -->
     <div id="mentor-modal" class="modal" tabindex="-1" role="dialog">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -557,7 +552,7 @@ $current_year = date("Y");
                   <div class="panel-body">
                       <div class="row">
                           <div class=" col-md-12"> 
-                            <form method="POST" action="http://localhost:8888/participant/<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
+                            <form method="POST" action="<?= $participant_result[0]['pid'] ?>" accept-charset="UTF-8" class="edit-form">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <!-- Flag for EditParticipantRequest.php -->
@@ -671,16 +666,12 @@ $current_year = date("Y");
                                 <div class="form-group">
                                     {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
                                 </div>
-                                <input data-dismiss="modal" type="reset" value="Reset!">
+                                <input data-dismiss="modal" type="reset" value="Close!">
                             {!! Form::close() !!}
                         </div>
                     </div>
                 </div>
             </div> 
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes //TODO:save to db</button>
         </div>
         </div>
         </div>

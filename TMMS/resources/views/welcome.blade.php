@@ -22,7 +22,7 @@
 				text-align: center;
 				display: table-cell;
 				vertical-align: middle;
-				top: 75px;
+				top: 25px;
 			}
 
 			.content {
@@ -48,16 +48,13 @@
 
 
 
-	{!! HTML::image('images/stockfresh_131055_new-business-strategies_sizeM_6db108.jpg') !!};
+	{!! HTML::image('images/Mentorship_560x312.jpg', "Logo",array('height'=>'350','width'=>'750')) !!};
 
-
-
-
-
-				<div class="title"><b>TMMS</b></div>
+				<div class="title"><b>TMMS</b></div><br>
 				<a href="{{ url('/mentorapp') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Apply As Mentor</button></a>
 				<a href="{{ url('/studentapp') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Apply As Student</button></a>
-				<a href="{{ url('home') }}"><button type="button"class="btn btn-primary"><span class="glyphicon glyphicon-wrench"></span>Admin Login</button></a>
+				<a href="{{ url('home') }}"><button type="button"class="btn btn-primary"><span class="glyphicon glyphicon-wrench"></span>Admin Login</button></a><br><br>
+				Brought to you by: {!! HTML::image('images/Logo.jpg', "Logo", array('height'=>'90','width'=>'100')) !!};
 			</div>
 		</div>
 	</body>
