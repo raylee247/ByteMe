@@ -19,6 +19,7 @@ class KickOffMatch{
 	protected $mentorsInGroup;
 	protected $allgroups = array();
 	protected $fullMentorTable = array();
+	protected $participantTable = array();
 
 	/**
 	 * Create a new controller instance.
@@ -33,7 +34,8 @@ class KickOffMatch{
 		$this->current_matches  = \DB::table('report')->where('report.year', '=', date('Y'))->get();
 		$this->max_participant = $max;
 		$this->mentorsInGroup = $mentor_per_group;
-		$this->fullMentorTable= \DB::table('mentor')->get();
+		$this->fullMentorTable = \DB::table('mentor')->get();
+		$this->participantTable = \DB::table('participant')->get();
 
 		$kickoffnights = array();
 		$allparticipant = \DB::table('participant')->where('participant.year', '=', date('Y'))->get();
@@ -123,6 +125,7 @@ class KickOffMatch{
 		// $this->test();
 		// print("********************* in generate function **********************\n");
 		ini_set('memory_limit', '1000M');
+		set_time_limit(3600);
 		$this->setKickOffDay();
 		$response = $this->setGroup();
 		// var_dump($response);
@@ -156,9 +159,23 @@ class KickOffMatch{
 
 		foreach($this->current_matches as $element){
 
-			$mentor_availableday = \DB::table('participant')->where('participant.pid', '=', $element['mentor'])->pluck('kickoff');
-			$senior_availableday = \DB::table('participant')->where('participant.pid', '=', $element['senior'])->pluck('kickoff');
-			$junior_availableday = \DB::table('participant')->where('participant.pid', '=', $element['junior'])->pluck('kickoff');
+			foreach($this->participantTable as $data){
+				if($data['pid'] == $element['mentor']){
+					$mentor_availableday = $data['kickoff'];
+				}else{
+					if($data['pid'] == $element['senior']){
+						$senior_availableday = $data['kickoff'];
+					}else{
+						if($data['pid'] == $element['junior']){
+							$junior_availableday = $data['kickoff'];
+						}
+					}
+				}
+			}
+
+			//print($element['mentor']);
+			//var_dump($mentor_availableday);
+
 			$mentor_availableday = explode(",", $mentor_availableday);
 			$senior_availableday = explode(",", $senior_availableday);
 			$junior_availableday = explode(",", $junior_availableday);
@@ -195,7 +212,7 @@ class KickOffMatch{
 		// print("********************* in pickday function **********************\n");
 		for ($i = 0; $i<count($this->current_matches); $i++) {
 			$element = $this->current_matches[$i];
-			$dates = array_slice($element, 5);
+			$dates = array_slice($element, 6);
 			// var_dump($dates);
 			if(count($dates)==1){
 				$this->ppl_p_night[$dates[0]] = $this->ppl_p_night[$dates[0]]-3;
@@ -219,18 +236,28 @@ class KickOffMatch{
 	{
 		// print("********************* in findBestDay function **********************\n");
 		//find the night with the least members
-		$dates = array_slice($element, 5);
+		$dates = array_slice($element, 6);
 		$night;
 		$max = -1;
 		foreach($dates as $date){
 			if($this->ppl_p_night[$date] > $max){
+				$max = $this->ppl_p_night[$date];
 				$night = $date;
 			}
 		}
 		// var_dump($element);
 		// array_push($element, $night);
 		// var_dump($element);
-		$this->ppl_p_night[$night] = $this->ppl_p_night[$date]-3;
+		if($max == -1){
+			foreach($this->ppl_p_night as $key => $value){
+				if($value > $max){
+					$max = $value;
+					print($key);
+					$night = $key;
+				}
+			}
+		}
+		$this->ppl_p_night[$night] = $this->ppl_p_night[$night]-3;
 		// print($night);
 		// print(" quota = ");
 		// print($this->ppl_p_night[$night]);
@@ -246,6 +273,7 @@ class KickOffMatch{
 	public function setGroup()
 	{
 		// print("********************* in setGroup function **********************\n");
+		//set_time_limit(3600);
 		$result = array();
 		$count = 0;
 		foreach($this->kick_off_nights as $night){
@@ -292,7 +320,7 @@ class KickOffMatch{
 						array_push($group, $mentor_id);
 						$resultofday[$counter%$num_of_groups] = $group;
 					}else{
-						array_push($resultofday[$this->putIntoGroup($counter%$num_of_groups, $num_of_groups, $resultofday)], $mentor_id);
+						array_push($resultofday[$this->putIntoGroup($counter%$num_of_groups, $num_of_groups, $resultofday, $mentor_id)], $mentor_id);
 					}
 				}
 				$counter++;
@@ -326,11 +354,12 @@ class KickOffMatch{
 
 	public function is_valid($mentor1, $mentor2){
 		// print("*********************  in is_valid function **********************\n\n");
+		//set_time_limit(3600);
 
-		$m1_company;
-		$m1_job;
-		$m2_company;
-		$m2_job;
+		$m1_company = "";
+		$m1_job = "";
+		$m2_company = "";
+		$m2_job = "";
 
 		foreach($this->fullMentorTable as $data){
 			if($data["mid"] == $mentor1){
@@ -344,12 +373,30 @@ class KickOffMatch{
 			}
 		}
 
-		similar_text($m1_job, $m2_job, $c1);
-		similar_text($m2_job, $m1_job, $c2);
+		if(!empty($m1_company)){
+			str_replace(" ", "", $m1_company);
+			$m1_company = strtolower($m1_company);
+		}
 
-		$rating = ($c1+$c2)/2;
+		if(!empty($m1_job)){
+			str_replace(" ", "", $m1_job);
+			$m1_job = strtolower($m1_job);
+		}
 
-		if($rating > 50 || strcmp($m1_company, $m2_company)==0){
+		if(!empty($m2_company)){
+			str_replace(" ", "", $m2_company);
+			$m2_company = strtolower($m2_company);
+		}
+
+		if(!empty($m2_job)){
+			str_replace(" ", "", $m2_job);
+			$m2_job = strtolower($m2_job);
+		}
+
+
+
+
+		if(($m1_job == $m2_job) || ($m1_company == $m1_company)){
 			// print("********************* end of is_valid function **********************\n\n");
 			return false;
 		}else{
@@ -358,12 +405,12 @@ class KickOffMatch{
 		}
 	}
 
-	public function putIntoGroup($curr_num, $group_total, $curr_group){
+	public function putIntoGroup($curr_num, $group_total, $curr_group, $mentor_id){
 		// print("********************* in putIntoGroup function **********************\n\n");
 		$groups_tested = 1;
 		for($i=$curr_num; $groups_tested < $group_total; $i++){
 			$validity = true;
-			foreach($group as $group_member){
+			foreach($curr_group as $group_member){
 				$validity = $validity && $this->is_valid($mentor_id, $group_member);
 			}
 
