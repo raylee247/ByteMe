@@ -899,7 +899,7 @@
 <div id="modal-102" class="modal fade" id="pastforms" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
       <div class="modal-dialog">
             <div class="modal-content">
-                  <form method="POST">
+                  <form action="mentorform" method="POST">
                         <div class="modal-body">Specify a year:
                               <?php
                                     echo '<select name="year">';
