@@ -5,7 +5,15 @@
   padding-right:10px;
   font-weight:bold;
 }
-#studentapp, #mentorapp label.error {
+#mentorapp label.error {
+  float:right;
+  display: inline-block;
+  margin-left: 20px;
+  color:#FB3A3A;
+  font-weight:bold;
+}
+
+#studentapp label.error {
   float:right;
   display: inline-block;
   margin-left: 20px;
