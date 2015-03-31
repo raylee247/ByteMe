@@ -29,7 +29,7 @@ class MakeMatching extends Controller {
     public function generateKickoff(){
         //set_time_limit(3600);
         $kickoffMax = 150;
-        $maxMentor = 3;
+        $maxMentor = 5;
         $kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
         $generator = new KickOffMatch($kickoffMax, $maxMentor);
         print("\n\ngoing into generate\n\n");
