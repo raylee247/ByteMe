@@ -86,8 +86,13 @@
   
           // actual pid of the participant 
           var myvar = <?php
-    echo json_encode($array);
-    ?>;
+                        if (!isset($array)) {
+                          echo "do nothing";
+                        }
+                        else {
+                          echo json_encode($array);
+                        }
+                      ?>;
           window.location.href = "participant" + "/" + myvar[row];
           return false;
       });
