@@ -23,6 +23,27 @@
     $current_year = date("Y");
     ?>
 <br>
+
+
+
+
+
+
+
+
+
+
+<!-- student panel -->
+<div class="panel panel-default">
+  <div class="panel-body">
+
+
+
+
+
+
+
+
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <span class="input-group-btn">
@@ -236,6 +257,17 @@
             ?>
     </tbody>
 </table>
+
+
+
+
+
+</div>
+</div>
+
+
+
+
 <!-- Student Editing Modal -->
 <div id="student-modal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -376,6 +408,29 @@
     </div>
 </div>
 @else
+
+
+
+
+
+
+<!-- mentor panel -->
+<div class="panel panel-default">
+  <div class="panel-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Display name at top of the participant page --> 
 <?php
     echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
@@ -503,6 +558,32 @@
     ?>
 </tbody>
 </table>
+
+
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Mentor Editing Modal -->
 <div id="mentor-modal" class="modal" tabindex="-1" role="dialog">
 <div class="modal-dialog">

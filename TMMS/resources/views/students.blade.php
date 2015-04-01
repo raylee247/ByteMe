@@ -10,8 +10,7 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <div>    
-        <div class="col-xs-8 col-xs-offset-2">
+          <div class="col-xs-8 col-xs-offset-2">
             <form action="students" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="input-group">
@@ -33,11 +32,11 @@
             </div>
         </form>
     </div>
-</div>
-<br>
+
+<br><br><br>
 <table id="example" class="table table-striped table-bordered table-hover" width="100%">
     <thead>
-        <tr> <br>
+        <tr> 
            <th>First Name</th>
            <th>Last name</th>
            <th>Student Number</th>
