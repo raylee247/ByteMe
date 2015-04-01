@@ -103,9 +103,14 @@ class AdminController extends Controller {
 
     public function studentsview()
     {
+        $year = date("Y");
         // Retrieve junior and senior students from database
-        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')->get();   
-        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')->get();
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('year', $year)
+                                                  ->get();   
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('year', $year)
+                                                  ->get();
                                                   
         // Merge these two results 
         $result = array_merge($junior_result, $senior_result);
@@ -115,8 +120,11 @@ class AdminController extends Controller {
    
     public function mentorsview()
     {
+        $year = date("Y");
         // Retrieve mentors from database
-        $result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')->get();
+        $result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                           ->where('year', $year)   
+                                           ->get();
         return \View::make('mentors')->with('result', $result); 
     }
 
@@ -159,36 +167,10 @@ class AdminController extends Controller {
     {
         $dropdown = $_POST['search_param'];
         $text = $_POST['text'];
-        //validates search param 
-        // $pattern = '/([1-9][0-9]{7})|([a-z][0-9][a-z][0-9])|([a-zA-Z]+\ ?[a-zA-Z]*)/';
-
-        // preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
-
-        // $matches = $matches[0][0];
-        // if(strcmp($text, $matches) != 0)
-        // {
-        //     echo "input error, please make sure the input value is a name, student number or cs-id";
-        // }
-        // else
-        // {
-        //     if(strcmp($dropdown, "junior students") == 0){
-        //         echo "search junior student";
-        //     }
-
-        //     if(strcmp($dropdown, "senior students") == 0){
-        //         echo "search senior student";
-        //     }
-
-        //     if(strcmp($dropdown, "all") == 0){
-        //         echo $dropdown; 
-        //         echo "<br>";
-        //         echo $text;
-        //         echo "<br>";
-        //         echo $pattern;
-        //         echo "<br>";
-        //     }
-        // }
+        $year = date("Y");
+        
         $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('year', $year)
                                                   ->where('First name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
@@ -197,6 +179,7 @@ class AdminController extends Controller {
                                                   ->get();
 
         $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('year', $year)
                                                   ->where('First name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
@@ -227,8 +210,10 @@ class AdminController extends Controller {
     public function mentorSearch()
     {
         $text = $_POST['text'];
+        $year = date("Y");
 
         $result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                           ->where('year', $year)
                                            ->where('First name', 'LIKE', '%'.$text.'%')
                                            ->orWhere('Family name', 'LIKE', '%'.$text.'%')
                                            ->orWhere('email', 'LIKE', '%'.$text.'%')
