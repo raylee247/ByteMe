@@ -51,19 +51,49 @@
 				?>
 				<div class="panel-heading">Create a trio group: <button id="rerunmatch" type ="submit" class="btn btn-xs btn-success pull-right"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Save and Re-run Matching</span></button><br></div>
 				<div class="panel-body">
+					<div id="manaul_header"> 
+						<div class="row">
+								<div class="col-md-4">
+									<b><u> Industry Mentor </u></b><br>
+									<?php 
+									if (isset($result_names)){
+										foreach ($result_names as $key => $value) {
+											if(is_null($value)){
+												echo explode(",", $key)[0]. "<br>";
+											}
+										}
+									}
+									?>
+								</div>
+								<div class="col-md-4">
+									<b><u> Senior Student </u></b><br>
+									<?php 
+									if (isset($result_names)){
+										foreach ($result_names as $key => $value) {
+											if(is_null($value)){
+												echo explode(",", $key)[1] . "<br>";
+											}
+										}
+									}
+									?>
+								</div>
+								<div class="col-md-4">
+									<b><u> Junior Student </u></b><br>
+									<?php 
+									if (isset($result_names)){
+										foreach ($result_names as $key => $value) {
+											if(is_null($value)){
+												echo explode(",", $key)[2]. "<br>";
+											}
+										}
+									}
+									?>
+								</div>
+							</div>
+					</div>
 					<div id="manual">
 						<div class="row">
 							<div class="col-md-4">
-								<b><u> Industry Mentor </u></b><br>
-								<?php 
-								if (isset($result_names)){
-									foreach ($result_names as $key => $value) {
-										if(is_null($value)){
-											echo explode(",", $key)[0]. "<br>";
-										}
-									}
-								}
-								?>
 								<div class="input-group">
 									<input type="text" class="form-control" name="mentor[]" placeholder="Specify a mentor's name">
 									<span class="input-group-btn">
@@ -72,16 +102,6 @@
 								</div>
 							</div>
 							<div class="col-md-4">
-								<b><u> Senior Student </u></b><br>
-								<?php 
-								if (isset($result_names)){
-									foreach ($result_names as $key => $value) {
-										if(is_null($value)){
-											echo explode(",", $key)[1] . "<br>";
-										}
-									}
-								}
-								?>
 								<div class="input-group">
 									<input type="text" class="form-control" name="senior[]" placeholder="Specify a senior's name">
 									<span class="input-group-btn">
@@ -90,16 +110,6 @@
 								</div>
 							</div>
 							<div class="col-md-4">
-								<b><u> Junior Student </u></b><br>
-								<?php 
-								if (isset($result_names)){
-									foreach ($result_names as $key => $value) {
-										if(is_null($value)){
-											echo explode(",", $key)[2]. "<br>";
-										}
-									}
-								}
-								?>
 								<div class="input-group">
 									<input type="text" class="form-control" name="junior[]" placeholder="Specify a student's name">
 									<span class="input-group-btn">
