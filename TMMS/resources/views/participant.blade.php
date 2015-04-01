@@ -38,16 +38,11 @@
   <div class="panel-body">
 
 
-
-
-
-
-
-
+<!-- Button to download participant profile information -->
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <span class="input-group-btn">
-    <span class="btn btn-primary btn-file">
+    <span class="btn btn-primary btn-file pull-right">
     <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
     Download Participant Profile
     <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
@@ -55,13 +50,17 @@
     </span>
     </span>
 </form>
+
+
+
+Program status:
 <!-- Button to move participant into participant pool -->
 @if ($participant_result[0]['waitlist'] == 1 && $participant_result[0]['year'] == $current_year) 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('toParticipantPool') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     This participant is in the waitlist.
     <span class="input-group-btn">
-    <span class="btn btn-primary btn-file">
+    <span class="btn btn-primary btn-file pull-right">
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
     Move to Participant Pool
     <input type="hidden" name="participant_email_to_pp" value="<?= $participant_result[0]['email'] ?>">
@@ -69,13 +68,14 @@
     </span>
     </span>
 </form>
+
 <!-- Button to move participant into waitlist --> 
 @elseif ($participant_result[0]['waitlist'] == 0 && $participant_result[0]['year'] == $current_year) 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('toWaitlistPool') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     This participant is in the participant pool.
     <span class="input-group-btn">
-    <span class="btn btn-primary btn-file">
+    <span class="btn btn-primary btn-file pull-right">
     <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
     Move to Waitlist Pool
     <input type="hidden" name="participant_email_to_wl" value="<?= $participant_result[0]['email'] ?>">
@@ -84,11 +84,13 @@
     </span>
 </form>
 @endif
+
+<!-- Button to delete participant -->
 @if ($participant_result[0]['year'] == $current_year)
 <form class="form-horizontal" role="form" method="POST" action="{{ url('deleteParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <span class="input-group-btn">
-    <span class="btn btn-danger btn-file">
+    <span class="btn btn-danger btn-file pull-right">
     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     Delete Participant
     <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['email'] ?>">
@@ -97,21 +99,25 @@
     </span>
 </form>
 @endif
+
 @if (isset($id_array[0]) || isset($id_array[1]))
 <!-- Display name at top of the participant page --> 
 <?php
-    echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
+    echo '<h2>' . $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
     ?>
 <!-- Edit Student Button -->
-<button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
-<i class="glyphicon glyphicon-pencil"></i> Edit
-</button>
-<a href="{{ url('/students') }}">Back</a> 
+<button class="btn btn-xs btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
+<i class="glyphicon glyphicon-pencil"></i>
+</button></h2>
+<a class="pull-right" href="{{ url('/students') }}">Back</a> 
+
 <!-- View Past Report Button -->
 <form method="POST" action="pastreport">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     Year of report: <input type="text" name="year" id="year">
     <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
+    <button type="submit" class="btn btn-primary">Submit</button>
+
 </form>
 <br>
 <!-- Student Information Table --> 
@@ -394,11 +400,12 @@
                                         }
                                         ?>
                                     <!-- Submit Button --> 
-                                    <div class="form-group">
+                                    <div class="form-inline">
                                         {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
-                                    <input data-dismiss="modal" type="reset" value="Close!">
-                                    {!! Form::close() !!}
+                                   <!--  <input data-dismiss="modal" type="reset" value="Close!"> -->
+                                    </form>
                             </div>
                         </div>
                     </div>
@@ -697,8 +704,11 @@
 <!-- Submit Button --> 
 <div class="form-group">
 {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<!-- <input data-dismiss="modal" type="reset" value="Close!"> -->
 </div>
-<input data-dismiss="modal" type="reset" value="Close!">
+
+
 <!-- {!! Form::close() !!} -->
 </form>
 </div>
