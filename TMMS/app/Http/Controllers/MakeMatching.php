@@ -174,6 +174,14 @@ class MakeMatching extends Controller {
                                             'result_ids','result_names',
                                             'result_unmatch'));
     }
+
+    public function generateWithout(){
+        var_dump($_POST['mentor']);
+        var_dump($_POST['senior']);
+        var_dump($_POST['junior']);
+        $message = "what";
+        return view('success', compact($message));
+    }
     public function array_median($array) {
       // perhaps all non numeric values should filtered out of $array here?
       $iCount = count($array);
