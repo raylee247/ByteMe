@@ -69,7 +69,7 @@ class MatchGenerator{
 			$temp['First name'] = $info['First name'];
 			$temp['Family name'] = $info['Family name'];
 			$temp['email'] = $info['email'];
-			$result[] = $temp;
+			$result[$temp['pid']] = $temp;
 		}
 		return $result;
 	}
@@ -81,7 +81,7 @@ class MatchGenerator{
 			$temp['First name'] = $info['First name'];
 			$temp['Family name'] = $info['Family name'];
 			$temp['email'] = $info['email'];
-			$result[] = $temp;
+			$result[$temp['pid']] = $temp;
 		}
 		return $result;
 	}
@@ -93,7 +93,7 @@ class MatchGenerator{
 			$temp['First name'] = $info['First name'];
 			$temp['Family name'] = $info['Family name'];
 			$temp['email'] = $info['email'];
-			$result[] = $temp;
+			$result[$temp['pid']] = $temp;
 		}
 		return $result;
 	}
@@ -216,13 +216,28 @@ class MatchGenerator{
 		set_time_limit(3600);
 		ini_set('memory_limit', '1000M');
 		foreach ($without_m as $key => $value) {
-			$this->mentors_id = $this->array_without(array_keys($this->mentors),$value);
+			if(count($this->mentors_id) > 0){
+				$this->mentors_id = $this->array_without(array_keys($this->mentors_id),$value);
+			}else{
+				$this->mentors_id = $this->array_without(array_keys($this->mentors),$value);
+			}
+			
 		}
 		foreach ($without_s as $key => $value) {
-			$this->seniors_id = $this->array_without(array_keys($this->seniors),$value);
+			if(count($this->seniors_id) > 0){
+				$this->seniors_id = $this->array_without(array_keys($this->seniors_id),$value);
+			}else{
+				$this->seniors_id = $this->array_without(array_keys($this->seniors),$value);
+			}
+			
 		}
 		foreach ($without_j as $key => $value) {
-			$this->juniors_id = $this->array_without(array_keys($this->juniors),$value);
+			if(count($this->juniors_id) > 0){
+				$this->juniors_id = $this->array_without(array_keys($this->juniors_id),$value);
+			}else{
+				$this->juniors_id = $this->array_without(array_keys($this->juniors),$value);
+			}
+
 		}
 		
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);

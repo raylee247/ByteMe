@@ -182,32 +182,50 @@ class MakeMatching extends Controller {
         // check if any value is empty
         $empty = 0;
         $manualMatches = array();
+        $mentor_without = array();
+        $senior_without = array();
+        $junior_without = array();
+
         foreach ($_POST['mentor'] as $key => $value) {
-            if($value = ""){
+            if($value == ""){
                 $empty++;
             }else{
-                $match = implode(",", array($_POST['mentor'][$key],$_POST['senior'][$key],$_POST['junior'][$key]));
-                $manualMatches[$match] = null;
+                $mid = explode(",", $value)[0];
+                $mentor_without[] = $mid;
             }
         }
         foreach ($_POST['senior'] as $key => $value) {
-            if($value = ""){
+            if($value == ""){
                 $empty++;
+            }else{
+                $sid = explode(",", $value)[0];
+                $senior_without[] = $sid;
             }
         }
         foreach ($_POST['junior'] as $key => $value) {
-            if($value = ""){
+            if($value == ""){
                 $empty++;
+            }else{
+                $jid = explode(",", $value)[0];
+                $junior_without[] = $jid;
             }
         }
+
         if($empty > 0){
-            return view('failure');
+            $message = "Please specifiy all of mentor, senior, and junior.\n
+                        Press Go Back to re-submit.";
+            return view('failure', compact('message'));
+        }else{
+            foreach ($mentor_without as $key => $value) {
+                $match = implode(",", array($mentor_without[$key],$senior_without[$key],$junior_without[$key]));
+                $manualMatches[$match] = null;
+            }
         }
 
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
         $generator = new MatchGenerator($must, $priority);
-        $result_ids =  $generator->generate_without($_POST['mentor'],$_POST['senior'],$_POST['junior']);
+        $result_ids =  $generator->generate_without($mentor_without,$senior_without,$junior_without);
         // result with [ match => satisfaction]
         if(count($result_ids) > 0){
             $avgSat = array_sum($result_ids)/count($result_ids);

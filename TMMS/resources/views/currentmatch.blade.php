@@ -39,7 +39,6 @@
 				<b>Median:</b> $$$$$ -->
 			</h5>
 		</legend>
-		<button id="viewmatch" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button><br><br>
 		<div id="matchpanel" class="panel panel-default">
 			<div class="panel-heading">Manual Matches: </div>
 			<div class="panel-body">
@@ -133,13 +132,5 @@ $(window).load(function(){
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$( "#matchpanel" ).hide();
-	$( "#viewmatch" ).click(function() {
-		$( "#matchpanel" ).slideToggle();
-	});
-});
-</script>
 
 @endsection
