@@ -74,19 +74,31 @@ class profileController extends Controller {
 	public function deleteParticipant()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-		$email = $_POST['delete_participant'];
+		$pid = $_POST['delete_participant'];
         $year = date("Y");
         //$email = "willy504@gmail.com";
         //$year = "2014";
-        $rawApp = \DB::table('participant')->where('year', $year)->where('email', $email)->delete();
 
-        //check if correctly removed
-        if($rawApp > 1){
-            $response = "removed too many";
-        }if($rawApp < 1) {
-            $response = "did nothing";
-        }else{
-            $response = "removed participant";
+
+        \DB::table('participant')->where('year', $year)->where('pid', $pid)->update(['year' => 0]);
+        \DB::table('parameter')->where('year', $year)->where('pid', $pid)->update(['year' => 0]);
+
+
+        $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
+                                                  ->where('pid', $pid)->get();   
+        $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
+                                                  ->where('pid', $pid)->get(); 
+        $mentor_result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
+                                                  ->where('pid', $pid)->get(); 
+
+        $students_result = array_merge($junior_result, $senior_result);
+
+        if (isset($students_result[0]['pid'])) {
+            return redirect('students');
+        }
+
+        else {
+            return redirect('mentors');
         }
 	}
 
