@@ -70,7 +70,7 @@
 </div>
 <script>
     $(document).ready(function(){
-        $('table tr').click(function(){
+        $('tbody tr').click(function(){
             // index of row clicked 
             var row = ($(this).index());
     
