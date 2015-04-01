@@ -7,6 +7,9 @@
 		<h2>Failure!</h2>
 		<div class="panel-body">
 			<!-- put message here -->
+			@if (isset($message))
+				<p> {{$message}} </p>
+			@endif
 		</div>
 	</div>
 </div>
