@@ -54,73 +54,79 @@
 					<div id="manaul_header"> 
 						<div class="row">
 								<div class="col-md-4">
-									<b><u> Industry Mentor </u></b><br>
-									<?php 
-									if (isset($result_names)){
-										foreach ($result_names as $key => $value) {
-											if(is_null($value)){
-												echo explode(",", $key)[0]. "<br>";
-											}
-										}
-									}
-									?>
+									<b><u> Industry Mentor </u></b>
+									<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#mentorsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+									<br>
 								</div>
 								<div class="col-md-4">
-									<b><u> Senior Student </u></b><br>
-									<?php 
-									if (isset($result_names)){
-										foreach ($result_names as $key => $value) {
-											if(is_null($value)){
-												echo explode(",", $key)[1] . "<br>";
-											}
-										}
-									}
-									?>
+									<b><u> Senior Student </u></b>
+									<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#seniorsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+									<br>
 								</div>
 								<div class="col-md-4">
-									<b><u> Junior Student </u></b><br>
-									<?php 
-									if (isset($result_names)){
-										foreach ($result_names as $key => $value) {
-											if(is_null($value)){
-												echo explode(",", $key)[2]. "<br>";
-											}
-										}
-									}
-									?>
+									<b><u> Junior Student </u></b>
+									<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#juniorsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+									<br>
 								</div>
 							</div>
 					</div>
-					<div id="manual">
+					<?php 
+						if (isset($result_ids)){
+							foreach ($result_ids as $key => $value) {
+								if(is_null($value)){
+									$mid = explode(",", $key)[0];
+									$sid = explode(",", $key)[1];
+									$jid = explode(",", $key)[2];
+									$mname = ", " . $mentors[$mid]['First name']." ".$mentors[$mid]['Family name'];
+									$sname = ", " . $seniors[$sid]['First name']." ".$seniors[$sid]['Family name'];
+									$jname = ", " . $juniors[$jid]['First name']." ".$juniors[$jid]['Family name'];
+
+
+									echo '<div id="preset" name = "manual">
+											<div class="row">
+												<div class="col-md-4">
+													<div class="input-group">
+														<input type="text" class="form-control" id="mentor_input" name="mentor[]" value="'.$mid.$mname.'" placeholder="Specify a mentor\'s name" readonly>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="input-group">
+														<input type="text" class="form-control" id="senior_input" name="senior[]" value="'.$sid.$sname.'" placeholder="Specify a senior\'s name" readonly>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="input-group">
+														<input type="text" class="form-control" id="junior_input" name="junior[]" value="'.$jid.$jname.'" placeholder="Specify a student\'s name" readonly>
+													</div>
+												</div>
+											</div>
+										</div>';
+								}
+							}
+						}
+					?>
+					<div id="manual" name = "manual">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="input-group">
-									<input type="text" class="form-control" name="mentor[]" placeholder="Specify a mentor's name">
-									<span class="input-group-btn">
-									<span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#mentorsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-									</span>
+									<input type="text" class="form-control" id="mentor_input" name="mentor[]" placeholder="Specify a mentor's name" readonly>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="input-group">
-									<input type="text" class="form-control" name="senior[]" placeholder="Specify a senior's name">
-									<span class="input-group-btn">
-									<span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#seniorsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-									</span>
+									<input type="text" class="form-control" id="senior_input" name="senior[]" placeholder="Specify a senior's name" readonly>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="input-group">
-									<input type="text" class="form-control" name="junior[]" placeholder="Specify a student's name">
-									<span class="input-group-btn">
-									<span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#juniorsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-									</span>
+									<input type="text" class="form-control" id="junior_input" name="junior[]" placeholder="Specify a student's name" readonly>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div id="additional"></div>
 					<center>
+						<button id="remove_manual" type="button" class="btn btn-sm btn-danger" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove A Match</button>
 						<button id="addanothermatch" type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Another</span></button>
 					</center>
 					<br>
@@ -129,19 +135,45 @@
 		</div>
 		<script type="text/javascript">
 			$(document).ready(function(){
-						$( "#matchpanel" ).hide();
+			  	$( "#matchpanel" ).hide();
 			  // $( "#manual" ).hide();
 			
-			  $( "#addmatch" ).click(function() {
+			$( "#addmatch" ).click(function() {
 			  	$( "#matchpanel" ).slideToggle();
 			  });
 			
 			  $( "#addanothermatch" ).click(function() {
-			  	$( "#manual" ).clone().appendTo("#additional");
-			  	$( "addanothermatch").hide();
+			  	 var mentor = document.getElementsByName("mentor[]");
+			  	 var senior = document.getElementsByName("senior[]");
+			  	 var junior = document.getElementsByName("junior[]");
+			  	 if(mentor[mentor.length-1].value == "" || senior[senior.length-1].value == "" || junior[junior.length-1].value == "" ){
+			  	 	alert("please specify all of mentor,senior, and junior before adding a new manual match.");
+			  	 }else{
+			  	 	$( "#manual" ).clone(true).appendTo("#additional");
+			  	 	var mentor = document.getElementsByName("mentor[]");
+			  	 	var senior = document.getElementsByName("senior[]");
+			  	 	var junior = document.getElementsByName("junior[]");
+			  	 	mentor[mentor.length-1].value = "";
+			  	 	senior[senior.length-1].value = "";
+			  	 	junior[junior.length-1].value = "";
+			  	 }
+			  	
 			  });
+
+			  $( "#remove_manual" ).click(function() {
+			  		var elem = document.getElementsByName("manual");
+			  		if (elem.length == 1){
+			  			document.getElementsByName("mentor[]")[0].value = "";
+			  			document.getElementsByName("senior[]")[0].value = "";
+			  			document.getElementsByName("junior[]")[0].value = "";
+			  		}else{
+			  			elem[elem.length-1].remove();
+			  		}
+			  		
+			  });
+
 			
-				$("#search").on("keyup", function() {
+				$("#mentor_search").on("keyup", function() {
 				    var value = $(this).val();
 			
 				    $("#mentorTable tr").each(function(index) {
@@ -179,19 +211,121 @@
 				    });
 				});
 			
-				$('#testingtest tr').click(function(){
+				$("#senior_search").on("keyup", function() {
+				    var value = $(this).val();
+			
+				    $("#seniorTable tr").each(function(index) {
+				        if (index !== 0) {
+			
+				            $row = $(this);
+				    
+				            var id = $row.find("td:eq(0)").text();
+				            var id1 = $row.find("td:eq(1)").text();
+				            var id2 = $row.find("td:eq(2)").text();
+				            var id3 = $row.find("td:eq(3)").text();
+				            
+				            if (id.indexOf(value) !== 0) {
+				            	if(id1.indexOf(value) !== 0) {
+				            		if(id2.indexOf(value) !== 0) {
+				            			if(id3.indexOf(value) !== 0) {
+				            				$row.hide();
+				            			}
+				            			else {
+				            				$row.show();
+				            			}
+				            		}
+				            		else {
+				            			$row.show();
+				            		}
+				            	}
+				            	else {
+				            		$row.show();
+				            	}
+				            }
+				            else {
+				                $row.show();
+				            }
+				        }
+				    });
+				});
+	
+				$("#junior_search").on("keyup", function() {
+				    var value = $(this).val();
+			
+				    $("#juniorTable tr").each(function(index) {
+				        if (index !== 0) {
+			
+				            $row = $(this);
+				    
+				            var id = $row.find("td:eq(0)").text();
+				            var id1 = $row.find("td:eq(1)").text();
+				            var id2 = $row.find("td:eq(2)").text();
+				            var id3 = $row.find("td:eq(3)").text();
+				            
+				            if (id.indexOf(value) !== 0) {
+				            	if(id1.indexOf(value) !== 0) {
+				            		if(id2.indexOf(value) !== 0) {
+				            			if(id3.indexOf(value) !== 0) {
+				            				$row.hide();
+				            			}
+				            			else {
+				            				$row.show();
+				            			}
+				            		}
+				            		else {
+				            			$row.show();
+				            		}
+				            	}
+				            	else {
+				            		$row.show();
+				            	}
+				            }
+				            else {
+				                $row.show();
+				            }
+				        }
+				    });
+				});
+	
+				$('#mentorTable tr').click(function(){
 			            // index of row clicked 
-			            var row = ($(this).index());
+			            var row = $(this);
 			
-			            var elem = document.getElementById("industry_mentor_input");
-			            elem.value
+			            var elem = document.getElementsByName("mentor[]");
+			            elem[elem.length-1].value = $(this).find("td:eq(0)").text() + ","
+			            						  + $(this).find("td:eq(1)").text() + " "
+			            						  + $(this).find("td:eq(2)").text();
 			
-			            // actual pid of the participant 
-			            
+						$('#mentorsearch').modal('hide');
+			            return false;
+			        });
+
+				$('#seniorTable tr').click(function(){
+			            // index of row clicked 
+			            var row = $(this);
+			
+			            var elem = document.getElementsByName("senior[]");
+			            elem[elem.length-1].value = $(this).find("td:eq(0)").text() + ","
+						  						  + $(this).find("td:eq(1)").text() + " "
+						                          + $(this).find("td:eq(2)").text();
+			
+						$('#seniorsearch').modal('hide');
+			            return false;
+			        });
+
+				$('#juniorTable tr').click(function(){
+			            // index of row clicked 
+			            var row = $(this);
+			
+			            var elem = document.getElementsByName("junior[]");
+			            elem[elem.length-1].value = $(this).find("td:eq(0)").text() + ","
+						  						  + $(this).find("td:eq(1)").text() + " "
+						                          + $(this).find("td:eq(2)").text();
+			
+						$('#juniorsearch').modal('hide');
 			            return false;
 			        });
 			});
-					
 		</script>
 		<table id="matchresult" class="table table-striped table-bordered table-hover" width="100%">
 			<caption>Viewing Match Results</caption>
@@ -207,13 +341,15 @@
 				<?php
 					if(isset($result_names) && isset($result_ids)){
 						foreach ($result_names as $key => $value) {
-							echo "<tr>";
-							$key_array = explode(',', $key);
-							foreach ($key_array as $index => $names) {
-								echo "<td>".$names."</td>";
+							if(!is_null($value)){
+								echo "<tr>";
+								$key_array = explode(',', $key);
+								foreach ($key_array as $index => $names) {
+									echo "<td>".$names."</td>";
+								}
+								echo "<td>".$value."%</td>";
+								echo "</tr>";
 							}
-							echo "<td>".$value."%</td>";
-							echo "</tr>";
 						}
 					} 
 					?>
@@ -285,7 +421,7 @@
 						<div>
 							<div class="col-xs-8 col-xs-offset-2">
 								<div class="col-xs-8 col-xs-offset-2">
-									<input type="text" id="mentor_search" placeholder="live search"></input>
+									<input type="text" id="mentor_search" name="mentor_search" placeholder="live search"></input>
 								</div>
 							</div>
 						</div>
@@ -333,20 +469,11 @@
 					<div class="panel-body">
 						<div>
 							<div class="col-xs-8 col-xs-offset-2">
-								<form action="mentors" method="post">
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
-									<div class="input-group">
-										<input type="hidden" name="search_param" value="all" id="search_param">         
-										<input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
-										<span class="input-group-btn">
-										<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-										</span>
-									</div>
-								</form>
+								<input type="text" id="senior_search" name="mentor_search" placeholder="live search"></input>
 							</div>
 						</div>
 						<br><br><br>
-						<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+						<table id="seniorTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr>
 									<th>pid</th>
@@ -388,20 +515,11 @@
 					<div class="panel-body">
 						<div>
 							<div class="col-xs-8 col-xs-offset-2">
-								<form action="mentors" method="post">
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
-									<div class="input-group">
-										<input type="hidden" name="search_param" value="all" id="search_param">         
-										<input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
-										<span class="input-group-btn">
-										<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-										</span>
-									</div>
-								</form>
+								<input type="text" id="junior_search" name="mentor_search" placeholder="live search"></input>
 							</div>
 						</div>
 						<br><br><br>
-						<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+						<table id="juniorTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr>
 									<th>pid</th>
