@@ -81,7 +81,6 @@
 									$sname = ", " . $seniors[$sid]['First name']." ".$seniors[$sid]['Family name'];
 									$jname = ", " . $juniors[$jid]['First name']." ".$juniors[$jid]['Family name'];
 
-
 									echo '<div id="manual" name = "manual">
 											<div class="row">
 												<div class="col-md-4">
@@ -149,7 +148,11 @@
 			  	 if(mentor[mentor.length-1].value == "" || senior[senior.length-1].value == "" || junior[junior.length-1].value == "" ){
 			  	 	alert("please specify all of mentor,senior, and junior before adding a new manual match.");
 			  	 }else{
+<<<<<<< HEAD
 			  	 	$( "#manual" ).clone().appendTo("#additional");
+=======
+			  	 	$( "#preset" ).clone().appendTo("#additional");
+>>>>>>> 095715a407faa8d12d4d096e5e94b21a95df9ddd
 			  	 	var mentor = document.getElementsByName("mentor[]");
 			  	 	var senior = document.getElementsByName("senior[]");
 			  	 	var junior = document.getElementsByName("junior[]");

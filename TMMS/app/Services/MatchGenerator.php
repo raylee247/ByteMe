@@ -215,6 +215,7 @@ class MatchGenerator{
 	public function generate_without($without_m,$without_s,$without_j){
 		set_time_limit(3600);
 		ini_set('memory_limit', '1000M');
+
 		$this->mentors_id = array_keys($this->mentors);
 		$this->seniors_id = array_keys($this->seniors);
 		$this->juniors_id = array_keys($this->juniors);

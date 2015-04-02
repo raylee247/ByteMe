@@ -211,6 +211,7 @@ class MakeMatching extends Controller {
             }
         }
 
+
         if($empty > 0 && !count($_POST['mentor']) == 1){
             $message = "Please specifiy all of mentor, senior, and junior.\n
                         Press Go Back to re-submit.";
