@@ -2,6 +2,11 @@
 
 @section('content')
 
+<style type="text/css">
+    .table {
+    white-space:normal;
+    }
+</style>
 <div class="panel panel-info">
 	<div class="panel-heading"><b>Saved Match Results</b></div>
 	<div class="panel-body">
@@ -11,16 +16,15 @@
 			</h5>
 		</legend>
 
-		<div class="panel-body">
+<!-- 		<div class="panel-body"> -->
 			<table id="savedmatches" class="table table-striped table-bordered table-hover" cellspacing="0">
 				<thead>
 					<tr> 
 						<th>Name of Matching</th>
-            <th>Matching Id </th>
+            <th>Matching ID </th>
             <th>Must List</th>
             <th>Priority List</th>
 						<th>Average Satisfaction Rate</th>
-            <th> </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,7 +39,7 @@
               echo "<td>" . $result['helpful'] . "</td>";
               echo "<td>" . $result['avgSat'] . "</td>";
               echo '<td id="finalbutton"><center><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#final-'.$result['wid'].'">Set as Final Matching</button></center></th>';
-              echo '<td id="deletebutton"><center><button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-'.$result['wid'].'">Delete this Matching</button></center></th>';
+              echo '<td id="deletebutton"><center><button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-'.$result['wid'].'"><span class="glyphicon glyphicon-remove"></span> Delete</button></center></th>';
               echo "</tr>";
             }
             
@@ -44,15 +48,10 @@
 					
 				</tbody>
 			</table>
-		</div>
-
-		<style type="text/css">
-		#savedmatches {
-			width: 80%;
-		}
-		</style>
+<!-- 		</div> -->
 	</div>
 </div>
+
 <?php 
   if(isset($Response)){
     foreach ($Response as $key => $result) {
