@@ -146,11 +146,11 @@
           <li>
             <a href="#"><span class="glyphicon glyphicon-cog"></span> Match Making<span class="caret"></span></a>
             <ul>
-              <li><a href="#">Current Selection<span class="caret"></span></a></li>
-              <ul>
+<!--               <li><a href="#">Current Selection<span class="caret"></span></a></li>
+              <ul> -->
                 <li><a href="{{ url('/currentmatch') }}">Tri-Mentoring Matches</a></li>
                 <li><a href="{{ url('/kickoffmatches') }}">Kickoff Night Matches</a></li>
-              </ul>
+             <!--  </ul> -->
               <li><a href="{{ url('/weight') }}">Adjust Weighting</a></li>
               <li><a href="{{ url('/savedmatches') }}">Saved Matches</a></li>
             </ul>
