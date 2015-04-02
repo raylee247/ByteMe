@@ -149,7 +149,7 @@
 			  	 if(mentor[mentor.length-1].value == "" || senior[senior.length-1].value == "" || junior[junior.length-1].value == "" ){
 			  	 	alert("please specify all of mentor,senior, and junior before adding a new manual match.");
 			  	 }else{
-			  	 	$( "#manual" ).clone(true).appendTo("#additional");
+			  	 	$( "#preset" ).clone().appendTo("#additional");
 			  	 	var mentor = document.getElementsByName("mentor[]");
 			  	 	var senior = document.getElementsByName("senior[]");
 			  	 	var junior = document.getElementsByName("junior[]");
