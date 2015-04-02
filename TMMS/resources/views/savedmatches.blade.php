@@ -101,9 +101,9 @@
                           <div class="modal-content">
                                 <div class="modal-body"><u>Kickoff night matching will now be generated. </u><br><br> 
                                   Please specify the maximum number of participants for the kickoff nights: <br>
-                                      <input type="text" class="form-control" name="maxparticipants"><br>
+                                      <input type="number" class="form-control" name="maxparticipants" min="1" required><br>
                                       Please specify the number of mentors per kickoff night group:<br>
-                                      <input type="text" class="form-control" name="nummentors"><br>
+                                      <input type="number" class="form-control" name="nummentors" min="1" required><br>
                                       <input type="hidden" name="target_wid" value= "'.$result['wid']. '" >
                               </div>
                               <div class="modal-footer">
