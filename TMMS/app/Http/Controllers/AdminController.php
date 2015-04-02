@@ -168,11 +168,19 @@ class AdminController extends Controller {
         $dropdown = $_POST['search_param'];
         $text = $_POST['text'];
         $year = date("Y");
+        $text_array = explode(" ", $text);
+        $text2;
+        if(preg_match("/[a-zA-Z]*( [a-zA-Z]*)?/", $text) && count($text_array) < 2){
+          $text2 = $text;
+        }else{
+          $text = $text_array[0];
+          $text2 = $text_array[1];
+        }
         
         $junior_result = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
                                                   ->where('year', $year)
                                                   ->where('First name', 'LIKE', '%'.$text.'%')
-                                                  ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                                  ->Where('Family name', 'LIKE', '%'.$text2.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('csid', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('email', 'LIKE', '%'.$text.'%')
@@ -181,7 +189,7 @@ class AdminController extends Controller {
         $senior_result = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
                                                   ->where('year', $year)
                                                   ->where('First name', 'LIKE', '%'.$text.'%')
-                                                  ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                                  ->Where('Family name', 'LIKE', '%'.$text2.'%')
                                                   ->orWhere('studentNum', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('csid', 'LIKE', '%'.$text.'%')
                                                   ->orWhere('email', 'LIKE', '%'.$text.'%')
@@ -211,11 +219,19 @@ class AdminController extends Controller {
     {
         $text = $_POST['text'];
         $year = date("Y");
+        $text_array = explode(" ", $text);
+        $text2;
+        if(preg_match("/[a-zA-Z]*( [a-zA-Z]*)?/", $text) && count($text_array) < 2){
+          $text2 = $text;
+        }else{
+          $text = $text_array[0];
+          $text2 = $text_array[1];
+        }
 
         $result = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
                                            ->where('year', $year)
                                            ->where('First name', 'LIKE', '%'.$text.'%')
-                                           ->orWhere('Family name', 'LIKE', '%'.$text.'%')
+                                           ->Where('Family name', 'LIKE', '%'.$text2.'%')
                                            ->orWhere('email', 'LIKE', '%'.$text.'%')
                                            ->get();
 
@@ -227,15 +243,26 @@ class AdminController extends Controller {
         $text = $_POST['text'];
         $date = date("Y");
 
+
         \Session::put('current_search', $text);
 
         $result = \DB::table('participant')->where('waitlist', 1)
                                            ->where('year', $date)
                                            ->where(function($query)
                                            {
-                                              $query->where('First name', 'LIKE', '%'.\SESSION::get('current_search').'%')
-                                                    ->orWhere('Family name', 'LIKE', '%'.\SESSION::get('current_search').'%')
-                                                    ->orWhere('email', 'LIKE', '%'.\SESSION::get('current_search').'%');
+                                              $text = \SESSION::get('current_search');
+                                              $text_array = explode(" ", $text);
+                                              $text2;
+                                              if(preg_match("/[a-zA-Z]*( [a-zA-Z]*)?/", $text) && count($text_array) < 2){
+                                                $text2 = $text;
+                                              }else{
+                                                $text = $text_array[0];
+                                                $text2 = $text_array[1];
+                                              }
+
+                                              $query->where('First name', 'LIKE', '%'.$text.'%')
+                                                    ->orWhere('Family name', 'LIKE', '%'.$text2.'%')
+                                                    ->orWhere('email', 'LIKE', '%'.$text.'%');
                                            })
                                            ->get();
 

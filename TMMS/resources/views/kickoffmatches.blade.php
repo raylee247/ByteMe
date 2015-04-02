@@ -2,12 +2,18 @@
 
 @section('content')
 
+<style>
+h4{
+	padding-right:5px;
+}
+</style>
+
 <div class="panel panel-info">
 	<div class="panel-heading"><b>Kickoff Match Result</b></div>
 	<div class="panel-body">
 		<div class="kickoffcontent">
 			<ul class="nav nav-tabs">
-				<li><h4>Kickoff night dates: </h4></li>
+				<li><h4>Kickoff Dates:</h4></li>
 				<!-- <li class="active"><a data-toggle="tab" href="#1">$kickoffdate1</a></li>
 				<li><a data-toggle="tab" href="#2">$kickoffdate2</a></li> -->
 				<?php
@@ -38,7 +44,7 @@
 					$counter = 1;
 					foreach($kickoffmatchings as $key => $value){
 						echo "<div id=\"{$counter}\" class=\"tab-pane fade in active\">";
-							echo "<h3>".$key." - Grouping</h3>";
+							echo "<h3>".$key." - Group(s)</h3>";
 							echo "<table class=\"table table-hover\">";
 								echo "<thead>";
 									echo "<tr>";
