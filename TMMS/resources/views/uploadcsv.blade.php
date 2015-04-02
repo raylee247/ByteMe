@@ -21,15 +21,26 @@
               </span>
             </span>
           </div>
+            <?php if (!isset($category)) { echo '
+            <span class="help-block">
+        File format requires to be in .csv extension or CSV formatted .txt
+        </span>
+            I am uploading participant information for: <br>
+            <label class="radio-inline"><input type="radio" name="category" value="student">Students</label>
+            <label class="radio-inline"><input type="radio" name="category" value="mentor">Mentors</label>
+            <label class="radio-inline"><input type="radio" name="category" value="report">Reports</label>
+        ';} ?>
         </form>
+
+      <?php if (isset($category)) { echo '
         <span class="help-block">
-        File format requires to be in .csv extension
+        File format requires to be in .csv extension or CSV formatted .txt
         </span>
         <form action="uploadcsv_uploaded" method="post" enctype="multipart/form-data" >
-          I am uploading participant information for: <br> 
-            <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="student") echo "checked";?> value="student">Students</label>
-            <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="mentor") echo "checked";?> value="mentor">Mentors</label>
-            <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="report") echo "checked";?> value="report">Reports</label>
+          I am uploading participant information for: <br>
+            <label class="radio-inline"><input type="radio" name="category" '; if (isset($category) && $category=="student") echo "checked"; echo ' value="student">Students</label>
+            <label class="radio-inline"><input type="radio" name="category" '; if (isset($category) && $category=="mentor") echo "checked"; echo ' value="mentor">Mentors</label>
+            <label class="radio-inline"><input type="radio" name="category" '; if (isset($category) && $category=="report") echo "checked"; echo ' value="report">Reports</label>
 
             <br><br>
           <span class="input-group-btn">
@@ -37,7 +48,8 @@
           <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload File <input type="submit" formmethod="post" value="Upload CSV File" name="submit">
           </span>
           </span>
-        </form>
+        </form>';
+          } ?>
       </div>
     
   </div>

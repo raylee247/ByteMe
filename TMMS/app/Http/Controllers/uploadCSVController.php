@@ -32,6 +32,17 @@ class uploadCSVController extends Controller {
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOK = 1;
 
+        $temp_cat = $_POST["category"];
+        if ($temp_cat == "student") {
+            $category = "student";
+        } else if ($temp_cat == "mentor"){
+            $category = "mentor";
+        } else if ($temp_cat == "report") {
+            $category = "report";
+        } else {
+            $category = "";
+        }
+
         if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], SITE_ROOT.'/../storage/app/1.csv')){
             $test = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
         }else{
@@ -60,7 +71,7 @@ class uploadCSVController extends Controller {
             }
         }
 
-        return view('uploadcsv',compact('preview_header','preview_data', 'test'));
+        return view('uploadcsv',compact('preview_header','preview_data', 'test', 'category'));
     }
 
     public function upload(){
