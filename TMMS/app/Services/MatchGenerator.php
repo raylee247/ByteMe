@@ -215,30 +215,17 @@ class MatchGenerator{
 	public function generate_without($without_m,$without_s,$without_j){
 		set_time_limit(3600);
 		ini_set('memory_limit', '1000M');
-		
+		$this->mentors_id = array_keys($this->mentors);
+		$this->seniors_id = array_keys($this->seniors);
+		$this->juniors_id = array_keys($this->juniors);
 		foreach ($without_m as $key => $value) {
-			if(count($this->mentors_id) > 0){
-				$this->mentors_id = $this->array_without(array_keys($this->mentors_id),$value);
-			}else{
-				$this->mentors_id = $this->array_without(array_keys($this->mentors),$value);
-			}
-			
+			$this->mentors_id = $this->array_without($this->mentors_id,$value);
 		}
 		foreach ($without_s as $key => $value) {
-			if(count($this->seniors_id) > 0){
-				$this->seniors_id = $this->array_without(array_keys($this->seniors_id),$value);
-			}else{
-				$this->seniors_id = $this->array_without(array_keys($this->seniors),$value);
-			}
-			
+			$this->seniors_id = $this->array_without($this->seniors_id,$value);
 		}
 		foreach ($without_j as $key => $value) {
-			if(count($this->juniors_id) > 0){
-				$this->juniors_id = $this->array_without(array_keys($this->juniors_id),$value);
-			}else{
-				$this->juniors_id = $this->array_without(array_keys($this->juniors),$value);
-			}
-
+			$this->juniors_id = $this->array_without($this->juniors_id,$value);
 		}
 		
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
