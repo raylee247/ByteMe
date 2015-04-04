@@ -441,7 +441,7 @@ class KickOffMatch{
 		$m2_company = "";
 		$m2_job = "";
 
-		$return = -1;
+		// $return = -1;
 
 		foreach($this->fullMentorTable as $data){
 			if($data["mid"] == $mentor1){
@@ -458,6 +458,8 @@ class KickOffMatch{
 		if(!empty($m1_company)){
 			str_replace(" ", "", $m1_company);
 			$m1_company = strtolower($m1_company);
+		}else{
+			return 1;
 		}
 
 		if(!empty($m1_job)){
@@ -468,6 +470,8 @@ class KickOffMatch{
 		if(!empty($m2_company)){
 			str_replace(" ", "", $m2_company);
 			$m2_company = strtolower($m2_company);
+		}else{
+			return 1;
 		}
 
 		if(!empty($m2_job)){
@@ -490,69 +494,50 @@ class KickOffMatch{
 		similar_text($m2_company, $m1_company, $m2_m1_company);
 
 
-		if(($m1_m2_job > 80) || ($m2_m1_job > 80) || ($m1_m2_company > 80) || ($m2_m1_company > 80) || ($m1_company == $m2_company)){
+		if(($m1_m2_job > 80) || ($m2_m1_job > 80) || ($m1_m2_company > 80) || ($m2_m1_company > 80) || ($m1_company == $m2_company) || (strpos($m1_company, $m2_company) !== false) || (strpos($m2_company, $m1_company) !== false)){
 			// print("********************* end of is_valid function **********************\n\n");
-			$return = -1;
-			return $return;
+			// $return = -1;
+			return -1;
 		}else{
 			// print("********************* end of is_valid function **********************\n\n");
-			$return = 1;
-			return $return;
+			// $return = 1;
+			return 1;
 		}
 	}
 
 	public function putIntoGroup($curr_num, $group_total, $curr_group, $mentor_id){
 		// print("********************* in putIntoGroup function **********************\n\n");
-		// $groups_tested = 1;
-		// for($i=$curr_num; $groups_tested < $group_total; $i++){
-		// 	$groups_tested++;
-		// 	$validity = 1;
-		// 	foreach($curr_group as $group_member){
-		// 		$validity = $this->is_valid($mentor_id, $group_member);
+		$order = array();
+		foreach($curr_group as $group){
+			array_push($order, count($group));
+		}
+		asort($order);
 
-		// 		if($validity == -1){
-		// 			break;
-		// 		}
-		// 	}
-
-		// 	if($validity == 1){
-		// 		// print("********************* end of putIntoGroup function **********************\n\n");
-		// 		print("found this group: ");
-		// 		print($i+1);
-		// 		print("for: ");
-		// 		print($mentor_id);
-		// 		print("<br>");
-		// 		return $i;
-		// 	}
-		// }
-
-		foreach($curr_group as $key => $group){
-			if($key != $curr_num){
-				foreach($curr_group as $group_member){
+		for($i=0; $i<count($order); $i++){
+			$validity = 1;
+			foreach($order as $group_to_test => $count){
+				foreach($curr_group[$group_to_test] as $group_member){
 					$validity = $this->is_valid($mentor_id, $group_member);
-
 					if($validity == -1){
 						break;
 					}
 				}
 
-				if($validity == 1){
-					// print("********************* end of putIntoGroup function **********************\n\n");
-					print("found this group: ");
-					print($key+1);
-					print("for: ");
-					print($mentor_id);
-					print("<br>");
-					return $key;
-				}
+			if($validity == 1){
+				// print("********************* end of putIntoGroup function **********************\n\n");
+				// print("found this group: ");
+				// print($i+1);
+				// print("for: ");
+				// print($mentor_id);
+				// print("<br>");
+				return $group_to_test;
 			}
 		}
-
 		// print("********************* end of putIntoGroup function **********************\n\n");
-		print("can't find a suitable group for: ");
-		print($mentor_id);
-		print("<br>");
+		// print("can't find a suitable group for: ");
+		// print($mentor_id);
+		// print("<br>");
 		return $curr_num;
 	}
-    
+}
 }
