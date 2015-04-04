@@ -333,17 +333,17 @@ class KickOffMatch{
 		$count = 0;
 		foreach($this->kick_off_nights as $night){
 			//compute all the students and mentors attending this night's kickoff
-			$kickoff_mentor = array();
-			$kickoff_senior = array();
-			$kickoff_junior = array();
+			$kickoff_trios = array();
+			// $kickoff_senior = array();
+			// $kickoff_junior = array();
 			foreach($this->current_matches as $matches){
 				if(strcmp($matches[5], $night)==0){
-					array_push($kickoff_mentor, $matches[1]);
-					array_push($kickoff_senior, $matches[2]);
-					array_push($kickoff_junior, $matches[3]);
+					array_push($kickoff_trios, $matches);
+					// array_push($kickoff_senior, $matches[2]);
+					// array_push($kickoff_junior, $matches[3]);
 				}
 			}
-			$num_of_groups = floor(count($kickoff_mentor)/$this->mentorsInGroup);
+			$num_of_groups = floor(count($kickoff_trios)/$this->mentorsInGroup);
 
 			if($num_of_groups == 0){
 				$num_of_groups = 1;
@@ -353,9 +353,10 @@ class KickOffMatch{
 
 			$counter = 0;
 
-			foreach($kickoff_mentor as $mentor_id){
+			foreach($kickoff_trios as $trio){
 				//put all the mentors into groups
 				$group;
+				$mentor_id = $trio[1];
 
 				if(count($resultofday) == $num_of_groups){
 					$group = $resultofday[$counter%$num_of_groups];
@@ -370,7 +371,6 @@ class KickOffMatch{
 					$validity = 1;
 					foreach($group as $group_member){
 						$validity = $this->is_valid($mentor_id, $group_member);
-					
 
 						if($validity == -1){
 							break;
@@ -384,7 +384,7 @@ class KickOffMatch{
 						// print("\n\n");
 					}
 
-					if($validity){
+					if($validity == 1){
 						array_push($group, $mentor_id);
 						$resultofday[$counter%$num_of_groups] = $group;
 					}else{
@@ -393,20 +393,32 @@ class KickOffMatch{
 				}
 				$counter++;
 			}
-			
-			$counter = 1;
-			foreach($kickoff_senior as $senior_id){
-				//put all senior student into groups
-				array_push($resultofday[$counter%$num_of_groups], $senior_id);
-				$counter++;
-			}
 
-			$counter = 2;
-			foreach($kickoff_junior as $junior_id){
-				//put all senior student into groups
-				array_push($resultofday[$counter%$num_of_groups], $junior_id);
-				$counter++;
+			//put the students into groups
+			for($i = 0; $i<count($resultofday); $i++){
+				foreach($resultofday[$i] as $result_id){
+					foreach ($kickoff_trios as $trio) {
+						if($result_id == $trio[1]){
+							array_push($resultofday[($i+1)%$num_of_groups], $trio[2]);
+							array_push($resultofday[($i+2)%$num_of_groups], $trio[3]);
+						}
+					}
+				}
 			}
+			
+			// $counter = 1;
+			// foreach($kickoff_senior as $senior_id){
+			// 	//put all senior student into groups
+			// 	array_push($resultofday[$counter%$num_of_groups], $senior_id);
+			// 	$counter++;
+			// }
+
+			// $counter = 2;
+			// foreach($kickoff_junior as $junior_id){
+			// 	//put all senior student into groups
+			// 	array_push($resultofday[$counter%$num_of_groups], $junior_id);
+			// 	$counter++;
+			// }
 
 			array_push($result, $resultofday);
 			$newkey = $night;
@@ -443,25 +455,25 @@ class KickOffMatch{
 			}
 		}
 
-		// if(!empty($m1_company)){
-		// 	str_replace(" ", "", $m1_company);
-		// 	$m1_company = strtolower($m1_company);
-		// }
+		if(!empty($m1_company)){
+			str_replace(" ", "", $m1_company);
+			$m1_company = strtolower($m1_company);
+		}
 
-		// if(!empty($m1_job)){
-		// 	str_replace(" ", "", $m1_job);
-		// 	$m1_job = strtolower($m1_job);
-		// } 
+		if(!empty($m1_job)){
+			str_replace(" ", "", $m1_job);
+			$m1_job = strtolower($m1_job);
+		} 
 
-		// if(!empty($m2_company)){
-		// 	str_replace(" ", "", $m2_company);
-		// 	$m2_company = strtolower($m2_company);
-		// }
+		if(!empty($m2_company)){
+			str_replace(" ", "", $m2_company);
+			$m2_company = strtolower($m2_company);
+		}
 
-		// if(!empty($m2_job)){
-		// 	str_replace(" ", "", $m2_job);
-		// 	$m2_job = strtolower($m2_job);
-		// }
+		if(!empty($m2_job)){
+			str_replace(" ", "", $m2_job);
+			$m2_job = strtolower($m2_job);
+		}
 
 		// print($m1_company);
 		// print("\n");
@@ -478,7 +490,7 @@ class KickOffMatch{
 		similar_text($m2_company, $m1_company, $m2_m1_company);
 
 
-		if(($m1_m2_job > 80) || ($m2_m1_job > 80) || ($m1_m2_company > 80) || ($m2_m1_company > 80)){
+		if(($m1_m2_job > 80) || ($m2_m1_job > 80) || ($m1_m2_company > 80) || ($m2_m1_company > 80) || ($m1_company == $m2_company)){
 			// print("********************* end of is_valid function **********************\n\n");
 			$return = -1;
 			return $return;
@@ -491,24 +503,55 @@ class KickOffMatch{
 
 	public function putIntoGroup($curr_num, $group_total, $curr_group, $mentor_id){
 		// print("********************* in putIntoGroup function **********************\n\n");
-		$groups_tested = 0;
-		for($i=$curr_num; $groups_tested < $group_total; $i++){
-			$groups_tested++;
-			$validity = 1;
-			foreach($curr_group as $group_member){
-				$validity = $this->is_valid($mentor_id, $group_member);
+		// $groups_tested = 1;
+		// for($i=$curr_num; $groups_tested < $group_total; $i++){
+		// 	$groups_tested++;
+		// 	$validity = 1;
+		// 	foreach($curr_group as $group_member){
+		// 		$validity = $this->is_valid($mentor_id, $group_member);
 
-				if($validity == -1){
-					break;
+		// 		if($validity == -1){
+		// 			break;
+		// 		}
+		// 	}
+
+		// 	if($validity == 1){
+		// 		// print("********************* end of putIntoGroup function **********************\n\n");
+		// 		print("found this group: ");
+		// 		print($i+1);
+		// 		print("for: ");
+		// 		print($mentor_id);
+		// 		print("<br>");
+		// 		return $i;
+		// 	}
+		// }
+
+		foreach($curr_group as $key => $group){
+			if($key != $curr_num){
+				foreach($curr_group as $group_member){
+					$validity = $this->is_valid($mentor_id, $group_member);
+
+					if($validity == -1){
+						break;
+					}
+				}
+
+				if($validity == 1){
+					// print("********************* end of putIntoGroup function **********************\n\n");
+					print("found this group: ");
+					print($key+1);
+					print("for: ");
+					print($mentor_id);
+					print("<br>");
+					return $key;
 				}
 			}
-
-			if($validity){
-				// print("********************* end of putIntoGroup function **********************\n\n");
-				return $i;
-			}
 		}
+
 		// print("********************* end of putIntoGroup function **********************\n\n");
+		print("can't find a suitable group for: ");
+		print($mentor_id);
+		print("<br>");
 		return $curr_num;
 	}
     
