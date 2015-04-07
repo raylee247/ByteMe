@@ -6,15 +6,48 @@
 .panel-default{
 	margin-right: 0px;
 }
+.panel-body b{
+	color:black;
+}
+.table {
+  white-space:normal;
+}
+#matchresult, #manual {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#matchresult td, #matchresult th, #manual td, #manual th{
+  font-size: 1em;
+  border: 1px solid #9191B5;
+  padding: 3px 7px 2px 7px;
+}
+
+#matchresult th, #manual th {
+  font-size: 1.1em;
+  text-align: left;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  background-color: #1A5690;
+  color: #ffffff;
+}
+
+#matchresult tr.alt td, #manual tr.alt td {
+  color: #000000;
+  background-color: #66CCFF;
+}
+
 </style>
 
 
-
+<div class="content">
 <div class="panel panel-info">
-	<div class="panel-heading"><b>Viewing Current Match Results</b></div>
+	<div class="panel-heading"><b>Current Tri-Mentoring Match Results</b></div>
 	<div class="panel-body">
-		<legend>
+				<button id="viewmatch" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button>
 			<h5>
+
 			<?php
 				if(isset($rawApp)){
 						$length = count($rawApp);
@@ -27,7 +60,7 @@
 							 		  
 							}
 							$avg = $total/$length;
-							echo '<b>Average Satisfaction:</b>'.$avg.'<br>';
+							echo '<b>Average Satisfaction:</b> '.$avg.'';
 						}
 						
 					}
@@ -37,13 +70,15 @@
 				<b>Parameter Priority:</b> $$$$$<br>
 				
 				<b>Median:</b> $$$$$ -->
+
 			</h5>
+<legend>
 		</legend>
-		<button id="viewmatch" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button><br><br>
+<!-- 		<button id="viewmatch" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button> --><!-- <br><br> -->
 		<div id="matchpanel" class="panel panel-default">
 			<div class="panel-heading">Manual Matches: </div>
 			<div class="panel-body">
-				<table id="matchresult" class="table table-striped table-hover" width="100%">
+				<table id="manual" class="table table-striped table-hover" width="100%">
 					<thead>
 						<tr>
 							<th>Industry Mentor</th>
@@ -52,6 +87,7 @@
 						</tr>
 					</thead>
 					<tbody>
+						
 						<?php 
 							if(isset($rawApp) && isset($names)){
 								foreach ($rawApp as $key => $match) {
@@ -63,9 +99,14 @@
 									  		  </tr>';
 									}
 									
-								}
+								};
 							}
+							else {
+								echo 'No match';
+							} 
 						?>
+
+
 					</tbody>
 				</table>
 			</div>
@@ -100,6 +141,7 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 </div>
 
 <?php
@@ -139,7 +181,16 @@ $(document).ready(function(){
 	$( "#viewmatch" ).click(function() {
 		$( "#matchpanel" ).slideToggle();
 	});
-});
+
+  $('#matchresult').dataTable( {
+    "pageLength": 20,
+    "searching": false
+  });		
+    $('#manual').dataTable( {
+    "pageLength": 20,
+    "searching": false
+  });
+  });
 </script>
 
 @endsection

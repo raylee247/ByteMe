@@ -8,6 +8,7 @@ h4{
 }
 </style>
 
+<div class="content">
 <div class="panel panel-info">
 	<div class="panel-heading"><b>Kickoff Match Result</b></div>
 	<div class="panel-body">
@@ -128,6 +129,7 @@ h4{
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <?php

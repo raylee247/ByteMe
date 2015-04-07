@@ -1,11 +1,18 @@
 @extends('app')
 @section('content')
+<style type="text/css">
+b, strong {
+    color:white;
+}
+
+</style>
+<div class="content">
 <div class="panel">
     <div class="panel panel-info">
         <div class="panel-heading"><b>Download Participant Data</b></div>
         <div class="panel-body">
             I am downloading participant information from:<br>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadCSV') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     {{--<input type="file" name="Download Destination" id="fileToDownload">--}}
@@ -17,7 +24,8 @@
                                 echo "<option value=$option_year>$option_year</option>";
                             }                        }
                             ?>
-                    </select><br>
+                    </select> 
+                </div>
                     <span class="input-group-btn">
                     <span class="btn btn-primary btn-file">
                     <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
@@ -29,14 +37,13 @@
                 {{--
                 <li> <a href={{url('download')}}>Test.pdf</a></li>
                 --}}
-            </div>
         </div>
     </div>
     <div class="panel panel-info">
         <div class="panel-heading"><b>Download Participant Emails</b></div>
         <div class="panel-body">
             I am downloading participant emails from:<br>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadEmailAction') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     {{--<input type="file" name="Download Destination" id="fileToDownload">--}}
@@ -48,7 +55,8 @@
                                 echo "<option value=$option_year>$option_year</option>";
                             }                        }
                             ?>
-                    </select><br>
+                    </select>
+                </div>
                     <span class="input-group-btn">
                     <span class="btn btn-primary btn-file">
                     <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
@@ -67,7 +75,7 @@
         <div class="panel-heading"><b>Download Participant Report</b></div>
         <div class="panel-body">
             I am downloading participant reports from:<br>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('reportDownloading') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     {{--<input type="file" name="Download Destination" id="fileToDownload">--}}
@@ -79,7 +87,8 @@
                                 echo "<option value=$option_year>$option_year</option>";
                             }                        }
                             ?>
-                    </select><br>
+                    </select>
+                </div>
                     <span class="input-group-btn">
                     <span class="btn btn-primary btn-file">
                     <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
@@ -94,12 +103,12 @@
             </div>
         </div>
     </div>
-    <div>
+
         <div class="panel panel-danger">
             <div class="panel-heading"><b>Delete Participant Data</b></div>
             <div class="panel-body">
                 I am deleting participant information from:<br>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select class="form-control" name="year_csv" >
                     <?php
                         foreach($range as $range_index) {
@@ -110,7 +119,7 @@
                         }
                         ?>
                     </select>
-                    <br>
+                </div>
                     <span class="input-group-btn">
                     <span class="btn btn-danger btn-file" data-toggle="modal" data-target="#delete">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -119,8 +128,8 @@
                     </span>
                 </div>
             </div>
-        </div>
-    </div>
+
+
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -150,5 +159,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

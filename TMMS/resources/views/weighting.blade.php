@@ -1,11 +1,12 @@
 @extends('app')
 @section('content')
+<div class="content">
 <div class="panel panel-info">
     <div class="panel-heading"><b>Adjust Weight Parameters</b></div>
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-3">
-                <h3>Parameter Bank</h3>
+                <h4><center>Parameter Bank</center></h4>
                 <ul id="sortable1" class="droptrue">
                     <li class="ui-state-default" id="element_gender">genderpref</li>
                     <li class="ui-state-default" id="element_interest">interest</li>
@@ -18,11 +19,11 @@
                 </ul>
             </div>
             <div class="col-sm-3">
-                <h3>Must-have List</h3>
+                <h4><center>Must-Have List</center></h4>
                 <ul id="sortable2" class="droptrue"></ul>
             </div>
             <div class="col-sm-3">
-                <h3>Priority List</h3>
+                <h4><center>Priority List</center></h4>
                 <ul id="sortable3" class="droptrue"></ul>
             </div>
         </div>
@@ -30,11 +31,12 @@
             <br style="clear:both"/>
             <input type="hidden" name="mustList" id="mustList" value="" />
             <input type="hidden" name="priorityList" id="priorityList" value="" />
-            <button id="wtf" type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
+            <button id="generate" type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Run Matching </span></button>
             <!-- <input id="test" name="params">   -->
             <div class="pull-right" id="loading"></div>
         </form>
     </div>
+</div>
 </div>
 </div>
 <!-- move to app.js after data passing is successful // only here for convenience -->
@@ -66,7 +68,7 @@
         });
     });
     
-    $('#wtf').click(function () {
+    $('#generate').click(function () {
         // add loading image to div
         $('#loading').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> loading...');
     });

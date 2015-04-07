@@ -4,8 +4,39 @@
 	.panel-default{
 	margin-right: 0px;
 	}
+.table {
+  white-space:normal;
+}
+#matchresult, #unmatched {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#matchresult td, #matchresult th, #unmatched td, #unmatched th{
+  font-size: 1em;
+  border: 1px solid #9191B5;
+  padding: 3px 7px 2px 7px;
+}
+
+#matchresult th, #unmatched th {
+  font-size: 1.1em;
+  text-align: left;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  background-color: #1A5690;
+  color: #ffffff;
+}
+
+#matchresult tr.alt td, #unmatched tr.alt td{
+  color: #000000;
+  background-color: #66CCFF;
+}
+
 </style>
-<div class="panel panel-info">
+
+<div class="content">
+<div class="panel panel-default">
 	<div class="panel-heading"><b>Viewing Match Results</b></div>
 	<div class="panel-body">
 		<legend>
@@ -18,13 +49,13 @@
 							<input type="text" class="form-control" name="matchname" required>
 						</div>
 					</div>
-					<br><br>
+					<br>
 					<b>Parameters Required:</b> <?php foreach ($must as $key) {echo $key;} ?><br>
 					<b>Parameter Priority:</b> <?php foreach ($priority as $key) {echo $key . ",";} ?><br>
 					<b>Average Satisfaction:</b> {{$avgSat}}<br>
 					<b>Median:</b> {{$median}}<br>
 					<b>Matched Trios: </b> {{$trioCount}} <?php echo '('.$trioCount*3 . " participants)<br>"?>
-					<b>UnMatched Participants:</b> {{$unmatchCount}}<br>
+					<b>Unmatched Participants:</b> {{$unmatchCount}}<br>
 					<?php 
 						echo '<input type="hidden" name="must" value="'. base64_encode(serialize($must)) . '">
 							  <input type="hidden" name="priority" value= "'. base64_encode(serialize($priority)) . '" >
@@ -45,7 +76,7 @@
 		<button id="addmatch" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Manual Match </span></button><br><br>
 		<div id="matchpanel" class="panel panel-default">
 			<form method ="POST" action = "makeMatching_without">
-				<div class="panel-heading">Create a trio group: <button id="rerunmatch" type ="submit" class="btn btn-xs btn-success pull-right"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Save and Re-run Matching</span></button><br></div>
+				<div class="panel-heading">Create a trio group: <button id="rerunmatch" type ="submit" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Save and Re-run Matching</span></button><br></div>
 				<div class="panel-body">
 					<div id="manual">
 						<div class="row">
@@ -78,7 +109,7 @@
 							</div>
 						</div>
 					</div>
-					<div id="additional"></div>
+					<div id="additional"></div><br>
 					<center>
 						<button id="addanothermatch" type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Another</span></button>
 					</center>
@@ -179,7 +210,7 @@
 			</tbody>
 		</table>
 		<form method="POST" action="makeMatching_refresh">
-			<table id="unmatchedlist" class="table table-striped table-bordered table-hover" width="100%">
+			<table id="unmatched" class="table table-striped table-bordered table-hover" width="100%">
 				<caption>Viewing Unmatched Participants</caption>
 				<thead>
 					<tr>
@@ -233,6 +264,7 @@
 			</table>
 		</form>
 	</div>
+</div>
 </div>
 <!--  mentor modal -->
 <div class="modal fade" id="mentorsearch" tabindex="-1" role="dialog" aria-labelledby="mentorsearchLabel" aria-hidden="true">
@@ -414,4 +446,12 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#matchresult').dataTable( {
+    "pageLength": 20,
+    "searching": false
+  });	
+    });
+</script>
 @endsection

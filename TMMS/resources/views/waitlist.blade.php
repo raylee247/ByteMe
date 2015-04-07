@@ -6,9 +6,38 @@
     <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
 @endif
 
+<style type="text/css">
+#waitlist {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#waitlist td, #waitlist th {
+  font-size: 1em;
+  border: 1px solid #9191B5;
+  padding: 3px 7px 2px 7px;
+}
+
+#waitlist th {
+  font-size: 1.1em;
+  text-align: left;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  background-color: #1A5690;
+  color: #ffffff;
+}
+
+#waitlist tr.alt td {
+  color: #000000;
+  background-color: #66CCFF;
+}
+</style>
+
+<div class="content">
 <div class="panel panel-info">
     <div class="panel-heading">
-        Viewing Waitlisted Participants
+        <b>Viewing Waitlisted Participants</b>
     </div>
   <div class="panel-body">
     <div>    
@@ -26,7 +55,7 @@
 </div>
 
 <br><br><br>
-<table id="example" class="table table-striped table-bordered" cellspacing="0">
+<table id="waitlist" class="table table-striped table-bordered">
         <thead>
             <tr> 
                 <th>First Name</th>
@@ -62,6 +91,7 @@
     </table>
 </div>
 </div>
+</div>
 
 <!-- <div class="modal fade" id="move" tabindex="-1" role="dialog" aria-labelledby="moveLabel" aria-hidden="true">
  <div class="modal-dialog">
@@ -75,10 +105,34 @@
 </div>
 </div> -->
 
-<script type="text/javascript">
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+  $('tbody tr').click(function(){
+          // index of row clicked 
+          var row = ($(this).index());
+          
+          // actual pid of the participant 
+          var myvar = <?php
+          if (!isset($array)) {
+            echo "do nothing";
+          }
+          else {
+            echo json_encode($array);
+          }
+          ?>;
+          window.location.href = "participant" + "/" + myvar[row];
+          return false;
+        });
+  $('#waitlist').dataTable( {
+    "pageLength": 20,
+    "searching": false
+  });
+});
+
+
+
+
 </script>
 
 @endsection

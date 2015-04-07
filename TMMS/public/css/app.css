@@ -10,6 +10,124 @@ body {
   margin: 0;
   width:100%;
 }
+/*..................................*/
+
+/*.navbar-nav > li > a, .navbar-brand {
+    padding-top:5px !important; padding-bottom:0 !important;
+    height: 30px;
+}
+.navbar {min-height:30px !important;}
+
+*/
+
+
+
+.navbar-custom {
+  background-color: #130D64;
+  border-color: #1057bf;
+  border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+}
+.navbar-custom .navbar-brand {
+  color: #ffffff;
+}
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .navbar-brand:focus {
+  color: #2B74E1;
+  background-color: transparent;
+}
+.navbar-custom .navbar-text {
+  color: #ffffff;
+}
+.navbar-custom .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-custom .navbar-nav > li > a:hover,
+.navbar-custom .navbar-nav > li > a:focus {
+  color: #2B74E1;
+  background-color: transparent;
+}
+.navbar-custom .navbar-nav > .active > a,
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus {
+  color: #2B74E1;
+  background-color: #1057bf;
+}
+.navbar-custom .navbar-nav > .disabled > a,
+.navbar-custom .navbar-nav > .disabled > a:hover,
+.navbar-custom .navbar-nav > .disabled > a:focus {
+  color: #cccccc;
+  background-color: transparent;
+}
+.navbar-custom .navbar-toggle {
+  border-color: #dddddd;
+}
+.navbar-custom .navbar-toggle:hover,
+.navbar-custom .navbar-toggle:focus {
+  background-color: #dddddd;
+}
+.navbar-custom .navbar-toggle .icon-bar {
+  background-color: #cccccc;
+}
+.navbar-custom .navbar-collapse,
+.navbar-custom .navbar-form {
+  border-color: #1056bd;
+}
+.navbar-custom .navbar-nav > .dropdown > a:hover .caret,
+.navbar-custom .navbar-nav > .dropdown > a:focus .caret {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+.navbar-custom .navbar-nav > .open > a,
+.navbar-custom .navbar-nav > .open > a:hover,
+.navbar-custom .navbar-nav > .open > a:focus {
+  background-color: #1057bf;
+  color: #ffffff;
+}
+.navbar-custom .navbar-nav > .open > a .caret,
+.navbar-custom .navbar-nav > .open > a:hover .caret,
+.navbar-custom .navbar-nav > .open > a:focus .caret {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+.navbar-custom .navbar-nav > .dropdown > a .caret {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+@media (max-width: 767) {
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a {
+    color: #ffffff;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+    background-color: transparent;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #1057bf;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #cccccc;
+    background-color: transparent;
+  }
+}
+.navbar-custom .navbar-link {
+  color: #ffffff;
+}
+.navbar-custom .navbar-link:hover {
+  color: #ffffff;
+}
+/*--------------------------*/
+
+
+
+
+
 /*student list page*/
 .studenttable  {
  cursor: pointer;
@@ -96,7 +214,7 @@ input[readonly] {
   list-style-type: none; 
   margin: 0; 
   margin-right: 10px; 
-  background: #eee; 
+  background: #A0ABA2; 
   padding: 5px; 
 }
 /*ADJUST WEIGHTING must-have styling*/
@@ -104,41 +222,20 @@ input[readonly] {
   height: auto;
   margin-left: 15px;
 }
-#sortable2, #sortable3 {
-  min-height: 150px;
+#sortable1, #sortable2, #sortable3 {
+  min-height: 300px;
 }
 #sortable1 li, #sortable2 li, #sortable3 li{ 
   margin: 5px; 
   padding: 5px; 
   font-size: 1.2em; 
   width: 95%; 
+  background-image:linear-gradient(to bottom,#F9F9F9 0,#CBCBCB 100%);
+  color: #2A2A2A;
 }
-/*ADJUST WEIGHTING priority styling*/
-/*#sortable3 { 
-  list-style-type: none; 
-  margin: 0; 
-  padding: 0; 
-  width: 25%; 
-}
-#sortable3 li { 
-  margin: 0 3px 3px 3px; 
-  padding: 0.4em; 
-  padding-left: 1.5em; 
-
-  height: auto; 
-}
-#sortable3 li span { 
-  position: absolute; 
-  margin-left: -1.3em; 
-}*/
 .ui-state-default {
  cursor: move; 
 }
-
-/*.mouseDown{
- cursor: progress;
- }*/
-
  .main-content {
   overflow: auto;
   /*  overflow-y:auto;*/

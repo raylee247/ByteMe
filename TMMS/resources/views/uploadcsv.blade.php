@@ -1,5 +1,6 @@
 @extends('app')
 @section('content')
+<div class="content">
 <div class="panel panel-info">
   <div class="panel-heading"><b>Upload Participant Data</b></div>
   <div class="panel-body">
@@ -54,8 +55,9 @@
     
   </div>
 </div>
+</div>
 File Preview:
-<div class="container">
+<div>
   @if (count($preview_header))
   <table id = "preview" class="table table-striped table-bordered" cellspacing="0" width="auto">
     <thead>
@@ -77,4 +79,5 @@ File Preview:
   </table>
   @endif
 </div>
+
 @endsection
