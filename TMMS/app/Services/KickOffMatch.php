@@ -180,9 +180,6 @@ class KickOffMatch{
 	{
 		// print("********************* in addAvailableDayToTrio function **********************\n");
 		$temp_array = array();
-		$mentor_availableday = "";
-		$senior_availableday = "";
-		$junior_availableday = "";
 
 		foreach($this->current_matches as $element){
 
