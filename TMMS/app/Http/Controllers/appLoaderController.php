@@ -469,7 +469,7 @@ class appLoaderController extends Controller {
         }
 
         //$parameter = implode("," , $paralist);
-        $parameter = '{' . substr($combineInsert,0,-1) . '"Additional comments re availability":"' . $additionalcomments_avail .'"' . '}';
+        $parameter = '{' . substr($combineInsert,0,-1) . ',"Additional comments re availability":"' . $additionalcomments_avail .'"' . '}';
 
 
         //insert extra questions answers into parameter
@@ -656,7 +656,7 @@ class appLoaderController extends Controller {
         }
 
         //$parameter = implode("," , $paralist);
-        $parameter = '{' . substr($combineInsert,0,-1) . '"Additional comments re availability":"' . $additionalcomments_avail .'"' . '}';
+        $parameter = '{' . substr($combineInsert,0,-1) . ',"Additional comments re availability":"' . $additionalcomments_avail .'"' . '}';
 
         //insert extra questions answers into parameter
         $paramter_response = \DB::table('parameter')->insert(

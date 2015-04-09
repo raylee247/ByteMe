@@ -4,54 +4,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\MatchGenerator;
 use App\Services\KickOffMatch;
-//start_session();
-//to get the priority array from weighted parameters page
-// $weight = $_SESSION['weight'];
-//to get the must array from weghted parameters page
-//$must = $_SESSION['must'];
-class MakeMatching extends Controller {
-    public function generateMatchTest(){
-        set_time_limit(3600);
-        $must = array("kickoff");
-        $priority = array("EmploymentStatus", "interest");
-        print("going into matchGenerator\n\n");
-        $generator = new MatchGenerator($must, $priority);
-        $generator->generate_all();
-        $avgSat = array_sum($result_ids)/count($result_ids);
-        $median = array_median($result_ids);
-        $result_names = $generator->toName($result_ids);
-        $result_unmatch = $generator->get_unmatches($result_ids);
-        var_dump($result_unmatch);
-        return view('matchresult', compact('must','priority','avgSat', 'median',
-                                            'result_ids','result_names',
-                                            'result_unmatch'));
-    }
-    public function generateKickoff(){
-        //set_time_limit(3600);
-        $kickoffMax = 150;
-        $maxMentor = 5;
-        $kickoffs = array("2015-09-24","2015-09-25","2015-10-02");
-        $generator = new KickOffMatch($kickoffMax, $maxMentor);
-        print("\n\ngoing into generate\n\n");
-        echo $generator->generate();
-        return 0;
-    }
-    
 
+class MakeMatching extends Controller {
+
+    /*
+    Purpose:
+    when the user chooses to save the result generated, takes the infromation from the 
+    view and push them to two tables:
+        weighting 
+        trio-match 
+    parameter:
+        - none (method wise)
+    expected $_POST
+        - must 
+        - priority 
+        - average statisfaction rate
+        - median
+        - result_id
+        - matchnames
+
+    return 
+        - redirect user to saved matches page to compare matches 
+    */
     public function insert_result_to_DB(){
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
         $avgSat = unserialize(base64_decode($_POST['avgSat']));
         $median = unserialize(base64_decode($_POST['median']));
         $result_ids = unserialize(base64_decode($_POST['result_ids']));
-        $result_names = unserialize(base64_decode($_POST['result_names']));
-        $result_unmatch = unserialize(base64_decode($_POST['result_unmatch']));
-        $mentors = unserialize(base64_decode($_POST['mentors']));
-        $seniors = unserialize(base64_decode($_POST['seniors']));
-        $juniors = unserialize(base64_decode($_POST['juniors']));
-        $trioCount = unserialize(base64_decode($_POST['trioCount']));
-        $unmatchCount = unserialize(base64_decode($_POST['unmatchCount']));
         $matchname = $_POST['matchname'];
+        
         \DB::table('weighting')->insert(
                     ['must' => implode(",", $must),
                      'helpful' => implode(",", $priority),
@@ -65,8 +47,6 @@ class MakeMatching extends Controller {
                                             ->pluck('wid');
         
         foreach (array_keys($result_ids) as $key => $value) {
-            // echo "<p>" . $value . " : ". $result[$value]  ."</p>";
-
             $value_array = explode(",", $value);
             $m = $value_array[0];
             $s = $value_array[1];
@@ -80,10 +60,20 @@ class MakeMatching extends Controller {
                     ]
                 );
         }
+
         $Response =  \DB::table('weighting')->get();
         return view('savedmatches', compact('Response'));
     }
-
+    /*
+    Purpose:
+    rename the selected match 
+    parameter:
+        - none (method wise)
+    expected $_POST
+        - rename 
+    return 
+        - saved match view
+    */
     public function refreshSavedMatches(){
         if(isset($_POST['wid']) && isset($_POST['rename'])){
             \DB::table('weighting')
@@ -96,6 +86,29 @@ class MakeMatching extends Controller {
         $Response =  \DB::table('weighting')->get();
         return view('savedmatches', compact('Response'));
     }
+
+    /*
+    Purpose:
+    refresh the page without recomputing the matching
+    do some dabase connection upon user request (moving to waitlist)
+    parameter:
+        - none (method wise)
+    expected $_POST
+        - must 
+        - priority 
+        - average statisfaction rate
+        - median
+        - result_id
+        - result_names
+        - mentors
+        - seniors
+        - juniors 
+        - trioCount
+        - unmatchedCount
+        - matchnames
+    return 
+        - matchresult view with same content 
+    */
     public function refreshMakeMatching(){
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
@@ -141,6 +154,18 @@ class MakeMatching extends Controller {
                                             'result_ids','result_names',
                                             'result_unmatch'));
     }
+
+    /*
+    Purpose:
+    takes the parameter tag shown in the weighting page and trigger the matching logic
+    parameter:
+        - none (method wise)
+    expected $_POST
+        - mustList 
+        - priorityList
+    return 
+        - redirect user to match result page to display result
+    */
     public function generateMatch(){
         //comes in as element[]=tag1&element[]=tag2
         $rawMust = $_POST['mustList'];
@@ -177,6 +202,19 @@ class MakeMatching extends Controller {
                                             'result_ids','result_names',
                                             'result_unmatch'));
     }
+
+    /*
+    Purpose:
+    recompute the match withot the specified manual match
+    parameter:
+        - none (method wise)
+    expected $_POST
+        - mentor 
+        - senior
+        - junior
+    return 
+        - matchresult page 
+    */
 
     public function generateWithout(){
         // check if any value is empty
@@ -249,8 +287,16 @@ class MakeMatching extends Controller {
                                             'must','priority','avgSat', 'median','trioCount', 'unmatchCount',
                                             'result_ids','result_names',
                                             'result_unmatch'));
-
     }
+
+    /*
+    Purpose:
+    compute the midian value of given array
+    parameter:
+        - array 
+    return 
+        - the midian value of the given aarray
+    */
     public function array_median($array) {
       // perhaps all non numeric values should filtered out of $array here?
       $iCount = count($array);
@@ -268,11 +314,15 @@ class MakeMatching extends Controller {
       }
       return $median;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
+    /*
+    Purpose:
+    reads the parameter tags from existing applicant tags 
+    parameter:
+        - none (method wise)
+    return 
+        - weighting view 
+    */
     public function loadParameters()
     {
         $year = date("Y");
@@ -283,12 +333,14 @@ class MakeMatching extends Controller {
         $stuCombineExtra = explode("`",$rawStuApp['extra']);
         for($i = 0; $i < count($stuCombineExtra); $i++){
             $stuExtra = explode('|', $stuCombineExtra[$i]);
-            array_push($stuTag, $stuExtra[1]);
+            if (count($stuExtra) > 1)
+                array_push($stuTag, $stuExtra[1]);
         }
         $MenCombineExtra = explode("`",$rawMenApp['extra']);
         for($i = 0; $i < count($MenCombineExtra); $i++){
             $menExtra = explode('|', $MenCombineExtra[$i]);
-            array_push($menTag, $menExtra[1]);
+            if (count($menExtra) > 1)
+                array_push($menTag, $menExtra[1]);
         }
         $formParameters = array_intersect($stuTag, $menTag);
         $csvParameterStudent= \DB::table('senior')
