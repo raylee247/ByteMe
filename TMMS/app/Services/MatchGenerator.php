@@ -29,38 +29,44 @@ class MatchGenerator{
 	protected $memory = array();
 	protected $backTrack = array();
 
-	public function test(){
-		// print("i made it to match-gen \n");
-		// print ("test");
-		// $this->getParticipant();
-	}
-	/**
-	 * Create a new controller instance.
-	 * @param list of all the participants 
-	 * @param must list for this generator 
-	 * @param priority list for this generator
-	 * @return void
-	 */
+	/*
+    Purpose:
+    	class constructor, initialize basic information needed for any matching
+    parameter:
+        - mustList 
+        - priorityList
+    return 
+        - n/a
+    */
 	public function __construct($mustList,$priority)
 	{
-		// $this->mentors = $mentors;
-		// $this->seniors = $seniors;
-		// $this->juniors = $juniors;
-		
-		// grab all the ids for mentor, senior and student from db
-		// $this->getParticipant();
-		
-		// mock up now
-		// $this->mentors = array(1,4)	;
-		// $this->seniors = array(2,5);
-		// $this->juniors = array(3,6);
-
-		//print("in constructor\n\n");
+	
 		$this->getParticipant();
 		$this->mustList = $mustList;
 		$this->priority = $priority;
 		
 	}
+
+	/*
+    Purpose:
+    	get mentors that is registered in current year
+    parameter:
+        - none
+    return 
+        - array of mentors in structure like so :
+
+        array()
+        |
+        |['pid'] => array()
+        |			|
+        |			|['pid'] 
+        |			|['First name'] 
+        |			|['Family name'] 
+        |			|['email'] 
+    	|
+    	...
+
+    */
 	public function getAvalMentors(){
 		$result = array();
 		foreach ($this->mentors as $pid => $info) {
@@ -73,6 +79,27 @@ class MatchGenerator{
 		}
 		return $result;
 	}
+
+	/*
+    Purpose:
+    	get Seniors that is registered in current year
+    parameter:
+        - none
+    return 
+        - array of mentors in structure like so :
+
+        array()
+        |
+        |['pid'] => array()
+        |			|
+        |			|['pid'] 
+        |			|['First name'] 
+        |			|['Family name'] 
+        |			|['email'] 
+    	|
+    	...
+
+    */
 	public function getAvalSeniors(){
 		$result = array();
 		foreach ($this->seniors as $pid => $info) {
@@ -85,6 +112,27 @@ class MatchGenerator{
 		}
 		return $result;
 	}
+
+	/*
+    Purpose:
+    	get Juniors that is registered in current year
+    parameter:
+        - none
+    return 
+        - array of mentors in structure like so :
+
+        array()
+        |
+        |['pid'] => array()
+        |			|
+        |			|['pid'] 
+        |			|['First name'] 
+        |			|['Family name'] 
+        |			|['email'] 
+    	|
+    	...
+
+    */
 	public function getAvalJuniors(){
 		$result = array();
 		foreach ($this->juniors as $pid => $info) {
@@ -97,18 +145,37 @@ class MatchGenerator{
 		}
 		return $result;
 	}
-	/**
-	 * get participants from db and init class field
-	 * 
-	 * @Void
-	 */
+
+
+
+	/*
+    Purpose:
+    	retrieve all the participants in current year that is in the db 
+    parameter:
+        - none
+    return 
+        - n/a
+	effect
+		retrieve participant (mentor/senior/junior) information from data base and store it in the following format
+
+        array()
+        |
+        |['pid'] => array()
+        |			|
+        |			|['pid'] => 1234
+        |			|['First name'] => "Billy"
+        |			|['Family name']  => "Bob"
+        |			|['email'] => example@example.com
+     	|			|[other information] => "information value"
+    	|
+    	...
+
+    */
 	public function getParticipant(){
-		// print("********************* got into getParticipant *********************\n");
+
 
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
 												   ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                   // ->where('participant.pid', '>', '3420')
-                                                   // ->where('participant.pid', '<', '3426')
                                                    ->where ('participant.year', '=', date("Y"))
                                                    ->get();
         
@@ -123,14 +190,10 @@ class MatchGenerator{
     		unset($value['extra']);
         	$this->mentors[$value['pid']] = $value;
         }
-        // var_dump($this->mentors);
-        
-        
+         
 
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                     // ->where('participant.pid', '>', '3535')
-                                                     // ->where('participant.pid', '<', '3560')
                                                      ->where ('participant.year', '=', date("Y"))
                                                      ->get();
 
@@ -144,13 +207,9 @@ class MatchGenerator{
     		unset($value['extra']);
         	$this->seniors[$value['pid']] = $value;
         }
-        // var_dump($this->seniors);
-        
 
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
-                                                     // ->where('participant.pid', '>', '3538')
-                                                     // ->where('participant.pid', '<', '3570')
                                                      ->where ('participant.year', '=', date("Y"))
                                                      ->get();
 		
@@ -172,46 +231,49 @@ class MatchGenerator{
         	}
         }
 
-		
-
-		//print("********************* getParticipant complete *********************\n\n");
-		// var_dump($this->mentors_id);
-		// var_dump($this->seniors_id);
-		// var_dump($this->juniors_id);
-
 	}
 
 
-	/**
-	 * start point of the generation of result 
-	 * 
-	 * @return result of the matching in format of array {[mid, sid, jid]}
-	 */
-	
+
+	/*
+    Purpose:
+    	start point of the matching algorithm 
+    parameter:
+        - none
+    return 
+        - a set of matching with matching as key , and satisfaction rate as value
+        result array()
+        |
+        |- [mid,sid,jid] => 75%
+    	...
+
+    */
 	public function generate_all(){
-		// $this->test();
-		// print("******************* in generate function *******************\n");
 		ini_set('memory_limit', '1000M');
 		set_time_limit(3600);
 		$this->mentors_id = array_keys($this->mentors);
 		$this->seniors_id = array_keys($this->seniors);
 		$this->juniors_id = array_keys($this->juniors);
 		$this->generateTable($this->mentors_id,$this->seniors_id, $this->juniors_id);
-		// echo "<p> done gen_table </p>";
-		// DYNAMIC	PROGRAMMING
-		// $result = $this->doTheMatch($this->mentors_id, $this->seniors_id, $this->juniors_id);
-		// print "\n\n\n\n\n\nDONE DO THE MATCH\n\n\n\n\n";
-		// $this->doBackTrack($this->mentors_id, $this->seniors_id, $this->juniors_id);
 		$result = $this->doStableMatch();
-		// print("\n******************* end of genrate function *******************\n\n");
-		// var_dump($this->mentors_id);
-		// var_dump($this->seniors_id);
-		// var_dump($this->juniors_id);
-
 		return $result;
-
 	}
 
+	/*
+    Purpose:
+    	start point of the matching algorithm, with manual matching 
+    parameter:
+        - senior to exclude 
+        - senior to exclude
+        - junior to exclude 
+    return 
+        - a set of matching with matching as key , and satisfaction rate as value
+        result array()
+        |
+        |- [mid,sid,jid] => 75%
+    	...
+
+    */
 	public function generate_without($without_m,$without_s,$without_j){
 		set_time_limit(3600);
 		ini_set('memory_limit', '1000M');
@@ -234,44 +296,19 @@ class MatchGenerator{
 		return $result;
 	}
     
-    public function doBackTrack($mentors,$seniors,$juniors){
-    	// print("******************* in dobacktrack function *******************\n");
-    	$key = implode(",", $mentors);
-		$key .= ",";
-		$key .= implode(",", $seniors);
-		$key .= ",";
-		$key .= implode(",", $juniors);
-		// print ($key);
-		if (array_key_exists($key, $this->backTrack)){
-			$match = $this->backTrack[$key];
-			// print ("\n");
-			// print($match);
-			
-			$match_array = explode(",", $match);
-			echo "<p> for this key: " . $key. "</p>";
-			echo "<p>" . $match . " : " . $this->trioMatch($match_array[0],$match_array[1],$match_array[2]) ."</p>";
-			if (count($match_array) > 1){
-				$target_mentor = $match_array[0];
-				$target_senior = $match_array[1];
-				$target_junior = $match_array[2];
-				$mod_mentors = $this->array_without($mentors,$target_mentor);
-				$mod_seniors = $this->array_without($seniors,$target_senior);
-				$mod_juniors = $this->array_without($juniors,$target_junior);
-				$this->doBackTrack($mod_mentors, $mod_seniors,$mod_juniors);
-			}else{
-				// $victim = array_values($mentors)[0]
-				// $mod_mentors = array_without();
-				echo "end";
-			}
-		}
-		// print("\n******************* end of dobacktrack function *******************\n\n");
-		// var_dump($this->backTrack);
-		// foreach ($this->backTrack as $key => $value) {
-		// 	echo "<p> for this key: " . $key. "</p>";
-		// 	echo "<p>                  we pick " . $value . "</p>";
-		// }
-    }
-    
+    /*
+    Purpose:
+    	core logic of matching
+    parameter:
+		- none
+    return 
+        - a set of matching with matching as key , and satisfaction rate as value
+        result array()
+        |
+        |- [mid,sid,jid] => 75%
+    	...
+
+    */
     public function doStableMatch(){
     	$mentors_queue = $this->mentors_id;
     	$seniors = $this->seniors_id;
@@ -391,6 +428,26 @@ class MatchGenerator{
     	return $result;
    
     }
+
+    /*
+    Purpose:
+    	gets the unmatched participants given a result
+    parameter:
+		- result 
+    return 
+        - a set of matching with matching as key , and satisfaction rate as value
+        array()
+        |
+        |['pid'] => array()
+        |			|
+        |			|['pid'] 
+        |			|['First name'] 
+        |			|['Family name'] 
+        |			|['email'] 
+    	|
+    	...
+
+    */
     public function get_unmatches($result){
     	$LoMid = array();
     	$LoSid = array();
@@ -448,6 +505,20 @@ class MatchGenerator{
     	return $result_unmatches;
 
     }
+
+    /*
+    Purpose:
+    	turns keys of the given result from id to name
+    parameter:
+		- result 
+    return 
+        - a set of matching with matching as key , and satisfaction rate as value
+        array()
+        |
+        |[bill Bob,ray kirby, john william] => 75%
+    	...
+
+    */
     public function toName($result){
     	$result_name = array();
 		foreach ($result as $key => $value) {
@@ -465,6 +536,16 @@ class MatchGenerator{
 		}
     	return $result_name;
     }
+
+    /*
+    Purpose:
+    	translate id to name 
+    parameter:
+		- id 
+    return 
+        - name of the id
+
+    */
     public function ID_to_Name($id){
     	$p = $this->getPersonWithID($id);
     	return $p['First name'] . " " . $p['Family name'];
@@ -506,7 +587,6 @@ class MatchGenerator{
 			return $this->memory[$key];
 		}
 	}
-	
 	public function doTheMatch_compute($mentors,$seniors,$juniors){
 		// match a mentor each time
 		//print("******************* in doTheMatch_compute function *******************\n");
@@ -603,23 +683,69 @@ class MatchGenerator{
 			}
 		}
 	}
+
+	/*
+    Purpose:
+    	back tracking of dynamic programming approach, left here for reference but not used 
+    parameter:
+        - available mentors 
+        - available seniors
+        - available juniors 
+    return 
+        - n.a (never got this part of returning value, currently echos)
+
+    */
+    public function doBackTrack($mentors,$seniors,$juniors){
+    	// print("******************* in dobacktrack function *******************\n");
+    	$key = implode(",", $mentors);
+		$key .= ",";
+		$key .= implode(",", $seniors);
+		$key .= ",";
+		$key .= implode(",", $juniors);
+		// print ($key);
+		if (array_key_exists($key, $this->backTrack)){
+			$match = $this->backTrack[$key];
+			// print ("\n");
+			// print($match);
+			
+			$match_array = explode(",", $match);
+			echo "<p> for this key: " . $key. "</p>";
+			echo "<p>" . $match . " : " . $this->trioMatch($match_array[0],$match_array[1],$match_array[2]) ."</p>";
+			if (count($match_array) > 1){
+				$target_mentor = $match_array[0];
+				$target_senior = $match_array[1];
+				$target_junior = $match_array[2];
+				$mod_mentors = $this->array_without($mentors,$target_mentor);
+				$mod_seniors = $this->array_without($seniors,$target_senior);
+				$mod_juniors = $this->array_without($juniors,$target_junior);
+				$this->doBackTrack($mod_mentors, $mod_seniors,$mod_juniors);
+			}else{
+				// $victim = array_values($mentors)[0]
+				// $mod_mentors = array_without();
+				echo "end";
+			}
+		}
+		// print("\n******************* end of dobacktrack function *******************\n\n");
+		// var_dump($this->backTrack);
+		// foreach ($this->backTrack as $key => $value) {
+		// 	echo "<p> for this key: " . $key. "</p>";
+		// 	echo "<p>                  we pick " . $value . "</p>";
+		// }
+    }
+
 	/**
 	 * return an copy of the given array with out the given key
 	 *
-	 * @param list of available senior student
-	 * @param list of available junior student
+	 * @param array to remove the victim
+	 * @param the victim
 	 *
 	 * @return the key that holds the maximum value in $targetArray
 	 */
-
 	public function array_without($array,$victim){
-		// print("******************* in array_without function *******************\n");
 		$result = $array; 
-		// something about unset
 		if(($key = array_search($victim, $array)) !== false) {
 	    	unset($result[$key]);
 		}
-		// print("******************* end of array_without function *******************\n\n");
 		return $result;
 	}
 
@@ -628,14 +754,13 @@ class MatchGenerator{
 	 *
 	 * @param list of available senior student
 	 * @param list of available junior student
+	 * @param target array value to find maximum
 	 *
 	 * @return the key that holds the maximum value in $targetArray
 	 */
 	public function maxAvailiable($seniors,$juniors,$targetArray){
-		//print("******************* in maxAvailable function *******************\n");
+		
 		$temp = $targetArray;
-		// sort it low to high
-		// arsort($temp);
 		$result="";
 		$maximum = -1;
 		foreach ($temp as $key => $value) {
@@ -645,23 +770,8 @@ class MatchGenerator{
 				$maximum = $value;
 				$result = $key;	
 			}
-			// print("\n");
-			// print("this is the value of value in maxAvailable in foreach: ");
-			// print($value);
-			// print("\n");
-			// print("this is the value of key in maxAvailable in foreach: ");
-			// print($key);
-			// print("\n");
+
 		}
-		// print("\n");
-		// print("this is the value of maximum in maxAvailable: ");
-		// print($maximum);
-		// print("\n");
-		// print("this is the value of result in maxAvailable: ");
-		// print($result);
-		// print("\n");
-		// var_dump($temp);
-		//print("******************* end of maxAvailable function *******************\n\n");
 		return $result;
 	}
 
@@ -678,37 +788,30 @@ class MatchGenerator{
 	 * @return Void
 	 */
 	public function generateTable($mentors,$seniors,$juniors){
-		//print("******************* in generateTable function *******************\n");
+		
 		foreach ($mentors as $mentor) {
-			//print("in loop level 1 matching for\n");
-			//print($mentor);
-			//print("\n");
 			$temp = array();
 			foreach ($seniors as $senior) {
-				// print("in loop level 2\n");
 				foreach ($juniors as $junior) {
-					// print("in loop level 3\n");
 					$key = $mentor . "," . $senior . "," . $junior;
-					// print("in loop level 3\n");
 					$satisfaction = $this->trioMatch($mentor,$senior,$junior);
-					// print("in loop level 3\n");
 					if( $satisfaction > 50 && $this->checkReport($key)){
 						$temp[$key] = $satisfaction;
 					}
-					
-					// print("end of loop level 3\n");
 				}
-				// print("end of loop level 2\n");
 			}
-			//print("end of loop level 1\n");
-
 			$this->MentorSatTable[$mentor] = $temp;
 		}
-		// print ("done generateTable with table:\n");
-		//print("******************* end of generateTable function *******************\n\n");
-		// var_dump($this->MentorSatTable);
 	}
 
+	/*
+    Purpose:
+    	check if this matching exist in previous year report already 
+    parameter:
+		- match key [mid,sid,jid] 
+    return 
+        - true if it does exist else false
+    */
 	public function checkReport($match){
 		return !array_key_exists($match, $this->report);
 	}
@@ -723,49 +826,20 @@ class MatchGenerator{
 	 * @return satisfaction rate 
 	 */
 	public function trioMatch($personA, $personB, $personC){
-		//print("************************** in trioMatch ***********************\n");
-		
 		$A = $this->getPersonWithID($personA);
 		$B = $this->getPersonWithID($personB);
 		$C = $this->getPersonWithID($personC);
 
 		$pair1 = $this->match($A,$B);
-		// var_dump($A);
-		// print("\n");
-		// print("this is the match for the trio of ");
-		// print($personA . ", " . $personB);
-		// print(": ");
-		// print($pair1);
-		// print("\n");
 		$pair2 = $this->match($B,$C);
-		// print("\n");
-		// print("this is the match for the trio of ");
-		// print($personB . ", " . $personC);
-		// print(": ");
-		// print($pair2);
-		// print("\n");
 		$pair3 = $this->match($A,$C);
-		// print("\n");
-		// print("this is the match for the trio of ");
-		// print($personA . ", " . $personC);
-		// print(": ");
-		// print($pair3);
-		// print("\n");
 
 		if($pair1 == 0 || $pair2 == 0 || $pair3 == 0){
 			return 0;
 		}
 
 		$total = $pair1 + $pair2 + $pair3;
-		// print("\n");
-		// print("this is the total for the trio of ");
-		// print($personA . ", " . $personB . ", " . $personC);
-		// print(": ");
-		// print($total);
-		// print("\n");
 
-
-		//print("************************** end of trioMatch ***********************\n\n");
 		return $total/3 ;
 	}
 
@@ -777,24 +851,17 @@ class MatchGenerator{
 	 * @return array of person's information 
 	 */
 	public function getPersonWithID($id){
-		//print("************************** in getPersonWithID ***********************\n");
-
         if(array_key_exists($id, $this->mentors)){
-        	// print("\n return this person\n");
-        	// var_dump($this->mentors[$id]);
         	return $this->mentors[$id];
         }elseif(array_key_exists($id, $this->seniors)){
-        	// print("\n return this person\n");
-        	// var_dump($this->seniors[$id]);
         	return $this->seniors[$id];
         }elseif(array_key_exists($id, $this->juniors)){
-        	// print("\n return this person\n");
-        	// var_dump($this->juniors[$id]);
         	return $this->juniors[$id];
         }else{
         	return array();
         }
 	}
+
 	/**
 	 * compute the satisfaction rate of two provided person 
 	 *
@@ -804,14 +871,9 @@ class MatchGenerator{
 	 * @return satisfaction rate 
 	 */
 	public function match($personA,$personB){
-		//print("******************* in match function *******************\n");
 		// do must
 		if (count($this->mustList)){
 			foreach ($this->mustList as $m){
-				// print("in for loop level 1\n");
-				// print("the value of m: ");
-				// print($m);
-				// print("\n");
 				switch ($m){
 					case "kickoff":
 						if (!$this->dataAvalibility($personA["kickoff"],$personB["kickoff"])){
@@ -824,7 +886,6 @@ class MatchGenerator{
 						}
 						break;
 					default :
-						// print("in default case of switch in match function\n");	
 						if(array_key_exists($m,$personA) && array_key_exists($m,$personB)){
 							if (is_array($personA[$m])){
 								$length = $personA[$m];
@@ -934,7 +995,6 @@ class MatchGenerator{
 	 * @return similarity rate
 	 */
 	public function array_similarity($a1, $a2){
-		// print("******************* in array_similarity function *******************\n");
 
 		$lengtha1 = count($a1);
 		$lengtha2 = count($a2);
@@ -956,14 +1016,10 @@ class MatchGenerator{
 			array_push($a2_local, $temp);
 		}
 		$commonStringCount = count(array_intersect($a1_local, $a2_local));
-		//print("\n");
-		//print("commonStringCount = ");
-		//print($commonStringCount);
-		//print("\n\n");
+
 		$similiraitya1 = $commonStringCount/$lengtha1;
 		$similiraitya2 = $commonStringCount/$lengtha2;
 
-		// print("******************* end of array_similarity function *******************\n\n");
 		return ($similiraitya1 + $similiraitya2 )/2;
 
 	}
@@ -977,7 +1033,6 @@ class MatchGenerator{
 	 * @return true if they have common date, else false
 	 */
 	public function dataAvalibility($a1,$a2){
-		//print("******************* got into dataAvailability *******************\n");
 		if(($a1 == "")||($a2 == "")){
 			return false;
 		}
@@ -985,15 +1040,22 @@ class MatchGenerator{
 		$array2 = explode(",", $a2);
 		$result = array_intersect($array1, $array2);
 		if (is_array($result) && (count($result)>0)){
-			//print("******************* end of dataAvailability true *******************\n\n");
 			return true;
 		}else{
-			//print("******************* end of dataAvailability false *******************\n\n");
 			return false;
 		}
 	}
 
+	/*
+    Purpose:
+    	check if the given 2 participant match each other's gender preference
+    parameter:
+		- participant A
+		- participant B 
+    return 
+        - true if the condition is met, else false 
 
+    */
 	public function genderprefCheck($personA,$personB){
 		$AGender = $personA['gender'];
 		$APref = $personA['genderpref'];
