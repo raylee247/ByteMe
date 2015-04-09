@@ -200,9 +200,18 @@ class KickOffMatch{
 			//print($element['mentor']);
 			//var_dump($mentor_availableday);
 
-			$mentor_availableday = explode(",", $mentor_availableday);
-			$senior_availableday = explode(",", $senior_availableday);
-			$junior_availableday = explode(",", $junior_availableday);
+			if(!is_array($mentor_availableday)){
+				$mentor_availableday = explode(",", $mentor_availableday);
+			}
+			
+			if(!is_array($senior_availableday)){
+				$senior_availableday = explode(",", $senior_availableday);
+			}
+			
+			if(!is_array($junior_availableday)){
+				$junior_availableday = explode(",", $junior_availableday);
+			}
+
 			$result = array_intersect($mentor_availableday, $senior_availableday);
 			$result = array_intersect($result, $junior_availableday);
 
