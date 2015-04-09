@@ -23,11 +23,10 @@ class KickOffMatch{
 	protected $num_of_col;
 
 	/**
-	 * Create a new controller instance.
-	 * @param list of all the participants 
-	 * @param must list for this generator 
-	 * @param priority list for this generator
-	 * @return void
+	 * Function: Create a new service instance that for kickoff matching
+	 * @param max - the maximum number of participant per night
+	 * 		  menter_per_group - the ideal number of mentors each kickoff night's group
+	 * @return nothing
 	 */
 	public function __construct($max, $mentor_per_group)
 	{
@@ -140,9 +139,10 @@ class KickOffMatch{
 
 
 	/**
-	 * start point of the generation of result 
+	 * Function: start point of the generation of result
 	 * 
-	 * @return result of the matching in format of array {[mid, sid, jid]}
+	 * @return result of the matching in an representative array format; night as array key each element of 
+	 *		   of the night is an array of groups, each group contains an array of members
 	 */
 	
 	public function generate(){
@@ -158,9 +158,9 @@ class KickOffMatch{
 	}
 
 	/**
-	 * add a day for each trio matched pair
-	 * 
-	 * modifies and changes the current matches and add a attending date to all trio
+	 * Fuction: add a day for each trio matched pair; modifies and changes the current matches and add a attending 
+	 * 			date to all trio
+	 * @return nothing
 	 */
 	public function setKickOffDay()
 	{
@@ -172,9 +172,9 @@ class KickOffMatch{
 	}
 
 	/**
-	 * gets the available day of the trio, add to the array
-	 * 
-	 * modifies and changes the current matches and add a attending date to all trio
+	 * Function: gets the available day of the trio, add to the array; modifies and changes the current matches and add
+	 * 			 a attending date to all trio
+	 * @return nothing 
 	 */
 	public function addAvailableDayToTrio()
 	{
@@ -236,9 +236,9 @@ class KickOffMatch{
 	}
 
 	/**
-	 * picks a particular kickoff day for the trio
-	 * 
-	 * modifies and changes the current matches and add a attending date to all trio
+	 * Function: picks a particular kickoff day for the trio; modifies and changes the current matches and add a attending 
+	 * 			 date to all trio
+	 * @return nothing
 	 */
 	public function pickday()
 	{
@@ -265,9 +265,10 @@ class KickOffMatch{
 	}
 
 	/**
-	 * picks a particular kickoff day for the trio if they have more that one commoon available day
-	 * 
-	 * modifies and changes the current matches and add a attending date to all trio
+	 * Function: picks a particular kickoff day for the trio if they have more that one commoon available day; modifies
+	 * 			 and changes the current matches and add a attending date to all trio
+	 * @param element - the full trio record from the report table in the database
+	 * @return return the chosen night for the specific group
 	 */
 	public function findBestDay($element)
 	{
@@ -330,9 +331,8 @@ class KickOffMatch{
 	}
 
 	/**
-	 * populates All groups with its night as its key
-	 * 
-	 * 
+	 * Function: populates All groups with its night as its key
+	 * @return returns an array with the night as the key and contents of the resulting groups
 	 */
 	public function setGroup()
 	{
@@ -441,6 +441,10 @@ class KickOffMatch{
 		return $result;
 	}
 
+	/**
+	 * Function: checks if 2 mentors can be put into the same group
+	 * @return 1 if the mentors can be put into the same group, else -1
+	 */
 	public function is_valid($mentor1, $mentor2){
 		// print("*********************  in is_valid function **********************\n\n");
 		//set_time_limit(3600);
@@ -513,7 +517,15 @@ class KickOffMatch{
 			return 1;
 		}
 	}
-
+	/**
+	 * Function: puts the mentor into a group; this function should only be called when validity of a mentor returned by is_valid is -1
+	 * 			 and the mentor is needed to put into some other group
+	 * @param curr_num - the group number tried that is_valid returned as -1
+	 * 		  group_total - the total number of groups
+	 * 		  curr_group - an array of all the groups for the night the mentor with mentor_id will attend
+	 * 		  mentor_id - the id of the mentor that needs a group for their kickoff night
+	 * @return return the group number that mentor_id should end up being in
+	 */
 	public function putIntoGroup($curr_num, $group_total, $curr_group, $mentor_id){
 		// print("********************* in putIntoGroup function **********************\n\n");
 		$order = array();
