@@ -102,11 +102,19 @@ class profileController extends Controller {
         }
 	}
 
-	/**
-	 * Move participant from participant pool to waitlist pool
-	 *
-	 * @return Response
-	 */
+    /*
+
+       Function: toWaitlistPool
+
+       Moves the participant to waitlist from participant pool
+
+       Parameters:
+       none
+
+       Returns:
+       Redirects user back to original page
+
+    */
 	public function toWaitlistPool()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
@@ -131,11 +139,19 @@ class profileController extends Controller {
         return \Redirect::back();
 	}
 
-	/**
-	 * Move participant from waitlist pool to participant pool
-	 *
-	 * @return Response
-	 */
+    /*
+
+       Function: toParticipantPool
+
+       Moves the participant from waitlist to participant pool
+
+       Parameters:
+       none
+
+       Returns:
+       Redirects user back to original page
+
+    */
 	public function toParticipantPool()
 	{
         $email = $_POST['participant_email_to_pp'];
