@@ -1,12 +1,13 @@
 @extends('app')
 @section('content')
+<div class="content">
     <div class="panel panel-info">
         <div class="panel-heading">
             <b>Student Application Form</b>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-100">Add new question</button>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-101">Create new form</button>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-102'><i class="glyphicon glyphicon-cog"></i> Load application forms</button>
-            <!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
+            <div class="pull-right">
+            <button class="btn btn-xs btn-primary" type="button" data-toggle="modal" data-target="#modal-101"><i class="glyphicon glyphicon-plus-sign"></i> Create New Form</button>
+            <button class="btn btn-xs btn-primary" type="button" data-toggle='modal' data-target='#modal-102'><i class="glyphicon glyphicon-cog"></i> Load Application Forms</button>
+            </div>
         </div>
         <div class="panel-footer">
             <h5>Application Submission Deadline: <b>
@@ -17,6 +18,9 @@
                 <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-1'><i class="glyphicon glyphicon-calendar"></i> Set Deadline</button>
             </h5>
         </div>
+    </div>
+ <button class="btn pull-right btn-sm btn-success" data-toggle="modal" data-target="#modal-100"><i class="glyphicon glyphicon-plus"></i> Add New Question</button><br><br>
+    <div class="panel panel-info">
         <div class="panel-body">
             <?php
             $count = count($kickoff);
@@ -712,13 +716,13 @@
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <input type="text" class="form-control" id="date" name="dlyear" min="2015" max="2050" placeholder="YYYY">
+                                                    <input type="number" class="form-control" id="date" name="dlyear" min="2015" max="2050" placeholder="YYYY" required>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <input type="text" class="form-control" id="date" name="dlmonth" min="01" max="12" placeholder="MM">
+                                                    <input type="number" class="form-control" id="date" name="dlmonth" min="01" max="12" placeholder="MM" required>
                                                 </div>
                                                 <div class="col-xs-4">
-                                                    <input type="text" class="form-control" id="date" name="dlday" min="01" max="31" placeholder="DD">
+                                                    <input type="number" class="form-control" id="date" name="dlday" min="01" max="31" placeholder="DD" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -862,7 +866,7 @@
                     <div class="modal-body">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <div class="panel-title" style="display:inline"><b>Add new question</b></div>
+                                <div class="panel-title" style="display:inline"><b>Add New Question</b></div>
                             </div>
                             <div class="panel-body">
                                 <i>Identify relations by assigning the same tag to the mentor question and corresponding student question.</i>
@@ -969,10 +973,6 @@
     </div>
     </div>
     </div>
-    <style type="text/css">
-        .panel-info {
-            margin-right: 0px;
-            margin-bottom: 0px;
-        }
-    </style>
+</div>
+
 @endsection

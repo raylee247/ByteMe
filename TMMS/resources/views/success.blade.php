@@ -1,25 +1,31 @@
 @extends('app')
+@section('navbar')
+@if (Auth::check())
+@section('sidebar')
+@parent
+@else
+@section('main')
+@section('guestcontent')
+@endif
 
-@section('content')
-
+<br>
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<h2>Successful!</h2>
-		<div class="panel-body">
+	</div>
+	<div class="panel-body">
 			<!-- put message here -->
 			@if (isset($message))
 				<p> {{$message}} </p>
 			@endif
 		</div>
-	</div>
 </div>
 
 <style type="text/css">
 
 .panel-info{
-	margin-right: 200px;
-	margin-left: 150px;
-	height:50%;
+	margin-right: 20%;
+	margin-left: 20%;
 }
 
 </style>

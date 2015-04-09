@@ -23,7 +23,6 @@
     <![endif]-->
     <script src="{{ asset('/js/jquery-1.10.2.js') }}"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js"></script>
-    <script src="{{ asset('/js/adminhome.js') }}"></script>
     <script src="{{ asset('/js/pattern.js') }}"></script>
     <script src="{{ asset('/js/searchfilter.js') }}"></script>  
     <script src="{{ asset('/js/app.js') }}"></script>
@@ -60,14 +59,6 @@
         <ul class="nav navbar-nav">
           <li><a href="{{ url('/about') }}">About</a></li>
         </ul>
-        <ul class="nav navbar-nav">
-          <li><a onclick="goBack()">Go Back</a></li>
-        </ul>
-        <script>
-          function goBack() {
-              window.history.back();
-              }
-        </script>
         <ul class="nav navbar-nav navbar-right">
           @if(Session::has('message'))
           <div class="alert alert-info">

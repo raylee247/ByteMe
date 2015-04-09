@@ -315,7 +315,13 @@
                         }
                         
                         ?>                        
-                    <br>
+
+                    <div class="col-sm-1"></div>
+                        <label class="control-label pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
+                        <div class="col-sm-1"></div>
+                        <textarea rows="5" cols="130" name="cs_areasofinterest" id="cs_areasofinterest" required></textarea>
+                        <br><br>
+
                     <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
                 </div>
                 <br>

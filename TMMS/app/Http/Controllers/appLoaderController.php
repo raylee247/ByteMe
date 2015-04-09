@@ -330,17 +330,20 @@ class appLoaderController extends Controller {
 
         $pidYear = \DB::table('participant')->select('pid', 'year')->where('email', $email)->get();
 
-        if(count > 0){
+        if(count($pidYear) > 0){
+            // if($pidYear[0]['year'] == $year){
+            //     $participant_response = \DB::table('participant')->where('year', $year)->where('email', $email)
+            //         ->update(
+            //             ['First name' => $givenname, 'Family name' => $familyname,
+            //             'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+            //             'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+            //             'birth year' => $birthyear, 'genderpref' => $mentorgender,
+            //             'past participation' => "Yes", 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
+            //         );
+            //     //update
             if($pidYear[0]['year'] == $year){
-                $participant_response = \DB::table('participant')->where('year', $year)->where('email', $email)
-                    ->update(
-                        ['First name' => $givenname, 'Family name' => $familyname,
-                        'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
-                        'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
-                        'birth year' => $birthyear, 'genderpref' => $mentorgender,
-                        'past participation' => "Yes", 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
-                    );
-                //update
+                $message = "Email already in system";
+                return View('failure')->with('message', $message);
             }else{
                 //grab PID and insert into table with new entry, but same PID
                 $participant_response = \DB::table('participant')->insert(
@@ -350,6 +353,7 @@ class appLoaderController extends Controller {
                     'birth year' => $birthyear, 'genderpref' => $mentorgender,
                     'past participation' => $participation, 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
                 );
+                $participant_id = $pidYear[0]['pid'];
             }
         }else { //make new Participant
             //inserting into participant table
@@ -366,30 +370,44 @@ class appLoaderController extends Controller {
         $yearofstudy = $_POST['yearofstudy'];
         $programofstudy = $_POST['programofstudy'];
         $programofstudy_other = $_POST['programofstudy_other'];
-        $course = $_POST['course']; //array
+        $courses = $_POST['course']; //array
         $csid = $_POST['csid'];
         $coop = $_POST['coop'];
 
 
         //detemine if it is a senior or junior student (determined if they took all the listed CPSC courses)
         //insert accordingly, with sid OR jid = participant_id
-        if(count($course)==4){
+        if(count($courses)==4){
+            $course = $courses[1] . "," . $courses[2] . "," . $courses[3];
             $senior_response = \DB::table('senior')->insert(
                     ['sid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
                     'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
             );
-        }else{
+        }elseif(count($courses)>1){
+            for($jk = 0; $jk < count($courses); $jk++){
+                $course .= $courses[$jk + 1];
+            }
             $junior_response = \DB::table('junior')->insert(
                     ['jid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
                     'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
             );
+        }else{
+            $course = "";
+            $junior_response = \DB::table('junior')->insert(
+                    ['jid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
+                    'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
+                    'coop' => $coop]
+                    );
         }
-
+        
         //extra questions
         $newQuestions = [];
-        $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        $additionalcomments_avail = "";
+        if(isset($_POST['additionalcomments_avail'])){
+            $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        }
 
         //grabbing raw questions from database
         $year = date("Y");
@@ -489,6 +507,8 @@ class appLoaderController extends Controller {
 //            'coop', 'cs_areasofinterest', 'hobbies_interest', 'additionalcomments_questions', 'course', 'gender', 'careerplan', 'day1', 'day2', 'day3'));
 
 
+        $message = "Added to the system!";
+        return View('success')->with('message',$message);
 
     }
 
@@ -533,18 +553,21 @@ class appLoaderController extends Controller {
 
         $pidYear = \DB::table('participant')->select('pid', 'year')->where('email', $email)->get();
 
-        if(count > 0) {
-            if ($pidYear[0]['year'] == $year) {
-                $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
-                    ->update(
-                        ['First name' => $givenname, 'Family name' => $familyname,
-                            'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
-                            'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
-                            'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
-                            'past participation' => "Yes", 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
-                    );
-                //update
-            } else {
+        if(count($pidYear) > 0) {
+            // if ($pidYear[0]['year'] == $year) {
+            //     $participant_repsonse = \DB::table('participant')->where('year', $year)->where('email', $email)
+            //         ->update(
+            //             ['First name' => $givenname, 'Family name' => $familyname,
+            //                 'gender' => $gender, 'kickoff' => $day1 . "," . $day2 . "," . $day3,
+            //                 'email' => $email, 'phone' => $phone, 'phone alt' => $phonealt,
+            //                 'birth year' => $birthyear, 'genderpref' => $studentgenderpref,
+            //                 'past participation' => "Yes", 'waitlist' => $waitlist, 'year' => $year, 'interest' => $cs_areasofinterest]
+            //         );
+            //     //update
+             if($pidYear[0]['year'] == $year){
+                $message = "Email already in system";
+                return View('failure')->with('message', $message);
+            }else{
                 //grab PID and insert into table with new entry, but same PID
                 $participant_repsonse = \DB::table('participant')->insert(
                     ['pid' => $pidYear[0]['pid'], 'First name' => $givenname, 'Family name' => $familyname,
@@ -580,7 +603,10 @@ class appLoaderController extends Controller {
 
         //extra questions
         $newQuestions = [];
-        $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        $additionalcomments_avail = "";
+        if(isset($_POST['additionalcomments_avail'])){
+            $additionalcomments_avail = $_POST['additionalcomments_avail'];
+        }
         //grabbing raw questions from database
         $year = date("Y");
         $rawMenApp = \DB::table('mentorapp')->where('year', $year)->first();
@@ -655,6 +681,8 @@ class appLoaderController extends Controller {
 //            'additionalcomments_avail', 'employmentstatus', 'yearsofcswork', 'levelofeducation', 'cs_areasofinterest', 'hobbies_interest',
 //            'alumnus', 'additionalcomments_questions'));
    
+        $message = "Added to the system!";
+        return View('success')->with('message',$message);
 }
 
     public function editForm()

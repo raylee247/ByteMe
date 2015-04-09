@@ -4,6 +4,13 @@
     .panel-info {
     margin-right: 0px;
     }
+    .content{
+  display: table;
+/*  overflow-x: visible;*/
+}
+    .table {
+    white-space:normal;
+    }
 </style>
 @if (count($errors) > 0)
 <div class="alert alert-danger">
@@ -28,6 +35,74 @@
   <div class="panel-body">
 
 
+
+<style type="text/css">
+input {vertical-align: text-bottom;}
+</style>
+
+
+
+
+
+<!-- STUDENT PART -->
+
+
+  <div class="panel-body">
+
+
+
+
+
+
+
+
+
+@if (isset($id_array[0]) || isset($id_array[1]))   
+<!-- in $id_array[0] and $id_array[1] , [0] means it is a junior student, [1] means senior, [2] means mentor -->
+<!-- Display name at top of the participant page --> 
+<?php
+    echo '<h2>' . $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
+    ?>
+
+<!-- Edit Student Button -->
+<button class="btn btn-xs btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
+<i class="glyphicon glyphicon-pencil"></i>
+</button></h2>
+
+
+<br>
+
+<h4><u>Program status:</u><!-- Button to move participant into participant pool -->
+@if ($participant_result[0]['waitlist'] == 1 && $participant_result[0]['year'] == $current_year) 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('toParticipantPool') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    This participant is in the waitlist. <br><br>
+    <span class="input-group-btn">
+    <span class="btn btn-danger btn-file">
+    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+    Move to Participant Pool
+    <input type="hidden" name="participant_email_to_pp" value="<?= $participant_result[0]['email'] ?>">
+    <input type="submit" value="Move to Participant Pool" name="move_to_participant_pool">
+    </span>
+    </span>
+</form>
+
+<!-- Button to move participant into waitlist --> 
+@elseif ($participant_result[0]['waitlist'] == 0 && $participant_result[0]['year'] == $current_year) 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('toWaitlistPool') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    This participant is in the participant pool. <br><br>
+    <span class="input-group-btn">
+    <span class="btn btn-danger btn-file pull-right">
+    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+    Move to Waitlist
+    <input type="hidden" name="participant_email_to_wl" value="<?= $participant_result[0]['email'] ?>">
+    <input type="submit" value="Move to Waitlist" name="move_to_waitlist_pool">
+    </span>
+    </span>
+</form>
+@endif</h4>
+
 <!-- Button to download participant profile information -->
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -43,62 +118,14 @@
 
 
 
-Program status:
-<!-- Button to move participant into participant pool -->
-@if ($participant_result[0]['waitlist'] == 1 && $participant_result[0]['year'] == $current_year) 
-<form class="form-horizontal" role="form" method="POST" action="{{ url('toParticipantPool') }}">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    This participant is in the waitlist.
-    <span class="input-group-btn">
-    <span class="btn btn-primary btn-file pull-right">
-    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-    Move to Participant Pool
-    <input type="hidden" name="participant_email_to_pp" value="<?= $participant_result[0]['email'] ?>">
-    <input type="submit" value="Move to Participant Pool" name="move_to_participant_pool">
-    </span>
-    </span>
-</form>
 
-<!-- Button to move participant into waitlist --> 
-@elseif ($participant_result[0]['waitlist'] == 0 && $participant_result[0]['year'] == $current_year) 
-<form class="form-horizontal" role="form" method="POST" action="{{ url('toWaitlistPool') }}">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    This participant is in the participant pool.
-    <span class="input-group-btn">
-    <span class="btn btn-primary btn-file pull-right">
-    <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-    Move to Waitlist Pool
-    <input type="hidden" name="participant_email_to_wl" value="<?= $participant_result[0]['email'] ?>">
-    <input type="submit" value="Move to Waitlist Pool" name="move_to_waitlist_pool">
-    </span>
-    </span>
-</form>
-@endif
 
-<!-- Button to delete participant -->
-@if ($participant_result[0]['year'] == $current_year)
-<form class="form-horizontal" role="form" method="POST" action="{{ url('deleteParticipant') }}">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <span class="input-group-btn">
-    <span class="btn btn-danger btn-file pull-right">
-    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-    Delete Participant
-    <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['pid'] ?>">
-    <input type="submit" value="Delete Participant Submit" name="delete_participant_submit">
-    </span>
-    </span>
-</form>
-@endif
 
-@if (isset($id_array[0]) || isset($id_array[1]))
-<!-- Display name at top of the participant page --> 
-<?php
-    echo '<h2>' . $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
-    ?>
-<!-- Edit Student Button -->
-<button class="btn btn-xs btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
-<i class="glyphicon glyphicon-pencil"></i>
-</button></h2>
+
+
+
+
+
 <a class="pull-right" href="{{ url('/students') }}">Back</a> 
 
 <!-- View Past Report Button -->
@@ -404,25 +431,21 @@ Program status:
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+<!-- MENTOR PART -->
+
 @else
 
-
-
-
-
-
 <!-- mentor panel -->
-<div class="panel panel-default">
+<!-- <div class="panel panel-default"> -->
   <div class="panel-body">
-
-
-
-
-
-
-
-
-
 
 
 
@@ -430,12 +453,66 @@ Program status:
 
 <!-- Display name at top of the participant page --> 
 <?php
-    echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
+    echo '<h2>' . $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
     ?>
+
+<!-- Edit Student Button -->
+<button class="btn btn-xs btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
+<i class="glyphicon glyphicon-pencil"></i>
+</button></h2>
+
+
+<br>
+
+<h4><u>Program status:</u><!-- Button to move participant into participant pool -->
+@if ($participant_result[0]['waitlist'] == 1 && $participant_result[0]['year'] == $current_year) 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('toParticipantPool') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    This participant is in the waitlist. <br><br>
+    <span class="input-group-btn">
+    <span class="btn btn-danger btn-file">
+    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+    Move to Participant Pool
+    <input type="hidden" name="participant_email_to_pp" value="<?= $participant_result[0]['email'] ?>">
+    <input type="submit" value="Move to Participant Pool" name="move_to_participant_pool">
+    </span>
+    </span>
+</form>
+
+<!-- Button to move participant into waitlist --> 
+@elseif ($participant_result[0]['waitlist'] == 0 && $participant_result[0]['year'] == $current_year) 
+<form class="form-horizontal" role="form" method="POST" action="{{ url('toWaitlistPool') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    This participant is in the participant pool. <br><br>
+    <span class="input-group-btn">
+    <span class="btn btn-danger btn-file pull-right">
+    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+    Move to Waitlist
+    <input type="hidden" name="participant_email_to_wl" value="<?= $participant_result[0]['email'] ?>">
+    <input type="submit" value="Move to Waitlist" name="move_to_waitlist_pool">
+    </span>
+    </span>
+</form>
+@endif</h4>
+
+<!-- Button to download participant profile information -->
+<form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <span class="input-group-btn">
+    <span class="btn btn-primary btn-file pull-right">
+    <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+    Download Participant Profile
+    <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
+    <input type="submit" value="Download CSV" name="download_report">
+    </span>
+    </span>
+</form>
+
+
+
+
 <!-- Edit Mentor Button -->
-<button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#mentor-modal">
-<i class="glyphicon glyphicon-pencil"></i> Edit
-</button>
+<!--  -->
 <!-- Mentor Information Table -->
 <table class="table table-user-information">
 <tbody>
@@ -563,7 +640,7 @@ Program status:
 
 
 </div>
-</div>
+<!-- </div> -->
 
 
 

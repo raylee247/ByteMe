@@ -1,12 +1,13 @@
 @extends('app')
 @section('content')
+<div class="content">
 <div class="panel panel-info">
       <div class="panel-heading">
             <b>Mentor Application Form</b>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-100">Add new question</button>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle="modal" data-target="#modal-101">Create new form</button>
-            <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-102'><i class="glyphicon glyphicon-cog"></i> Load application forms</button>
-            <!-- <button class="btn pull-right btn-xs btn-primary" data-target="#modal-1"><i class="glyphicon glyphicon-pencil"></i> Edit Form</button> -->
+            <div class="pull-right">
+            <button class="btn btn-xs btn-primary" type="button" data-toggle="modal" data-target="#modal-101"><i class="glyphicon glyphicon-plus-sign"></i> Create New Form</button>
+            <button class="btn btn-xs btn-primary" type="button" data-toggle='modal' data-target='#modal-102'><i class="glyphicon glyphicon-cog"></i> Load Application Forms</button>
+            </div>
       </div>
       <div class="panel-footer">
             <h5>Application Submission Deadline: <b>
@@ -17,12 +18,15 @@
                   <button class="btn pull-right btn-xs btn-primary" data-toggle='modal' data-target='#modal-1'><i class="glyphicon glyphicon-calendar"></i> Set Deadline</button>
             </h5>
       </div>
+    </div><br>
+    <button class="btn pull-right btn-sm btn-success" data-toggle="modal" data-target="#modal-100"><i class="glyphicon glyphicon-plus"></i> Add New Question</button><br><br>
+        <div class="panel panel-info">
       <div class="panel-body">
             <?php
-                  $count = count($kickoff);
-                  
-                  echo '<div class="col-sm-1"></div><label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br><br>
-                  <div class="col-sm-1"></div><div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
+            $count = count($kickoff);
+
+            echo '<label class="control-label col-sm-3">Kickoff event availability</label><button type="submit" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal-103"><i class="glyphicon glyphicon-pencil"></i></button><br>
+                  <div class="col-md-9">Students are required to attend one evening kickoff event to meet with their
                   student/mentor matches. There are ' . $count . ' different event dates to choose from. All evenings follow the
                   same format and all kickoffs are held at the UBC Vancouver campus in the ICICS/CS Building. Please
                   indicate your availability for the following dates:
@@ -218,7 +222,7 @@
                                                 </div>
                                             </div>
                                             </form>
-                                        </div>
+                                       
                                     </div>';
 
                               //makes text modal
@@ -327,7 +331,7 @@
                                                 </div>
                                             </div>
                                             </form>
-                                        </div>
+                                        
                                     </div>';
                   
                               //makes radio modal
@@ -639,11 +643,13 @@
                          </div>';
                               break;
                       }
-                      echo '<br>';
+                      // echo '<br>';
                   }
                   
                   ?>
       </div>
+</div>
+</div>
 </div>
 <div id="modal-1" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
