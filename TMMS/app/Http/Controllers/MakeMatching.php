@@ -36,6 +36,8 @@ class MakeMatching extends Controller {
         echo $generator->generate();
         return 0;
     }
+    
+
     public function insert_result_to_DB(){
         $must = unserialize(base64_decode($_POST['must']));
         $priority = unserialize(base64_decode($_POST['priority'])) ;
@@ -81,6 +83,7 @@ class MakeMatching extends Controller {
         $Response =  \DB::table('weighting')->get();
         return view('savedmatches', compact('Response'));
     }
+
     public function refreshSavedMatches(){
         if(isset($_POST['wid']) && isset($_POST['rename'])){
             \DB::table('weighting')
@@ -176,11 +179,77 @@ class MakeMatching extends Controller {
     }
 
     public function generateWithout(){
-        var_dump($_POST['mentor']);
-        var_dump($_POST['senior']);
-        var_dump($_POST['junior']);
-        $message = "what";
-        return view('success', compact($message));
+        // check if any value is empty
+        $empty = 0;
+        $manualMatches = array();
+        $mentor_without = array();
+        $senior_without = array();
+        $junior_without = array();
+
+        foreach ($_POST['mentor'] as $key => $value) {
+            if($value == ""){
+                $empty++;
+            }else{
+                $mid = explode(",", $value)[0];
+                $mentor_without[] = $mid;
+            }
+        }
+        foreach ($_POST['senior'] as $key => $value) {
+            if($value == ""){
+                $empty++;
+            }else{
+                $sid = explode(",", $value)[0];
+                $senior_without[] = $sid;
+            }
+        }
+        foreach ($_POST['junior'] as $key => $value) {
+            if($value == ""){
+                $empty++;
+            }else{
+                $jid = explode(",", $value)[0];
+                $junior_without[] = $jid;
+            }
+        }
+
+
+        if($empty > 0 && !count($_POST['mentor']) == 1){
+            $message = "Please specifiy all of mentor, senior, and junior.\n
+                        Press Go Back to re-submit.";
+            return view('failure', compact('message'));
+        }else{
+            foreach ($mentor_without as $key => $value) {
+                $match = implode(",", array($mentor_without[$key],$senior_without[$key],$junior_without[$key]));
+                $manualMatches[$match] = null;
+            }
+        }
+
+        $must = unserialize(base64_decode($_POST['must']));
+        $priority = unserialize(base64_decode($_POST['priority'])) ;
+        $generator = new MatchGenerator($must, $priority);
+        $result_ids =  $generator->generate_without($mentor_without,$senior_without,$junior_without);
+        // result with [ match => satisfaction]
+        if(count($result_ids) > 0){
+            $avgSat = array_sum($result_ids)/count($result_ids);
+        }else{
+            $avgSat = 0;
+        }
+        
+        $median = $this->array_median($result_ids);
+        $result_unmatch = $generator->get_unmatches($result_ids);
+        $trioCount = count($result_ids);
+        $unmatchCount = count($result_unmatch);
+
+        $result_ids = array_merge($result_ids,$manualMatches);
+        $result_names = $generator->toName($result_ids);
+
+        $mentors = $generator->getAvalMentors();
+        $seniors = $generator->getAvalSeniors();
+        $juniors = $generator->getAvalJuniors();
+        return view('matchresult', compact( 'mentors', 'seniors', 'juniors',
+                                            'must','priority','avgSat', 'median','trioCount', 'unmatchCount',
+                                            'result_ids','result_names',
+                                            'result_unmatch'));
+
     }
     public function array_median($array) {
       // perhaps all non numeric values should filtered out of $array here?

@@ -75,6 +75,7 @@
 <legend>
 		</legend>
 <!-- 		<button id="viewmatch" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button> --><!-- <br><br> -->
+
 		<div id="matchpanel" class="panel panel-default">
 			<div class="panel-heading">Manual Matches: </div>
 			<div class="panel-body">
@@ -175,6 +176,7 @@ $(window).load(function(){
 });
 </script>
 
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$( "#matchpanel" ).hide();
@@ -192,5 +194,6 @@ $(document).ready(function(){
   });
   });
 </script>
+
 
 @endsection
