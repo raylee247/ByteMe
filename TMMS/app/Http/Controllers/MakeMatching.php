@@ -333,12 +333,14 @@ class MakeMatching extends Controller {
         $stuCombineExtra = explode("`",$rawStuApp['extra']);
         for($i = 0; $i < count($stuCombineExtra); $i++){
             $stuExtra = explode('|', $stuCombineExtra[$i]);
-            array_push($stuTag, $stuExtra[1]);
+            if (count($stuExtra) > 1)
+                array_push($stuTag, $stuExtra[1]);
         }
         $MenCombineExtra = explode("`",$rawMenApp['extra']);
         for($i = 0; $i < count($MenCombineExtra); $i++){
             $menExtra = explode('|', $MenCombineExtra[$i]);
-            array_push($menTag, $menExtra[1]);
+            if (count($menExtra) > 1)
+                array_push($menTag, $menExtra[1]);
         }
         $formParameters = array_intersect($stuTag, $menTag);
         $csvParameterStudent= \DB::table('senior')
