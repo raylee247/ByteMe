@@ -230,22 +230,22 @@
                         <br><br>
                         <label class="control-label col-sm-3">Given name:</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="givenname" minlength="2" required placeholder="bob">
+                            <input type="text" class="form-control" name="givenname" minlength="2" required placeholder="ie. John">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Family name:</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="familyname" minlength="2" required placeholder="billy">
+                            <input type="text" class="form-control" name="familyname" minlength="2" required placeholder="ie. Smith">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Phone:</label>
                         <div class="col-md-6">
-                            <input type="digit" class="form-control" minlength="10" maxlength="10" name="phone" required placeholder="1234567890">
+                            <input type="digit" class="form-control" minlength="10" maxlength="10" name="phone" required placeholder="ie. 1234567890">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Phone (alternate):</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" minlength="10" maxlength="10" name="phonealt">
+                            <input type="text" class="form-control" minlength="10" maxlength="10" name="phonealt" placeholder="ie. 1234567890">
                         </div>
                         <br><br>
                         <div class="gender">
@@ -256,7 +256,7 @@
                         <br>
                         <label class="control-label col-sm-3">Year of birth (Optional):</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="birthyear" placeholder="1993">
+                            <input type="text" class="form-control" name="birthyear" placeholder="YYYY">
                         </div>
                         <br><br>
                         <?php
@@ -330,12 +330,12 @@
                         <br><br>
                         <div class="form-inline">
                             <label class="control-label col-sm-3">Current company (optional)</label>
-                                <input type="text" class="form-control" name="company" placeholder="Amazon">
+                                <input type="text" class="form-control" name="company" placeholder="ie. Amazon">
                         </div>
                         <br><br>
                         <div class="form-inline">
                             <label class="class=control-label col-sm-3">Current position at work (optional)</label>
-                                <input type="text" class="form-control" name="position" placeholder="Senior mentor">
+                                <input type="text" class="form-control" name="position" placeholder="ie. Software Developer">
                         </div>
                         <br><br>
                         <!--                             <div class="col-sm-1"></div>
@@ -508,7 +508,6 @@
             },
             phone: {
                 required: true,
-                digits: true,
                 minlength: 10,
                 pattern: /^\(?([0-9]{3})\)?[-.]?([0-9]{3})[-.]?([0-9]{4})$/
             },
@@ -539,6 +538,9 @@
         },
 
         messages: {
+            phone: {
+                pattern: "Please enter a valid number (excluding dashes)."
+            },
             email: {
                 pattern: "Input is not a valid email address."
             },

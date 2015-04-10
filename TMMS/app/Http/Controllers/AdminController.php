@@ -409,8 +409,11 @@ class AdminController extends Controller {
 
         $participant_result = array_merge($junior_result, $senior_result, $mentor_result);
 
+        $pastreports = $this->viewPastReport($participant_result[0]['pid']);
+
         return \View::make('participant')->with('participant_result', $participant_result)
                                          ->with('json_extra', $json_extra)
+                                         ->with('pastreports', $pastreports)
                                          ->with('id_array', $id_array);
     }
 
