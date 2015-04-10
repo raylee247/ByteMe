@@ -95,6 +95,126 @@ div.error {
     padding: 2px 5px;
     width:15%;
 }
+#gender-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day1-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day2-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day3-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day4-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day5-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day6-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day7-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day8-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day9-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day10-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
+#day11-error.error{
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
+}
 </style>
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
@@ -172,7 +292,9 @@ div.error {
                         <table class="table table-hover table-striped" style="width:90%">
                         <tr>
                         <th></th>';
-                        
+
+
+
                         for($i = 0; $i < $count; $i++){
                             echo '<th><center>CHOICE ' . ($i+1) . '</center></th>';
                         }
@@ -183,18 +305,18 @@ div.error {
                             echo '<tr><td><center>' . $kickoff[$i] . '</center></td>';
                             //generate each row
                             for($j = 0; $j < $count; $j++){
-                                echo '<td><center><input class="required" type="radio" name="day' . ($i+1) . '"';
+                                echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
                                 if(isset($day1) && $day1 == $kickoff[$i]){
                                     echo "checked";
                                 }
-                                $value = 'required value="' . $kickoff[$i] . '"></center></td>';
+                                $value = 'value="' . $kickoff[$i] . '" required></center></td>';
                                 echo $value;
                             }
                             echo '<td><center><input type="radio" name="day' . ($i+1) . '"';
                             if (isset($day1) && $day1== $kickoff[$i]) {
                                 echo "checked";
                             }
-                            echo $value = 'value="null"></center>
+                            echo $value = 'value="" ></center>
                             <label for="day' . ($i+1) . '" class="error" style="display:none;">Please choose one.</label></td>';
                             echo "</tr>";
                         }
@@ -233,11 +355,7 @@ div.error {
                         echo ' </select></div><br>';
                         
                         ?>
-                    <div class="form-inline">
-                        <label class="control-label col-sm-3">Program of study (other):</label>
-                        <input type="text" class="form-control" name="programofstudy_other">
-                    </div>
-                    <br>
+
                     <div class="form-inline">
                         <label class="control-label col-sm-3">Year of study:</label> 
                         <select class="form-control" name="yearofstudy" required>
@@ -375,9 +493,6 @@ div.error {
 
 
 
-
-
-
                                     echo '<div class="col-sm-2"></div>
                         <label class="pull-left">' . $questions[$x][2] . '</label><br>
                         <center>
@@ -456,12 +571,6 @@ div.error {
                 required: true,
                 pattern: /[a-z][0-9][a-z][0-9]/
             },
-            birthyear: {
-                number: true,
-                minlength: 4,
-                maxlength: 4,
-                pattern: /^[1-9]\d{3,}$/
-            },
             gender: {
                 required: true
             },
@@ -477,17 +586,6 @@ div.error {
             }
                 ?>
         },
-        errorPlacement: function(error, element) 
-    {
-        if ( element.is(":radio") ) 
-        {
-            error.appendTo( element.parents('.gender') );
-        }
-        else
-        { // This is the default behavior 
-            error.insertAfter( element );
-        }
-    },
         messages: {
             email: {
                 pattern: "Input is not a valid email address."
