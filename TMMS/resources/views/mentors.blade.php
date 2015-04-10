@@ -115,10 +115,7 @@ $(document).ready(function(){
           window.location.href = "participant" + "/" + myvar[row];
           return false;
       });
-    $('#mentors').dataTable( {
-        "pageLength": 20,
-        "searching": false
-    });
+
 });
 </script>
 @endsection

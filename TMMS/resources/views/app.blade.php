@@ -30,7 +30,6 @@
     <script src="{{ asset('/js/sortable.js') }}"></script>
     <link rel="stylesheet" 
       href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
-    </style>
     <script type="text/javascript" 
       src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -136,11 +135,33 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
   </body>
   <script type="text/javascript">
-    $(document).ready(function () {
-    $('.menu-content li').click(function() {
-       $('.sub-menu li a:visible').not(this).slideUp('slow');
-       $('.sub-menu li a:hidden').is(this.next('.sub-menu li a')).slideDown('slow');
-       });
-    });
+      var dropdown = document.querySelectorAll('.collapsed');
+      var dropdownArray = Array.prototype.slice.call(dropdown,0);
+      dropdownArray.forEach(function(el){
+          var button = el.querySelector('a[data-toggle="collapsed"]'),
+                  menu = el.querySelector('.sub-menu collapse'),
+                  arrow = button.querySelector('i.icon-arrow');
+
+          button.onclick = function(event) {
+              if(!menu.hasClass('show')) {
+                  menu.classList.add('show');
+                  menu.classList.remove('hide');
+                  arrow.classList.add('open');
+                  arrow.classList.remove('close');
+                  event.preventDefault();
+              }
+              else {
+                  menu.classList.remove('show');
+                  menu.classList.add('hide');
+                  arrow.classList.remove('open');
+                  arrow.classList.add('close');
+                  event.preventDefault();
+              }
+          };
+      })
+
+      Element.prototype.hasClass = function(className) {
+          return this.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(this.className);
+      };
   </script>
 </html>
