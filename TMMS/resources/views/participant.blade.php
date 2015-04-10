@@ -26,34 +26,20 @@
     // set current year 
 $current_year = date("Y");
 ?>
-<br>
 
 @if (isset($id_array[0]) || isset($id_array[1]))
 
 <!-- Display name at top of the participant page --> 
 <?php
-echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
+    echo '<h2>'.$participant_result[0]['First name']." ".$participant_result[0]['Family name'];
 ?>
 
 <!-- Edit Student Button -->
-<button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
+<button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#E">
     <i class="glyphicon glyphicon-pencil"></i> Edit
-</button>
-<a href="{{ url('/students') }}">Back</a> 
-<button>
-</button>
+</button></h2>
 
-<form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <span class="input-group-btn">
-        <span class="btn btn-primary btn-file">
-            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-            Download Participant Profile
-            <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
-            <input type="submit" value="Download CSV" name="download_report">
-        </span>
-    </span>
-</form>
+<a href="{{ url('/students') }}">Back</a> <br>
 
 Program Status:
 <!-- Button to move participant into participant pool -->
@@ -233,7 +219,7 @@ Program Status:
         {
             if ($key == "SID" || $key == "Time")
             {
-                        //do nothing and continue iteration
+                //do nothing and continue iteration
             }
 
             else
@@ -399,10 +385,9 @@ Program Status:
 
                         <!-- Submit Button --> 
                         <div class="form-group">
-                            {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
+                        <input class="btn btn-primary form-control" type="submit" value="Save Changes">   
+                        <button type="button" class="btn btn-default form-control" data-dismiss="modal">Close</button>                   
                         </div>
-                        <input data-dismiss="modal" type="reset" value="Close!">
-                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -412,17 +397,17 @@ Program Status:
 </div>
 </div>
 
+<!-- Mentor -->
 @else
-
 <!-- Display name at top of the participant page --> 
 <?php
-echo $participant_result[0]['First name']." ".$participant_result[0]['Family name'];
+    echo '<h2>'.$participant_result[0]['First name']." ".$participant_result[0]['Family name'];
 ?>
 
 <!-- Edit Mentor Button -->
 <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#mentor-modal">
     <i class="glyphicon glyphicon-pencil"></i> Edit
-</button>
+</button></h2>
 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -590,7 +575,7 @@ Program Status:
         {
             if ($key == "SID" || $key == "Time")
             {
-                        //do nothing and continue iteration
+                //do nothing and continue iteration
             }
 
             else
@@ -723,7 +708,7 @@ Program Status:
 
                     foreach($extra_keys as $key)
                     {
-                                        // need this line because for some reason request doesn't accept any white spaces and returns NULL
+                        // need this line because for some reason request doesn't accept any white spaces and returns NULL
                         $no_spaces_key = preg_replace('/\s+/', '', $key);
 
                         echo "<div class='form-group'>";
@@ -737,10 +722,10 @@ Program Status:
 
                     <!-- Submit Button --> 
                     <div class="form-group">
-                        {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
+                    {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <!-- <input data-dismiss="modal" type="reset" value="Close!"> -->
                     </div>
-                    <input data-dismiss="modal" type="reset" value="Close!">
-                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

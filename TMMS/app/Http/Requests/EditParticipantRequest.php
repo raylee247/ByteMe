@@ -28,7 +28,6 @@ class EditParticipantRequest extends Request {
 				'familyname'		=> 'required',
 				'email'				=> 'required|email',
 				'phone'				=> 'required',
-				'phonealt'			=> 'required',
 				'gender'			=> 'required',
 				'birthyear'			=> 'required',
 				'kickoff'			=> 'required',
