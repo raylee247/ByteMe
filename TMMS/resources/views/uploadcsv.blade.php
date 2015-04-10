@@ -87,7 +87,7 @@
 
     <script type="text/javascript">
         $('#submit_upload').click(function(event){
-            if(!($('#student_radio').is(':checked') && $('#mentor_radio').is(':checked') && $('#report_radio').is(':checked'))){
+            if(!($('#student_radio').is(':checked') || $('#mentor_radio').is(':checked') || $('#report_radio').is(':checked'))){
                 event.preventDefault();
                 sweetAlert({
                     title: "Error!",
