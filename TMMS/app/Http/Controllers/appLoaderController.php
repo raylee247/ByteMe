@@ -26,6 +26,9 @@ class appLoaderController extends Controller {
 	public function grabStudentApp()
 	{
 		//grab application form from DB for current year
+        if(\Auth::check()){
+            return redirect('home');
+        }
         $year = date("Y");
         $rawApp = \DB::table('studentapp')->where('year', $year)->first();
 
@@ -159,6 +162,9 @@ class appLoaderController extends Controller {
    */
     public function grabMentorApp()
     {
+        if(\Auth::check()){
+            return redirect('home');
+        }
         //grab application form from DB for current year
         $year = date("Y");
         $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
