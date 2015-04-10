@@ -741,16 +741,16 @@ class appLoaderController extends Controller {
             $kickoff = $_POST['kickoff'];
             if ($status == 'student') {
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('kickoff' => $kickoff));
-                return $this->grabStudentAppEdit();
+                return redirect('studentform');
             } else {
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('kickoff' => $kickoff));
-                return $this->grabMentorAppEdit();
+                return redirect('mentorform');
             }
         }
         if(isset($_POST['program'])){
             $program = $_POST['program'];
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('program' => $program));
-                return $this->grabStudentAppEdit();
+                return redirect('studentform');
         }
         if(isset($_POST['dlyear']) && isset($_POST['dlmonth']) && isset($_POST['dlday'])){
             $dlyear = $_POST['dlyear'];
@@ -759,10 +759,10 @@ class appLoaderController extends Controller {
             $deadline = $dlyear . "-" . $dlmonth . "-" . $dlday;
             if($status == 'student'){
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('deadline' => $deadline));
-                return $this->grabStudentAppEdit();
+                return redirect('studentform');
             }else{
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('deadline' => $deadline));
-                return $this->grabMentorAppEdit();
+                return redirect('mentorform');
 
             }
 
@@ -840,7 +840,8 @@ class appLoaderController extends Controller {
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
-                    return $this->grabStudentAppEdit();
+                    //return $this->grabStudentAppEdit();
+                    return redirect('studentform');
                 } else {
                     $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
 
@@ -918,7 +919,8 @@ class appLoaderController extends Controller {
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
-                    return $this->grabMentorAppEdit();
+                    //return $this->grabMentorAppEdit();
+                    return redirect('mentorform');
                 }
             } else {
                 //default kickoff night and program from last year loaded into new year student app
@@ -945,7 +947,7 @@ class appLoaderController extends Controller {
                     } else {
                         $mentor_response = \DB::table('mentorapp')->insertGetId(
                             ['kickoff' => $kickoff, 'year' => $year + 1, 'deadline' => $kickoff]);
-                        return $this->grabMentorAppEdit();
+                        return redirect('mentorform');
                     }
                 }
             }
