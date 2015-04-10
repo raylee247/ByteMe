@@ -36,19 +36,6 @@ class AdminController extends Controller {
         return view('admin');
     }
 
-    /*
-
-       Function: toWaitlistPool
-
-       Moves the participant to waitlist from participant pool
-
-       Parameters:
-       none
-
-       Returns:
-       Redirects user back to original page
-
-    */
     public function reportdownload()
     {
       $year = $_POST['year_report'];
@@ -167,7 +154,7 @@ class AdminController extends Controller {
         // Make select call to log table
         $retrieveAmount = $_POST["numRetrieve"];
         if (is_numeric($retrieveAmount)) {
-            if ($retrieveAmount < 0) {
+            if ($retrieveAmount <= 0) {
                 $retrieveAmount = 10;
             }
         } else {$retrieveAmount = 10;}
@@ -224,7 +211,7 @@ class AdminController extends Controller {
             $result = array_merge($junior_result, $senior_result);
         }
 
-        return \View::make('students')->with('result', $result);
+        return \View::make('students')->with('result', $result)->with('search_param', $dropdown)->with('text', $text);
     }
 
     //TODO: regex to check for correct input? <- not sure if necessary 
@@ -248,7 +235,7 @@ class AdminController extends Controller {
                                            ->orWhere('email', 'LIKE', '%'.$text.'%')
                                            ->get();
 
-        return \View::make('mentors')->with('result', $result);
+        return \View::make('mentors')->with('result', $result)->with('text', $text);
     }
 
     public function waitlistSearch()
@@ -281,7 +268,7 @@ class AdminController extends Controller {
 
         // to persist search result
 
-        return \View::make('waitlist')->with('result', $result);
+        return \View::make('waitlist')->with('result', $result)->with('text', $text);
     }
 
     public function showParticipant($pid) 
@@ -351,7 +338,7 @@ class AdminController extends Controller {
         // UPDATE PARTICIPANT IF SENIOR STUDENT 
         else if ($sid == $pid)
         {
-            \DB::table('mentor')->where('sid', $pid)
+            \DB::table('senior')->where('sid', $pid)
                                 ->update(['studentNum' => $request['studentnum'],
                                           'yearStand' => $request['yearstanding'],
                                           'programOfStudy' => $request['program'],

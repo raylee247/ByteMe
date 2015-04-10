@@ -35,11 +35,23 @@ $current_year = date("Y");
 ?>
 
 <!-- Edit Student Button -->
-<button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#E">
+<button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
     <i class="glyphicon glyphicon-pencil"></i> Edit
 </button></h2>
 
 <a href="{{ url('/students') }}">Back</a> <br>
+
+<form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+            Download Participant Profile
+            <input type="hidden" name="download_pid" value="<?= $participant_result[0]['pid'] ?>">
+            <input type="submit" value="Download CSV" name="download_report">
+        </span>
+    </span>
+</form>
 
 Program Status:
 <!-- Button to move participant into participant pool -->
@@ -400,6 +412,8 @@ Program Status:
 <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#mentor-modal">
     <i class="glyphicon glyphicon-pencil"></i> Edit
 </button></h2>
+
+<a href="{{ url('/students') }}">Back</a> <br>
 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">

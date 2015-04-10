@@ -200,8 +200,7 @@
                           case "text":
                               echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label>
                      <div class="col-md-4">
-                     <input type="text" class="form-control" name="' . $questions[$x][1] . '">
-                     </div>';
+                     <input type="text" class="form-control" name="' . $questions[$x][1] . '">';
                   
                   //makes text delete modal
                                 echo '<div class="modal fade" id="modal-20' . ($x+2) . '4" tabindex="-1" role="dialog">
@@ -924,8 +923,6 @@
                   </form>
             </div>
       </div>
-</div>
-</div>
 </div>
 <style type="text/css">
       .panel-info {
