@@ -240,7 +240,7 @@ div.error {
                     <br><br>
                     <label class="control-label col-sm-3">Student number:</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="studentnum" maxlength="8" placeholder="12345678">
+                        <input type="text" class="form-control" name="studentnum" maxlength="8" placeholder="ie. 12345678">
                     </div>
                     <br><br>
                     <label class="control-label col-sm-3">Computer Science ID:</label>
@@ -250,22 +250,22 @@ div.error {
                     <br><br>
                     <label class="control-label col-sm-3">Given name:</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="givenname" placeholder="John">
+                        <input type="text" class="form-control" name="givenname" placeholder="ie. John">
                     </div>
                     <br><br>
                     <label class="control-label col-sm-3">Family name:</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="familyname" placeholder="Smith">
+                        <input type="text" class="form-control" name="familyname" placeholder="ie. Smith">
                     </div>
                     <br><br>
                     <label class="control-label col-sm-3">Phone:</label>
                     <div class="col-md-6">
-                        <input class="form-control" minlength="10" maxlength="10" name="phone" placeholder="Format: 1234567890">
+                        <input class="form-control" minlength="10" maxlength="10" name="phone" placeholder="ie. 1234567890">
                     </div>
                     <br><br>
                     <label class="control-label col-sm-3">Phone (alternate):</label>
                     <div class="col-md-6">
-                        <input class="form-control" name="phonealt" minlength="10" maxlength="10" placeholder="Format: 1234567890">
+                        <input class="form-control" name="phonealt" minlength="10" maxlength="10" placeholder="ie. 1234567890">
                     </div>
                     <br><br>
                     <div class="gender">
