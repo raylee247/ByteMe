@@ -13,11 +13,6 @@
 <div class="panel panel-danger">
 	<div class="panel-heading">
 		<h2>Failure!</h2>
-		<div class="panel-body">
-			@if (isset($message))
-				<p> {{$message}} </p>
-			@endif
-		</div>
 	</div>
 	<div class="panel-body">
 			<h4>
@@ -31,6 +26,7 @@
 .panel-danger{
 	margin-right: 20%;
 	margin-left: 20%;
+	height:auto;
 }
 h2 {
 	color:white;
