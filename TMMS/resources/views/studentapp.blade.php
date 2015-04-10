@@ -456,12 +456,6 @@ div.error {
                 required: true,
                 pattern: /[a-z][0-9][a-z][0-9]/
             },
-            birthyear: {
-                number: true,
-                minlength: 4,
-                maxlength: 4,
-                pattern: /^[1-9]\d{3,}$/
-            },
             gender: {
                 required: true
             },
