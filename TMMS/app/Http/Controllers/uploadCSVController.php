@@ -17,18 +17,17 @@ class uploadCSVController extends Controller {
 
     public function index()
     {
-//        $preview_header = array();
-//        $preview_data = array();
-//        return view('uploadcsv',compact('preview_header','preview_data'));
         return view('uploadcsv');
     }
-    /**
-     * preview the csv being uploaded
-     *
-     * @return view
-     */
-    public function preview()
-    {
+    /*
+    Purpose:
+        shows the preview that user wants to upload
+    parameter:
+        - none 
+    return 
+        - n/a
+    */
+    public function preview(){
         $target_dir = "Uploads/";
 
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -78,7 +77,14 @@ class uploadCSVController extends Controller {
 
         return view('uploadcsv',compact('preview_header','preview_data', 'test', 'category'));
     }
-
+    /*
+    Purpose:
+        upload the CSV
+    parameter:
+        - none 
+    return 
+        - n/a
+    */
     public function upload(){
         $config = new LexerConfig();
         $lexer = new Lexer($config);
@@ -126,6 +132,16 @@ class uploadCSVController extends Controller {
         return view('success',compact('message'));
     }
 
+    /*
+    Purpose:
+        parse the new formated CSV that TMMS generate
+    parameter:
+        - tpye
+        - headers : column of the csv
+        - data : data of the csv
+    return 
+        - n/a
+    */
     public function parseNewCSV($type,$headers,$datas) {
         //Check if category is report, else...
         if ($type == 'report') {
@@ -301,6 +317,16 @@ class uploadCSVController extends Controller {
 
     }
 
+    /*
+    Purpose:
+        parse the new CSV that the client has
+    parameter:
+        - tpye
+        - headers : column of the csv
+        - data : data of the csv
+    return 
+        - n/a
+    */
     public function parseOldCSV($type,$headers,$datas){
         set_time_limit(180);
         // print($type);
@@ -606,6 +632,15 @@ class uploadCSVController extends Controller {
 
 
     }
+
+    /*
+    Purpose:
+        shows the preview that user wants to upload
+    parameter:
+        - array of date
+    return 
+        - YYYY-MM-DD format date
+    */
     public function format_date($arrayOfDate){
         $result = array();
         foreach ($arrayOfDate as $key) {

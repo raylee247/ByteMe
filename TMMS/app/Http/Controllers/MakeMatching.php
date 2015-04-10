@@ -7,13 +7,7 @@ use App\Services\KickOffMatch;
 
 class MakeMatching extends Controller {
 
-    public function test(){
-        $Response = \DB::table('participant')->lists('year','email');
-        foreach ($Response as $key => $value) {
-            echo "<p> key: " .$key. "</p>";
-            echo "<p> value: " .$value. "</p>";
-        }
-    }
+
     /*
     Purpose:
     when the user chooses to save the result generated, takes the infromation from the 
