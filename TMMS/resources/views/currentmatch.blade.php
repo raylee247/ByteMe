@@ -150,9 +150,11 @@ if ($message == 'fail'){
 					<div class="panel-body">
 						There are currently no match results. Please run the matching before attempting to view this page.			
 					</div>
-					<div class="panel-footer">
-						<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
-					</div>
+					<form method ="GET" action = "weight">
+						<div class="panel-footer">
+							<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
+						</div>
+					</form>
 				</div>
 			</div>        
 		</div>
