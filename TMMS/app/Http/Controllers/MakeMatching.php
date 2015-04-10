@@ -7,6 +7,13 @@ use App\Services\KickOffMatch;
 
 class MakeMatching extends Controller {
 
+    public function test(){
+        $Response = \DB::table('participant')->lists('year','email');
+        foreach ($Response as $key => $value) {
+            echo "<p> key: " .$key. "</p>";
+            echo "<p> value: " .$value. "</p>";
+        }
+    }
     /*
     Purpose:
     when the user chooses to save the result generated, takes the infromation from the 
@@ -84,6 +91,8 @@ class MakeMatching extends Controller {
             $check = \DB::table('weighting')->where('wid', '=', $_POST['Deletewid'])->get();
             if(($check[0]['setAsFinal'] == 1) && ($check[0]['year'] == date("Y"))){
                 \DB::table('report')->where('year', '=', $check[0]['year'])->delete();
+                \DB::table('kickoffgroup')->delete();
+                \DB::table('kickoffresult')->delete();
             }
             
             \DB::table('weighting')->where('wid', '=', $_POST['Deletewid'])->delete();

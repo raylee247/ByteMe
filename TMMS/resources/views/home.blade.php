@@ -9,36 +9,36 @@
 </div>
 
 <div class="row">
-  <a href="#">
+  <a href="currentmatch">
    <div class="col-xs-6 col-md-4">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <div><h3>Participant Management</h3></div><br>
-        <p>View, manage and organize participant information, upload and download participant data</p>
+        <div><h3>View Current Matching</h3></div><br>
+        <p>View the currently selected matching</p>
         <div class="panel-heading"></div>
       </div>
     </div>
   </div>
 </a>
 
-<a href="#">
+<a href="weight">
 <div class="col-xs-6 col-md-4">
   <div class="panel panel-primary">
     <div class="panel-heading">
       <div><h3>Match Making</h3></div><br>
-      <p>Adjust parameters to generate optimal match results, view and compare generated results</p>
+      <p>Create a new matching</p>
       <div class="panel-heading"></div>
     </div>
   </div>
 </div>
 </a>
 
-<a href="#">
+<a href="kickoffmatches">
 <div class="col-xs-6 col-md-4">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <div><h3>Application Form</h3></div><br>
-      <p>View, manage, and customize current and previous application forms for students and mentors</p>
+      <div><h3>Kickoff Matching</h3></div><br>
+      <p>View the current kickoff night matching</p>
       <div class="panel-heading"></div>
     </div>
   </div>

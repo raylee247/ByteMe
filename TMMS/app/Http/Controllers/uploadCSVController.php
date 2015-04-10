@@ -303,7 +303,7 @@ class uploadCSVController extends Controller {
 
     public function parseOldCSV($type,$headers,$datas){
         set_time_limit(180);
-        print($type);
+        // print($type);
         // $type is either mentors or student
         // header string require for participant
         $participant_target_keywords = array("---", // pid
@@ -505,6 +505,22 @@ class uploadCSVController extends Controller {
         // $REAL .="]";
         // \DB::insert('insert into innodb.participant (pid, First name, Family name, gender, kickoff, email, phone, phone alt, birth year,genderpref, past participation, waitlist, year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $participant_values);
         $listOfID = array();
+        $existing_email= \DB::table('participant')->lists('year','email');
+        $LOPcount = count($listOfParticipant);
+        for ($i=0; $i < $LOPcount; $i++) { 
+            // echo "<p> ". $i . "</p>";
+            if((array_key_exists($listOfParticipant[$i][5], $existing_email))&&
+                ($existing_email[$listOfParticipant[$i][5]] == date("Y"))){
+                unset($listOfParticipant[$i]);
+                if (count($listOfMentor) > 0)
+                    unset($listOfMentor[$i]);
+                if (count($listOfStudent) > 0)
+                    unset($listOfStudent[$i]);
+                if (count($listOfParameter) > 0)
+                    unset($listOfParameter[$i]);
+            }
+        }
+
         foreach ($listOfParticipant as $participant_values) {
             $participant_id = \DB::table('participant')->insertGetId(
                 ['First name' => $participant_values[1],
@@ -523,10 +539,10 @@ class uploadCSVController extends Controller {
 
                 ]);
 
-            $pid = \DB::table('participant')->where('email', $participant_values[5])->pluck('pid');
+            $pid = \DB::table('participant')->where('email', $participant_values[5])->where('year', date("Y"))->pluck('pid');
             $listOfID[] = $pid;
         }
-        var_dump($listOfID);
+        // var_dump($listOfID);
         // insert into mentor
         // var_dump($mentor_values);
         if (count($listOfMentor) > 0){

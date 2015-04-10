@@ -92,7 +92,7 @@ Program Status:
         <span class="btn btn-danger btn-file">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             Delete Participant
-            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['email'] ?>">
+            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['pid'] ?>">
             <input type="submit" value="Delete Participant Submit" name="delete_participant_submit">
         </span>
     </span>
@@ -477,7 +477,7 @@ Program Status:
         <span class="btn btn-danger btn-file">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             Delete Participant
-            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['email'] ?>">
+            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['pid'] ?>">
             <input type="submit" value="Delete Participant Submit" name="delete_participant_submit">
         </span>
     </span>
