@@ -100,11 +100,27 @@ Program Status:
 @endif
 
 <!-- View Past Report Button -->
-<form method="POST" action="pastreport">
+<form method="POST" action="pastreport" id = "year">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     Year of report: <input type="text" name="year" id="year">
     <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
+    <button class="btn btn-sm btn-primary">Find Past Report</button>
 </form>
+
+<script type="text/javascript">
+    $("#year").validate({
+        rules: {
+            year: {
+                pattern: /^[1-9]\d{3,}$/
+            },
+        },
+        messages: {
+            year: {
+                pattern: "Please enter a valid year like 2013"
+            }
+        }
+    });
+</script>
 
 <!-- Student Information Table --> 
 <table class="table table-user-information">
@@ -474,11 +490,27 @@ Program Status:
 @endif
 
 <!-- View Past Report Button -->
-<form method="POST" action="pastreport">
+<form method="POST" action="pastreport" id = "year">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     Year of report: <input type="text" name="year" id="year">
     <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
+    <button class="btn btn-sm btn-primary">Find Past Report</button>
 </form>
+
+<script type="text/javascript">
+    $("#year").validate({
+        rules: {
+            year: {
+                pattern: /^[1-9]\d{3,}$/
+            },
+        },
+        messages: {
+            year: {
+                pattern: "Please enter a valid year like 2013"
+            }
+        }
+    });
+</script>
 
 <!-- Mentor Information Table -->
 <table class="table table-user-information">
