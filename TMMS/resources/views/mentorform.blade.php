@@ -86,7 +86,7 @@
                      <div class="form-inline">
                      <label class="pull-left">Question type: </label> <u>Kickoff Night Dates</u> <br><br>
                      <div class="form-inline">
-                     <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+                     <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values in the format YYYY-MM-DD (ex. 2015-12-12).</i>
                      </div><br>
                      </div>
                      </div>

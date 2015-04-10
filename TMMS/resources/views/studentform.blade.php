@@ -79,7 +79,7 @@
 				         <div class="form-inline">
 				         <label class="pull-left">Question type: </label> <u>Kickoff Night Dates</u> <br><br>
 				         <div class="form-inline">
-				         <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+				         <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values in the format YYYY-MM-DD (ex. 2015-12-12).</i>
 				         </div><br>
 				         </div>
 				         </div>
@@ -750,6 +750,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                     document.getElementById("checktag").required = true;
                     document.getElementById("checkq").required = true;
                     document.getElementById("checkans").required = true;
@@ -760,7 +761,8 @@
                     $("#radio").hide();
                     $("#select").hide();
                     $("#textarea").hide();
-                    $("#singleRadio").hide();                    
+                    $("#singleRadio").hide();
+                    $("#saveChange").show();
                     document.getElementById("texttag").required = true;
                     document.getElementById("textq").required = true;
                 }
@@ -771,6 +773,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                     document.getElementById("radiotag").required = true;
                     document.getElementById("radioq").required = true;
                     document.getElementById("radiomsg").required = true;
@@ -784,6 +787,7 @@
                     $("#select").show();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                     document.getElementById("selecttag").required = true;
                     document.getElementById("selectq").required = true;
                     document.getElementById("selectmsg").required = true;
@@ -795,6 +799,7 @@
                     $("#select").hide();
                     $("#textarea").show();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                     document.getElementById("textareatag").required = true;
                     document.getElementById("textareaq").required = true;
                 }
@@ -805,6 +810,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").show();
+                    $("#saveChange").show();
                     document.getElementById("singleradiotag").required = true;
                     document.getElementById("singleradioq").required = true;
                     document.getElementById("singleradioans").required = true;
@@ -815,7 +821,8 @@
                     $("#radio").hide();
                     $("#select").hide();
                     $("#textarea").hide();
-                    $("#singleRadio").hide();                    
+                    $("#singleRadio").hide();
+                    $("#saveChange").hide();
                 }}
             $(document).ready(function(){
                 var type = document.getElementById( "questiontype").value;
@@ -826,6 +833,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "text"){
                     $("#checkbox").hide();
@@ -834,6 +842,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "radio"){
                     $("#checkbox").hide();
@@ -842,6 +851,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "select"){
                     $("#checkbox").hide();
@@ -850,6 +860,7 @@
                     $("#select").show();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "textarea"){
                     $("#checkbox").hide();
@@ -858,6 +869,7 @@
                     $("#select").hide();
                     $("#textarea").show();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "singleRadio"){
                     $("#checkbox").hide();
@@ -866,6 +878,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").show();
+                    $("#saveChange").show();
                 }
                 else{
                     $("#checkbox").hide();
@@ -874,6 +887,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").hide();
                 }
             });
         </script>
@@ -942,7 +956,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button id="saveChange" type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
                 </div>
