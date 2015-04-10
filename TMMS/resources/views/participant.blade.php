@@ -99,29 +99,6 @@ Program Status:
 </form>
 @endif
 
-<!-- View Past Report Button -->
-<form method="POST" action="pastreport" id = "year">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    Year of report: <input type="text" name="year" id="year">
-    <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
-    <button class="btn btn-sm btn-primary">Find Past Report</button>
-</form>
-
-<script type="text/javascript">
-    $("#year").validate({
-        rules: {
-            year: {
-                pattern: /^[1-9]\d{3,}$/
-            },
-        },
-        messages: {
-            year: {
-                pattern: "Please enter a valid year like 2013"
-            }
-        }
-    });
-</script>
-
 <!-- Student Information Table --> 
 <table class="table table-user-information">
     <tbody>
@@ -239,6 +216,24 @@ Program Status:
                 ?>
             </td>
         </tr>
+
+        <?php
+            foreach($pastreports as $key => $value){
+                print("<tr>");
+                print("<td>Participant Report for Year ".$key.":</td>");
+                print("<td>".$value[0]."</td>");
+                print("</tr>");
+                print("<tr>");
+                print("<td></td>");
+                print("<td>".$value[1]."</td>");
+                print("</tr>");
+                print("<tr>");
+                print("<td></td>");
+                print("<td>".$value[2]."</td>");
+                print("</tr>");
+            }
+        ?>
+
         <?php
         $extra = json_decode($json_extra, true);
         $extra_keys = array_keys($extra);
@@ -489,28 +484,6 @@ Program Status:
 </form>
 @endif
 
-<!-- View Past Report Button -->
-<form method="POST" action="pastreport" id = "year">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    Year of report: <input type="text" name="year" id="year">
-    <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
-    <button class="btn btn-sm btn-primary">Find Past Report</button>
-</form>
-
-<script type="text/javascript">
-    $("#year").validate({
-        rules: {
-            year: {
-                pattern: /^[1-9]\d{3,}$/
-            },
-        },
-        messages: {
-            year: {
-                pattern: "Please enter a valid year like 2013"
-            }
-        }
-    });
-</script>
 
 <!-- Mentor Information Table -->
 <table class="table table-user-information">
