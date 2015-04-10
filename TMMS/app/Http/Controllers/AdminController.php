@@ -338,7 +338,7 @@ class AdminController extends Controller {
         // UPDATE PARTICIPANT IF SENIOR STUDENT 
         else if ($sid == $pid)
         {
-            \DB::table('mentor')->where('sid', $pid)
+            \DB::table('senior')->where('sid', $pid)
                                 ->update(['studentNum' => $request['studentnum'],
                                           'yearStand' => $request['yearstanding'],
                                           'programOfStudy' => $request['program'],
