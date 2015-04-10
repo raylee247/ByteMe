@@ -36,6 +36,19 @@ class AdminController extends Controller {
         return view('admin');
     }
 
+    /*
+
+       Function: toWaitlistPool
+
+       Moves the participant to waitlist from participant pool
+
+       Parameters:
+       none
+
+       Returns:
+       Redirects user back to original page
+
+    */
     public function reportdownload()
     {
       $year = $_POST['year_report'];
@@ -131,7 +144,7 @@ class AdminController extends Controller {
      public function waitlist()
     {
         $date = date("Y");
-        $result = \DB::table('participant')->where('waitlist', 1)->where('year', $date)->get();
+        $result = \DB::table('participant')->where('year', $date)->get();
         
         // to persist search result 
         if(\Session::has('current_search')) {
@@ -661,6 +674,13 @@ class AdminController extends Controller {
         // RETURN DOWNLOAD RESPONSE
     }
 
+
+    // Check if string is JSON
+    function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
     public function downloadCSVfile()
     {
 
@@ -790,6 +810,7 @@ class AdminController extends Controller {
             $single_junior_values = array_values($single_junior);
             // Write each value to the junior file:
             foreach($single_junior_values as $single_junior_value) {
+                $single_junior_value = str_replace('"', '`', $single_junior_value);
                 fwrite($junior_file, "\"" . $single_junior_value . "\"" . ",");
             }
             // Write endline
@@ -821,6 +842,7 @@ class AdminController extends Controller {
             $single_senior_values = array_values($single_senior);
             // Write each value to the junior file:
             foreach($single_senior_values as $single_senior_value) {
+                $single_senior_value = str_replace('"', '`', $single_senior_value);
                 fwrite($senior_file, "\"" . $single_senior_value . "\"" . ",");
             }
             // Write endline
@@ -852,6 +874,7 @@ class AdminController extends Controller {
             $single_mentor_values = array_values($single_mentor);
             // Write each value to the junior file:
             foreach($single_mentor_values as $single_mentor_value) {
+                $single_mentor_value = str_replace('"', '`', $single_mentor_value);
                 fwrite($mentor_file, "\"" . $single_mentor_value . "\"" . ",");
             }
             // Write endline

@@ -8,80 +8,21 @@ use Illuminate\Http\Request;
 class appLoaderController extends Controller {
 
     protected $test;
-	/**
-	 * Display a listing of the resource.
-	 *
-	 *
-	 */
-	public function index()
-    {
-        //extra questions
-        $newQuestions = [];
 
-        //grabbing raw questions from database
-        $year = date("Y");
-        $rawMenApp = \DB::table('mentorapp')->where('year', $year)->first();
-        $rawQuestion = $rawMenApp["extra"];
-        if ($rawQuestion == null){
-            $newQuestions = null;
-        } else {
-            $questions = explode('`', $rawQuestion);
-            //([format|id|question|answerA,answerB,answerC],[format2|id2|question2|answer])
-            foreach ($questions as $q){
-                //(format,id,question,answers)
-                $q = explode('|', $q);
-                array_push($newQuestions, $q);
-            }
-        }
 
-        //split the questions into just the tags
-        //such that we can use the tags to check if form submitted anything
-        $variables = [];
-        $countQ = count($newQuestions);
-        for($i = 0; $i < $countQ; $i++){
-            array_push($variables, $newQuestions[$i][1]);
-        }
+    /*
 
-        //check if anything was posted for the extra's questions and grab the answers
-        $paralist = [];
-        $insert = "";
-        $countV = count($variables);
+        Function: grabStudentApp
 
-        for($k = 0; $k < $countV; $k++){
-            if(isset($_POST[$variables[$k]])){
-                if($_POST[$variables[$k]] != ""){
-                    $middle = "";
-                    if(count($_POST[$variables[$k]]) > 1){
-                        $combineVariable = $_POST[$variables[$k]];
-                        for($m = 1; $m < count($_POST[$variables[$k]]) ; $m++){
-                            //array_push($paralist, $combineVariable[$m + 1]);
-                            if($m == (count($_POST[$variables[$k]]) - 1)) {
-                                $middle .= $combineVariable[$m];
-                            }else{
-                                $middle .= $combineVariable[$m] . ',';
-                            }
-                        }
-                    }else{
-                        //array_push($paralist, $_POST[$variables[$k]]);
-                        $middle = $middle . $_POST[$variables[$k]];
-                    }
-                    $insert .= '"' . $variables[$k] . '":"' . $middle . '",';
-                    $combineInsert = $insert;
-                }
-            }
-        }
+        Grabs the student application form from the database to be displayed on the view.
 
-        //$parameter = implode("," , $paralist);
-        $parameter = '{' . substr($combineInsert,0,-1) . '}';
+        Parameters:
+        none
 
-        return View('appEdit')->with('parameter',$parameter);
-    }
+        Returns:
+        The current years application is sent to the view to be displayed
 
-	/**
-	 * Grab student application form
-	 *
-	 *
-	 */
+    */
 	public function grabStudentApp()
 	{
 		//grab application form from DB for current year
@@ -131,6 +72,19 @@ class appLoaderController extends Controller {
 	}
 
 
+    /*
+
+       Function: grabStudentAppEdit
+
+       Grabs the student application form from the database to be displayed on the view such that they can be edited
+
+       Parameters:
+       none
+
+       Returns:
+       The current years application is sent to the view to be displayed
+
+   */
     public function grabStudentAppEdit()
     {
         //grab application form from DB for current year
@@ -190,11 +144,19 @@ class appLoaderController extends Controller {
             ->with('years', $listOfYear) ->with('deadline', $deadline)->with('year', $year);
     }
 
-    /**
-     * Grab mentor application form and pass to mentorapp.blade.php
-     *
-     *
-     */
+    /*
+
+       Function: grabMentorApp
+
+       Grabs the mentor application form from the database to be displayed on the view
+
+       Parameters:
+       none
+
+       Returns:
+       The current years application is sent to the view to be displayed
+
+   */
     public function grabMentorApp()
     {
         //grab application form from DB for current year
@@ -233,11 +195,19 @@ class appLoaderController extends Controller {
     }
 
 
-/**
-     * Grab mentor application form and pass to mentorform.blade.php
-     *
-     *
-     */
+    /*
+
+       Function: grabMentorAppEdit
+
+       Grabs the mentor application form from the database to be displayed on the view such that they can be edited
+
+       Parameters:
+       none
+
+       Returns:
+       The current years application is sent to the view to be displayed
+
+   */
     public function grabMentorAppEdit()
     {
         //grab application form from DB for current year
@@ -288,11 +258,22 @@ class appLoaderController extends Controller {
     }
 
 
-    /**
-     *
-     * insert application form answers into database
-     * {"name":"bob","gender":"female","age":5}
-     */
+    /*
+
+       Function: studentToDB
+
+       Takes all required fields (from the view) and turns them into a JSON object which holds all the
+       answered requirements. Uploading the JSON object into the database, as well as all the other student information.
+       Will also determine if a student is a senior or junior based on if they have completed all the required
+       second year courses (CPSC 210,221,213)
+
+       Parameters:
+       none
+
+       Returns:
+       Success or Fail page depending if the applicant is successfully placed into the database
+
+   */
     public function studentToDB(){
         //all participants attributes
         $givenname = $_POST['givenname'];
@@ -512,6 +493,20 @@ class appLoaderController extends Controller {
 
     }
 
+    /*
+
+       Function: mentorToDB
+
+       Takes all required fields (from the view) and turns them into a JSON object which holds all the
+       answered requirements. Uploading the JSON object into the database, as well as all the other mentor information.
+
+       Parameters:
+       none
+
+       Returns:
+       Success or Fail page depending if the applicant is successfully placed into the database
+
+   */
     public function mentorToDB(){
         //all participants attributes
         $givenname = $_POST['givenname'];
@@ -685,9 +680,23 @@ class appLoaderController extends Controller {
         return View('success')->with('message',$message);
 }
 
+    /*
+
+       Function: editForm
+
+       Determines whether a question is added, edited, or deleted from the application form (mentor or student) and updates the
+       database. Can also create a new application form for the next year, as well as set the deadline/kickoff nights.
+
+       Parameters:
+       none
+
+       Returns:
+       Updated application form.
+
+   */
     public function editForm()
     {
-        //parameters
+        //passed in from view
         /*
          * WHAT IT IS                                   VARIABLE NAME       POSSIBLE CHOICES FOR ANSWER
          * -------------------------------------------------------------------------------------------------
@@ -732,16 +741,16 @@ class appLoaderController extends Controller {
             $kickoff = $_POST['kickoff'];
             if ($status == 'student') {
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('kickoff' => $kickoff));
-                return $this->grabStudentAppEdit();
+                return redirect('studentform');
             } else {
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('kickoff' => $kickoff));
-                return $this->grabMentorAppEdit();
+                return redirect('mentorform');
             }
         }
         if(isset($_POST['program'])){
             $program = $_POST['program'];
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('program' => $program));
-                return $this->grabStudentAppEdit();
+                return redirect('studentform');
         }
         if(isset($_POST['dlyear']) && isset($_POST['dlmonth']) && isset($_POST['dlday'])){
             $dlyear = $_POST['dlyear'];
@@ -750,10 +759,10 @@ class appLoaderController extends Controller {
             $deadline = $dlyear . "-" . $dlmonth . "-" . $dlday;
             if($status == 'student'){
                 $deadlineResponse = \DB::table('studentapp')->where('year', $year)->update(array('deadline' => $deadline));
-                return $this->grabStudentAppEdit();
+                return redirect('studentform');
             }else{
                 $deadlineResponse = \DB::table('mentorapp')->where('year', $year)->update(array('deadline' => $deadline));
-                return $this->grabMentorAppEdit();
+                return redirect('mentorform');
 
             }
 
@@ -831,7 +840,8 @@ class appLoaderController extends Controller {
                             $response = \DB::table('studentapp')->where('sappid', $rawApp['sappid'])->update(array('extra' => $newExtra));
                             break;
                     }
-                    return $this->grabStudentAppEdit();
+                    //return $this->grabStudentAppEdit();
+                    return redirect('studentform');
                 } else {
                     $rawApp = \DB::table('mentorapp')->where('year', $year)->first();
 
@@ -909,7 +919,8 @@ class appLoaderController extends Controller {
                             $response = \DB::table('mentorapp')->where('mappid', $rawApp['mappid'])->update(array('extra' => $newExtra));
                             break;
                     }
-                    return $this->grabMentorAppEdit();
+                    //return $this->grabMentorAppEdit();
+                    return redirect('mentorform');
                 }
             } else {
                 //default kickoff night and program from last year loaded into new year student app
@@ -936,21 +947,27 @@ class appLoaderController extends Controller {
                     } else {
                         $mentor_response = \DB::table('mentorapp')->insertGetId(
                             ['kickoff' => $kickoff, 'year' => $year + 1, 'deadline' => $kickoff]);
-                        return $this->grabMentorAppEdit();
+                        return redirect('mentorform');
                     }
                 }
             }
         }
 
-        //want to be able to add more questions
-
-        //want to edit already existing questions
-
-        //want to remove already existing question
-        // return view('studentform');
-        //return view('mentorform');
     }
 
+    /*
+
+       Function: getQuestion
+
+       Constructs questions into a string such that it can be deleted from the database
+
+       Parameters:
+       none
+
+       Returns:
+       A string of the question the user wants to delete
+
+   */
     public function getQuestion(){
 
         $format = $_POST['questiontype'];
@@ -1012,6 +1029,19 @@ class appLoaderController extends Controller {
         return $test;
     }
 
+    /*
+
+   Function: getAddQuestion
+
+   Constructs questions into a string such that it can be added to the database
+
+   Parameters:
+   none
+
+   Returns:
+   A string of the question the user wants to add
+
+*/
     public function getAddQuestion(){
 
         $format = $_POST['questiontype'];
@@ -1059,19 +1089,6 @@ class appLoaderController extends Controller {
         return $test;
     }
 
-    public function test(){
-        //passing years as a single array
-//        $test = \DB::table('mentorapp')->select('year')->get();
-//        $listOfYear = [];
-//        for($i = 0;$i < count($test); $i++){
-//            array_push($listOfYear, $test[$i]['year']);
-//        }
-
-        // $year = date("Y");
-        $program = $_POST["mustList"];//\DB::table('studentapp')->select('program')->where('year', $year)->get();
-        $program2 = $_POST["priorityList"];
-        return view('appEdit')->with('myField', $program)->with('myField2', $program2);
-    }
 
 }
 
