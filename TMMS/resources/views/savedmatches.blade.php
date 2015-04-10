@@ -99,7 +99,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#genKickOff-'.$result['wid'].'">Confirm</button> 
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#genKickOff-'.$result['wid'].'">Confirm</button>
                   </div>
                 </div>
               </div>
@@ -119,7 +119,8 @@
                               <div class="modal-footer">
                                 <div id="loading"></div>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button id="generate" type="submit" class="btn btn-primary">Confirm</button> 
+                                <button id="generate" type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Confirm </span></button>
+                                <div class="pull-right" id="loading"></div>
                           </div>
                     </div>
                 </form>
@@ -131,10 +132,9 @@
 
 <script type="text/javascript">
 
-      $('#generate').click(function () {
+    $('#generate').click(function () {
         // add loading image to div
         $('#loading').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> loading...');
-
     });
 </script>
 @endsection

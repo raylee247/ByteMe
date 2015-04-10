@@ -46,7 +46,7 @@ tr {
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="input-group">
                 <input type="hidden" name="search_param" value="all" id="search_param">         
-                <input type="text" class="form-control" name="text" placeholder="Search with name or email">
+                <input type="text" class="form-control" name="text" <?php if(isset($text)) {echo 'value="'.$text.'"';} else {echo 'placeholder="Search with name or email"'; }?>>
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
@@ -115,10 +115,7 @@ $(document).ready(function(){
           window.location.href = "participant" + "/" + myvar[row];
           return false;
       });
-    $('#mentors').dataTable( {
-        "pageLength": 20,
-        "searching": false
-    });
+
 });
 </script>
 @endsection

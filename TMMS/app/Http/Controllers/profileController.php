@@ -17,6 +17,19 @@ class profileController extends Controller {
 
 	}
 
+    /*
+
+       Function: downloadParticipant
+
+       Downloads the participant profile 
+
+       Parameters:
+       none
+
+       Returns:
+       The downloaded participant text file 
+
+    */
     public function downloadParticipant()
     {
         $pid = $_POST['download_pid'];
@@ -66,11 +79,19 @@ class profileController extends Controller {
         return response()->download($file_name, "Participant".$participant_result[0]['First name'].$participant_result[0]['Family name'].".txt", $headers);
     }
 
-	/**
-	 * Remove participant from current year's tri-mentoring program
-	 *
-	 * @return Response
-	 */
+    /*
+
+       Function: deleteParticipant
+
+       Remove participant from the current year's tri-mentoring program
+
+       Parameters:
+       none
+
+       Returns:
+       Redirects user back to the student or mentor search page
+
+    */
 	public function deleteParticipant()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)

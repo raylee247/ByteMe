@@ -7,6 +7,12 @@
 @endif
 
 <style type="text/css">
+.table {
+  white-space:normal;
+}
+tr {
+  cursor: pointer;
+}
 #waitlist {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   width: 100%;
@@ -45,7 +51,7 @@
             <form action="waitlist" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="input-group"> 
-                  <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+                  <input type="text" class="form-control" name="text" <?php if(isset($text)) {echo 'value="'.$text.'"';} else {echo 'placeholder="Search with name, email, student number or CS ID"'; }?>>
                   <span class="input-group-btn">
                     <button class="btn btn-default" name="search" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
@@ -55,20 +61,25 @@
 </div>
 
 <br><br><br>
-<table id="waitlist" class="table table-striped table-bordered">
+<table id="waitlist" class="table table-striped table-bordered table-hover">
         <thead>
             <tr> 
                 <th>First Name</th>
                 <th>Last name</th>
-                <th>Email</th>               
+                <th>Email</th>      
+                <th>Move To...</th>         
             </tr>
         </thead>
  <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
         <tbody>
             <?php
+                $i = 0; 
                 foreach($result as $single_result) 
                 {
-                    echo "<tr class='waitlisttable' data-toggle='modal' data-target='#modal-1'><td>"; 
+                  $array[$i] = $result[$i]['pid'];
+                  $i++; 
+
+                    echo "<tr id='clickable' href='participant'><td>"; 
                     print_r($single_result['First name']);
                     echo "</td>";
                     echo "<td>"; 
@@ -78,11 +89,20 @@
                     print_r($single_result['email']);
                     echo "</td>";
                     echo "<td>";
-                    echo "<form method='post' action='toParticipantPool'>";
-                    echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
-                    echo "<input type='hidden' name='participant_email_to_pp' value=".$single_result['email'].">";
-                    echo "<button type='submit' class='btn btn-xs btn-danger' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span></button>";
-                    echo "</form>";
+                    if ($single_result['waitlist'] == 1) {
+                      echo "<form method='post' action='toParticipantPool'>";
+                      echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
+                      echo "<input type='hidden' name='participant_email_to_pp' value=".$single_result['email'].">";
+                      echo "<button type='submit' class='btn btn-xs btn-primary' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span> Move to Participant Pool</button>";
+                      echo "</form>";
+                    }
+                    else {
+                      echo "<form method='post' action='toWaitlistPool'>";
+                      echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
+                      echo "<input type='hidden' name='participant_email_to_wl' value=".$single_result['email'].">";
+                      echo "<button type='submit' class='btn btn-xs btn-danger' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span> Move to Waitlist Pool</button>";
+                      echo "</form>";
+                    }
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -107,10 +127,9 @@
 
 <script>
 $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();
-  $('tbody tr').click(function(){
+  $('tbody tr td:not(:last-child)').click(function(){
           // index of row clicked 
-          var row = ($(this).index());
+          var row = ($(this).parent().index());
           
           // actual pid of the participant 
           var myvar = <?php
@@ -124,15 +143,7 @@ $(document).ready(function(){
           window.location.href = "participant" + "/" + myvar[row];
           return false;
         });
-  $('#waitlist').dataTable( {
-    "pageLength": 20,
-    "searching": false
-  });
 });
-
-
-
-
 </script>
 
 @endsection

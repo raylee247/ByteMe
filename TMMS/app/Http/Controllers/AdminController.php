@@ -131,7 +131,7 @@ class AdminController extends Controller {
      public function waitlist()
     {
         $date = date("Y");
-        $result = \DB::table('participant')->where('waitlist', 1)->where('year', $date)->get();
+        $result = \DB::table('participant')->where('year', $date)->get();
         
         // to persist search result 
         if(\Session::has('current_search')) {
@@ -154,7 +154,7 @@ class AdminController extends Controller {
         // Make select call to log table
         $retrieveAmount = $_POST["numRetrieve"];
         if (is_numeric($retrieveAmount)) {
-            if ($retrieveAmount < 0) {
+            if ($retrieveAmount <= 0) {
                 $retrieveAmount = 10;
             }
         } else {$retrieveAmount = 10;}
@@ -211,7 +211,7 @@ class AdminController extends Controller {
             $result = array_merge($junior_result, $senior_result);
         }
 
-        return \View::make('students')->with('result', $result);
+        return \View::make('students')->with('result', $result)->with('search_param', $dropdown)->with('text', $text);
     }
 
     //TODO: regex to check for correct input? <- not sure if necessary 
@@ -235,7 +235,7 @@ class AdminController extends Controller {
                                            ->orWhere('email', 'LIKE', '%'.$text.'%')
                                            ->get();
 
-        return \View::make('mentors')->with('result', $result);
+        return \View::make('mentors')->with('result', $result)->with('text', $text);
     }
 
     public function waitlistSearch()
@@ -268,7 +268,7 @@ class AdminController extends Controller {
 
         // to persist search result
 
-        return \View::make('waitlist')->with('result', $result);
+        return \View::make('waitlist')->with('result', $result)->with('text', $text);
     }
 
     public function showParticipant($pid) 
@@ -661,6 +661,13 @@ class AdminController extends Controller {
         // RETURN DOWNLOAD RESPONSE
     }
 
+
+    // Check if string is JSON
+    function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
     public function downloadCSVfile()
     {
 
@@ -790,6 +797,7 @@ class AdminController extends Controller {
             $single_junior_values = array_values($single_junior);
             // Write each value to the junior file:
             foreach($single_junior_values as $single_junior_value) {
+                $single_junior_value = str_replace('"', '`', $single_junior_value);
                 fwrite($junior_file, "\"" . $single_junior_value . "\"" . ",");
             }
             // Write endline
@@ -821,6 +829,7 @@ class AdminController extends Controller {
             $single_senior_values = array_values($single_senior);
             // Write each value to the junior file:
             foreach($single_senior_values as $single_senior_value) {
+                $single_senior_value = str_replace('"', '`', $single_senior_value);
                 fwrite($senior_file, "\"" . $single_senior_value . "\"" . ",");
             }
             // Write endline
@@ -852,6 +861,7 @@ class AdminController extends Controller {
             $single_mentor_values = array_values($single_mentor);
             // Write each value to the junior file:
             foreach($single_mentor_values as $single_mentor_value) {
+                $single_mentor_value = str_replace('"', '`', $single_mentor_value);
                 fwrite($mentor_file, "\"" . $single_mentor_value . "\"" . ",");
             }
             // Write endline
