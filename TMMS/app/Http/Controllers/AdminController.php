@@ -137,7 +137,7 @@ class AdminController extends Controller {
         if(\Session::has('current_search')) {
           \Session::forget('current_search');
         }
-        
+
         return \View::make('waitlist')->with('result', $result);
     }
 
@@ -211,7 +211,7 @@ class AdminController extends Controller {
             $result = array_merge($junior_result, $senior_result);
         }
 
-        return \View::make('students')->with('result', $result);
+        return \View::make('students')->with('result', $result)->with('search_param', $dropdown)->with('text', $text);
     }
 
     //TODO: regex to check for correct input? <- not sure if necessary 
@@ -235,7 +235,7 @@ class AdminController extends Controller {
                                            ->orWhere('email', 'LIKE', '%'.$text.'%')
                                            ->get();
 
-        return \View::make('mentors')->with('result', $result);
+        return \View::make('mentors')->with('result', $result)->with('text', $text);
     }
 
     public function waitlistSearch()
@@ -268,7 +268,7 @@ class AdminController extends Controller {
 
         // to persist search result
 
-        return \View::make('waitlist')->with('result', $result);
+        return \View::make('waitlist')->with('result', $result)->with('text', $text);
     }
 
     public function showParticipant($pid) 
