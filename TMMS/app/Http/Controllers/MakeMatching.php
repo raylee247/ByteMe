@@ -39,7 +39,8 @@ class MakeMatching extends Controller {
                      'helpful' => implode(",", $priority),
                      'name' => $matchname,
                      'avgSat' => $avgSat,
-                     'median' => $median
+                     'median' => $median,
+                     'year' => date("Y")
                     ]);
         $wid = \DB::table('weighting')->where('must', implode(",", $must))
                                             ->where('helpful', implode(",", $priority))
@@ -80,6 +81,11 @@ class MakeMatching extends Controller {
                 ->where('wid', $_POST['wid'])
                 ->update(array('name' => $_POST['rename']));       
         }elseif(isset($_POST['Deletewid'])){
+            $check = \DB::table('weighting')->where('wid', '=', $_POST['Deletewid'])->get();
+            if(($check[0]['setAsFinal'] == 1) && ($check[0]['year'] == date("Y"))){
+                \DB::table('report')->where('year', '=', $check[0]['year'])->delete();
+            }
+            
             \DB::table('weighting')->where('wid', '=', $_POST['Deletewid'])->delete();
             \DB::table('trioMatching')->where('wid', '=', $_POST['Deletewid'])->delete();         
         }
