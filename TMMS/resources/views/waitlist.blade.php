@@ -78,11 +78,20 @@
                     print_r($single_result['email']);
                     echo "</td>";
                     echo "<td>";
-                    echo "<form method='post' action='toParticipantPool'>";
-                    echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
-                    echo "<input type='hidden' name='participant_email_to_pp' value=".$single_result['email'].">";
-                    echo "<button type='submit' class='btn btn-xs btn-danger' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span></button>";
-                    echo "</form>";
+                    if ($single_result['waitlist'] == 1) {
+                      echo "<form method='post' action='toParticipantPool'>";
+                      echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
+                      echo "<input type='hidden' name='participant_email_to_pp' value=".$single_result['email'].">";
+                      echo "<button type='submit' class='btn btn-xs btn-primary' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span> Move to Participant Pool</button>";
+                      echo "</form>";
+                    }
+                    else {
+                      echo "<form method='post' action='toWaitlistPool'>";
+                      echo "<input type='hidden' name='_token' value='{{ csrf_token() }}'>";
+                      echo "<input type='hidden' name='participant_email_to_wl' value=".$single_result['email'].">";
+                      echo "<button type='submit' class='btn btn-xs btn-danger' data-toggle='tooltip' data-placement='top' title='Move to Participant Pool'><span class='glyphicon glyphicon-flag' aria-hidden='true'></span> Move to Waitlist Pool</button>";
+                      echo "</form>";
+                    }
                     echo "</td>";
                     echo "</tr>";
                 }
