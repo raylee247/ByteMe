@@ -7,6 +7,12 @@
 @endif
 
 <style type="text/css">
+.table {
+  white-space:normal;
+}
+tr {
+  cursor: pointer;
+}
 #waitlist {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   width: 100%;
@@ -55,7 +61,7 @@
 </div>
 
 <br><br><br>
-<table id="waitlist" class="table table-striped table-bordered">
+<table id="waitlist" class="table table-striped table-bordered table-hover">
         <thead>
             <tr> 
                 <th>First Name</th>
@@ -67,19 +73,19 @@
  <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
         <tbody>
             <?php
-             $i = 0; 
+                $i = 0; 
                 foreach($result as $single_result) 
                 {
                   $array[$i] = $result[$i]['pid'];
                   $i++; 
 
-                    echo "<tr href='participant'><td id='clickable'>"; 
+                    echo "<tr id='clickable' href='participant'><td>"; 
                     print_r($single_result['First name']);
                     echo "</td>";
-                    echo "<td id='clickable'>"; 
+                    echo "<td>"; 
                     print_r($single_result['Family name']);
                     echo "</td>";
-                    echo "<td id='clickable'>"; 
+                    echo "<td>"; 
                     print_r($single_result['email']);
                     echo "</td>";
                     echo "<td>";
@@ -121,9 +127,9 @@
 
 <script>
 $(document).ready(function(){
-  $('#clickable').click(function(){
+  $('tbody tr td:not(:last-child)').click(function(){
           // index of row clicked 
-          var row = ($(this).index());
+          var row = ($(this).parent().index());
           
           // actual pid of the participant 
           var myvar = <?php
