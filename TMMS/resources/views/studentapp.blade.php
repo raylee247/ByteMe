@@ -1,5 +1,16 @@
 @extends('app')
 @section('guestcontent')
+<style type="text/css">
+div.error {
+    position: absolute;
+    right: -155px;
+    top: 5px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+}
+</style>
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-info">
@@ -19,12 +30,12 @@
 
                     <label class="control-label col-sm-3">Email address:</label>
                     <div class="col-md-6">
-                        <input type="email" class="form-control" name="email" required>
+                        <input type="text" class="form-control" name="email">
                     </div>
                     <br><br>
                     <label class="control-label col-sm-3">Student number:</label>
                     <div class="col-md-6">
-                        <input type="digits" class="form-control" name="studentnum" minlength="8" maxlength="8" required>
+                        <input type="text" class="form-control" name="studentnum">
                     </div>
                     <br><br>
                     <label class="control-label col-sm-3">Computer Science ID:</label>
@@ -333,7 +344,16 @@
 </div>
 <script type="text/javascript">
     $("#studentapp").validate({
+        errorElement: 'div',
         rules: {
+            email: {
+                required: true,
+                pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+            },
+            studentnum: {
+                required: true,
+                pattern: /^[0-9]{8}$/
+            },
             phone: {
                 required: true,
                 digits: true
@@ -351,6 +371,12 @@
             },
         },
         messages: {
+            email: {
+                pattern: "Input is not a valid email address."
+            },
+            studentnum: {
+                pattern: "Student number must be 8 digits long."
+            },
             csid: {
                 pattern: "CS ID should be like: x9y9"
             }
