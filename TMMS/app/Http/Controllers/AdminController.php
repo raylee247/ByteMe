@@ -792,27 +792,29 @@ class AdminController extends Controller {
         $junior_file_name = "downloadFiles/juniorCSV" . $year . ".txt";
         $junior_file = fopen($junior_file_name, "a");
 
-        $single_pap = $junior_pap[0];
-        $key_array = array_keys($single_pap);
+        if(count($junior_pap) > 0) {
+            $single_pap = $junior_pap[0];
+            $key_array = array_keys($single_pap);
 
-        // Write each heading to local file
-        foreach($key_array as $one_key) {
-            fwrite($junior_file, $one_key . ",");
-        }
-        // Write endline
-        fwrite($junior_file, "\r\n");
-
-        // Write values for each entry
-        foreach($junior_pap as $single_junior) {
-            // Get values for single_junior:
-            $single_junior_values = array_values($single_junior);
-            // Write each value to the junior file:
-            foreach($single_junior_values as $single_junior_value) {
-                $single_junior_value = str_replace('"', '`', $single_junior_value);
-                fwrite($junior_file, "\"" . $single_junior_value . "\"" . ",");
+            // Write each heading to local file
+            foreach ($key_array as $one_key) {
+                fwrite($junior_file, $one_key . ",");
             }
             // Write endline
             fwrite($junior_file, "\r\n");
+
+            // Write values for each entry
+            foreach ($junior_pap as $single_junior) {
+                // Get values for single_junior:
+                $single_junior_values = array_values($single_junior);
+                // Write each value to the junior file:
+                foreach ($single_junior_values as $single_junior_value) {
+                    $single_junior_value = str_replace('"', '`', $single_junior_value);
+                    fwrite($junior_file, "\"" . $single_junior_value . "\"" . ",");
+                }
+                // Write endline
+                fwrite($junior_file, "\r\n");
+            }
         }
 
         //Close file
@@ -824,27 +826,29 @@ class AdminController extends Controller {
         $senior_file_name = "downloadFiles/seniorCSV" . $year . ".txt";
         $senior_file = fopen($senior_file_name, "a");
 
-        $single_pap = $senior_pap[0];
-        $key_array = array_keys($single_pap);
+        if(count($senior_pap) > 0) {
+            $single_pap = $senior_pap[0];
+            $key_array = array_keys($single_pap);
 
-        // Write each heading to local file
-        foreach($key_array as $one_key) {
-            fwrite($senior_file, $one_key . ",");
-        }
-        // Write endline
-        fwrite($senior_file, "\r\n");
-
-        // Write values for each entry
-        foreach($senior_pap as $single_senior) {
-            // Get values for single_junior:
-            $single_senior_values = array_values($single_senior);
-            // Write each value to the junior file:
-            foreach($single_senior_values as $single_senior_value) {
-                $single_senior_value = str_replace('"', '`', $single_senior_value);
-                fwrite($senior_file, "\"" . $single_senior_value . "\"" . ",");
+            // Write each heading to local file
+            foreach ($key_array as $one_key) {
+                fwrite($senior_file, $one_key . ",");
             }
             // Write endline
             fwrite($senior_file, "\r\n");
+
+            // Write values for each entry
+            foreach ($senior_pap as $single_senior) {
+                // Get values for single_junior:
+                $single_senior_values = array_values($single_senior);
+                // Write each value to the junior file:
+                foreach ($single_senior_values as $single_senior_value) {
+                    $single_senior_value = str_replace('"', '`', $single_senior_value);
+                    fwrite($senior_file, "\"" . $single_senior_value . "\"" . ",");
+                }
+                // Write endline
+                fwrite($senior_file, "\r\n");
+            }
         }
 
         //Close file
@@ -856,27 +860,29 @@ class AdminController extends Controller {
         $mentor_file_name = "downloadFiles/mentorCSV" . $year . ".txt";
         $mentor_file = fopen($mentor_file_name, "a");
 
-        $single_pap = $mentor_pap[0];
-        $key_array = array_keys($single_pap);
+        if(count($mentor_pap) > 0) {
+            $single_pap = $mentor_pap[0];
+            $key_array = array_keys($single_pap);
 
-        // Write each heading to local file
-        foreach($key_array as $one_key) {
-            fwrite($mentor_file, $one_key . ",");
-        }
-        // Write endline
-        fwrite($mentor_file, "\r\n");
-
-        // Write values for each entry
-        foreach($mentor_pap as $single_mentor) {
-            // Get values for single_junior:
-            $single_mentor_values = array_values($single_mentor);
-            // Write each value to the junior file:
-            foreach($single_mentor_values as $single_mentor_value) {
-                $single_mentor_value = str_replace('"', '`', $single_mentor_value);
-                fwrite($mentor_file, "\"" . $single_mentor_value . "\"" . ",");
+            // Write each heading to local file
+            foreach ($key_array as $one_key) {
+                fwrite($mentor_file, $one_key . ",");
             }
             // Write endline
             fwrite($mentor_file, "\r\n");
+
+            // Write values for each entry
+            foreach ($mentor_pap as $single_mentor) {
+                // Get values for single_junior:
+                $single_mentor_values = array_values($single_mentor);
+                // Write each value to the junior file:
+                foreach ($single_mentor_values as $single_mentor_value) {
+                    $single_mentor_value = str_replace('"', '`', $single_mentor_value);
+                    fwrite($mentor_file, "\"" . $single_mentor_value . "\"" . ",");
+                }
+                // Write endline
+                fwrite($mentor_file, "\r\n");
+            }
         }
 
         //Close file
@@ -891,29 +897,31 @@ class AdminController extends Controller {
         $reports = \DB::table('report')
             ->where('report.year','=', $year)
             ->get();
+        if(count($reports) > 0) {
+            $single_report = $reports[0];
+            $key_array = array_keys($single_report);
 
-        $single_report = $reports[0];
-        $key_array = array_keys($single_report);
-
-        // Write each heading to local file
-        foreach($key_array as $one_key) {
-            fwrite($reports_file, $one_key . ",");
-        }
-
-        // Write endline
-        fwrite($reports_file, "\r\n");
-
-
-        // Write values for each entry
-        foreach($reports as $one_report) {
-            // Get values for single_junior:
-            $one_report_values = array_values($one_report);
-            // Write each value to the junior file:
-            foreach($one_report_values as $one_report_value) {
-                fwrite($reports_file, "\"" . $one_report_value . "\"" . ",");
+            // Write each heading to local file
+            foreach ($key_array as $one_key) {
+                fwrite($reports_file, $one_key . ",");
             }
+
+
             // Write endline
             fwrite($reports_file, "\r\n");
+
+
+            // Write values for each entry
+            foreach ($reports as $one_report) {
+                // Get values for single_junior:
+                $one_report_values = array_values($one_report);
+                // Write each value to the junior file:
+                foreach ($one_report_values as $one_report_value) {
+                    fwrite($reports_file, "\"" . $one_report_value . "\"" . ",");
+                }
+                // Write endline
+                fwrite($reports_file, "\r\n");
+            }
         }
 
         //Close file
