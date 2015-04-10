@@ -131,7 +131,7 @@ class AdminController extends Controller {
      public function waitlist()
     {
         $date = date("Y");
-        $result = \DB::table('participant')->where('waitlist', 1)->where('year', $date)->get();
+        $result = \DB::table('participant')->where('year', $date)->get();
         
         // to persist search result 
         if(\Session::has('current_search')) {

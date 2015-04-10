@@ -132,10 +132,6 @@ $(document).ready(function(){
   //   "searching": false
   // });
 });
-
-
-
-
 </script>
 
 @endsection
