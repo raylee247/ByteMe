@@ -744,7 +744,6 @@
                 var type = document.getElementById( "questiontype").value;
                 if(type == "checkbox"){
                     $("#checkbox").show();
-                    
                     $("#text").hide();
                     $("#radio").hide();
                     $("#select").hide();
