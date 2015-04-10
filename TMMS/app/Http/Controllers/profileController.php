@@ -95,7 +95,7 @@ class profileController extends Controller {
 	public function deleteParticipant()
 	{
         //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-		$pid = $_POST['delete_participant'];
+		    $pid = $_POST['delete_participant'];
         $year = date("Y");
         //$email = "willy504@gmail.com";
         //$year = "2014";
