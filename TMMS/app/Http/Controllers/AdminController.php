@@ -440,6 +440,14 @@ class AdminController extends Controller {
         }
     }
 
+    /*
+    * Function: return all past reports
+    * return a array with strings needed for a past year's trio that contains the participant with $pid
+    *
+    * Parameter: $pid - the participant id that we want to retrieve the past report for
+    *
+    * Return: the an array of all past report for participant $pid
+    */
     public function viewPastReport($pid){
 
       $result = \DB::table('report')->where('report.mentor', '=', $pid)

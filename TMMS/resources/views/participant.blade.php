@@ -578,6 +578,24 @@ Program Status:
                 ?>
             </td>
         </tr>
+
+        <?php
+            foreach($pastreports as $key => $value){
+                print("<tr>");
+                print("<td>Participant Report for Year ".$key.":</td>");
+                print("<td>".$value[0]."</td>");
+                print("</tr>");
+                print("<tr>");
+                print("<td></td>");
+                print("<td>".$value[1]."</td>");
+                print("</tr>");
+                print("<tr>");
+                print("<td></td>");
+                print("<td>".$value[2]."</td>");
+                print("</tr>");
+            }
+        ?>
+        
         <?php
         $extra = json_decode($json_extra, true);
         $extra_keys = array_keys($extra);
