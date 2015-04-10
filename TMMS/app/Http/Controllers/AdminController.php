@@ -154,7 +154,7 @@ class AdminController extends Controller {
         // Make select call to log table
         $retrieveAmount = $_POST["numRetrieve"];
         if (is_numeric($retrieveAmount)) {
-            if ($retrieveAmount < 0) {
+            if ($retrieveAmount <= 0) {
                 $retrieveAmount = 10;
             }
         } else {$retrieveAmount = 10;}
