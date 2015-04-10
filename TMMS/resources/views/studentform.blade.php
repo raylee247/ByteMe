@@ -79,7 +79,7 @@
 				         <div class="form-inline">
 				         <label class="pull-left">Question type: </label> <u>Kickoff Night Dates</u> <br><br>
 				         <div class="form-inline">
-				         <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values.</i>
+				         <label class="pull-left">Kickoff dates:</label><div class="col-md-6"><input class="form-control" name="kickoff"></div><br><br><i>Please enter possible choices as comma-separated values in the format YYYY-MM-DD (ex. 2015-12-12).</i>
 				         </div><br>
 				         </div>
 				         </div>
@@ -749,6 +749,10 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
+                    document.getElementById("checktag").required = true;
+                    document.getElementById("checkq").required = true;
+                    document.getElementById("checkans").required = true;
                 }
                 if(type == "text"){
                     $("#checkbox").hide();
@@ -757,6 +761,9 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
+                    document.getElementById("texttag").required = true;
+                    document.getElementById("textq").required = true;
                 }
                 if(type == "radio"){
                     $("#checkbox").hide();
@@ -765,6 +772,12 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
+                    document.getElementById("radiotag").required = true;
+                    document.getElementById("radioq").required = true;
+                    document.getElementById("radiomsg").required = true;
+                    document.getElementById("radiooptions").required = true;
+                    document.getElementById("radiochoices").required = true;
                 }
                 if(type == "select"){
                     $("#checkbox").hide();
@@ -773,6 +786,10 @@
                     $("#select").show();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
+                    document.getElementById("selecttag").required = true;
+                    document.getElementById("selectq").required = true;
+                    document.getElementById("selectmsg").required = true;
                 }
                 if(type == "textarea"){
                     $("#checkbox").hide();
@@ -781,6 +798,9 @@
                     $("#select").hide();
                     $("#textarea").show();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
+                    document.getElementById("textareatag").required = true;
+                    document.getElementById("textareaq").required = true;
                 }
                 if(type == "singleRadio"){
                     $("#checkbox").hide();
@@ -789,6 +809,10 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").show();
+                    $("#saveChange").show();
+                    document.getElementById("singleradiotag").required = true;
+                    document.getElementById("singleradioq").required = true;
+                    document.getElementById("singleradioans").required = true;
                 }
                 if(type == ""){
                     $("#checkbox").hide();
@@ -797,6 +821,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").hide();
                 }}
             $(document).ready(function(){
                 var type = document.getElementById( "questiontype").value;
@@ -807,6 +832,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "text"){
                     $("#checkbox").hide();
@@ -815,6 +841,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "radio"){
                     $("#checkbox").hide();
@@ -823,6 +850,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "select"){
                     $("#checkbox").hide();
@@ -831,6 +859,7 @@
                     $("#select").show();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "textarea"){
                     $("#checkbox").hide();
@@ -839,6 +868,7 @@
                     $("#select").hide();
                     $("#textarea").show();
                     $("#singleRadio").hide();
+                    $("#saveChange").show();
                 }
                 if(type == "singleRadio"){
                     $("#checkbox").hide();
@@ -847,6 +877,7 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").show();
+                    $("#saveChange").show();
                 }
                 else{
                     $("#checkbox").hide();
@@ -855,13 +886,14 @@
                     $("#select").hide();
                     $("#textarea").hide();
                     $("#singleRadio").hide();
+                    $("#saveChange").hide();
                 }
             });
         </script>
         <div id="modal-100" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="editform" method="POST">
+                    <form id="questionmodal" role="form" action="editform" method="POST">
                         <div class="modal-body">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
@@ -885,36 +917,36 @@
                                                 <input type="hidden" name="status" value="student">
                                             </select>
                                             <div id="checkbox">
-                                                <p>CHECKBOX Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
+                                                <p>CHECKBOX Tag name:<input type="text" class="form-control" id="checktag" name="tag[]"/></p>
+                                                <p>Question:<input type="text" class="form-control" id="checkq" name="question[]"/></p>
+                                                <p>Answer choices:<input type="text" class="form-control" id="checkans" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
                                             </div>
                                             <div id="text">
-                                                <p>TEXT Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+                                                <p>TEXT Tag name:<input type="text" class="form-control" id="texttag" name="tag[]"/></p>
+                                                <p>Question:<input type="text" class="form-control" id="textq" name="question[]"/></p>
                                                 <p><input type="text" class="form-control" name="answers[]" value="" placeholder="Applicants will type in here" readonly></p>
                                             </div>
                                             <div id="radio">
-                                                <p>RADIO Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Additional message:<input type="text" class="form-control" name="message"/></p>
-                                                <p>Options:<input type="text" class="form-control" name="options"/></p>
-                                                <p>Choices:<input type="text" class="form-control" name="choices"/></p>
+                                                <p>RADIO Tag name:<input type="text" class="form-control" id="radiotag" name="tag[]"/></p>
+                                                <p>Question:<input type="text" class="form-control" id="radioq" name="question[]"/></p>
+                                                <p>Additional message:<input type="text" class="form-control" id="radiomsg" name="message"/></p>
+                                                <p>Options:<input type="text" class="form-control" id="radiooptions" name="options"/></p>
+                                                <p>Choices:<input type="text" class="form-control" id="radiochoices" name="choices"/></p>
                                             </div>
                                             <div id="select">
-                                                <p>DROPDOWN Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
+                                                <p>DROPDOWN Tag name:<input type="text" class="form-control" id="selecttag" name="tag[]"/></p>
+                                                <p>Question:<input type="text" class="form-control" id="selectq" name="question[]"/></p>
+                                                <p>Answer choices:<input type="text" class="form-control" id="selectans" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
                                             </div>
                                             <div id="textarea">
-                                                <p>TEXTAREA Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
+                                                <p>TEXTAREA Tag name:<input type="text" class="form-control" id="textareatag" name="tag[]"/></p>
+                                                <p>Question:<input type="text" class="form-control" id="textareaq" name="question[]"/></p>
                                                 <p><textarea rows="4" cols="50" placeholder=" Applicants will type in here" readonly></textarea></p>
                                             </div>
                                             <div id="singleRadio">
-                                                <p>RADIO Tag name:<input type="text" class="form-control" name="tag[]"/></p>
-                                                <p>Question:<input type="text" class="form-control" name="question[]"/></p>
-                                                <p>Answer choices:<input type="text" class="form-control" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
+                                                <p>RADIO Tag name:<input type="text" class="form-control" id="singleradiotag" name="tag[]"/></p>
+                                                <p>Question:<input type="text" class="form-control" id="singleradioq" name="question[]"/></p>
+                                                <p>Answer choices:<input type="text" class="form-control" id="singleradioans" name="answers[]"/><i>Please enter possible choices as comma-separated values.</i></p>
                                             </div>
                                         </div>
                                     </div>
@@ -923,7 +955,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button id="saveChange" type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
                 </div>
@@ -972,4 +1004,17 @@
         </div>
     </div>
 
+
+<script type="text/javascript">
+$("#questionmodal").validate(
+      {
+        rules: 
+        {
+          tag[]: 
+          {
+            required: true
+          }
+        }
+      });
+</script>
 @endsection

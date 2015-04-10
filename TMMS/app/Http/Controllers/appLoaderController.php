@@ -1024,6 +1024,7 @@ class appLoaderController extends Controller {
 
                 $test = $format . "|" . $tag . "|" . $question . "|" . $answers;
                 break;
+
         }
 
         return $test;

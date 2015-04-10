@@ -294,8 +294,11 @@ class AdminController extends Controller {
         $extra_decoded = json_decode($json_extra, true);
         $participant_result = array_merge($junior_result, $senior_result, $mentor_result);
 
+        $pastreports = $this->viewPastReport($participant_result[0]['pid']);
+
         return \View::make('participant')->with('participant_result', $participant_result)
                                          ->with('json_extra', $json_extra)
+                                         ->with('pastreports', $pastreports)
                                          ->with('id_array', $id_array);
     }
 
@@ -406,8 +409,11 @@ class AdminController extends Controller {
 
         $participant_result = array_merge($junior_result, $senior_result, $mentor_result);
 
+        $pastreports = $this->viewPastReport($participant_result[0]['pid']);
+
         return \View::make('participant')->with('participant_result', $participant_result)
                                          ->with('json_extra', $json_extra)
+                                         ->with('pastreports', $pastreports)
                                          ->with('id_array', $id_array);
     }
 
@@ -434,49 +440,46 @@ class AdminController extends Controller {
         }
     }
 
-    public function viewPastReport(){
-      
-      $year = $_POST['year'];
-      $pid = $_POST['pid'];
+    public function viewPastReport($pid){
 
-      $result = \DB::table('report')->where('report.year', '=', $year)
-                                    ->where('report.mentor', '=', $pid)
+      $result = \DB::table('report')->where('report.mentor', '=', $pid)
                                     ->orWhere('report.senior', '=', $pid)
                                     ->orWhere('report.junior', '=', $pid)
                                     ->get();
-      //$result = $result[0];
+
 
       if(empty($result)){
-        return "no report found for this participant in year ".$year. ".";
+         return $result;
       }else{
-        $result = $result[0];
+        $allreport = array();
+        foreach($result as $trio){
+          $mentor = \DB::table('participant')->where('participant.pid', '=', $trio['mentor'])
+                                             ->get(); 
+          $mentor = $mentor[0];
+
+          $senior = \DB::table('participant')->where('participant.pid', '=', $trio['senior'])
+                                             ->get();                              
+          $senior = $senior[0];
+
+          $junior = \DB::table('participant')->where('participant.pid', '=', $trio['junior'])
+                                             ->get();
+          $junior = $junior[0];
+
+          $echoline = "Matched Mentor: ".$mentor["First name"]."".$mentor["Family name"].", Email Address: ".$mentor["email"];
+          $echoline2 = "Senior student: ".$senior["First name"]." ".$senior["Family name"].", Email Address: ".$senior["email"];
+          $echoline3 = "Junior student: ".$junior["First name"]." ".$junior["Family name"].", Email Address: ".$junior["email"];
+
+          $line = array();
+          array_push($line, $echoline);
+          array_push($line, $echoline2);
+          array_push($line, $echoline3);
+          array_push($allreport, $line);
+          $index = array_search($line, $allreport);
+          $allreport[$trio['year']] = $allreport[$index];
+          unset($allreport[$index]);
+        }
+        return $allreport;
       }
-
-      // var_dump($result);
-      // print($result['mentor']);
-      // print($result['senior']);
-      // print($result['junior']); 
-
-      $mentor = \DB::table('participant')->where('participant.pid', '=', $result['mentor'])
-                                         ->get(); 
-      $mentor = $mentor[0];
-      // var_dump($mentor);
-
-      $senior = \DB::table('participant')->where('participant.pid', '=', $result['senior'])
-                                         ->get();                              
-      $senior = $senior[0];
-      //var_dump($senior);
-
-
-      $junior = \DB::table('participant')->where('participant.pid', '=', $result['junior'])
-                                         ->get();
-      $junior = $junior[0];
-      // var_dump($junior);
-
-      $echoline = "For year ".$result["year"]." the requested match's mentor is ".$mentor["First name"]." ".$mentor["Family name"]." with email address ".$mentor["email"].". Senior student is ".$senior["First name"]." ".$senior["Family name"]." with email address ".$senior["email"].". Junior student is ".$junior["First name"]." ".$junior["Family name"]." with email address ".$junior["email"].".";
-    
-      echo $echoline;
-
     }
 
     public function downloadEmailZip()

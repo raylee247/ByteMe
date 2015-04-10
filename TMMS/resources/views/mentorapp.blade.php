@@ -1,5 +1,211 @@
 @extends('app')
 @section('guestcontent')
+<style type="text/css">
+    div.error {
+        position: absolute;
+        right: -155px;
+        top: 5px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+    }
+    .mentorapp{
+        position: absolute;
+
+    }
+    #input.required.error{
+        position: relative;
+        right: -755px;
+        top: -20px;
+        color:white;
+        z-index:1;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:20%;
+    }
+    #gender-error.error{
+        position: relative;
+        right: -755px;
+        top: -20px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:20%;
+    }
+    #cs_areasofinterest-error.error{
+        position: relative;
+        right: -850px;
+        top: -145px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:15%;
+    }
+    #participation-error.error{
+        position: relative;
+        right: -850px;
+        top: -30px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:15%;
+    }
+    #studentgenderpref-error.error{
+        position: relative;
+        right: -850px;
+        top: -30px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:15%;
+    }
+    #yearsofcswork-error.error{
+        position: relative;
+        right: -850px;
+        top: -30px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:15%;
+    }
+    #levelofeducation-error.error{
+        position: relative;
+        right: -850px;
+        top: -30px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:15%;
+    }
+    #gender-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day1-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day2-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day3-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day4-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day5-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day6-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day7-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day8-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day9-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day10-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+    #day11-error.error{
+        position: relative;
+        right: -550px;
+        top: 0px;
+        color:white;
+        background: #F00;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+        padding: 2px 5px;
+        width:100%;
+    }
+</style>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-info">
@@ -19,45 +225,38 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">Email address:</label>
                         <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="email" class="form-control" name="email" required placeholder="example@example.com">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Given name:</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="givenname" minlength="2" required>
+                            <input type="text" class="form-control" name="givenname" minlength="2" required placeholder="ie. John">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Family name:</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="familyname" minlength="2" required>
+                            <input type="text" class="form-control" name="familyname" minlength="2" required placeholder="ie. Smith">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Phone:</label>
                         <div class="col-md-6">
-                            <input type="digit" class="form-control" minlength="10" maxlength="10" name="phone" required>
+                            <input type="digit" class="form-control" minlength="10" maxlength="10" name="phone" required placeholder="ie. 1234567890">
                         </div>
                         <br><br>
                         <label class="control-label col-sm-3">Phone (alternate):</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" minlength="10" maxlength="10" name="phonealt">
+                            <input type="text" class="form-control" minlength="10" maxlength="10" name="phonealt" placeholder="ie. 1234567890">
                         </div>
                         <br><br>
                         <div class="gender">
                             <label class="control-label col-sm-3">Gender:</label>
-                            <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male" required>Identify as male</label>
+                            <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Identify as male</label>
                             <label class="radio-inline"><input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female" required>Identify as female</label>
-                            <label class="radio-inline"><input type="radio" name="gender" class ="other" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other" required>Other (please specify)</label>
-                            <div class="genderother" id="otherfield">
-                                <label class="control-label col-sm-3">Gender (please specify):</label> 
-                                <div class="col-md-6 panel-collapse collapse in">
-                                    <input type="text" class="form-control" name="genderother" value="otherfield">
-                                </div>
-                            </div>
                         </div>
                         <br>
                         <label class="control-label col-sm-3">Year of birth (Optional):</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="birthyear">
+                            <input type="text" class="form-control" name="birthyear" placeholder="YYYY">
                         </div>
                         <br><br>
                         <?php
@@ -95,7 +294,7 @@
                                 if (isset($day1) && $day1== $kickoff[$i]) {
                                     echo "checked";
                                 }
-                                echo $value = 'value="null"></center>';
+                                echo $value = 'value=""></center>';
                                 echo "</tr>";
                             }
                             
@@ -109,9 +308,7 @@
                             </div> -->
                         <br>
                         <div class="form-inline">
-                            <div class="col-sm-1"></div>
-                            <label class="pull-left">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?<br></label>
-                            <div class="col-md-4">
+                            <label class="control-label col-sm-3">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?</label>
                                 <select class="form-control" name="participation" required>
                                     <option value="">Select...</option>
                                     <option id="previousmatched_no">No, I have not participated before</option>
@@ -119,12 +316,10 @@
                                     <option id="previousmatched_senior">Yes, as a senior student</option>
                                     <option id="previousmatched_both">Both junior and senior student</option>
                                 </select>
-                            </div>
                         </div>
                         <br><br>
-                        <div class="col-sm-1"></div>
-                        <label class="pull-left">Preference of student mentee gender:</label>
-                        <div class="col-md-4">
+                        <div class="form-inline">
+                            <label class="control-label col-sm-3">Preference of student mentee gender:</label>
                             <select class="form-control" name="studentgenderpref" required>
                                 <option value="">Select...</option>
                                 <option id="nopref">No preference</option>
@@ -132,23 +327,17 @@
                                 <option id="malepref">Match with male students only</option>
                             </select>
                         </div>
-                        <br><br><br>
+                        <br><br>
                         <div class="form-inline">
-                            <div class="col-sm-1"></div>
-                            <label class="control-label pull-left">Current company (optional)</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="company">
-                            </div>
+                            <label class="control-label col-sm-3">Current company (optional)</label>
+                                <input type="text" class="form-control" name="company" placeholder="ie. Amazon">
                         </div>
-                        <br><br><br>
+                        <br><br>
                         <div class="form-inline">
-                            <div class="col-sm-1"></div>
-                            <label class="control-label pull-left">Current position at work (optional)</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="position">
-                            </div>
+                            <label class="class=control-label col-sm-3">Current position at work (optional)</label>
+                                <input type="text" class="form-control" name="position" placeholder="ie. Software Developer">
                         </div>
-                        <br><br><br>
+                        <br><br>
                         <!--                             <div class="col-sm-1"></div>
                             <label class="control-label pull-left">Current employment status (check all that apply):</label>
                             <div class="col-md-4">
@@ -161,9 +350,7 @@
                             </div>
                             <br><br><br><br><br><br><br> -->
                         <div class="form-inline">
-                            <div class="col-sm-1"></div>
-                            <label class="pull-left">Years of CS-related work experience:</label>
-                            <div class="col-md-6">
+                            <label class="class=control-label col-sm-3">Years of CS-related work experience:</label>
                                 <select class="form-control" name="yearsofcswork" required>
                                     <option value="">Select...</option>
                                     <option id="0-2years">0-2 years</option>
@@ -173,13 +360,10 @@
                                     <option id="16-20years">16-20 years</option>
                                     <option id="20+years">20+ years</option>
                                 </select>
-                            </div>
                         </div>
-                        <br><br><br>
+                        <br><br>
                         <div class="form-inline">
-                            <div class="col-sm-1"></div>
-                            <label class="pull-left">Highest level of education:</label>
-                            <div class="col-md-6">
+                            <label class="class=control-label col-sm-3">Highest level of education:</label>
                                 <select class="form-control" name="levelofeducation" required>
                                     <option value="">Select...</option>
                                     <option id="0-2years">Bachelor's</option>
@@ -187,7 +371,6 @@
                                     <option id="6-10years">PhD</option>
                                     <option id="11-15years">Other (please specify)</option>
                                 </select>
-                            </div>
                         </div>
                         <br><br>
                         {{--this is the extra questions part--}}
@@ -309,18 +492,61 @@
 </div>
 <script type="text/javascript">
     $("#mentorapp").validate({
+        errorElement: 'div',
         rules: {
-            phone: {
+            email: {
                 required: true,
-                digits: true
+                pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
             },
             givenname: {
                 required: true,
-                minlength: 2
+                pattern: /(([a-zA-Z]+\-?)|([a-zA-Z]+\-?\ ))+/
             },
             familyname: {
+                required: true,
+                pattern: /(([a-zA-Z]+\-?)|([a-zA-Z]+\-?\ ))+/
+            },
+            phone: {
+                required: true,
+                minlength: 10,
+                pattern: /^\(?([0-9]{3})\)?[-.]?([0-9]{3})[-.]?([0-9]{4})$/
+            },
+            phonealt: {
+                number: true,
+                pattern: /^\(?([0-9]{3})\)?[-.]?([0-9]{3})[-.]?([0-9]{4})$/
+            },
+            birthyear: {
+                number: true,
+                minlength: 4,
+                maxlength: 4,
+                pattern: /^[1-9]\d{3,}$/
+            },
+            gender: {
                 required: true
             },
+            birthyear: {
+                number: true,
+                pattern: /^[1-2]\d{3,}$/
+            },
+            participation: {
+                required: true
+            },
+            <?php for($i = 0; $i < $count; $i++){
+                echo 'day' . ($i+1) .':{required:true},';
+            }
+                ?>
+        },
+
+        messages: {
+            phone: {
+                pattern: "Please enter a valid number (excluding dashes)."
+            },
+            email: {
+                pattern: "Input is not a valid email address."
+            },
+            birthyear: {
+                pattern: "Input is not a valid year."
+            }
         }
     });
 </script>

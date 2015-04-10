@@ -92,19 +92,12 @@ Program Status:
         <span class="btn btn-danger btn-file">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             Delete Participant
-            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['email'] ?>">
+            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['pid'] ?>">
             <input type="submit" value="Delete Participant Submit" name="delete_participant_submit">
         </span>
     </span>
 </form>
 @endif
-
-<!-- View Past Report Button -->
-<form method="POST" action="pastreport">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    Year of report: <input type="text" name="year" id="year">
-    <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
-</form>
 
 <!-- Student Information Table --> 
 <table class="table table-user-information">
@@ -223,6 +216,24 @@ Program Status:
                 ?>
             </td>
         </tr>
+
+        <?php
+            foreach($pastreports as $key => $value){
+                print("<tr>");
+                print("<td>Participant Report for Year ".$key.":</td>");
+                print("<td>".$value[0]."</td>");
+                print("</tr>");
+                print("<tr>");
+                print("<td></td>");
+                print("<td>".$value[1]."</td>");
+                print("</tr>");
+                print("<tr>");
+                print("<td></td>");
+                print("<td>".$value[2]."</td>");
+                print("</tr>");
+            }
+        ?>
+
         <?php
         $extra = json_decode($json_extra, true);
         $extra_keys = array_keys($extra);
@@ -466,19 +477,13 @@ Program Status:
         <span class="btn btn-danger btn-file">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             Delete Participant
-            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['email'] ?>">
+            <input type="hidden" name="delete_participant" value="<?= $participant_result[0]['pid'] ?>">
             <input type="submit" value="Delete Participant Submit" name="delete_participant_submit">
         </span>
     </span>
 </form>
 @endif
 
-<!-- View Past Report Button -->
-<form method="POST" action="pastreport">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    Year of report: <input type="text" name="year" id="year">
-    <input type="hidden" name="pid" id="pid" value="<?= $participant_result[0]['pid'] ?>">
-</form>
 
 <!-- Mentor Information Table -->
 <table class="table table-user-information">
