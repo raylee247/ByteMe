@@ -551,11 +551,11 @@ div.error {
             },
             givenname: {
                 required: true,
-                pattern: /(([a-zA-Z]+\-?)|([a-zA-Z]+\-?\ ))+/
+                pattern: /^(([a-zA-Z]+\-?)|([a-zA-Z]+\-?\ ))+$/
             },
             familyname: {
                 required: true,
-                pattern: /(([a-zA-Z]+\-?)|([a-zA-Z]+\-?\ ))+/
+                pattern: /^(([a-zA-Z]+\-?)|([a-zA-Z]+\-?\ ))+$/
             },
             phone: {
                 required: true,
