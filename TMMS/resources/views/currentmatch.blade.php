@@ -48,23 +48,14 @@
 				<button id="viewmatch" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> View Manual Matches </span></button>
 			<h5>
 
-			<?php
-				if(isset($rawApp)){
-						$length = count($rawApp);
-						if ($length>0){
-							$total = 0;
-							foreach ($rawApp as $key => $match) {
-								if(!is_null($match['satisfaction'])){
-									$total += $match['satisfaction'];	
-								}
-							 		  
-							}
-							$avg = $total/$length;
-							echo '<b>Average Satisfaction:</b> '.$avg.'';
-						}
-						
-					}
-			?>
+			@if(isset($weighting))
+				<b>Match Name:</b> {{$weighting['name']}}<br>
+				<b>Match ID:</b> {{$weighting['wid']}}<br>
+				<b>Parameters Required:</b> {{$weighting['must']}}<br>
+				<b>Parameter Priority:</b> {{$weighting['helpful']}}<br>
+				<b>Average Satisfaction:</b> {{$weighting['avgSat']}}<br>
+				<b>Median:</b> {{$weighting['median']}}<br>
+			@endif
 				<!-- <b>Name of Matching:</b> $$$$$<br>
 				<b>Parameters Required:</b> $$$$$<br>
 				<b>Parameter Priority:</b> $$$$$<br>
@@ -159,9 +150,11 @@ if ($message == 'fail'){
 					<div class="panel-body">
 						There are currently no match results. Please run the matching before attempting to view this page.			
 					</div>
-					<div class="panel-footer">
-						<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
-					</div>
+					<form method ="GET" action = "weight">
+						<div class="panel-footer">
+							<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
+						</div>
+					</form>
 				</div>
 			</div>        
 		</div>

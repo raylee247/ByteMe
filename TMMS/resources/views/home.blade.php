@@ -52,8 +52,7 @@
 
 <style type="text/css">
 .col-xs-6 {
-  word-break: break-all;
-  word-wrap: break-word;
+  word-break: keep-all;
 }
 
 .row{

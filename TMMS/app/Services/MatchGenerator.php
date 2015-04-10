@@ -5,9 +5,6 @@ class MatchGenerator{
 	/*
 	|--------------------------------------------------------------------------
 	| generate Trio match
-	|--------------------------------------------------------------------------
-	| this shit does the match
-	| 
 	|
 	*/
 	// participants 
@@ -904,31 +901,12 @@ class MatchGenerator{
 		}
 
 
-		// print("done for loop; starting priority list shit\n");
-
-		// do priority List
 		$length = count($this->priority);
-		// print("printing out length: ");
-		// print($length);
-		// print("\n");
 		$weighting = count($this->priority);
-		// print("printing out weighting: ");
-		// print($weighting);
-		// print("\n");
 		$totalWeight = (($length+1)*$length)/2; 
-		// print("printing out totalweight: ");
-		// print($totalWeight);
-		// print("\n");
 		$priorityResult = 0;
 
-		 // print(("entering for loop with counter and stuff\n"));
-		 // var_dump($personA);
-
-		// print($this->priority[0]);	
-		// print("\n");
-
 		for($counter = 0 ; $counter < $length; $counter++){
-			// print("entered for loop\n");
 			$tag = $this->priority[$counter];
 			switch ($tag) {
 				case 'kickoff':
@@ -957,32 +935,17 @@ class MatchGenerator{
 						$pB_value = array();
 					}
 					
-					// print("got explode personA\n");
-					// $pB_value = explode(",", $personB[$tag]);
-					// print("got explode personB\n");
 					$tag_result = $this->array_similarity($pA_value,$pB_value);
 					break;
 			}
 
 			$priorityResult += $tag_result*$weighting;
 			$weighting--;
-			// print(("end of for loop\n"));
 		}
-
-		//print("quit for loop successfully and the value of final result will be: ");
-		//print(50+50*$priorityResult/$totalWeight);
-		//print("\n");
 
 		$priorityResult = $priorityResult/$totalWeight;
 		$finalResult = 50 + 50*$priorityResult;
 
-		//print("the value of finalresult: ");
-		//print($finalResult);
-		//print("\n");
-
-
-		// average the two and return
-		//print("******************* end of match function *******************\n\n");
 		return $finalResult;
 	}
 

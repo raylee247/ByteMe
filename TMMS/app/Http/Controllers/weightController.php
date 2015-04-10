@@ -111,8 +111,9 @@ class weightController extends Controller {
         }
 
         // var_dump($names);
+        $weighting= \DB::table('weighting')->where('setAsFinal', '=', 1)->first();
 
-        return view('currentmatch',compact('message','rawApp','names'));
+        return view('currentmatch',compact('message','rawApp','names', 'weighting'));
     }
 
     public function kickoffindex()
@@ -185,12 +186,18 @@ class weightController extends Controller {
                      'junior' => $match['junior'],
                      'satisfaction' => $match['satisfaction'],
                      'year' => date("Y"),
-                     // 'mentor_name' => $match['mentor_name'],
-                     // 'senior_name' => $match['senior_name'],
-                     // 'junior_name' => $match['junior_name'],
                     ]
                 );
         }
+
+
+        \DB::table('weighting')
+                ->where('setAsFinal', 1)
+                ->update(array('setAsFinal' => 0));
+
+        \DB::table('weighting')
+                ->where('wid', $_POST['target_wid'])
+                ->update(array('setAsFinal' => 1));
         
 // TODO: SAVE NUMBER TO DB
         $mentor_per_group = $_POST["nummentors"];
