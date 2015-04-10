@@ -45,7 +45,7 @@
             <form action="waitlist" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="input-group"> 
-                  <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+                  <input type="text" class="form-control" name="text" <?php if(isset($text)) {echo 'value="'.$text.'"';} else {echo 'placeholder="Search with name, email, student number or CS ID"'; }?>>
                   <span class="input-group-btn">
                     <button class="btn btn-default" name="search" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>

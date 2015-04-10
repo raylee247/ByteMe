@@ -58,7 +58,7 @@ tr {
           </ul>
         </div>
         <input type="hidden" name="search_param" value="all" id="search_param">         
-        <input type="text" class="form-control" name="text" placeholder="Search with name, email, student number or CS ID">
+        <input type="text" class="form-control" name="text" <?php if(isset($text)) {echo 'value="'.$text.'"';} else {echo 'placeholder="Search with name, email, student number or CS ID"'; }?>>
         <span class="input-group-btn">
           <button class="btn btn-default" onclick="myFunction()" type="submit"><span class="glyphicon glyphicon-search"></span></button>
         </span>
@@ -83,7 +83,7 @@ tr {
       foreach($result as $single_result) {
         $array[$i] = $result[$i]['pid'];
         $i++; 
-        
+
         echo "<tr href='participant'><td>"; 
         print_r($single_result['First name']);
         echo "</td>";
