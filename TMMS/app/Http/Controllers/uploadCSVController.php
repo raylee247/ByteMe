@@ -29,18 +29,23 @@ class uploadCSVController extends Controller {
     public function preview()
     {
         $target_dir = "Uploads/";
+        // Delete existing file uploaded if it exists.
+
+
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOK = 1;
 
-        $temp_cat = $_POST["category"];
-        if ($temp_cat == "student") {
-            $category = "student";
-        } else if ($temp_cat == "mentor"){
-            $category = "mentor";
-        } else if ($temp_cat == "report") {
-            $category = "report";
-        } else {
-            $category = "";
+        if(isset($_POST["category"])) {
+            $temp_cat = $_POST["category"];
+            if ($temp_cat == "student") {
+                $category = "student";
+            } else if ($temp_cat == "mentor") {
+                $category = "mentor";
+            } else if ($temp_cat == "report") {
+                $category = "report";
+            } else {
+                $category = "";
+            }
         }
 
         if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], SITE_ROOT.'/../storage/app/1.csv')){
@@ -67,6 +72,7 @@ class uploadCSVController extends Controller {
             if($key == 0){
                 $preview_header = $value;
             }else{
+                $value = str_replace('`', '"', $value);
                 $preview_data[] = $value;
             }
         }
@@ -92,6 +98,7 @@ class uploadCSVController extends Controller {
             if($key == 0){
                 $header = $value;
             }else{
+                $value = str_replace('`', '"', $value);
                 $data[] = $value;
             }
         }
