@@ -21,11 +21,7 @@ h4{
 				$count = 1;
 
 				foreach($kickoffmatchings as $key => $value){
-					if($count == 1){
-						echo "<li class=\"active\"><a data-toggle=\"tab\" href=\"#{$count}\">".$key."</a></li>";
-					}else{
-						echo "<li><a data-toggle=\"tab\" href=\"#{$count}	\">".$key."</a></li>";
-					}
+                    echo "<li><a data-toggle=\"tab\" href=\"#{$count}	\">".$key."</a></li>";
 					$count++;
 				}
 
