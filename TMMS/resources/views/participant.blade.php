@@ -217,22 +217,14 @@ Program Status:
 
         foreach($extra_keys as $key)
         {
-            if ($key == "SID" || $key == "Time")
-            {
-                //do nothing and continue iteration
-            }
-
-            else
-            {
-                echo "<tr>";
-                echo "<td>";
-                echo $key;
-                echo "</td>";
-                echo "<td>";
-                echo $extra[$key];
-                echo "</td>";
-                echo "</tr>";
-            }
+            echo "<tr>";
+            echo "<td>";
+            echo $key;
+            echo "</td>";
+            echo "<td>";
+            echo $extra[$key];
+            echo "</td>";
+            echo "</tr>";
         }
         ?>
     </tbody>
@@ -573,22 +565,14 @@ Program Status:
 
         foreach($extra_keys as $key)
         {
-            if ($key == "SID" || $key == "Time")
-            {
-                //do nothing and continue iteration
-            }
-
-            else
-            {
-                echo "<tr>";
-                echo "<td>";
-                echo $key;
-                echo "</td>";
-                echo "<td>";
-                echo $extra[$key];
-                echo "</td>";
-                echo "</tr>";
-            }
+            echo "<tr>";
+            echo "<td>";
+            echo $key;
+            echo "</td>";
+            echo "<td>";
+            echo $extra[$key];
+            echo "</td>";
+            echo "</tr>";
         }
         ?>
     </tbody>

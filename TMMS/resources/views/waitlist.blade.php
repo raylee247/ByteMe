@@ -60,7 +60,8 @@
             <tr> 
                 <th>First Name</th>
                 <th>Last name</th>
-                <th>Email</th>               
+                <th>Email</th>      
+                <th>Move To...</th>         
             </tr>
         </thead>
  <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
