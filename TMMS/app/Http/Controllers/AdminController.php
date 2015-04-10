@@ -36,19 +36,6 @@ class AdminController extends Controller {
         return view('admin');
     }
 
-    /*
-
-       Function: toWaitlistPool
-
-       Moves the participant to waitlist from participant pool
-
-       Parameters:
-       none
-
-       Returns:
-       Redirects user back to original page
-
-    */
     public function reportdownload()
     {
       $year = $_POST['year_report'];

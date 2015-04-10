@@ -67,15 +67,19 @@
  <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
         <tbody>
             <?php
+             $i = 0; 
                 foreach($result as $single_result) 
                 {
-                    echo "<tr class='waitlisttable' data-toggle='modal' data-target='#modal-1'><td>"; 
+                  $array[$i] = $result[$i]['pid'];
+                  $i++; 
+
+                    echo "<tr href='participant'><td id='clickable'>"; 
                     print_r($single_result['First name']);
                     echo "</td>";
-                    echo "<td>"; 
+                    echo "<td id='clickable'>"; 
                     print_r($single_result['Family name']);
                     echo "</td>";
-                    echo "<td>"; 
+                    echo "<td id='clickable'>"; 
                     print_r($single_result['email']);
                     echo "</td>";
                     echo "<td>";
@@ -117,8 +121,7 @@
 
 <script>
 $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();
-  $('tbody tr').click(function(){
+  $('#clickable').click(function(){
           // index of row clicked 
           var row = ($(this).index());
           
@@ -134,15 +137,7 @@ $(document).ready(function(){
           window.location.href = "participant" + "/" + myvar[row];
           return false;
         });
-  $('#waitlist').dataTable( {
-    "pageLength": 20,
-    "searching": false
-  });
 });
-
-
-
-
 </script>
 
 @endsection
