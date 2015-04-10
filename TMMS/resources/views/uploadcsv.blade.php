@@ -31,17 +31,20 @@
             <label class="radio-inline"><input type="radio" name="category" <?php if (isset($category) && $category=="report") echo "checked"; ?> value="report">Reports</label>
 
             <br><br>
+            <?php if(isset($preview_header)) { echo '
           <span class="input-group-btn">
           <span class="btn btn-success btn-file">
           <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload File <input type="submit" formmethod="post" formaction="uploadcsv_uploaded" value="Upload CSV File" name="submit_upload">
           </span>
           </span>
+          ';} ?>
         </form>
       </div>
     
   </div>
 </div>
 </div>
+@if (isset($preview_header))
 File Preview:
 <div>
   @if (count($preview_header))
@@ -60,10 +63,12 @@ File Preview:
         <td> {{$data}} </td>
         @endforeach
       </tr>
-      @endforeach 
+      @endforeach
     </tbody>
   </table>
   @endif
 </div>
+@endif
+
 
 @endsection

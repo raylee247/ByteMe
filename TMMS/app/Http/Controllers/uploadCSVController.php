@@ -17,9 +17,10 @@ class uploadCSVController extends Controller {
 
     public function index()
     {
-        $preview_header = array();
-        $preview_data = array();
-        return view('uploadcsv',compact('preview_header','preview_data'));
+//        $preview_header = array();
+//        $preview_data = array();
+//        return view('uploadcsv',compact('preview_header','preview_data'));
+        return view('uploadcsv');
     }
     /**
      * preview the csv being uploaded
@@ -29,8 +30,6 @@ class uploadCSVController extends Controller {
     public function preview()
     {
         $target_dir = "Uploads/";
-        // Delete existing file uploaded if it exists.
-
 
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOK = 1;
