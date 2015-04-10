@@ -441,10 +441,21 @@ class AdminController extends Controller {
 
       $result = \DB::table('report')->where('report.year', '=', $year)
                                     ->where('report.mentor', '=', $pid)
-                                    ->orWhere('report.senior', '=', $pid)
-                                    ->orWhere('report.junior', '=', $pid)
                                     ->get();
       //$result = $result[0];
+
+      if(empty($result)){
+        $result = \DB::table('report')->where('report.year', '=', $year)
+                                      ->where('report.senior', '=', $pid)
+                                      ->get();
+      }
+
+      if(empty($result)){
+        $result = \DB::table('report')->where('report.year', '=', $year)
+                                      ->where('report.junior', '=', $pid)
+                                      ->get();
+      }
+
 
       if(empty($result)){
         return "no report found for this participant in year ".$year. ".";
