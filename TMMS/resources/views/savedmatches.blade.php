@@ -53,7 +53,7 @@
                 echo '<td id="finalbutton"><center><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#final-'.$result['wid'].'">Set as Final Matching</button></center></th>';
                 echo '<td id="deletebutton"><center><button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-'.$result['wid'].'"><span class="glyphicon glyphicon-trash"></span></button></center></th>';
               }else{
-                echo '<td id="finalbutton"><center><button class="btn btn-sm btn-default" data-toggle="modal" data-target="#final-'.$result['wid'].'" disabled="disabled">Already the Final Match</button></center></th>';
+                echo '<td id="finalbutton"><center><button class="btn btn-sm btn-default" data-toggle="modal" data-target="#final-'.$result['wid'].'" disabled="disabled">Current Match</button></center></th>';
                 echo '<td id="deletebutton"><center><button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-'.$result['wid'].'"><span class="glyphicon glyphicon-trash"></span></button></center></th>';
               }
                 echo "</tr>";
