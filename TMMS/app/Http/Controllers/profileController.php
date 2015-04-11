@@ -7,15 +7,6 @@ use Illuminate\Http\Request;
 
 class profileController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-
-	}
 
     /*
 
@@ -193,35 +184,6 @@ class profileController extends Controller {
 
         return \Redirect::back();
     }
-	/**
-	 * View participant past record
-	 *
-	 * @return Response
-	 */
-	public function participantPast()
-	{
-		//
-	}
 
-
-    /**
-     * Remove specified year's data from database
-     *
-     * @return Response
-     */
-    public function removeYearData()
-    {
-        //retrieve email to do query on the participant to remove (email cause it is shared primary key)
-        $year = date("Y");
-        //$year = "2014";
-        $rawApp = \DB::table('participant')->where('year', $year)->delete();
-
-        //check if correctly removed
-        if($rawApp < 1) {
-            $response = "Did nothing";
-        }else{
-            $response = "Removed all participant data for " . $year;
-        }
-    }
 
 }

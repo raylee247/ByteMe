@@ -13,26 +13,55 @@ class WelcomeController extends Controller {
 	|
 	*/
 
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
+    /*
+
+        Function: __construct
+
+        determines if user is a guest
+
+        Parameters:
+        none
+
+        Returns:
+        none
+
+*/
 	public function __construct()
 	{
 		$this->middleware('guest');
 	}
 
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
+    /*
+
+        Function: index
+
+        Returns the welcome page view
+
+        Parameters:
+        none
+
+        Returns:
+        welcome page view
+
+    */
 	public function index()
 	{
 		return view('welcome');
 	}
 
+    /*
+
+        Function: hello
+
+        Prints hello
+
+        Parameters:
+        none
+
+        Returns:
+        returns a string of Hello World
+
+    */
 	public function hello()
 	{
 		return 'Hello World!';

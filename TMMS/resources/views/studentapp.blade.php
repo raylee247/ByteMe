@@ -587,6 +587,9 @@ div.error {
                 ?>
         },
         messages: {
+            phone: {
+                pattern: "Please enter a valid number (excluding dashes)."
+            },
             email: {
                 pattern: "Input is not a valid email address."
             },
