@@ -19,9 +19,7 @@
         </div>
     </div>
 
-
-    {{--                        <li></li> <a href={{url('download')}}>Test.pdf</a></li>--}}
-
+    {{--<li></li> <a href={{url('download')}}>Test.pdf</a></li>--}}
 
     <form class="form-horizontal" role="form" method="GET" action="{{ url('downloademails') }}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -35,9 +33,5 @@
         print("<strong>Name:</strong> " . $single_result['name'] . " <strong>E-Mail:</strong> " . $single_result['email']);
         echo "<br>";
     }
-
     ?>
-
-
-
 @endsection

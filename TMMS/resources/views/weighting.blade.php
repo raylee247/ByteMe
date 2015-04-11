@@ -39,7 +39,6 @@
 </div>
 </div>
 </div>
-<!-- move to app.js after data passing is successful // only here for convenience -->
 <script type="text/javascript">
     $(document).ready(function() {
         $("#sortable2").sortable({
@@ -48,8 +47,6 @@
                 var info1 = $(this).sortable("serialize");
                 var list1 = [];
                 list1.push(info1);
-                console.log(list1); //testing only
-                // document.getElementById("test").value = info1;
                 document.getElementById('mustList').value = info1;
             }
         });
@@ -61,8 +58,6 @@
                 var info2 = $(this).sortable("serialize");
                 var list2 = [];
                 list2.push(info2);
-                console.log(list2); //testing only
-                // document.getElementById("test").value = info1;
                 document.getElementById('priorityList').value = info2;
             }
         });

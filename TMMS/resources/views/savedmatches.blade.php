@@ -8,15 +8,11 @@
 }
 .content{
   display: table;
-/*  overflow-x: visible;*/
 }
-    .table {
-    white-space:normal;
-    word-wrap: break-word;
-/*    max-width: 40%;*/
-/*table-layout:fixed;*/
-    }
-
+.table {
+  white-space:normal;
+  word-wrap: break-word;
+}
 </style>
 <div class="content">
 <div class="panel panel-info">

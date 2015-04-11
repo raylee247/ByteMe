@@ -1,7 +1,7 @@
 @extends('app')
 @section('guestcontent')
 <style type="text/css">
-div.error {
+    div.error {
     position: absolute;
     right: -155px;
     top: 5px;
@@ -9,13 +9,12 @@ div.error {
     background: #F00;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
-}
-.studentapp{
+    }
+    .studentapp{
     position: absolute;
-
-}
-#input.required.error{
-        position: relative;
+    }
+    #input.required.error{
+    position: relative;
     right: -755px;
     top: -20px;
     color:white;
@@ -24,8 +23,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:20%;
-}
-#gender-error.error{
+    }
+    #gender-error.error{
     position: relative;
     right: -755px;
     top: -20px;
@@ -34,8 +33,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:20%;
-}
-#cs_areasofinterest-error.error{
+    }
+    #cs_areasofinterest-error.error{
     position: relative;
     right: -850px;
     top: -145px;
@@ -44,8 +43,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:15%;
-}
-#coop-error.error{
+    }
+    #coop-error.error{
     position: relative;
     right: -850px;
     top: -30px;
@@ -55,17 +54,7 @@ div.error {
     padding: 2px 5px;
     width:15%;
     }
-#participation-error.error{
-    position: relative;
-    right: -850px;
-    top: -30px;
-    color:white;
-    background: #F00;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-    padding: 2px 5px;
-    width:15%;
-}
-#mentorgender-error.error{
+    #participation-error.error{
     position: relative;
     right: -850px;
     top: -30px;
@@ -75,7 +64,7 @@ div.error {
     padding: 2px 5px;
     width:15%;
     }
-#yearofstudy-error.error{
+    #mentorgender-error.error{
     position: relative;
     right: -850px;
     top: -30px;
@@ -85,7 +74,7 @@ div.error {
     padding: 2px 5px;
     width:15%;
     }
-#programofstudy-error.error{
+    #yearofstudy-error.error{
     position: relative;
     right: -850px;
     top: -30px;
@@ -94,8 +83,18 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:15%;
-}
-#gender-error.error{
+    }
+    #programofstudy-error.error{
+    position: relative;
+    right: -850px;
+    top: -30px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:15%;
+    }
+    #gender-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -104,8 +103,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day1-error.error{
+    }
+    #day1-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -114,8 +113,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day2-error.error{
+    }
+    #day2-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -124,8 +123,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day3-error.error{
+    }
+    #day3-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -134,8 +133,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day4-error.error{
+    }
+    #day4-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -144,8 +143,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day5-error.error{
+    }
+    #day5-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -154,8 +153,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day6-error.error{
+    }
+    #day6-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -164,8 +163,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day7-error.error{
+    }
+    #day7-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -174,8 +173,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day8-error.error{
+    }
+    #day8-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -184,8 +183,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day9-error.error{
+    }
+    #day9-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -194,8 +193,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day10-error.error{
+    }
+    #day10-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -204,8 +203,8 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
-#day11-error.error{
+    }
+    #day11-error.error{
     position: relative;
     right: -550px;
     top: 0px;
@@ -214,25 +213,24 @@ div.error {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
     padding: 2px 5px;
     width:100%;
-}
+    }
 </style>
 <div class="row">
-<div class="col-md-10 col-md-offset-1">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h2>
-                <center>Student Application Form</center>
-            </h2>
-            <br>
-            <h4>
-                <center>Thank you for your interest in becoming a student with our Computer Science tri-mentoring program. <br>
-                    To help in matching mentors to appropriate students, please complete all sections of the application form.
-                </center>
-            </h4>
-        </div>
-        <div class="panel-body">
-            <form class="form-horizontal" role="form" id="studentapp" action="studentapp" method="POST" >
-
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2>
+                    <center>Student Application Form</center>
+                </h2>
+                <br>
+                <h4>
+                    <center>Thank you for your interest in becoming a student with our Computer Science tri-mentoring program. <br>
+                        To help in matching mentors to appropriate students, please complete all sections of the application form.
+                    </center>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" id="studentapp" action="studentapp" method="POST" >
                     <label class="control-label col-sm-3">Email address:</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" name="email" placeholder="example@example.com">
@@ -292,9 +290,9 @@ div.error {
                         <table class="table table-hover table-striped" style="width:90%">
                         <tr>
                         <th></th>';
-
-
-
+                        
+                        
+                        
                         for($i = 0; $i < $count; $i++){
                             echo '<th><center>CHOICE ' . ($i+1) . '</center></th>';
                         }
@@ -323,11 +321,10 @@ div.error {
                         
                         echo '</table>';
                         ?>
-
                     <div>
                         <div class="col-sm-2"></div>
                         <label class="control-label">Additional comments regarding availability?</label><br><br>
-                        <center><textarea name="additionalcomments_avail" rows="5" cols="125"></textarea></center>  
+                        <center><textarea name="additionalcomments_avail" rows="5" cols="125"></textarea></center>
                     </div>
                     <br>
                     <div class="form-inline">
@@ -355,7 +352,6 @@ div.error {
                         echo ' </select></div><br>';
                         
                         ?>
-
                     <div class="form-inline">
                         <label class="control-label col-sm-3">Year of study:</label> 
                         <select class="form-control" name="yearofstudy" required>
@@ -368,14 +364,12 @@ div.error {
                         </select>
                     </div>
                     <br>
-
-                        <label class="control-label col-sm-3">Which of the following courses have you completed?</label><br>
-                        <input type="checkbox" name="course[]" value="" checked="checked" style="display:none" ><label class="checkbox-inline"></label>
-                        <input type="checkbox" name="course[]" value="210">CPSC 210<label class="checkbox-inline"></label>
-                        <input type="checkbox" name="course[]" value="213">CPSC 213<label class="checkbox-inline"></label>
-                        <input type="checkbox" name="course[]" value="221">CPSC 221<label class="checkbox-inline"></label>
+                    <label class="control-label col-sm-3">Which of the following courses have you completed?</label><br>
+                    <input type="checkbox" name="course[]" value="" checked="checked" style="display:none" ><label class="checkbox-inline"></label>
+                    <input type="checkbox" name="course[]" value="210">CPSC 210<label class="checkbox-inline"></label>
+                    <input type="checkbox" name="course[]" value="213">CPSC 213<label class="checkbox-inline"></label>
+                    <input type="checkbox" name="course[]" value="221">CPSC 221<label class="checkbox-inline"></label>
                     <br><br>
-
                     <div class="form-inline">
                         <label class="control-label col-sm-3">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?</label><br>
                         <select class="form-control" name="participation">
@@ -387,7 +381,6 @@ div.error {
                         </select>
                     </div>
                     <br>
-
                     <div class="form-inline">
                         <label class="control-label col-sm-3">Co-op status:</label>
                         <select class="form-control" name="coop" required>
@@ -408,19 +401,19 @@ div.error {
                             switch($questions[$x][0]){
                         
                                 case "checkbox":
-
-
+                        
+                        
                         echo'<label class="control-label col-sm-3">' . $questions[$x][2] . '</label><br>
                         <div class="col-md-6"><input type="checkbox" name="' . $questions[$x][1] . '[]" value="" checked="checked" style="display:none">';
                                     $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                                     $answer = explode("," , $rawAnswer);
                                     $answerCount = count($answer);
                                     for ($i = 0; $i < $answerCount; $i++){
-
+                        
                         echo'<input type="checkbox" name="' . $questions[$x][1] . '[]" value="' . $answer[$i] . '">' . $answer[$i] . '<br>';
-                    }
-                       
-                   echo' </div><br><br><br><br><br><br><br>';
+                        }
+                        
+                        echo' </div><br><br><br><br><br><br><br>';
                                     break;
                         
                                 case "text":
@@ -488,11 +481,11 @@ div.error {
                                     break;
                         
                                 case "textarea":
-
-
-
-
-
+                        
+                        
+                        
+                        
+                        
                                     echo '<div class="col-sm-2"></div>
                         <label class="pull-left">' . $questions[$x][2] . '</label><br>
                         <center>
@@ -500,10 +493,10 @@ div.error {
                         </center>
                         <br>';
                                     break;
-
+                        
                                 case "singleRadio":
                                     echo '<div class="col-sm-1"></div><label class="control-label pull-left">' . $questions[$x][2] . '</label><br><br><table class="table table-hover" style="width:90%"><tr><th></th>';
-
+                        
                                     $rawAnswer = $questions[$x][3]; //answers as a string comma seperated
                                     $answer = explode("," , $rawAnswer);
                                     $answerCount = count($answer);
@@ -520,16 +513,14 @@ div.error {
                         }
                         
                         ?>                        
-
                     <div class="col-sm-1"></div>
-                        <label class="pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
-                        <div class="col-sm-1"></div>
-                        <textarea rows="5" cols="130" name="cs_areasofinterest" id="cs_areasofinterest" required></textarea>
-                        <br><br>
-
+                    <label class="pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
+                    <div class="col-sm-1"></div>
+                    <textarea rows="5" cols="130" name="cs_areasofinterest" id="cs_areasofinterest" required></textarea>
+                    <br><br>
                     <center><button type="submit" class="btn btn-primary">Submit Application</button></center>
-                </div>
-                <br>
+            </div>
+            <br>
         </div>
         </form>
     </div>
@@ -582,9 +573,9 @@ div.error {
                 required: true
             },
             <?php for($i = 0; $i < $count; $i++){
-                echo 'day' . ($i+1) .':{required:true},';
-            }
-                ?>
+        echo 'day' . ($i+1) .':{required:true},';
+        }
+        ?>
         },
         messages: {
             phone: {

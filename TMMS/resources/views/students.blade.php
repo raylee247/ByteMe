@@ -127,10 +127,6 @@ $(document).ready(function(){
           window.location.href = "participant" + "/" + myvar[row];
           return false;
         });
-  // $('#students').dataTable( {
-  //   "pageLength": 20,
-  //   "searching": false
-  // });
 });
 </script>
 

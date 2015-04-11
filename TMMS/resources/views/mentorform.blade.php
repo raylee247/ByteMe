@@ -642,9 +642,7 @@
                          </div>';
                               break;
                       }
-                      // echo '<br>';
                   }
-                  
                   ?>
       </div>
 </div>
