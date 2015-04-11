@@ -7,11 +7,19 @@ use Illuminate\Http\Request;
 
 class aboutController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+    /*
+
+        Function: index
+
+        Returns the about page view
+
+        Parameters:
+        none
+
+        Returns:
+        About page view
+
+    */
 	public function index()
 	{
 		return View('about');
