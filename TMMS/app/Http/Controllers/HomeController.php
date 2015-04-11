@@ -13,21 +13,37 @@ class HomeController extends Controller {
 	|
 	*/
 
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
+    /*
+
+        Function: __construct
+
+        On contruction of all controller pages it will check for authorization for the page
+
+        Parameters:
+        none
+
+        Returns:
+        none
+
+    */
 	public function __construct()
 	{
 		$this->middleware('auth');
 	}
 
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
+    /*
+
+        Function: index
+
+        Returns the home page
+
+        Parameters:
+        none
+
+        Returns:
+        Home page
+
+    */
 	public function index()
 	{	
 		$preview_header = array();
