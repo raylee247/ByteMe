@@ -3,9 +3,10 @@
 @section('content')
 
 <div class="jumbotron">
-  <h1>Welcome to TMMS</h1><br>
-  <h3>Tri-Mentoring Matching System</h3>
-  <p></p>
+        <h1>Welcome to TMMS</h1><br>
+        <h3>Tri-Mentoring Matching System </h3>
+
+        <p></p>
 </div>
 
 <div class="row">
@@ -61,7 +62,7 @@
 
 .jumbotron {
   margin-right: 15px;
-  background-color: #99A2A2;
+  background-color: #002859;
   color:#FFF;
 }
 

@@ -549,195 +549,16 @@ class MatchGenerator{
     }
 
     
-    /**
-	 * DYNAMIC PROGRAMMING WOOOOOOHOOOOOOO
-	 * since mentor is the primary constraint on the program, 
-	 * i write this function base on mentors for now
-	 *
-	 * @param list of available mentors
-	 * @param list of available senior student
-	 * @param list of available junior student
-	 *
-	 * @return result of the matching in format of array {[mid, sid, jid]}
-	 */
-	public function doTheMatch($mentors,$seniors,$juniors){
-		//print("******************* in dothematch function *******************\n");
-		// var_dump($mentors);
-		// echo "<p> computing</p>";
-		$key = implode(",", $mentors);
-		$key .= ",";
-		$key .= implode(",", $seniors);
-		$key .= ",";
-		$key .= implode(",", $juniors);
-		//print("\n");
-		//print("the value of key is = ");
-		//print($key);
-		//print("\n\n");
-		if (array_key_exists($key, $this->memory)){
-			//print("\n\nresult exist\n\n");
-			//print("******************* end of dothematch function if *******************\n\n");
-			return  $this->memory[$key];
-		}else{
-			//print("\n\ncompute\n\n");
-			$this->memory[$key] = $this->doTheMatch_compute($mentors,$seniors,$juniors);
-			//print("******************* end of dothematch function else *******************\n\n");
-			return $this->memory[$key];
-		}
-	}
-	public function doTheMatch_compute($mentors,$seniors,$juniors){
-		// match a mentor each time
-		//print("******************* in doTheMatch_compute function *******************\n");
-		// print ("\ndoTheMatch with parameter: ");
-		// print ("\n senior:");
-		// var_dump($seniors);
-		// print ("\n junior:");
-		// var_dump($juniors);
-
-		$target = array_values($mentors)[0];
-		//print ("\ntarget:");
-		//print($target);
-		//print("\n\n");
-		// base case
-		//print ("number of mentors:");
-		//print(count($mentors));
-		//print("\n\n");
-		if (count($mentors) == 1){
-			// return the key with the maxx vlaue 
-			//should sotre the key somewhere for backtracking
-			$key = $this->maxAvailiable($seniors,$juniors,$this->MentorSatTable[$target]);
-			// print("\n\nwilliam your code breaks here\n\n");
-			// var_dump($this->MentorSatTable);
-			//print("\n");
-			//print("this is the value of key: ");
-			//print($key);
-			//print("\n");
-			$value = $this->MentorSatTable[$target][$key]; 
-			//print("\n\nit actually reach here\n\n");
-			$backTrackkey = implode(",", $mentors);
-			$backTrackkey .= ",";
-			$backTrackkey .= implode(",", $seniors);
-			$backTrackkey .= ",";
-			$backTrackkey .= implode(",", $juniors);
-			$this->backTrack[$backTrackkey] = $key;
-			//print("******************* done with doTheMatch_compute function value *******************\n\n");
-			return $value;
-		}else{
-			// find max of all combination for this mentor at this level 
-			// max( not using this mentor, using this mentor)
-			// in the using this mentor case, we want the max(all possible combination)
-			$result = array();
-			$resultKey = array();
-			// using this mentor 
-			// for all the match possible for this mentor, for example, <mentorA, seniorA, junior A>
-			// call doTheMatch($mentors - mentorA ,$seniors - SeniorA ,$juniors - JuniorA )
-			// return the maximum value of the cases 
-			$mod_mentors = $this->array_without($mentors,$target);
-			foreach ($seniors as $senior) {
-				foreach ($juniors as $junior) {
-					// call dotheMatch 
-					$mod_seniors = $this->array_without($seniors,$senior);
-					$mod_juniors = $this->array_without($juniors,$junior);
-					$key = $target . "," . $senior . "," . $junior;
-					//print("\ndo matching with key:");
-					//print($key);
-					//print("\n\n");
-					// var_dump($this->MentorSatTable[$target][$key]);
-					$temp = $this->MentorSatTable[$target][$key] + $this->doTheMatch($mod_mentors,$mod_seniors,$mod_juniors);
-					$result[$key] = $temp; 
-					
-				}
-			}
-			// not using this mentor
-			// call doTheMatch without this mentor, senior and junior remains 
-			$without = $this->doTheMatch($mod_mentors,$seniors,$juniors);
-			if(count($result) < 1){
-				$with = 0;
-			}else {
-				$with = max($result);
-			}
-			
-
-			if($with > $without){
-				$choice = array_keys($result,$with);
-				$backTrackkey = implode(",", $mentors);
-				$backTrackkey .= ",";
-				$backTrackkey .= implode(",", $seniors);
-				$backTrackkey .= ",";
-				$backTrackkey .= implode(",", $juniors);
-				$this->backTrack[$backTrackkey] = $choice[0];
-				//print("******************* done with doTheMatch_compute function with *******************\n\n");
-				return $with; 
-			}else{
-				$choice = "no including mentor " . $target;
-				$backTrackkey = implode(",", $mentors);
-				$backTrackkey .= ",";
-				$backTrackkey .= implode(",", $seniors);
-				$backTrackkey .= ",";
-				$backTrackkey .= implode(",", $juniors);
-				$this->backTrack[$backTrackkey] = $choice;
-				//print("******************* done with doTheMatch_compute function without *******************\n\n");
-				return $without;
-			}
-		}
-	}
-
 	/*
     Purpose:
-    	back tracking of dynamic programming approach, left here for reference but not used 
+        delete an element fomr the array provided 
     parameter:
-        - available mentors 
-        - available seniors
-        - available juniors 
+        - array
+        - victim 
     return 
-        - n.a (never got this part of returning value, currently echos)
+        - array without the victim
 
     */
-    public function doBackTrack($mentors,$seniors,$juniors){
-    	// print("******************* in dobacktrack function *******************\n");
-    	$key = implode(",", $mentors);
-		$key .= ",";
-		$key .= implode(",", $seniors);
-		$key .= ",";
-		$key .= implode(",", $juniors);
-		// print ($key);
-		if (array_key_exists($key, $this->backTrack)){
-			$match = $this->backTrack[$key];
-			// print ("\n");
-			// print($match);
-			
-			$match_array = explode(",", $match);
-			echo "<p> for this key: " . $key. "</p>";
-			echo "<p>" . $match . " : " . $this->trioMatch($match_array[0],$match_array[1],$match_array[2]) ."</p>";
-			if (count($match_array) > 1){
-				$target_mentor = $match_array[0];
-				$target_senior = $match_array[1];
-				$target_junior = $match_array[2];
-				$mod_mentors = $this->array_without($mentors,$target_mentor);
-				$mod_seniors = $this->array_without($seniors,$target_senior);
-				$mod_juniors = $this->array_without($juniors,$target_junior);
-				$this->doBackTrack($mod_mentors, $mod_seniors,$mod_juniors);
-			}else{
-				// $victim = array_values($mentors)[0]
-				// $mod_mentors = array_without();
-				echo "end";
-			}
-		}
-		// print("\n******************* end of dobacktrack function *******************\n\n");
-		// var_dump($this->backTrack);
-		// foreach ($this->backTrack as $key => $value) {
-		// 	echo "<p> for this key: " . $key. "</p>";
-		// 	echo "<p>                  we pick " . $value . "</p>";
-		// }
-    }
-
-	/**
-	 * return an copy of the given array with out the given key
-	 *
-	 * @param array to remove the victim
-	 * @param the victim
-	 *
-	 * @return the key that holds the maximum value in $targetArray
-	 */
 	public function array_without($array,$victim){
 		$result = $array; 
 		if(($key = array_search($victim, $array)) !== false) {
@@ -746,15 +567,17 @@ class MatchGenerator{
 		return $result;
 	}
 
-	/**
-	 * return the the key that holds the maximum value 
-	 *
-	 * @param list of available senior student
-	 * @param list of available junior student
-	 * @param target array value to find maximum
-	 *
-	 * @return the key that holds the maximum value in $targetArray
-	 */
+    /*
+    Purpose:
+        return the the key that holds the maximum value 
+    parameter:
+        - list of available senior student
+        - list of available junior student
+        - target array value to find maximum
+    return 
+        - the key that holds the maximum value in $targetArray
+
+    */
 	public function maxAvailiable($seniors,$juniors,$targetArray){
 		
 		$temp = $targetArray;
@@ -784,6 +607,26 @@ class MatchGenerator{
  	 * 							 "mentorB,seniorA,studentB" : satisfaction rate...)
 	 * @return Void
 	 */
+    /*
+    Purpose:
+        compute the satisfaction of ALL possible combination 
+    parameter:
+        - mentors 
+        - seniors
+        - juniors 
+    return 
+        - void
+    effect 
+        the table will be in format like so 
+        array(
+             "mentorA"   :   array(
+                                  "mentorA,seniorA,studentA" : satisfaction rate
+                                  "mentorA,seniorA,studentB" : satisfaction rate...)
+             "mentorB"   :   array(
+                                  "mentorB,seniorA,studentA" : satisfaction rate
+                                  "mentorB,seniorA,studentB" : satisfaction rate...)
+
+    */
 	public function generateTable($mentors,$seniors,$juniors){
 		
 		foreach ($mentors as $mentor) {
@@ -813,15 +656,16 @@ class MatchGenerator{
 		return !array_key_exists($match, $this->report);
 	}
 
-	/**
-	 * compute the satisfaction rate of two provided person 
-	 *
-	 * @param First person to match
-	 * @param Second person to match
-	 * @param third person to match
-	 * 
-	 * @return satisfaction rate 
-	 */
+	/*
+    Purpose:
+        match the three person provided 
+    parameter:
+        - mentor
+        - senior
+        - junior
+    return 
+        - satisfaction rate
+    */
 	public function trioMatch($personA, $personB, $personC){
 		$A = $this->getPersonWithID($personA);
 		$B = $this->getPersonWithID($personB);
@@ -840,13 +684,14 @@ class MatchGenerator{
 		return $total/3 ;
 	}
 
-	/**
-	 * get the person's information from db  
-	 *
-	 * @param participant's id
-	 * 
-	 * @return array of person's information 
-	 */
+	/*
+    Purpose:
+        get the person's information with id
+    parameter:
+        - id
+    return 
+        - person's information in an array
+    */
 	public function getPersonWithID($id){
         if(array_key_exists($id, $this->mentors)){
         	return $this->mentors[$id];
@@ -859,14 +704,15 @@ class MatchGenerator{
         }
 	}
 
-	/**
-	 * compute the satisfaction rate of two provided person 
-	 *
-	 * @param First person to match
-	 * @param Second person to match
-	 * 
-	 * @return satisfaction rate 
-	 */
+	/*
+    Purpose:
+        match 2 person provided 
+    parameter:
+        - person A
+        - person B 
+    return 
+        - satisfaction rate of two people
+    */
 	public function match($personA,$personB){
 		// do must
 		if (count($this->mustList)){
@@ -949,14 +795,15 @@ class MatchGenerator{
 		return $finalResult;
 	}
 
-	/**
-	 * compute the similiraity of two given array
-	 *
-	 * @param array 1
-	 * @param array 2
-	 * 
-	 * @return similarity rate
-	 */
+	/*
+    Purpose:
+        compute the similarity of two array  
+    parameter:
+        - array 1
+        - array 2 
+    return 
+        - similarity of two array
+    */
 	public function array_similarity($a1, $a2){
 
 		$lengtha1 = count($a1);
@@ -987,14 +834,15 @@ class MatchGenerator{
 
 	}
 
-	/**
-	 * compute the if two given array has date in common 
-	 *
-	 * @param array 1
-	 * @param array 2
-	 * 
-	 * @return true if they have common date, else false
-	 */
+	/*
+    Purpose:
+        check if two given array of date have at least one day in common
+    parameter:
+        - array of date 
+        - array of date
+    return 
+        - true if such common date exist, else false 
+    */
 	public function dataAvalibility($a1,$a2){
 		if(($a1 == "")||($a2 == "")){
 			return false;
