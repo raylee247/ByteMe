@@ -144,6 +144,8 @@ class KickOffMatch{
 	/**
 	 * Function: generate kickoff
 	 * start point of the generation of result
+	 *
+	 * Parameters: none
 	 * 
 	 * Return: result of the matching in an representative array format; night as array key each element of 
 	 *		   of the night is an array of groups, each group contains an array of members
@@ -166,6 +168,8 @@ class KickOffMatch{
 	 * add a day for each trio matched pair; modifies and changes the current matches and add a attending 
 	 * date to all trio
 	 *
+	 * Parameter: none
+	 *
 	 * Return: nothing
 	 */
 	public function setKickOffDay()
@@ -181,6 +185,8 @@ class KickOffMatch{
 	 * Function: add available day to trio
 	 * gets the available day of the trio, add to the array; modifies and changes the current matches and add
 	 * a attending date to all trio
+	 *
+	 * Parameter: none
 	 *
 	 * Return: nothing 
 	 */
@@ -247,6 +253,8 @@ class KickOffMatch{
 	 * Function: pick a day for trio
 	 * picks a particular kickoff day for the trio; modifies and changes the current matches and add a attending 
 	 * date to all trio
+	 *
+	 * Parameter: none
 	 *
 	 * Return: nothing
 	 */
@@ -346,6 +354,8 @@ class KickOffMatch{
 	/**
 	 * Function: set the groups for kickoff
 	 * populates All groups with its night as its key
+	 *
+	 * Parameter: none
 	 *
 	 * Return: returns an array with the night as the key and contents of the resulting groups
 	 */
@@ -459,6 +469,8 @@ class KickOffMatch{
 	/**
 	 * Function: chack mentor validity
 	 * checks if 2 mentors can be put into the same group
+	 *
+	 * Parameter: none
 	 *
 	 * Return: 1 if the mentors can be put into the same group, else -1
 	 */
