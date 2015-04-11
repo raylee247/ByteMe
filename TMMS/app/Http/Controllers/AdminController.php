@@ -304,6 +304,17 @@ class AdminController extends Controller {
 
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
+
+      $email_array = \DB::table('participant')->lists('email');
+      
+      $email = \Input::input('email');
+
+      if(in_array($email, $email_array) == true) {
+        return redirect('participant/'.$pid);
+      }
+      else {
+
+
         // UPDATE COLUMNS IN PARTICIPANT TABLE 
         \DB::table('participant')->where('pid', $pid)
                                  ->update(['First name'         => $request['firstname'],
@@ -415,6 +426,7 @@ class AdminController extends Controller {
                                          ->with('json_extra', $json_extra)
                                          ->with('pastreports', $pastreports)
                                          ->with('id_array', $id_array);
+      }
     }
 
     public function downloadcsv()
