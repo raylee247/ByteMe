@@ -29,6 +29,10 @@ $current_year = date("Y");
 
 @if (isset($id_array[0]) || isset($id_array[1]))
 
+<div class="pull-right">
+    <a href="{{ url('/students') }}">Back</a><br>
+</div>
+
 <!-- Display name at top of the participant page --> 
 <?php
     echo '<h2>'.$participant_result[0]['First name']." ".$participant_result[0]['Family name'];
@@ -38,8 +42,6 @@ $current_year = date("Y");
 <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#student-modal">
     <i class="glyphicon glyphicon-pencil"></i> Edit
 </button></h2>
-
-<a href="{{ url('/students') }}">Back</a> <br>
 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -414,6 +416,11 @@ Program Status:
 
 <!-- Mentor -->
 @else
+
+<div class="pull-right">
+    <a href="{{ url('/mentors') }}">Back</a><br>
+</div>
+
 <!-- Display name at top of the participant page --> 
 <?php
     echo '<h2>'.$participant_result[0]['First name']." ".$participant_result[0]['Family name'];
@@ -423,8 +430,6 @@ Program Status:
 <button class="btn btn-sm btn-primary" data-original-title="Edit user information" data-toggle="modal" data-target="#mentor-modal">
     <i class="glyphicon glyphicon-pencil"></i> Edit
 </button></h2>
-
-<a href="{{ url('/students') }}">Back</a> <br>
 
 <form class="form-horizontal" role="form" method="POST" action="{{ url('downloadParticipant') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
