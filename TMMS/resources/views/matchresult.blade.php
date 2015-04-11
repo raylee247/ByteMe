@@ -46,7 +46,7 @@
 					<div class="form-inline">
 						<div class="form-group">
 							<label for="usr">Name of Matching:</label>
-							<input type="text" class="form-control" name="matchname" required>
+							<input type="text" class="form-control" name="matchname" maxlength="40" required>
 						</div>
 					</div>
 					<br>
@@ -422,13 +422,13 @@
 									  <input type="hidden" name="trioCount" value= "'. base64_encode(serialize($trioCount)) . '" >
 									  <input type="hidden" name="unmatchCount" value= "'. base64_encode(serialize($unmatchCount)) . '" >';
 								if (!$value['waitlist']){
-									echo '<td><button type="submit" class="btn btn-sm btn-primary"
+									echo '<td><button type="submit" class="btn btn-sm btn-primary btn-danger"
 									  name= "pidToWaitList" value = "' . $value['pid'] .  '">
-									  <span class="glyphicon glyphicon-flag"></span></span></button></td>';
+									  <span class="glyphicon glyphicon-flag"></span></span> Move to Waitlist</button></td>';
 								}else{
-									echo '<td><button type="submit" class="btn btn-sm btn-primary btn-danger" 
+									echo '<td><button type="submit" class="btn btn-sm btn-primary" 
 									  name= "Undo" value = "' . $value['pid'] .  '" >
-									  <span class="glyphicon glyphicon-remove"></span></span> UNDO</button></td>';
+									  <span class="glyphicon glyphicon-remove"></span></span> Out of Waitlist</button></td>';
 								}
 								
 						

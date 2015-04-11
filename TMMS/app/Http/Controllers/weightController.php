@@ -116,6 +116,13 @@ class weightController extends Controller {
         return view('currentmatch',compact('message','rawApp','names', 'weighting'));
     }
 
+    /*
+    * Function: set kickoff night page content
+    * Grab all saved kickoff matching groups from kickoffgroup tablr and kickoffresult table then put them into a response
+    * array, return it to the new view
+    *
+    * Return: response array for the page to display the content
+    */
     public function kickoffindex()
     {
         // $year = date("Y");
@@ -167,6 +174,13 @@ class weightController extends Controller {
     }
 
     // POST request to db to save maximum participants for kickoff 
+    /*
+    * Function: Generate and save kickoff matchings
+    * Get all paritcipants from participant table with the trios from the selected matchings set then format the values
+    * into a new array then return to view
+    *
+    * Return: return the correctly formatted content data to the view
+    */
     public function savedmaxKickoff()
     {
         // do db operation  of pushing the selcted result into result table
