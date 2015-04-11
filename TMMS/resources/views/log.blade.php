@@ -10,11 +10,13 @@
         }
         .content{
             display: table;
+            width:100%;
             /*  overflow-x: visible;*/
         }
         .table {
             white-space:normal;
             word-wrap: break-word;
+            width:100%;
             /*    max-width: 40%;*/
             /*table-layout:fixed;*/
         }

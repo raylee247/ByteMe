@@ -76,7 +76,7 @@
                   <div class="modal-content">
                     <form method="POST" action="savedmatches_refresh">
                       <div class="modal-body">Rename the match result:
-                        <input type="text" class="form-control" name="rename">
+                        <input type="text" class="form-control" name="rename" maxlength="40">
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

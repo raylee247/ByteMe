@@ -65,7 +65,7 @@ tr {
       </div>
     </form>
   </div>
-  <br>
+  <br><br><br>
   <table id="students" class="table table-striped table-bordered table-hover" width="100%">
     <thead>
       <tr>

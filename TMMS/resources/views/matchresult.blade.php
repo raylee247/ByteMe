@@ -46,7 +46,7 @@
 					<div class="form-inline">
 						<div class="form-group">
 							<label for="usr">Name of Matching:</label>
-							<input type="text" class="form-control" name="matchname" required>
+							<input type="text" class="form-control" name="matchname" maxlength="40" required>
 						</div>
 					</div>
 					<br>
