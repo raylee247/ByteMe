@@ -473,9 +473,9 @@ class AdminController extends Controller {
                                              ->get();
           $junior = $junior[0];
 
-          $echoline = "Matched Mentor: ".$mentor["First name"]."".$mentor["Family name"].", Email Address: ".$mentor["email"];
-          $echoline2 = "Senior student: ".$senior["First name"]." ".$senior["Family name"].", Email Address: ".$senior["email"];
-          $echoline3 = "Junior student: ".$junior["First name"]." ".$junior["Family name"].", Email Address: ".$junior["email"];
+          $echoline = "Matched Mentor: ".$mentor["First name"]." ".$mentor["Family name"].". Email Address: ".$mentor["email"];
+          $echoline2 = "Senior student: ".$senior["First name"]." ".$senior["Family name"].". Email Address: ".$senior["email"];
+          $echoline3 = "Junior student: ".$junior["First name"]." ".$junior["Family name"].". Email Address: ".$junior["email"];
 
           $line = array();
           array_push($line, $echoline);
