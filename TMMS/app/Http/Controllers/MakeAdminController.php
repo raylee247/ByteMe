@@ -5,27 +5,55 @@ use App\Http\Requests\MakeAdminRequest;
 
 class MakeAdminController extends Controller {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    /*
+
+        Function: __construct
+
+        when looking at this page it will require that people are a guest
+
+        Parameters:
+        none
+
+        Returns:
+        none
+
+    */
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Show the application welcome screen to the user.
-     *
-     * @return Response
-     */
+    /*
+
+        Function: index
+
+        Returns the make admin page
+
+        Parameters:
+        none
+
+        Returns:
+        none
+
+    */
     public function index()
     {
         return view('makeadmin');
     }
 
-    // store admin to database 
+    /*
+
+        Function: store
+
+        Takes the request and creates a new administrator in the system.
+
+        Parameters:
+        $request - string with admin credentials
+
+        Returns:
+        Success or fail message on the makeadmin view.
+
+    */
     public function store(MakeAdminRequest $request)
     {
         //User::create($request->all());
