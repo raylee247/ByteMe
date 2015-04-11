@@ -51,11 +51,27 @@ class weightController extends Controller {
 
     }
 
+    /*
+    * Function: get the saved matches
+    * 
+    * Paramters: none
+    *
+    * Return: match result view
+    */
+
     public function matchresultindex()
     {
 
         return view('matchresult');
     }
+
+    /*
+    * Function: get the saved matches
+    * 
+    * Paramters: none
+    *
+    * Return: return array of values in weighting table
+    */
 
     public function savedmatchesindex()
     {
@@ -65,6 +81,13 @@ class weightController extends Controller {
         return view('savedmatches', compact('Response'));
     }
 
+    /*
+    * Function: shows the current match
+    * 
+    * Paramters: none
+    *
+    * Return: array and messages for the view if there exists any relevant data in the DB
+    */
     public function currentmatchindex()
     {
         $year = date("Y");
