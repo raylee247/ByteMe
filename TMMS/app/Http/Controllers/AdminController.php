@@ -304,6 +304,17 @@ class AdminController extends Controller {
 
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
+
+      $email_array = \DB::table('participant')->lists('email');
+      
+      $email = \Input::input('email');
+
+      if(in_array($email, $email_array) == true) {
+        return redirect('participant/'.$pid);
+      }
+      else {
+
+
         // UPDATE COLUMNS IN PARTICIPANT TABLE 
         \DB::table('participant')->where('pid', $pid)
                                  ->update(['First name'         => $request['firstname'],
@@ -415,6 +426,7 @@ class AdminController extends Controller {
                                          ->with('json_extra', $json_extra)
                                          ->with('pastreports', $pastreports)
                                          ->with('id_array', $id_array);
+      }
     }
 
     public function downloadcsv()
@@ -473,9 +485,9 @@ class AdminController extends Controller {
                                              ->get();
           $junior = $junior[0];
 
-          $echoline = "Matched Mentor: ".$mentor["First name"]."".$mentor["Family name"].", Email Address: ".$mentor["email"];
-          $echoline2 = "Senior student: ".$senior["First name"]." ".$senior["Family name"].", Email Address: ".$senior["email"];
-          $echoline3 = "Junior student: ".$junior["First name"]." ".$junior["Family name"].", Email Address: ".$junior["email"];
+          $echoline = "Matched Mentor: ".$mentor["First name"]." ".$mentor["Family name"].". Email Address: ".$mentor["email"];
+          $echoline2 = "Senior student: ".$senior["First name"]." ".$senior["Family name"].". Email Address: ".$senior["email"];
+          $echoline3 = "Junior student: ".$junior["First name"]." ".$junior["Family name"].". Email Address: ".$junior["email"];
 
           $line = array();
           array_push($line, $echoline);
