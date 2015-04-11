@@ -70,7 +70,6 @@ tr {
                 <th>Move To...</th>         
             </tr>
         </thead>
- <!-- PLACEHOLDER DATA FOR TABLE QUERY -->
         <tbody>
             <?php
                 $i = 0; 
@@ -112,18 +111,6 @@ tr {
 </div>
 </div>
 </div>
-
-<!-- <div class="modal fade" id="move" tabindex="-1" role="dialog" aria-labelledby="moveLabel" aria-hidden="true">
- <div class="modal-dialog">
-  <div class="modal-content">
-   <div class="modal-body">Moving this participant will add them to the program. Would you like to continue?</div>
-   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-    <button type="button" class="btn btn-primary">Confirm</button>
-  </div>
-</div>
-</div>
-</div> -->
 
 <script>
 $(document).ready(function(){

@@ -2,6 +2,20 @@
 
 @section('content')
 
+<style type="text/css">
+.col-xs-6 {
+  word-break: keep-all;
+}
+.row{
+  margin-right: 15px;
+}
+.jumbotron {
+  margin-right: 15px;
+  background-color: #002859;
+  color:#FFF;
+}
+</style>
+
 <div class="jumbotron">
         <h1>Welcome to TMMS</h1><br>
         <h3>Tri-Mentoring Matching System </h3>
@@ -46,26 +60,4 @@
 </div>
 </a>
 </div>
-
-
-
-
-
-<style type="text/css">
-.col-xs-6 {
-  word-break: keep-all;
-}
-
-.row{
-  margin-right: 15px;
-}
-
-.jumbotron {
-  margin-right: 15px;
-  background-color: #002859;
-  color:#FFF;
-}
-
-</style>
-
 @endsection

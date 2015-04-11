@@ -2,208 +2,207 @@
 @section('guestcontent')
 <style type="text/css">
     div.error {
-        position: absolute;
-        right: -155px;
-        top: 5px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
+    position: absolute;
+    right: -155px;
+    top: 5px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
     }
     .mentorapp{
-        position: absolute;
-
+    position: absolute;
     }
     #input.required.error{
-        position: relative;
-        right: -755px;
-        top: -20px;
-        color:white;
-        z-index:1;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:20%;
+    position: relative;
+    right: -755px;
+    top: -20px;
+    color:white;
+    z-index:1;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:20%;
     }
     #gender-error.error{
-        position: relative;
-        right: -755px;
-        top: -20px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:20%;
+    position: relative;
+    right: -755px;
+    top: -20px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:20%;
     }
     #cs_areasofinterest-error.error{
-        position: relative;
-        right: -850px;
-        top: -145px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:15%;
+    position: relative;
+    right: -850px;
+    top: -145px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:15%;
     }
     #participation-error.error{
-        position: relative;
-        right: -850px;
-        top: -30px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:15%;
+    position: relative;
+    right: -850px;
+    top: -30px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:15%;
     }
     #studentgenderpref-error.error{
-        position: relative;
-        right: -850px;
-        top: -30px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:15%;
+    position: relative;
+    right: -850px;
+    top: -30px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:15%;
     }
     #yearsofcswork-error.error{
-        position: relative;
-        right: -850px;
-        top: -30px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:15%;
+    position: relative;
+    right: -850px;
+    top: -30px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:15%;
     }
     #levelofeducation-error.error{
-        position: relative;
-        right: -850px;
-        top: -30px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:15%;
+    position: relative;
+    right: -850px;
+    top: -30px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:15%;
     }
     #gender-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day1-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day2-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day3-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day4-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day5-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day6-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day7-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day8-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day9-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day10-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
     #day11-error.error{
-        position: relative;
-        right: -550px;
-        top: 0px;
-        color:white;
-        background: #F00;
-        box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
-        padding: 2px 5px;
-        width:100%;
+    position: relative;
+    right: -550px;
+    top: 0px;
+    color:white;
+    background: #F00;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, .7);
+    padding: 2px 5px;
+    width:100%;
     }
 </style>
 <div class="row">
@@ -300,22 +299,16 @@
                             
                             echo '</table>';
                             ?>
-                        <!--                             <div>
-                            <div class="col-sm-1"></div>
-                            <label class="pull-left">Additional comments regarding availability?</label><br><br>
-                            <div class="col-sm-1"></div>
-                            <textarea name="additionalcomments_avail" rows="5" cols="130"></textarea>
-                            </div> -->
                         <br>
                         <div class="form-inline">
                             <label class="control-label col-sm-3">Previously matched with a mentor and/or student mentee in the CS tri-mentoring program?</label>
-                                <select class="form-control" name="participation" required>
-                                    <option value="">Select...</option>
-                                    <option id="previousmatched_no">No, I have not participated before</option>
-                                    <option id="previousmatched_junior">Yes, as a junior student</option>
-                                    <option id="previousmatched_senior">Yes, as a senior student</option>
-                                    <option id="previousmatched_both">Both junior and senior student</option>
-                                </select>
+                            <select class="form-control" name="participation" required>
+                                <option value="">Select...</option>
+                                <option id="previousmatched_no">No, I have not participated before</option>
+                                <option id="previousmatched_junior">Yes, as a junior student</option>
+                                <option id="previousmatched_senior">Yes, as a senior student</option>
+                                <option id="previousmatched_both">Both junior and senior student</option>
+                            </select>
                         </div>
                         <br><br>
                         <div class="form-inline">
@@ -329,48 +322,37 @@
                         </div>
                         <br><br>
                         <div class="form-inline">
-                            <label class="control-label col-sm-3">Current company (optional)</label>
-                                <input type="text" class="form-control" name="company" placeholder="ie. Amazon">
+                            <label class="control-label col-sm-3">Current company (optional):</label>
+                            <input type="text" class="form-control" name="company" placeholder="ie. Amazon">
                         </div>
                         <br><br>
                         <div class="form-inline">
-                            <label class="class=control-label col-sm-3">Current position at work (optional)</label>
-                                <input type="text" class="form-control" name="position" placeholder="ie. Software Developer">
+                            <label class="class=control-label col-sm-3">Current position at work (optional):</label>
+                            <input type="text" class="form-control" name="position" placeholder="ie. Software Developer">
                         </div>
                         <br><br>
-                        <!--                             <div class="col-sm-1"></div>
-                            <label class="control-label pull-left">Current employment status (check all that apply):</label>
-                            <div class="col-md-4">
-                                <input type="checkbox" name="employmentstatus[]" value="industry">Working in industry<br>
-                                <input type="checkbox" name="employmentstatus[]" value="academia">Working in academia<br>
-                                <input type="checkbox" name="employmentstatus[]" value="startup">Working for a startup<br>
-                                <input type="checkbox" name="employmentstatus[]" value="selfemployed">Self-employed<br>
-                                <input type="checkbox" name="employmentstatus[]" value="retired">Retired<br>
-                                <input type="checkbox" name="employmentstatus[]" value="other_employment">Other (please specify)<br>
-                            </div>
-                            <br><br><br><br><br><br><br> -->
                         <div class="form-inline">
                             <label class="class=control-label col-sm-3">Years of CS-related work experience:</label>
-                                <select class="form-control" name="yearsofcswork" required>
-                                    <option value="">Select...</option>
-                                    <option id="0-2years">0-2 years</option>
-                                    <option id="3-5years">3-5 years</option>
-                                    <option id="6-10years">6-10 years</option>
-                                    <option id="11-15years">11-15 years</option>
-                                    <option id="16-20years">16-20 years</option>
-                                    <option id="20+years">20+ years</option>
-                                </select>
+                            <select class="form-control" name="yearsofcswork" required>
+                                <option value="">Select...</option>
+                                <option id="0-2years">0-2 years</option>
+                                <option id="3-5years">3-5 years</option>
+                                <option id="6-10years">6-10 years</option>
+                                <option id="11-15years">11-15 years</option>
+                                <option id="16-20years">16-20 years</option>
+                                <option id="20+years">20+ years</option>
+                            </select>
                         </div>
                         <br><br>
                         <div class="form-inline">
                             <label class="class=control-label col-sm-3">Highest level of education:</label>
-                                <select class="form-control" name="levelofeducation" required>
-                                    <option value="">Select...</option>
-                                    <option id="0-2years">Bachelor's</option>
-                                    <option id="3-5years">Master's</option>
-                                    <option id="6-10years">PhD</option>
-                                    <option id="11-15years">Other (please specify)</option>
-                                </select>
+                            <select class="form-control" name="levelofeducation" required>
+                                <option value="">Select...</option>
+                                <option id="0-2years">Bachelor's</option>
+                                <option id="3-5years">Master's</option>
+                                <option id="6-10years">PhD</option>
+                                <option id="11-15years">Other (please specify)</option>
+                            </select>
                         </div>
                         <br><br>
                         {{--this is the extra questions part--}}
@@ -471,12 +453,6 @@
                             }
                             
                             ?>
-                        <!--  <div class="col-sm-1"></div>
-                            <label class="control-label pull-left">Are you a UBC alumnae/alumnus?</label>
-                            <div class="col-md-4">
-                                <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_yes") echo "checked";?> value="alumnus_yes" required>Yes</label>
-                                <label class="radio-inline"><input type="radio" name="alumnus" <?php if (isset($alumnus) && $alumnus=="alumnus_no") echo "checked";?> value="alumnus_no" required>No</label>
-                            </div> -->
                         <br><br>
                         <div class="col-sm-1"></div>
                         <label class="control-label pull-left">Computer Science areas of interest (please enter as comma-separated list):</label><br><br>
@@ -532,11 +508,10 @@
                 required: true
             },
             <?php for($i = 0; $i < $count; $i++){
-                echo 'day' . ($i+1) .':{required:true},';
-            }
-                ?>
+        echo 'day' . ($i+1) .':{required:true},';
+        }
+        ?>
         },
-
         messages: {
             phone: {
                 pattern: "Please enter a valid number (excluding dashes)."

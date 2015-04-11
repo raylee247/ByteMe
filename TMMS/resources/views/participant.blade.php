@@ -2,6 +2,41 @@
 @section('content')
 
 <style type="text/css">
+textarea {
+    height: 28px;
+    width: 400px;
+}
+#textarea {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 4em;
+    overflow: auto;
+    padding: 2px;
+    resize: both;
+    width: 225px;
+    white-space: normal;
+}
+input {
+    margin-top: 5px;
+    width: 400px;
+}
+#input {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    background-color: white;
+    background-color: -moz-field;
+    border: 1px solid darkgray;
+    box-shadow: 1px 1px 1px 0 lightgray inset;  
+    font: -moz-field;
+    font: -webkit-small-control;
+    margin-top: 5px;
+    padding: 2px 3px;
+    width: 225px;    
+    white-space: normal;
+}
 .panel-info {
     margin-right: 0px;
 }
@@ -740,7 +775,6 @@ Program Status:
                         echo "</div>";
                     }
                     ?>
-
                     <!-- Submit Button --> 
                     <div class="form-group">
                     {!! Form::submit('Save Changes', ['class' => 'btn btn-primary form-control']) !!}
@@ -757,45 +791,5 @@ Program Status:
 </div>
 @endif
 
-<!-- move to app.css -->
-<style type="text/css">
-textarea {
-    height: 28px;
-    width: 400px;
-}
 
-#textarea {
-    -moz-appearance: textfield-multiline;
-    -webkit-appearance: textarea;
-    border: 1px solid gray;
-    font: medium -moz-fixed;
-    font: -webkit-small-control;
-    height: 4em;
-    overflow: auto;
-    padding: 2px;
-    resize: both;
-    width: 225px;
-    white-space: normal;
-}
-
-input {
-    margin-top: 5px;
-    width: 400px;
-}
-
-#input {
-    -moz-appearance: textfield;
-    -webkit-appearance: textfield;
-    background-color: white;
-    background-color: -moz-field;
-    border: 1px solid darkgray;
-    box-shadow: 1px 1px 1px 0 lightgray inset;  
-    font: -moz-field;
-    font: -webkit-small-control;
-    margin-top: 5px;
-    padding: 2px 3px;
-    width: 225px;    
-    white-space: normal;
-}
-</style>
 @endsection

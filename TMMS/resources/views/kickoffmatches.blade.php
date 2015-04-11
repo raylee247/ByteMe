@@ -15,8 +15,6 @@ h4{
 		<div class="kickoffcontent">
 			<ul class="nav nav-tabs">
 				<li><h4>Kickoff Dates:</h4></li>
-				<!-- <li class="active"><a data-toggle="tab" href="#1">$kickoffdate1</a></li>
-				<li><a data-toggle="tab" href="#2">$kickoffdate2</a></li> -->
 				<?php
 				$count = 1;
 
@@ -35,9 +33,6 @@ h4{
 					$all_mentors = \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')->get();
 					$all_senior = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')->get();
 					$all_junior = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')->get();
-					// var_dump($kickoffmatchings);
-					// var_dump($all_participants);
-					// var_dump($all_mentors);	
 					$counter = 1;
 					foreach($kickoffmatchings as $key => $value){
 						echo "<div id=\"{$counter}\" class=\"tab-pane fade in active\">";
@@ -128,31 +123,6 @@ h4{
 </div>
 </div>
 
-<?php
-
-// if ($message == 'fail'){
-// 	echo '<div class="modal fade in" id="noresult" tabindex="-1" role="dialog">
-// 	<div class="modal-dialog">
-// 		<div class="modal-content">
-// 			<div class="modal-body">
-// 				<div class="panel panel-danger">
-// 					<div class="panel-heading">
-// 						<h3 class="panel-title">No Match Results</h3>
-// 					</div>
-// 					<div class="panel-body">
-// 						There are currently no match results. Please run the matching before attempting to view this page.			
-// 					</div>
-// 					<div class="panel-footer">
-// 						<center><button type="submit" class="btn btn-primary">Redirect to Adjust Weighting</button></center>
-// 					</div>
-// 				</div>
-// 			</div>        
-// 		</div>
-// 	</div>
-// </div>';
-
-// }
-?>
 <script type="text/javascript">
 $(window).load(function(){
 	$('#noresult').modal('show');
