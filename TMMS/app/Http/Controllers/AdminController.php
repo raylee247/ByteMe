@@ -36,6 +36,14 @@ class AdminController extends Controller {
         return view('admin');
     }
 
+    /*
+   Function:
+    - download report
+   parameter:
+    - none
+   Return:
+    - Download the reports
+   */
     public function reportdownload()
     {
       $year = $_POST['year_report'];
@@ -101,6 +109,14 @@ class AdminController extends Controller {
 
     }
 
+    /*
+ Purpose:
+     - shows the list of students
+ parameter:
+     - none
+ return
+     - View of students blade with queried results.
+ */
     public function studentsview()
     {
         $year = date("Y");
@@ -117,7 +133,15 @@ class AdminController extends Controller {
 
         return \View::make('students')->with('result', $result);
     }
-   
+
+    /*
+Purpose:
+  - shows the list of mentors
+parameter:
+  - none
+return
+  - View of mentors blade with queried results.
+*/
     public function mentorsview()
     {
         $year = date("Y");
@@ -128,6 +152,15 @@ class AdminController extends Controller {
         return \View::make('mentors')->with('result', $result); 
     }
 
+
+    /*
+Purpose:
+  - shows the list of participants
+parameter:
+  - none
+return
+  - View of waitlist with queried results. Blade shows all participants with option to move in and out of waitlist.
+*/
      public function waitlist()
     {
         $date = date("Y");
@@ -141,14 +174,27 @@ class AdminController extends Controller {
         return \View::make('waitlist')->with('result', $result);
     }
 
+    /*
+Purpose:
+  - shows the log
+parameter:
+  - none
+return
+  - View of log
+*/
     public function viewLog()
     {
-        // Make select call to log table
-//        $result = \DB::table('log')->orderBy('logID','desc')->get();
-        // Return view with log array
         return \View::make('log');
     }
 
+    /*
+Purpose:
+- shows the log
+parameter:
+- none
+return
+- View of log with queried entries.
+*/
     public function viewLog2()
     {
         // Make select call to log table
@@ -163,6 +209,14 @@ class AdminController extends Controller {
         return \View::make('log')->with('result',$result);
     }
 
+    /*
+Purpose:
+- shows the searched students
+parameter:
+- none
+return
+- View of students with filtered search results.
+*/
     public function studentSearch()
     {
         $dropdown = $_POST['search_param'];
@@ -214,7 +268,14 @@ class AdminController extends Controller {
         return \View::make('students')->with('result', $result)->with('search_param', $dropdown)->with('text', $text);
     }
 
-    //TODO: regex to check for correct input? <- not sure if necessary 
+    /*
+Purpose:
+- shows the searched mentors
+parameter:
+- none
+return
+- View of mentors with filtered search results.
+*/
     public function mentorSearch()
     {
         $text = $_POST['text'];
@@ -238,6 +299,14 @@ class AdminController extends Controller {
         return \View::make('mentors')->with('result', $result)->with('text', $text);
     }
 
+    /*
+Purpose:
+- shows the searched waitlist participants
+parameter:
+- none
+return
+- View of waitlist participants with filtered search results.
+*/
     public function waitlistSearch()
     {
         $text = $_POST['text'];
@@ -271,6 +340,14 @@ class AdminController extends Controller {
         return \View::make('waitlist')->with('result', $result)->with('text', $text);
     }
 
+    /*
+Purpose:
+- shows profile page for a participant
+parameter:
+- none
+return
+- View of participant on a specific ID
+*/
     public function showParticipant($pid) 
     {
         // To be used in participant.blade.php
@@ -302,6 +379,15 @@ class AdminController extends Controller {
                                          ->with('id_array', $id_array);
     }
 
+    /*
+Purpose:
+- Edit participant
+parameter:
+- $request -> Validator for each field
+- $pid -> participant ID
+return
+- View of participant on a specific ID (after modification)
+*/
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
         // UPDATE COLUMNS IN PARTICIPANT TABLE 
@@ -417,6 +503,14 @@ class AdminController extends Controller {
                                          ->with('id_array', $id_array);
     }
 
+    /*
+Purpose:
+- To load the download/delete page
+parameter:
+- none
+return
+- The downloadcsv view with available year range from db.
+*/
     public function downloadcsv()
     {
         $range = \DB::table('participant')->select('year')->groupBy('year')->get();
@@ -490,6 +584,13 @@ class AdminController extends Controller {
       }
     }
 
+    /*
+    * Function: Download a zip file with different combinations of compiled emails and names.
+    *
+    * Parameter: None.
+    *
+    * Return: Response value which triggers download.
+    */
     public function downloadEmailZip()
     {
 
@@ -672,13 +773,13 @@ class AdminController extends Controller {
         // RETURN DOWNLOAD RESPONSE
     }
 
-
-    // Check if string is JSON
-    function isJson($string) {
-        json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE);
-    }
-
+    /*
+    * Function: Download participant data for a target year
+    *
+    * Parameter: None.
+    *
+    * Return: Response value which triggers download.
+    */
     public function downloadCSVfile()
     {
 
@@ -943,6 +1044,13 @@ class AdminController extends Controller {
         return response()->download("downloadFiles.zip", "TMMSParticipant".$year.".zip", $headers);
     }
 
+    /*
+    * Function: Delete participant data for a target year. Sets them to zero so they are ignored by the system in most instances.
+    *
+    * Parameter: None.
+    *
+    * Return: View of successful deletion
+    */
     public function deleteYear()
     {
         $year = $_POST['year_csv'];
