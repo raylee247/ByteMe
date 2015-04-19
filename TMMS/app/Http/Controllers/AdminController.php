@@ -391,15 +391,16 @@ return
     public function editParticipant(EditParticipantRequest $request, $pid)
     {
 
+      $participant_email = \DB::table('participant')->where('pid', $pid)->pluck('email');
       $email_array = \DB::table('participant')->lists('email');
       
-      $email = \Input::input('email');
-
-      if(in_array($email, $email_array) == true) {
+      $input_email = \Input::input('email');
+      
+      if($input_email != $participant_email && in_array($input_email,$email_array)) {
+        
         return redirect('participant/'.$pid);
       }
       else {
-
 
         // UPDATE COLUMNS IN PARTICIPANT TABLE 
         \DB::table('participant')->where('pid', $pid)
