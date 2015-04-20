@@ -121,10 +121,7 @@ Route::get('kickoffmatches', 'weightController@Kickoffindex');
 Route::get('currentmatch', 'weightController@currentmatchindex');
 
 //==== for unit testing purpose 
-Route::get("test", "MakeMatching@test");
-// Route::get("test", "MakeMatching@generateKickoff");
-Route::get('ray', 'appLoaderController@test');
-Route::post('ray', 'appLoaderController@test');
+
 //====
 
 Route::controllers([

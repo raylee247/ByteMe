@@ -220,11 +220,12 @@ return
     public function studentSearch()
     {
         $dropdown = $_POST['search_param'];
-        $text = $_POST['text'];
+        $text_orginal = $_POST['text'];
         $year = date("Y");
-        $text_array = explode(" ", $text);
+        $text_array = explode(" ", $text_orginal);
+        $text = $text_orginal;
         $text2;
-        if(preg_match("/[a-zA-Z]*( [a-zA-Z]*)?/", $text) && count($text_array) < 2){
+        if(preg_match("/[a-zA-Z]*( [a-zA-Z]*)?/", $text_orginal) && count($text_array) < 2){
           $text2 = $text;
         }else{
           $text = $text_array[0];
@@ -265,7 +266,7 @@ return
             $result = array_merge($junior_result, $senior_result);
         }
 
-        return \View::make('students')->with('result', $result)->with('search_param', $dropdown)->with('text', $text);
+        return \View::make('students')->with('result', $result)->with('search_param', $dropdown)->with('text', $text_orginal);
     }
 
     /*

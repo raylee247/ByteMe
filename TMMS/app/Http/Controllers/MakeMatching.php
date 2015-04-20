@@ -364,14 +364,18 @@ class MakeMatching extends Controller {
         $mentor = json_decode($csvParameterMentor['extra']);
         $studentTag = [];
         $mentorTag = [];
-        foreach($student as $skey => $svalue){
-            if(($skey != "SID") && ($skey != "Time") && ($skey != "Draft")) {
-                array_push($studentTag, $skey);
+        if (isset($student)){
+            foreach($student as $skey => $svalue){
+                if(($skey != "SID") && ($skey != "Time") && ($skey != "Draft")) {
+                    array_push($studentTag, $skey);
+                }
             }
         }
-        foreach($mentor as $mkey => $mvalue){
-            if(($mkey != "SID") && ($mkey != "Time") && ($mkey != "Draft")) {
-                array_push($mentorTag, $mkey);
+        if (isset($mentor)){
+            foreach($mentor as $mkey => $mvalue){
+                if(($mkey != "SID") && ($mkey != "Time") && ($mkey != "Draft")) {
+                    array_push($mentorTag, $mkey);
+                }
             }
         }
         $csvParameters = array_intersect($studentTag, $mentorTag);

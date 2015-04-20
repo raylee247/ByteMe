@@ -174,6 +174,7 @@ class MatchGenerator{
 		$response_mentor= \DB::table('participant')->join('mentor', 'participant.pid', '=', 'mentor.mid')
 												   ->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                    ->where ('participant.year', '=', date("Y"))
+                                                   ->where ('participant.waitlist', '=', 0)
                                                    ->get();
         
         foreach ($response_mentor as $key => $value) {
@@ -192,6 +193,7 @@ class MatchGenerator{
 		$response_seniors = \DB::table('participant')->join('senior', 'participant.pid', '=', 'senior.sid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                      ->where ('participant.year', '=', date("Y"))
+                                                     ->where ('participant.waitlist', '=', 0)
                                                      ->get();
 
 		foreach ($response_seniors as $key => $value) {
@@ -208,6 +210,7 @@ class MatchGenerator{
 		$response_juniors = \DB::table('participant')->join('junior', 'participant.pid', '=', 'junior.jid')
                                                   	 ->join('parameter', 'participant.pid', '=', 'parameter.pid')
                                                      ->where ('participant.year', '=', date("Y"))
+                                                     ->where ('participant.waitlist', '=', 0)
                                                      ->get();
 		
 		foreach ($response_juniors as $key => $value) {
