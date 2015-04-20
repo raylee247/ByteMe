@@ -280,6 +280,7 @@ return
     public function mentorSearch()
     {
         $text = $_POST['text'];
+        $text_orginal = $_POST['text'];
         $year = date("Y");
         $text_array = explode(" ", $text);
         $text2;
@@ -297,7 +298,7 @@ return
                                            ->orWhere('email', 'LIKE', '%'.$text.'%')
                                            ->get();
 
-        return \View::make('mentors')->with('result', $result)->with('text', $text);
+        return \View::make('mentors')->with('result', $result)->with('text', $text_orginal);
     }
 
     /*
@@ -311,6 +312,7 @@ return
     public function waitlistSearch()
     {
         $text = $_POST['text'];
+        $text_orginal = $_POST['text'];
         $date = date("Y");
 
 
@@ -338,7 +340,7 @@ return
 
         // to persist search result
 
-        return \View::make('waitlist')->with('result', $result)->with('text', $text);
+        return \View::make('waitlist')->with('result', $result)->with('text', $text_orginal);
     }
 
     /*
