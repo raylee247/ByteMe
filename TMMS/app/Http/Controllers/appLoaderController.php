@@ -356,10 +356,10 @@ class appLoaderController extends Controller {
         $studentnum = $_POST['studentnum'];
         $yearofstudy = $_POST['yearofstudy'];
         $programofstudy = $_POST['programofstudy'];
-        $programofstudy_other = $_POST['programofstudy_other'];
         $courses = $_POST['course']; //array
         $csid = $_POST['csid'];
         $coop = $_POST['coop'];
+        $course = "";
 
 
         //detemine if it is a senior or junior student (determined if they took all the listed CPSC courses)
@@ -368,23 +368,23 @@ class appLoaderController extends Controller {
             $course = $courses[1] . "," . $courses[2] . "," . $courses[3];
             $senior_response = \DB::table('senior')->insert(
                     ['sid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
-                    'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
+                    'programOfStudy' => $programofstudy , 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
             );
         }elseif(count($courses)>1){
-            for($jk = 0; $jk < count($courses); $jk++){
+            for($jk = 0; $jk < count($courses) - 1; $jk++){
                 $course .= $courses[$jk + 1];
             }
             $junior_response = \DB::table('junior')->insert(
                     ['jid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
-                    'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
+                    'programOfStudy' => $programofstudy, 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
             );
         }else{
             $course = "";
             $junior_response = \DB::table('junior')->insert(
                     ['jid' => $participant_id, 'studentNum' => $studentnum, 'yearStand' => $yearofstudy,
-                    'programOfStudy' => $programofstudy . $programofstudy_other, 'courses' => $course, 'csid' => $csid,
+                    'programOfStudy' => $programofstudy, 'courses' => $course, 'csid' => $csid,
                     'coop' => $coop]
                     );
         }
@@ -637,6 +637,7 @@ class appLoaderController extends Controller {
         $insert = "";
         $countV = count($variables);
 
+        $combineInsert = "";
         for($k = 0; $k < $countV; $k++){
             if(isset($_POST[$variables[$k]])){
                 if($_POST[$variables[$k]] != ""){
