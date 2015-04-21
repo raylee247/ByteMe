@@ -433,8 +433,8 @@ class KickOffMatch{
 				foreach($resultofday[$i] as $result_id){
 					foreach ($kickoff_trios as $trio) {
 						if($result_id == $trio[1]){
-							array_push($resultofday[($i+1)%$num_of_groups], $trio[2]);
-							array_push($resultofday[($i+2)%$num_of_groups], $trio[3]);
+							array_push($resultofday[($num_of_groups-1)-(($i+1)%$num_of_groups)], $trio[2]);
+							array_push($resultofday[($num_of_groups-1)-(($i+2)%$num_of_groups)], $trio[3]);
 						}
 					}
 				}
