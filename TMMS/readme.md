@@ -1,6 +1,12 @@
 UBC CPSC319 Team 1 ByteMe 
 Tri-Mentoring Matching System 
-hue
+
+To run project:
+1. Run command line and 'composer install'
+2. Run 'composer update'
+3. Run 'php artisan serve' and open a browser
+	*Access admin features with login credentials - email: admin@tmms.com and p/w: password
+
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
